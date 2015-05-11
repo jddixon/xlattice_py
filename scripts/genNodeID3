@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+
+# python/u/scriptsgenNodeID3.py -- uses the contents of a subdirectory in U
+# to generate a 256-bit hash.  If for example U is /var/U and the 
+# subdirectory is 'ff', then all of the files below /var/U/ff will be
+# walked in creating the hash.
+
+import getopt, io, re, sys, os
+from os.path import join
+from random  import randint
+import sha3
+
+from u import ULock
+
+# DEFAULTS for command line arguments ###############################
+# a random number between 00 and 0xff
+subDir      = str( "%02x" % randint(0, 0xff))
+uDir        = '/var/U'
+verbose     = False
+
+# UTILITY FUNCTIONS #################################################
+def genNodeID3(subDir, uDir = '/var/U'):
+    lock = ULock(uDir)
+    lock.getLock()
+    
+    d = sha3.SHA3256()
+    subDir = "%s/%s" % (uDir, subDir)
+    for root, dirs, files in os.walk(subDir):
+        for name in files:
+            absPath = join(root,name)
+            try:
+                f = io.FileIO(absPath, "r")
+                r = io.BufferedReader(f)
+                while True:
+                    byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+                    if len(byteStr) == 0:
+                        break
+                    d.update(byteStr)
+            except Exception, e:
+                print "unexpected exception reading %s: %s" % (absPath, str(e))
+                # otherwise we just ignore it
+
+    lock.releaseLock()
+    return d.hexdigest()        # a string
+
+# COMMAND LINE HANDLING #############################################
+def usage():
+    s = [\
+        'usage: genNodeID3 [options]' ,
+        'where the options are',
+        '  -h/--help     view this very helpful message',
+        '  -s/--subDir   select the subdirectory to process',
+        '  -u/--uDir     where the U directory is',
+        '  -v/--verbose  be chatty',
+        'Generates a nodeID as the SHA3 of the pid and the contents of subDir',
+    ]
+    print '\n'.join(s)
+    sys.exit()
+
+argVec = sys.argv[1:]
+try:
+    opts, args = getopt.getopt(argVec, "hs:u:v",
+            ["help", "subDir", "uDir", "verbose"])
+except getopt.GetoptError, err:
+    print str(err)
+    usage ()
+
+for o, a in opts:
+    if o in ('-h', '--help'):
+        usage()
+    elif o in ('-s', '--subDir'):
+        subDir  = a
+        
+    elif o in ('-v', '--verbose'):
+        showVersion = True
+        verbose     = True
+    elif o in ('-u', '--uDir'):
+        uDir  = a
+    else:
+        assert False, 'unhandled option'
+
+if (not re.match("^[0-9a-fA-F]{2}$", subDir)):
+    print "subDir '%s' should be a two-digit hex number" % subDir
+    usage()
+    sys.exit()
+subDir = subDir.lower()
+
+if (verbose):
+    print "pid    = %u" % os.getpid()
+    print "subDir = %s" % subDir
+    print "uDir   = %s" % uDir
+    print ''
+
+# notice that the order of names is odd!
+nodeID = genNodeID3(subDir, uDir)
+print nodeID

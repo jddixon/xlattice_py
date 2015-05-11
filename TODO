@@ -1,0 +1,38 @@
+~/dev/py/xlattice_py
+
+2015-05-11
+    * gittifyProject.sh  xlattice_py
+    * ghpTheProject.sh   xlattice_py
+    * splitTheProject.sh xlattice_py
+
+FROM ~/dev/py/u/TODO ================================================
+
+2015-03-19
+    * if eg myU2/tmp does not exist, the library must create it
+
+2012-07-28 
+    * FIX: testU256x256.py fails (because testU/tmp does not exist?)
+
+2012-07-02
+    * added u.getData(uPath, key); needs to be tested
+
+2012-06-02
+    * BUG found when attempting to run upaxUpdateNodeID on test:
+        copyAndPut invokes put which attempts to rename a temporary 
+        file into /var/Upax; this yields an 'invalid cross-device link' 
+        error 
+        -- FIXED?
+
+    * BUG observed but hasn't caused an error yet: u.put expects input
+        file to be in the same file system.
+
+    * lock directory /tmp/u must be world-writeable; the current 
+        implementation creates world-writeable leaf directories but 
+        intermediate directories may not be such
+
+2012-05-30
+    * consider adding keyless copyAndPut(), put(), and putData(); these 
+        would have names like putKeyless(), would have no content key
+        parameter, but would still return the content key
+
+    * Compare code from xlshadow 

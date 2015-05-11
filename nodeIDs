@@ -1,0 +1,47 @@
+# test directories
+echo fceda7fad80e7ae556b3a0fa19ccaf0755acb300 >/home/jdd/python/ud/dev0/U/nodeID
+echo 1c22cd8234fdfc1aa121e5eaa019a1f6b79649e2 >/home/jdd/python/ud/dev1/U/nodeID
+echo d01cc52cdbf1a83bfc9f11559ff40d7df4eb6edf >/home/jdd/python/ud/dev2/U/nodeID
+echo 23dd428aa51174a3c8c180536808d34ac32582b8 >/home/jdd/python/ud/dev3/U/nodeID
+echo 4474999445dd834d5249713cbfac82a89cc02567 >/home/jdd/python/ud/dev0/U0/nodeID
+echo e23f65f349d30872e48008928fdd95c039ddcd11 >/home/jdd/python/ud/dev1/U0/nodeID
+echo 26639573a418e56584d0eef241da526ad5caafdb >/home/jdd/python/ud/dev2/U0/nodeID
+echo 5ef3610dd687b3e7780d40e4502f3c0606fdac61 >/home/jdd/python/ud/dev3/U0/nodeID
+
+chmod -w /home/jdd/python/ud/dev0/U/nodeID
+chmod -w /home/jdd/python/ud/dev1/U/nodeID
+chmod -w /home/jdd/python/ud/dev2/U/nodeID
+chmod -w /home/jdd/python/ud/dev3/U/nodeID
+chmod -w /home/jdd/python/ud/dev0/U0/nodeID
+chmod -w /home/jdd/python/ud/dev1/U0/nodeID
+chmod -w /home/jdd/python/ud/dev2/U0/nodeID
+chmod -w /home/jdd/python/ud/dev3/U0/nodeID
+
+# /var/U[0], /var/Udoc[0]
+echo 84a966ee7ed55eb9d60149af7ab85bcaa5369d09 >/var/U/nodeID
+echo d1a7776519eca598a631011e8270d54e4a1769b6 >/var/U0/nodeID
+echo 4cc3d4a30f64afdec68ca630a8c9a98fc524d1b4 >/var/Udoc/nodeID
+echo b4814a75626ae6a48752a6ee9ecc9d5a231ec200 >/var/Udoc0/nodeID
+chmod -w /var/U/nodeID
+chmod -w /var/U0/nodeID
+chmod -w /var/Udoc/nodeID
+chmod -w /var/Udoc0/nodeID
+
+# 2 each for losgatos, guadalupe, node2, supermicro,
+#a4b92b7f4a6a19767d6d7d9ecc492636c1b5d6a3
+#380d9cc94def5d89542ce587386887abe55d472f
+#3d1fcc7185aadcc36e1f9efcdbb4e5c4452ad7e0
+#e18acb19921a091852a4abaad83f45c2c6633956
+#b465a301d4862e7c18b8f06ab38595a9abc21991
+#d5f710678d3ac2ab97310c944524743be037322d
+#9151517d2f3f01600689761e1a557f4fb999653e
+#b9e39d53f67de636477988cc6e4ccd509ad81bcd
+#
+## /var/Ue HANDLED SEPARATELY (no Ue0)
+#c2a42ead8d86f0340f0ba8f4a128c44986da36d5
+#
+## EC2 magick, grace handled separately
+#c3def9458b3796a6809ae4364b45b31b639f79ff
+#58e347c46c16cdbb1ca8a4ab79781fb5e4b6e12a
+#787cd5077172289dfd1c03311dacb51a607730e8
+#e299a568ecc369f0a0b454ad7990d957ab74cc96
