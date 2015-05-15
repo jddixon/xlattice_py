@@ -3,6 +3,8 @@
 2015-05-14
     * myData/ myU1/ myU2 need to be added to .gitignore,
         which requires a .gitignore-local functionality
+    * move SHA1* constants to xlattice/crypto
+    * need test for xlattice.ui (passwdStrength)
 
 2015-05-11
     * gittifyProject.sh  xlattice_py >& junk.gittify                    * DONE

@@ -1,3 +1,7 @@
+./testDecimalVersion.py
+./testHelloAndReply.py
+./testPKCS7.py
 ./testSHA1.py
 ./testSHA2.py
+./testTimestamp.py
 ./testULock.py

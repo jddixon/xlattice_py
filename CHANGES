@@ -1,5 +1,12 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.0.3
+    2015-05-15
+        * moved confirmYorN, passwdStrength here as xlattice.uk     SLOC  912
+        * moved timestamp functionality here from BuildList         SLOC  957
+        * moved touch() from BuildList to xlattice.util             SLOC  962
+        * moved DecimalVersion stuff from xlreg_py to xlattice.util SLOC 1108
+        * moved helloAndGoodbyte stuff from xlreg_py to xlattice/   ALOC 1289
 v0.0.2
     2015-05-14
         * added crypto PKCS7Padding functions and test              SLOC  850
