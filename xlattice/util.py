@@ -13,9 +13,9 @@ class DecimalVersion(object):
 
     # __slots__ = ['_value',]
 
-    def __init__(self, aIn, bIn=None, cIn=None, dIn=None):
+    def __init__(self, aIn=None, bIn=None, cIn=None, dIn=None):
         if aIn == None:
-            raise RuntimeError("Nil major version")
+            aIn = 0
         a = int(aIn)
         if a < 0 or 255 < a:
             raise RuntimeError("version number part a '%d' out of range" % a)
@@ -55,6 +55,17 @@ class DecimalVersion(object):
     @property
     def value(self):
         return self._value
+    @value.setter
+    def value(self, val):
+        if isinstance(val, int):
+            self._value = val
+        elif isinstance(val, str):
+            self._value = parseDecimalVersion(val).value
+        elif isinstance(val, DecimalVersion):
+            self._value = val.value
+        else:
+            raise RuntimeError("Don't know how to assign '%s' as a value" % (
+                val))
 
     def __eq__ (self, other):
 
@@ -74,6 +85,60 @@ class DecimalVersion(object):
         else:
             s = "%d.%d" % (a,b)
         return s
+    
+    def stepMajor(self):
+        """
+        Increment the major part of the version number, the A in a.b.c.d.
+        This clears (zeroes out) the other three fields.
+        """
+        a = self.getA()
+        a += 1
+        if a > 255:         
+            raise RuntimeError("stepMajor() takes it out of range")
+        else:
+            self.value = DecimalVersion(a)
+
+    def stepMinor(self):
+        """
+        Increment the minor part of the version number, the B in a.b.c.d.
+        This zeroes out the 'decimal' and 'micro' fields.
+        """
+        a = self.getA()
+        b = self.getB()
+        b += 1
+        if b > 255:         
+            raise RuntimeError("stepMinor() takes it out of range")
+        else:
+            self.value = DecimalVersion(a, b)
+    
+    def stepDecimal(self):
+        """
+        Increment the decimal part of the version number, the C in a.b.c.d.
+        This clears the 4th 'micro' field.
+        """
+        a = self.getA()
+        b = self.getB()
+        c = self.getC()
+        c += 1
+        if c > 255:         
+            raise RuntimeError("stepDecimal() takes it out of range")
+        else:
+            self.value = DecimalVersion(a, b, c)
+
+    def stepMicro(self):
+        """
+        Increment the micro part of the version number, the D in a.b.c.d.
+        This leaves the other three fields unaffected.
+        """
+        a = self.getA()
+        b = self.getB()
+        c = self.getC()
+        d = self.getD()
+        d += 1
+        if d > 255:         
+            raise RuntimeError("stepMicro() takes it out of range")
+        else:
+            self.value = DecimalVersion(a, b, c, d)
 
 def parseDecimalVersion(s):
     """

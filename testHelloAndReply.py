@@ -9,11 +9,11 @@ import  rnglib
 
 import xlattice.helloAndReply as hr
 from xlattice.util  import DecimalVersion, parseDecimalVersion 
+from xlattice import SHA1_BIN_LEN
 
 KEY_BITS = 2048
 KEY_BYTES = KEY_BITS / 8
-SHA1_BYTES = 20
-MAX_MSG = KEY_BYTES -1 - 2 * SHA1_BYTES # one more than max value
+MAX_MSG = KEY_BYTES -1 - 2 * SHA1_BIN_LEN # one more than max value
 
 TEST_DIR = 'tmp'
 

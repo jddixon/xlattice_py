@@ -15,7 +15,6 @@ __all__ = [ 'copyAndPut1',  'fileSHA1',     'getData1',
 import io, os, shutil, time
 import hashlib, sys
 import rnglib # for rnglib.nextFileName
-from xlattice import SHA1_NONE, SHA2_NONE
 
 # CONSTANTS ========================================================-
 

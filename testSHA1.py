@@ -3,9 +3,8 @@
 # xlattice_py/testSHA1.py
 
 import hashlib, os, re, time, unittest
-from xlattice import u, SHA1_NONE, SHA2_NONE
-
-from rnglib         import SimpleRNG
+from xlattice   import u
+from rnglib     import SimpleRNG
 
 DATA_PATH   = 'myData'      # contains files of random data
 U_PATH      = 'myU1'        # those same files stored by content hash

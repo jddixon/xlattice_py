@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py
 
+2015-05-15
+    * need myData, myU1, myU2 in .gitignore.local
+    * add DecimalVersion.step{Major,Minor,Decimal,Micro}                * DONE
+        - and test      
+    * need tests for xlattice/u
+
 2015-05-14
     * myData/ myU1/ myU2 need to be added to .gitignore,
         which requires a .gitignore-local functionality

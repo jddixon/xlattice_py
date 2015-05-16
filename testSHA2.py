@@ -4,8 +4,8 @@
 
 import os, re, time, unittest
 import hashlib, sys
-from xlattice import u, SHA1_NONE, SHA2_NONE
-from rnglib         import SimpleRNG
+from xlattice   import u
+from rnglib     import SimpleRNG
 
 DATA_PATH   = 'myData'
 U_PATH      = 'myU2'
