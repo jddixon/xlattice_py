@@ -26,10 +26,10 @@
 FROM ~/dev/py/u/TODO ================================================
 
 2015-03-19
-    * if eg myU2/tmp does not exist, the library must create it
+    * if eg myU2/tmp does not exist, the library must create it         * DONE
 
 2012-07-28 
-    * FIX: testU256x256.py fails (because testU/tmp does not exist?)
+    * FIX: testU256x256.py fails (because testU/tmp does not exist?)    * DONE
 
 2012-07-02
     * added u.getData(uPath, key); needs to be tested

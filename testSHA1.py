@@ -8,6 +8,7 @@ from rnglib     import SimpleRNG
 
 DATA_PATH   = 'myData'      # contains files of random data
 U_PATH      = 'myU1'        # those same files stored by content hash
+U_TMP_PATH  = 'myU1/tmp'
 
 class TestSHA1 (unittest.TestCase):
 
@@ -17,6 +18,8 @@ class TestSHA1 (unittest.TestCase):
             os.mkdir(DATA_PATH)
         if not os.path.exists(U_PATH):
             os.mkdir(U_PATH)
+        if not os.path.exists(U_TMP_PATH):
+            os.mkdir(U_TMP_PATH)
 
     def tearDown(self):
         # probably should clear DATA_PATH and U_PATH directories
