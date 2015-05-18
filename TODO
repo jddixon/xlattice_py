@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py
 
+2015-05-17
+    * git push appears to have failed, but with no meaningful error
+        message.  xlattice_py on github has myData/ myU1/ myU2/
+        trash, which it shouldn't.  URGENT need to reconcile what
+        we have here and what is on github
+
 2015-05-15
     * need myData, myU1, myU2 in .gitignore.local
     * add DecimalVersion.step{Major,Minor,Decimal,Micro}                * DONE
@@ -26,10 +32,10 @@
 FROM ~/dev/py/u/TODO ================================================
 
 2015-03-19
-    * if eg myU2/tmp does not exist, the library must create it
+    * if eg myU2/tmp does not exist, the library must create it         * DONE
 
 2012-07-28 
-    * FIX: testU256x256.py fails (because testU/tmp does not exist?)
+    * FIX: testU256x256.py fails (because testU/tmp does not exist?)    * DONE
 
 2012-07-02
     * added u.getData(uPath, key); needs to be tested

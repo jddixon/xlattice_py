@@ -9,6 +9,7 @@ from rnglib     import SimpleRNG
 
 DATA_PATH   = 'myData'
 U_PATH      = 'myU2'
+U_TMP_PATH  = 'myU2/tmp'
 
 class TestSHA2 (unittest.TestCase):
 
@@ -18,6 +19,8 @@ class TestSHA2 (unittest.TestCase):
             os.mkdir(DATA_PATH)
         if not os.path.exists(U_PATH):
             os.mkdir(U_PATH)
+        if not os.path.exists(U_TMP_PATH):
+            os.mkdir(U_TMP_PATH)
 
     def tearDown(self):
         # probably should clear DATA_PATH and U_PATH directories
