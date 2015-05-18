@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py
 
+2015-05-17
+    * git push appears to have failed, but with no meaningful error
+        message.  xlattice_py on github has myData/ myU1/ myU2/
+        trash, which it shouldn't.  URGENT need to reconcile what
+        we have here and what is on github
+
 2015-05-15
     * need myData, myU1, myU2 in .gitignore.local
     * add DecimalVersion.step{Major,Minor,Decimal,Micro}                * DONE
