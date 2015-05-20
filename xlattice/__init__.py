@@ -1,13 +1,15 @@
 # xlattice_py/xlattice/__init__.py
 
+import binascii
+
 __all__ = [ '__version__',      '__version_date__',     
-            'SHA1_NONE',        'SHA2_NONE',
+            'SHA1_BIN_NONE',    'SHA2_BIN_NONE',
             'SHA1_HEX_NONE',    'SHA1_B64_NONE',
             'SHA2_HEX_NONE',
         ]
 
-__version__         = '0.1.1'
-__version_date__    = '2015-05-17'
+__version__         = '0.1.3'
+__version_date__    = '2015-05-19'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -28,3 +30,6 @@ SHA1_HEX_LEN    = 40
 SHA2_BIN_LEN    = 32
 SHA2_HEX_LEN    = 64
 
+# Binary values 
+SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
+SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
