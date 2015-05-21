@@ -2,7 +2,7 @@
 
 # xlattice_py/testSHA2.py
 
-import os, re, time, unittest
+import binascii, os, re, time, unittest
 import hashlib, sys
 from xlattice   import u
 from rnglib     import SimpleRNG
@@ -35,7 +35,7 @@ class TestSHA2 (unittest.TestCase):
 
         # create a random file                          maxLen   minLen
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey          = u.fileSHA2(dPath)
+        dKey          = u.fileSHA2Hex(dPath)
 
         # invoke function
         (uLen, uKey) = u.copyAndPut2(dPath, U_PATH, dKey)
@@ -47,11 +47,15 @@ class TestSHA2 (unittest.TestCase):
         uPath = u.getPathForKey( U_PATH, uKey  )
         self.assertTrue( os.path.exists(uPath) )
 
+        dKeyBin = u.fileSHA2Bin(dPath)
+        dKeyHex = binascii.b2a_hex(dKeyBin).decode('utf-8')
+        self.assertEqual(dKeyHex, dKey)
+
     def testExists(self):
         """we are testing whether = u.exists(uPath, key) """
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey          = u.fileSHA2(dPath)
+        dKey          = u.fileSHA2Hex(dPath)
         (uLen, uKey) = u.copyAndPut2(dPath, U_PATH, dKey)
         uPath = u.getPathForKey( U_PATH, uKey  )
         self.assertTrue( os.path.exists(uPath) )
@@ -64,28 +68,28 @@ class TestSHA2 (unittest.TestCase):
         """we are testing len = u.fileLen(uPath, key) """
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey          = u.fileSHA2(dPath)
+        dKey          = u.fileSHA2Hex(dPath)
         (uLen, uKey) = u.copyAndPut2(dPath, U_PATH, dKey)
         uPath = u.getPathForKey( U_PATH, uKey  )
         self.assertEqual(dLen, uLen)
         self.assertEqual(dLen, u.fileLen(U_PATH, uKey))
 
     def testFileSHA2(self):
-        """ we are testing sha1Key = fileSHA2(path) """
+        """ we are testing sha1Key = fileSHA2Hex(path) """
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
         with open(dPath, 'rb') as f:
             data = f.read()
         digest = hashlib.sha256()
         digest.update(data)
         dKey = digest.hexdigest()
-        fsha1 = u.fileSHA2(dPath)
+        fsha1 = u.fileSHA2Hex(dPath)
         self.assertEqual(dKey, fsha1)
 
     def testGetPathForKey(self):
         """ we are testing path = getPathForKey(uPath, key) """
 
         (dLen, dPath)   = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey            = u.fileSHA2(dPath)
+        dKey            = u.fileSHA2Hex(dPath)
         (uLen, uKey)    = u.copyAndPut2(dPath, U_PATH, dKey)
         uPath = u.getPathForKey( U_PATH, uKey  )
 
@@ -97,7 +101,7 @@ class TestSHA2 (unittest.TestCase):
         """we are testing (len,hash)  = put(inFile, uPath, key) """
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey          = u.fileSHA2(dPath)
+        dKey          = u.fileSHA2Hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
         dupePath = os.path.join(DATA_PATH, dKey)
@@ -122,7 +126,7 @@ class TestSHA2 (unittest.TestCase):
         
         # this is just lazy coding ;-)
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16*1024,    1)
-        dKey          = u.fileSHA2(dPath)
+        dKey          = u.fileSHA2Hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
 
