@@ -1,10 +1,10 @@
 # xlattice_py/xlattice/u.py
 
-__all__ = [ 'copyAndPut1',  'fileSHA1',     'getData1',
-            'put1',         'putData1',
-            'SHA2_NONE',
-            'copyAndPut2',  'fileSHA2', 'getData2',
-            'put2',         'putData2',
+__all__ = [ 
+            'fileSHA1', 'fileSHA2',         # DEPRECATED
+            'fileSHA1Bin', 'fileSHA2Bin', 'fileSHA1Hex', 'fileSHA2Hex',
+            'copyAndPut1',  'getData1', 'put1',         'putData1',
+            'copyAndPut2',  'getData2', 'put2',         'putData2',
             # should be same code for u1 and u2
             'exists',       'fileLen',      'getPathForKey',
 
@@ -20,22 +20,29 @@ import rnglib # for rnglib.nextFileName
 
 RNG = rnglib.SimpleRNG(time.time())
 
-# SHA1-BASED u256x256 METHODS =======================================
-
-#- copyAndPut1 -------------------------------------------------------
-def copyAndPut1(path, uPath, key):
-    # the temporary file MUST be created on the same device 
-    tmpDir = os.path.join(uPath, 'tmp')
-    # xxx POSSIBLE RACE CONDITION
-    tmpFileName = os.path.join(tmpDir, RNG.nextFileName(16))
-    while os.path.exists(tmpFileName):
-        tmpFileName = os.path.join(tmpDir, RNG.nextFileName(16))
-    shutil.copyfile(path, tmpFileName)
-    return put1(tmpFileName, uPath, key)
-
 # - fileSHA1 --------------------------------------------------------
 # returns the SHA1 hash of the contents of a file
+
+# DEPRECATED
 def fileSHA1 (path):
+    return fileSHA1Hex(path)
+
+def fileSHA1Bin(path):
+    if path == None or not os.path.exists(path):
+        return None
+
+    d = hashlib.sha1()
+    f = io.FileIO(path, 'rb')
+    r = io.BufferedReader(f)
+    while (True):
+        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        if (len(byteStr) == 0):
+            break
+        d.update(byteStr)
+    r.close()
+    return d.digest()    # a binary value
+
+def fileSHA1Hex(path):
     if path == None or not os.path.exists(path):
         return None
 
@@ -49,6 +56,56 @@ def fileSHA1 (path):
         d.update(byteStr)
     r.close()
     return d.hexdigest()    # a string, of course!
+
+# - fileSHA2 --------------------------------------------------------
+# returns the SHA256 hash of the contents of a file
+
+# DEPRECATED
+def fileSHA2 (path):
+    return fileSHA2Hex(path)
+
+def fileSHA2Bin(path):
+    if path == None or not os.path.exists(path):
+        return None
+
+    d = hashlib.sha256()
+    f = io.FileIO(path, 'rb')
+    r = io.BufferedReader(f)
+    while (True):
+        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        if (len(byteStr) == 0):
+            break
+        d.update(byteStr)
+    r.close()
+    return d.digest()    # a binary value
+
+def fileSHA2Hex(path):
+    if path == None or not os.path.exists(path):
+        return None
+
+    d = hashlib.sha256()
+    f = io.FileIO(path, 'rb')
+    r = io.BufferedReader(f)
+    while (True):
+        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        if (len(byteStr) == 0):
+            break
+        d.update(byteStr)
+    r.close()
+    return d.hexdigest()    # a string, of course!
+
+# SHA1-BASED u256x256 METHODS =======================================
+
+#- copyAndPut1 -------------------------------------------------------
+def copyAndPut1(path, uPath, key):
+    # the temporary file MUST be created on the same device 
+    tmpDir = os.path.join(uPath, 'tmp')
+    # xxx POSSIBLE RACE CONDITION
+    tmpFileName = os.path.join(tmpDir, RNG.nextFileName(16))
+    while os.path.exists(tmpFileName):
+        tmpFileName = os.path.join(tmpDir, RNG.nextFileName(16))
+    shutil.copyfile(path, tmpFileName)
+    return put1(tmpFileName, uPath, key)
 
 # - getData1 ---------------------------------------------------------
 def getData1(uPath, key):
@@ -124,23 +181,6 @@ def copyAndPut2(path, uPath, key):
         tmpFileName = os.path.join(tmpDir, RNG.nextFileName(16))
     shutil.copyfile(path, tmpFileName)
     return put2(tmpFileName, uPath, key)
-
-# - fileSHA2 --------------------------------------------------------
-# returns the SHA256 hash of the contents of a file
-def fileSHA2 (path):
-    if path == None or not os.path.exists(path):
-        return None
-
-    d = hashlib.sha256()
-    f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
-    while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
-        if (len(byteStr) == 0):
-            break
-        d.update(byteStr)
-    r.close()
-    return d.hexdigest()    # a string, of course!
 
 # - getData2 --------------------------------------------------------
 def getData2(uPath, key):
