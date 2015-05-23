@@ -1,7 +1,10 @@
 ~/dev/py/xlattice_py
 
+2015-05-22
+    * make testRSA.py less talkative                                    * DONE
+
 2015-05-21
-    * fileSHA1/2 disambigurated as fileSHA{1,2}{Bin,Hex}
+    * fileSHA1/2 disambigurated as fileSHA{1,2}{Bin,Hex}                * DONE
 2015-05-18
     * mkdir_p needs testing
 2015-05-17

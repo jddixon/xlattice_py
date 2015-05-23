@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.1.5
+    2015-05-22
+        * merged                                                    SLOC 1510
+        * added testRSA.py                                          SLOC 1574
 v0.1.4
     2015-05-21
         * u.fileSHA{1,2} disambiguated to fileSHA{1,2}{Bin,Hex}     SLOC 1510
