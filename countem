@@ -1,9 +1,9 @@
 cd ~/dev/py/xlattice_py
 rm -rf build
 pySloc -v \
-    txt:.gitignore \
-    bash:countem \
     txt:MANIFEST.in \
+    txt:.gitignore \
+    bash:countem bash:installit \
     bash:makeMoreNodeIDs bash:test.all\
     py:scripts/genNodeID1 py:scripts/genNodeID3 \
     py:verifyContentKeys

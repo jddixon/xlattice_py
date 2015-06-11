@@ -9,6 +9,7 @@ from Crypto.Signature import PKCS1_PSS
 
 from rnglib         import SimpleRNG
 from buildList      import *
+from xlattice.crypto    import nextNBLine, collectPEMRSAPublicKey
 
 class TestRSA (unittest.TestCase):
 
@@ -70,10 +71,17 @@ class TestRSA (unittest.TestCase):
         self.assertEqual( sk.exportKey('DER'), sk2.exportKey('DER'))
 
         # DEBUG
-        #pemFormOfCK = sk.exportKey('PEM')
-        #pemStr      = pemFormOfCK.decode('utf-8')
-        #print("pubkey in PEM format:\n%s\n" % pemStr)
+        pemFormOfCK = sk.exportKey('PEM')
+        pemStr      = pemFormOfCK.decode('utf-8')
+        print("pubkey in PEM format:\n%s\n" % pemStr)
         # END
+
+        # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
+        ss = pemStr.split('\n')
+        s  = ss[0]
+        ss = ss[1:]
+        pemPK = collectPEMRSAPublicKey(s, ss)
+        self.assertEqual(pemPK, pemStr)
 
         # TEST DIG SIG ----------------------------------------------
 

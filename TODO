@@ -1,8 +1,15 @@
 ~/dev/py/xlattice_py
 
+2015-06-10
+    * move __SPACES__ and getSpaces from nlhTree to xlattice.crypto
+        to avoid import loops
+    * write a test
+
+2015-06-02
+    * needs some documentation, however skimpy
+
 2015-05-22
     * make testRSA.py less talkative                                    * DONE
-
 2015-05-21
     * fileSHA1/2 disambigurated as fileSHA{1,2}{Bin,Hex}                * DONE
 2015-05-18
@@ -12,19 +19,16 @@
         message.  xlattice_py on github has myData/ myU1/ myU2/         * FIXED
         trash, which it shouldn't.  URGENT need to reconcile what       * FIXED
         we have here and what is on github                              * FIXED
-
 2015-05-15
     * need myData, myU1, myU2 in .gitignore.local                       * DONE
     * add DecimalVersion.step{Major,Minor,Decimal,Micro}                * DONE
         - and test                                                      * DONE
     * need tests for xlattice/u                                         * DONE
-
 2015-05-14
     * myData/ myU1/ myU2 need to be added to .gitignore,
         which requires a .gitignore-local functionality
     * move SHA1* constants to xlattice package                          * DONE
     * need test for xlattice.ui (passwdStrength)
-
 2015-05-11
     * gittifyProject.sh  xlattice_py >& junk.gittify                    * DONE
     * ghpTheProject.sh   xlattice_py >& junk.ghp                        * DONE
