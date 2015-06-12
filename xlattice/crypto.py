@@ -1,9 +1,10 @@
 # xlattice_py/xlattice/crypto.py
 
 __all__ = [ 'AES_BLOCK_SIZE',
-            'pkcs7Padding',
-            'addPKCS7Padding',
-            'stripPKCS7Padding',
+            'pkcs7Padding', 'addPKCS7Padding', 'stripPKCS7Padding',
+            'nextNBLine',  'collectPEMRSAPublicKey',
+            # Classes
+            'SP',
           ]
 
 # EXPORTED CONSTANTS
@@ -33,6 +34,7 @@ def pkcs7Padding(data, blockSize):
         padding[i] = rem        # padding bytes set to length of padding
     return padding
 
+# PKSC7 PADDING =====================================================
 
 def addPKCS7Padding(data, blockSize):
     if blockSize <= 1 :
@@ -67,4 +69,69 @@ def stripPKCS7Padding(data, blockSize):
         else :
             out = data[:lenData-lenPadding]
     return out
+
+
+# STRING ARRAYS / PEM SERIALIZSTION =================================
+
+class SP(object):
+
+    __SPACES__ = ['']
+    @staticmethod
+    def getSpaces(n):
+        """ cache strings of N spaces """
+        k = len(SP.__SPACES__) - 1
+        while k < n:
+            k = k + 1
+            SP.__SPACES__.append( ' ' * k) 
+        return SP.__SPACES__[n] 
+
+def nextNBLine(ss):
+    """ 
+    Enter with a reference to a list of lines.  Return the next line
+    which is not empty after trimming, advancing the reference to the
+    array of strings accordingly.
+    """
+    if ss != None:
+        while len(ss) > 0:
+            s  = ss[0]
+            ss = ss[1:]
+            s = s.strip()
+            if s != '':
+                return s, ss
+        raise RuntimeError("exhausted list of strings")
+    raise RuntimeError("arg to nextNBLine cannot be None")
+
+def collectPEMRSAPublicKey(firstLine, ss):
+    """
+    Given the opening line of the PEM serializaton of an RSA Public Key, 
+    and a pointer to an array of strings which should begin with the rest
+    of the PEM serialization, return the entire PEM serialization as a 
+    single string.  
+    """
+
+    firstLine = firstLine.strip()
+    if firstLine != '-----BEGIN RSA PUBLIC KEY-----': 
+        raise RuntimeError('PEM public key cannot begin with %s' % firstLine)
+    foundLast = False
+
+    # DEBUG
+    #ndx = 0
+    #print("%2d %s" % (ndx, firstLine))
+    # END
+
+    x = [firstLine]      # of string
+    while len(ss) > 0:
+        s, ss = nextNBLine(ss)
+        # DEBUG
+        #ndx += 1
+        #print("%2d %s" % (ndx, s))
+        # END
+        x = x + [s]
+        if s == '-----END RSA PUBLIC KEY-----' :
+            foundLast = True
+            break
+    
+    if not foundLast:
+        raise RuntimeError ("didn't find closing line of PEM serialization")
+    return '\n'.join(x), ss
 
