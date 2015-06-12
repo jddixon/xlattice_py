@@ -1,9 +1,14 @@
 ~/dev/py/xlattice_py
 
 2015-06-10
-    * move __SPACES__ and getSpaces from nlhTree to xlattice.crypto
-        to avoid import loops
-    * write a test
+    * move __SPACES__ and getSpaces from nlhTree to xlattice.crypto     * DONE
+        to avoid import loops                                           * DONE
+    * write a test                                                      * DONE
+
+    * write test of nextNBLine()
+    * write test of collectPEMRSAPublicKey()                            * DONE
+    * write collectPEMRSAPrivateKey()
+        - and test
 
 2015-06-02
     * needs some documentation, however skimpy

@@ -1,3 +1,4 @@
+./testCrypto.py
 ./testDecimalVersion.py
 ./testHelloAndReply.py
 ./testPKCS7.py

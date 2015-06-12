@@ -1,8 +1,12 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.1.7
+    2015-06-12
+        * change signature of collectPEMRSAPublicKey, add test      SLOC 1659
 v0.1.6
     2015-06-10
-        * move __SPACES__ and getSpaces() from nlhTree to crypto    SLCO 1649
+        * move __SPACES__ and getSpaces() from nlhTree to crypto    
+        * pick up other string handling code                        SLOC 1652
 v0.1.5
     2015-05-22
         * merged                                                    SLOC 1510

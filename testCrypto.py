@@ -3,9 +3,13 @@
 # dev/py/xlattice_py/testCrypto.py
 
 import os, unittest
+from rnglib import SimpleRNG
 from xlattice.crypto    import SP
 
 class TestCrypto (unittest.TestCase):
+    
+    def setUp(self):
+        self.rng = SimpleRNG()
 
     def testSpaces(self):
         for i in range(4):

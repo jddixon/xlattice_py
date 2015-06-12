@@ -101,37 +101,30 @@ def nextNBLine(ss):
         raise RuntimeError("exhausted list of strings")
     raise RuntimeError("arg to nextNBLine cannot be None")
 
-def collectPEMRSAPublicKey(firstLine, ss, depth=0):
+def collectPEMRSAPublicKey(firstLine, ss):
     """
     Given the opening line of the PEM serializaton of an RSA Public Key, 
     and a pointer to an array of strings which should begin with the rest
     of the PEM serialization, return the entire PEM serialization as a 
-    single string.  If depth is greater than zero, we ignore that many
-    leading spaces.
+    single string.  
     """
 
-    if depth < 0:
-        raise RuntimeError('collectPEMRSAPublicKey: depth may not be negative')
-
-    indent = ''
-    for i in range (depth):
-        indent += ' '
-    
+    firstLine = firstLine.strip()
     if firstLine != '-----BEGIN RSA PUBLIC KEY-----': 
         raise RuntimeError('PEM public key cannot begin with %s' % firstLine)
     foundLast = False
 
     # DEBUG
-    ndx = 0
-    print("%2d %s" % (ndx, firstLine))
+    #ndx = 0
+    #print("%2d %s" % (ndx, firstLine))
     # END
 
     x = [firstLine]      # of string
     while len(ss) > 0:
         s, ss = nextNBLine(ss)
         # DEBUG
-        ndx += 1
-        print("%2d %s" % (ndx, s))
+        #ndx += 1
+        #print("%2d %s" % (ndx, s))
         # END
         x = x + [s]
         if s == '-----END RSA PUBLIC KEY-----' :
@@ -140,5 +133,5 @@ def collectPEMRSAPublicKey(firstLine, ss, depth=0):
     
     if not foundLast:
         raise RuntimeError ("didn't find closing line of PEM serialization")
-    return '\n'.join(x)
+    return '\n'.join(x), ss
 

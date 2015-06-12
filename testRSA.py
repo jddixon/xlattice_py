@@ -70,11 +70,32 @@ class TestRSA (unittest.TestCase):
         # verify that public key parts are identical
         self.assertEqual( sk.exportKey('DER'), sk2.exportKey('DER'))
 
-        # DEBUG
         pemFormOfCK = sk.exportKey('PEM')
         pemStr      = pemFormOfCK.decode('utf-8')
-        print("pubkey in PEM format:\n%s\n" % pemStr)
-        # END
+
+        # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
+
+        # depth == 0 test (where depth is number of leading spaces)
+        ss = pemStr.split('\n')
+        s  = ss[0]
+        ss = ss[1:]
+        pemPK, rest = collectPEMRSAPublicKey(s, ss)
+        self.assertEqual(pemPK, pemStr)
+
+        # depth > 0 test 
+        ss = pemStr.split('\n')
+        tt = []
+        depth = 1 + self.rng.nextInt16(10)   # so from 1 to 10 inclusive
+        indent = ' ' * depth
+        for line in ss:
+            tt.append(indent + line)
+        tt.append('this is a line of junk')
+        s  = tt[0][depth:]
+        tt = tt[1:]
+        pemPK, rest = collectPEMRSAPublicKey(s, tt)
+        self.assertEqual(pemPK, pemStr)
+        self.assertEqual(len(rest), 1)
+        self.assertEqual(rest[0], 'this is a line of junk')
 
         # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
         ss = pemStr.split('\n')
