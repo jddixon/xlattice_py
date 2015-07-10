@@ -170,18 +170,30 @@ def parseDecimalVersion(s):
 # is a string.
 # Note also that these functions will misbehave from 2038 or so.
 
+# %T is shorthand for %H:%M:%S
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 def parseTimestamp(s):
-    """ May raise ValueError """
+    """ 
+    If there is a decimal part to the seconds field, will raise ValueError 
+    with the message 'unconverted data remains: .123456'.  
+    """
     t = time.strptime(s, TIMESTAMP_FORMAT)
     return calendar.timegm(t)
 
 def timestamp(n):       # sec from epoch
+    """
+    Given n the number of seconds from the epoch, return a string in
+    the shorter format.  This truncates microseconds from the time.
+    """
     t = time.gmtime(n)
     return time.strftime(TIMESTAMP_FORMAT,  t)
 
 def timestampNow():
+    """
+    Get the current time, truncate it by omiting microseconds, and
+    return a string in the shorter format.
+    """
     t = time.gmtime()
     return time.strftime(TIMESTAMP_FORMAT,  t)
 

@@ -97,13 +97,6 @@ class TestRSA (unittest.TestCase):
         self.assertEqual(len(rest), 1)
         self.assertEqual(rest[0], 'this is a line of junk')
 
-        # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
-        ss = pemStr.split('\n')
-        s  = ss[0]
-        ss = ss[1:]
-        pemPK = collectPEMRSAPublicKey(s, ss)
-        self.assertEqual(pemPK, pemStr)
-
         # TEST DIG SIG ----------------------------------------------
 
         count = 64 + self.rng.nextInt16(192)
