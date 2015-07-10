@@ -40,7 +40,7 @@ def fileSHA1Bin(path):
             break
         d.update(byteStr)
     r.close()
-    return d.digest()    # a binary value
+    return bytes(d.digest())    # a binary value
 
 def fileSHA1Hex(path):
     if path == None or not os.path.exists(path):
@@ -77,7 +77,7 @@ def fileSHA2Bin(path):
             break
         d.update(byteStr)
     r.close()
-    return d.digest()    # a binary value
+    return bytes(d.digest())   # a binary value
 
 def fileSHA2Hex(path):
     if path == None or not os.path.exists(path):
