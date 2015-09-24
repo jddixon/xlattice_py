@@ -9,13 +9,38 @@
 </head>
 <body>
 <div class="content">
-<h1>xlattice_py</h1>
+<h1 class="libTop">xlattice_py</h1>
 
-<p>XLattice utilty functions for Python.</p>
-  <div class="f">
+<p><a href="https://jddixon.github.io/xlattice">XLattice</a>
+utilty functions for Python.</p>
+
+<p>These are collected in the <code>xlattice</code> subdirectory:</p>
+
+<ul>
+<li><strong>crypto.py</strong>, functions for PKCS7Padding and deserialization of PEM-encoded RSA public keys</li>
+<li><strong>helloAndReply.py</strong>, an implementation of XLattice&rsquo;s <code>helloAndReply</code> protocol for setting up inter-node AES-based communications</li>
+<li><strong>lfs.py</strong>, wrapper functions for <code>mkdir_p</code> and <code>touch</code></li>
+<li><strong>ui.py</strong>, simple functions for handle Y/N questions on the command line and assessing password strength</li>
+<li><strong>u.py</strong>, XLattice system for storing data by content key</li>
+<li><strong>util.py</strong>, which contains functions for dealing with XLattice <code>DecimalVersion</code> and <code>Timestamp</code> classes</li>
+</ul>
+
+<p>** Project Status</p>
+
+<p>An incomplete implementation of the Python code necessary to support
+<a href="https://jddixon.github.io/xlReg_py">xlReg_py</a>.  xlReg_py is a library
+enabling applications to easily use an
+<a href="https://jddixon/github.io/xlReg_go">xlReg</a> server
+to set up communications between ad-hoc clusters of application servers
+incorporating XLattice nodes.</p>
+
+<h2>Licensing</h2>
+<p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />The material on this github.io website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
+<p>Project software is licensed under an MIT license.
+Follow the SOFTWARE LICENSE link below for more information on project software licensing.</p>  <div class="f">
     <hr />
     <div class="license">
-      <p><a href="LICENSE.html">LICENSE</a></p>
+      <p><a href="LICENSE.html">SOFTWARE LICENSE</a></p>
     </div>
     <div class="project">
       github <a href="https://github.com/jddixon/xlattice_py">      <img src="img/GitHub-Mark-32px.png" 
