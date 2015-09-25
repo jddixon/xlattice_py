@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.2.1
+    2015-09-24
+        * amplified very skimpy documentation                       SLOC 1670
 v0.2.0
     2015-07-09
         * fileSHA{1,2}Bin now return bytes

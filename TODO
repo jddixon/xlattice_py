@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py
 
+2015-09-24
+    * urgently need API docs
+
 2015-06-10
     * move __SPACES__ and getSpaces from nlhTree to xlattice.crypto     * DONE
         to avoid import loops                                           * DONE
