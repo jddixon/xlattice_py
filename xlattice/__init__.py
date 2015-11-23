@@ -8,8 +8,8 @@ __all__ = [ '__version__',      '__version_date__',
             'SHA2_HEX_NONE',
         ]
 
-__version__      = '0.2.1'
-__version_date__ = '2015-09-24'
+__version__      = '0.2.2'
+__version_date__ = '2015-11-12'
 
 
 # This is the SHA1 of an empty string (or file)
