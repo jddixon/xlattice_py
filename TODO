@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py
 
+2015-11-23
+    * by default, print version numbers in three parts, so that
+        for example 1 becomes 1.0.0 and 1.2 is printed as 1.2.0
+    * so continue to parse eg 1 and 1.0 and 1.0.0 identically, but
+        always convert to string as 1.0.0
+
 2015-09-24
     * urgently need API docs
 

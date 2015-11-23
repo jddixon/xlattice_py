@@ -80,10 +80,8 @@ class DecimalVersion(object):
         d = self.getD()
         if d != 0:
             s = "%d.%d.%d.%d" % (a,b,c,d)
-        elif c != 0:
-            s = "%d.%d.%d" % (a,b,c)
         else:
-            s = "%d.%d" % (a,b)
+            s = "%d.%d.%d" % (a,b,c)
         return s
     
     def stepMajor(self):
