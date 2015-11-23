@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.3.0
+    2015-11-23
+        * by default version numbers stringify in three parts       SLOC 1668
 v0.2.2
     2015-11-22
         * minor edits to *.md

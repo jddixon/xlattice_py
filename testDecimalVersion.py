@@ -59,7 +59,7 @@ class TestDecimalVErsion (unittest.TestCase):
     def test2IntConstructor(self):
         dv1 = DecimalVersion(1,2)
         s = dv1.__str__();
-        self.assertEqual("1.2", s)
+        self.assertEqual("1.2.0", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 2)
         self.assertEqual(dv1.getC(), 0)
@@ -71,7 +71,7 @@ class TestDecimalVErsion (unittest.TestCase):
     def test1IntConstructor(self):
         dv1 = DecimalVersion(1)
         s = dv1.__str__();
-        self.assertEqual("1.0", s)
+        self.assertEqual("1.0.0", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 0)
         self.assertEqual(dv1.getC(), 0)
