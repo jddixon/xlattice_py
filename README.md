@@ -24,4 +24,4 @@ incorporating XLattice nodes.
 ## On-line Documentation
 
 More information on the **xlattice_py** project can be found
-[here](https://jddixon.github.io/xlattice_py)
+[here](://jddixon.github.io/xlattice_py)
