@@ -8,8 +8,8 @@ __all__ = [ '__version__',      '__version_date__',
             'SHA2_HEX_NONE',
         ]
 
-__version__      = '0.3.0'
-__version_date__ = '2015-11-23'
+__version__      = '0.3.1'
+__version_date__ = '2015-12-21'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -33,4 +33,5 @@ SHA2_HEX_LEN    = 64
 # Binary values 
 SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
+
 

@@ -26,6 +26,7 @@ RNG = rnglib.SimpleRNG(time.time())
 # DEPRECATED
 def fileSHA1 (path):
     return fileSHA1Hex(path)
+# END DEPRECATED
 
 def fileSHA1Bin(path):
     if path == None or not os.path.exists(path):
@@ -63,6 +64,8 @@ def fileSHA1Hex(path):
 # DEPRECATED
 def fileSHA2 (path):
     return fileSHA2Hex(path)
+# END DEPRECATED
+
 
 def fileSHA2Bin(path):
     if path == None or not os.path.exists(path):

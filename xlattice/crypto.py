@@ -15,6 +15,8 @@ AES_BLOCK_SIZE  = 16
 class CryptoException(Exception):
     pass
 
+# PKSC7 PADDING =====================================================
+
 def pkcs7Padding(data, blockSize):
     blockSize = int(blockSize)
     if blockSize < 1:
@@ -33,8 +35,6 @@ def pkcs7Padding(data, blockSize):
     for i in range(rem):
         padding[i] = rem        # padding bytes set to length of padding
     return padding
-
-# PKSC7 PADDING =====================================================
 
 def addPKCS7Padding(data, blockSize):
     if blockSize <= 1 :

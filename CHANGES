@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.3.1
+    2015-12-21
+        * fixed dead link(s)
 v0.3.0
     2015-11-23
         * by default version numbers stringify in three parts       SLOC 1668
@@ -60,4 +63,5 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 

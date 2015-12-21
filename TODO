@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py
 
+2015-12-02
+    * DecimalVersion should have properties a, b, c, d replacing
+        getA(), getB(), etc
+
 2015-11-23
     * by default, print version numbers in three parts, so that
         for example 1 becomes 1.0.0 and 1.2 is printed as 1.2.0
