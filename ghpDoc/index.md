@@ -15,7 +15,7 @@ These are collected in the `xlattice` subdirectory:
 ** Project Status
 
 An incomplete implementation of the Python code necessary to support
-[xlReg_py](https://jddixon.github.io/xlReg_py).  xlReg_py is a library
+[xlreg_py](https://jddixon.github.io/xlreg_py).  xlreg_py is a library
 enabling applications to easily use an
 [xlReg](https://jddixon/github.io/xlReg_go) server
 to set up communications between ad-hoc clusters of application servers
