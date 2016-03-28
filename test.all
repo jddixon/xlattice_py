@@ -1,6 +1,7 @@
 ./testCrypto.py
 ./testDecimalVersion.py
 ./testHelloAndReply.py
+./testNode.py
 ./testPKCS7.py
 ./testRSA.py
 ./testSHA1.py

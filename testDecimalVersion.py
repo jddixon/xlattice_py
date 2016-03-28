@@ -2,15 +2,19 @@
 
 # testDecimalVersion.py
 
-import  sys, time, unittest
+import sys
+import time
+import unittest
 import rnglib
 
-from xlattice.util import DecimalVersion, parseDecimalVersion 
+from xlattice.util import DecimalVersion, parseDecimalVersion
+
 
 class TestDecimalVErsion (unittest.TestCase):
 
     def setUp(self):
         self.rng = rnglib.SimpleRNG(time.time())
+
     def tearDown(self):
         pass
 
@@ -18,23 +22,22 @@ class TestDecimalVErsion (unittest.TestCase):
         try:
             dv1 = parseDecimalVersion(None)
             self.fail("parsed nil string")
-        except RuntimeError: 
+        except RuntimeError:
             pass
         try:
             dv1 = parseDecimalVersion("")
             self.fail("parsed empty string")
-        except RuntimeError: 
+        except RuntimeError:
             pass
         try:
             dv1 = parseDecimalVersion(" \t ")
             self.fail("parsed whitespace")
-        except ValueError: 
+        except ValueError:
             pass
 
-
     def test4IntConstructor(self):
-        dv1 = DecimalVersion(1,2,3,4)
-        s = dv1.__str__();
+        dv1 = DecimalVersion(1, 2, 3, 4)
+        s = dv1.__str__()
         self.assertEqual("1.2.3.4", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 2)
@@ -45,8 +48,8 @@ class TestDecimalVErsion (unittest.TestCase):
         self.assertEqual(dv1, dv2)
 
     def test3IntConstructor(self):
-        dv1 = DecimalVersion(1,2,3)
-        s = dv1.__str__();
+        dv1 = DecimalVersion(1, 2, 3)
+        s = dv1.__str__()
         self.assertEqual("1.2.3", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 2)
@@ -57,8 +60,8 @@ class TestDecimalVErsion (unittest.TestCase):
         self.assertEqual(dv1, dv2)
 
     def test2IntConstructor(self):
-        dv1 = DecimalVersion(1,2)
-        s = dv1.__str__();
+        dv1 = DecimalVersion(1, 2)
+        s = dv1.__str__()
         self.assertEqual("1.2.0", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 2)
@@ -70,7 +73,7 @@ class TestDecimalVErsion (unittest.TestCase):
 
     def test1IntConstructor(self):
         dv1 = DecimalVersion(1)
-        s = dv1.__str__();
+        s = dv1.__str__()
         self.assertEqual("1.0.0", s)
         self.assertEqual(dv1.getA(), 1)
         self.assertEqual(dv1.getB(), 0)
@@ -120,7 +123,7 @@ class TestDecimalVErsion (unittest.TestCase):
         v, a, b, c, d, dv = self.makeDecimalVersion()
         if a < 255:
             dv.stepMajor()
-            self.assertEqual(dv.getA(), a+1)
+            self.assertEqual(dv.getA(), a + 1)
             self.assertEqual(dv.getB(), 0)
             self.assertEqual(dv.getC(), 0)
             self.assertEqual(dv.getD(), 0)
@@ -136,7 +139,7 @@ class TestDecimalVErsion (unittest.TestCase):
         if b < 255:
             dv.stepMinor()
             self.assertEqual(dv.getA(), a)
-            self.assertEqual(dv.getB(), b+1)
+            self.assertEqual(dv.getB(), b + 1)
             self.assertEqual(dv.getC(), 0)
             self.assertEqual(dv.getD(), 0)
         else:
@@ -152,7 +155,7 @@ class TestDecimalVErsion (unittest.TestCase):
             dv.stepDecimal()
             self.assertEqual(dv.getA(), a)
             self.assertEqual(dv.getB(), b)
-            self.assertEqual(dv.getC(), c+1)
+            self.assertEqual(dv.getC(), c + 1)
             self.assertEqual(dv.getD(), 0)
         else:
             try:
@@ -168,7 +171,7 @@ class TestDecimalVErsion (unittest.TestCase):
             self.assertEqual(dv.getA(), a)
             self.assertEqual(dv.getB(), b)
             self.assertEqual(dv.getC(), c)
-            self.assertEqual(dv.getD(), d+1)
+            self.assertEqual(dv.getD(), d + 1)
         else:
             try:
                 dv.stepMicro()

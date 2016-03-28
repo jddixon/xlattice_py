@@ -1,33 +1,39 @@
 #!/usr/bin/env python
 
 # python/u/scriptsgenNodeID3.py -- uses the contents of a subdirectory in U
-# to generate a 256-bit hash.  If for example U is /var/U and the 
+# to generate a 256-bit hash.  If for example U is /var/U and the
 # subdirectory is 'ff', then all of the files below /var/U/ff will be
 # walked in creating the hash.
 
-import getopt, io, re, sys, os
+import getopt
+import io
+import re
+import sys
+import os
 from os.path import join
-from random  import randint
+from random import randint
 import sha3
 
 from u import ULock
 
 # DEFAULTS for command line arguments ###############################
 # a random number between 00 and 0xff
-subDir      = str( "%02x" % randint(0, 0xff))
-uDir        = '/var/U'
-verbose     = False
+subDir = str("%02x" % randint(0, 0xff))
+uDir = '/var/U'
+verbose = False
 
 # UTILITY FUNCTIONS #################################################
-def genNodeID3(subDir, uDir = '/var/U'):
+
+
+def genNodeID3(subDir, uDir='/var/U'):
     lock = ULock(uDir)
     lock.getLock()
-    
+
     d = sha3.SHA3256()
     subDir = "%s/%s" % (uDir, subDir)
     for root, dirs, files in os.walk(subDir):
         for name in files:
-            absPath = join(root,name)
+            absPath = join(root, name)
             try:
                 f = io.FileIO(absPath, "r")
                 r = io.BufferedReader(f)
@@ -36,7 +42,7 @@ def genNodeID3(subDir, uDir = '/var/U'):
                     if len(byteStr) == 0:
                         break
                     d.update(byteStr)
-            except Exception, e:
+            except Exception as e:
                 print "unexpected exception reading %s: %s" % (absPath, str(e))
                 # otherwise we just ignore it
 
@@ -44,9 +50,11 @@ def genNodeID3(subDir, uDir = '/var/U'):
     return d.hexdigest()        # a string
 
 # COMMAND LINE HANDLING #############################################
+
+
 def usage():
-    s = [\
-        'usage: genNodeID3 [options]' ,
+    s = [
+        'usage: genNodeID3 [options]',
         'where the options are',
         '  -h/--help     view this very helpful message',
         '  -s/--subDir   select the subdirectory to process',
@@ -60,22 +68,22 @@ def usage():
 argVec = sys.argv[1:]
 try:
     opts, args = getopt.getopt(argVec, "hs:u:v",
-            ["help", "subDir", "uDir", "verbose"])
-except getopt.GetoptError, err:
+                               ["help", "subDir", "uDir", "verbose"])
+except getopt.GetoptError as err:
     print str(err)
-    usage ()
+    usage()
 
 for o, a in opts:
     if o in ('-h', '--help'):
         usage()
     elif o in ('-s', '--subDir'):
-        subDir  = a
-        
+        subDir = a
+
     elif o in ('-v', '--verbose'):
         showVersion = True
-        verbose     = True
+        verbose = True
     elif o in ('-u', '--uDir'):
-        uDir  = a
+        uDir = a
     else:
         assert False, 'unhandled option'
 

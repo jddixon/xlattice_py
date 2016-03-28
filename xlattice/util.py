@@ -1,37 +1,39 @@
 # xlattice_py/xlattice/xlutil.py
 
-import calendar, time
+import calendar
+import time
 
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'parseDecimalVersion',
-           'parseTimestamp', 'timestamp', 'timestampNow', 
-          ]
+           'parseTimestamp', 'timestamp', 'timestampNow',
+           ]
 
 # DECIMAL VERSION ---------------------------------------------------
+
 
 class DecimalVersion(object):
 
     # __slots__ = ['_value',]
 
     def __init__(self, aIn=None, bIn=None, cIn=None, dIn=None):
-        if aIn == None:
+        if aIn is None:
             aIn = 0
         a = int(aIn)
         if a < 0 or 255 < a:
             raise RuntimeError("version number part a '%d' out of range" % a)
-        if bIn == None:
+        if bIn is None:
             b = 0
         else:
             b = int(bIn)
             if b < 0 or 255 < b:
                 raise RuntimeError("version part b '%d' out of range" % b)
-        if cIn == None:
+        if cIn is None:
             c = 0
         else:
             c = int(cIn)
             if c < 0 or 255 < c:
                 raise RuntimeError("version part c '%d' out of range" % c)
-        if dIn == None:
+        if dIn is None:
             d = 0
         else:
             d = int(dIn)
@@ -39,22 +41,24 @@ class DecimalVersion(object):
                 raise RuntimeError("version part d '%d' out of range" % d)
 
         self._value = (0xff & a)         | ((0xff & b) << 8)  |  \
-                     ((0xff & c) << 16) | ((0xff & d) << 24)
-
+            ((0xff & c) << 16) | ((0xff & d) << 24)
 
     def getA(self):
         return self._value & 0xff
+
     def getB(self):
         return (self._value >> 8) & 0xff
+
     def getC(self):
         return (self._value >> 16) & 0xff
+
     def getD(self):
         return (self._value >> 24) & 0xff
 
-   
     @property
     def value(self):
         return self._value
+
     @value.setter
     def value(self, val):
         if isinstance(val, int):
@@ -67,9 +71,9 @@ class DecimalVersion(object):
             raise RuntimeError("Don't know how to assign '%s' as a value" % (
                 val))
 
-    def __eq__ (self, other):
+    def __eq__(self, other):
 
-        if type(other) != DecimalVersion:
+        if not isinstance(other, DecimalVersion):
             return False
         return self._value == other._value
 
@@ -79,11 +83,11 @@ class DecimalVersion(object):
         c = self.getC()
         d = self.getD()
         if d != 0:
-            s = "%d.%d.%d.%d" % (a,b,c,d)
+            s = "%d.%d.%d.%d" % (a, b, c, d)
         else:
-            s = "%d.%d.%d" % (a,b,c)
+            s = "%d.%d.%d" % (a, b, c)
         return s
-    
+
     def stepMajor(self):
         """
         Increment the major part of the version number, the A in a.b.c.d.
@@ -91,7 +95,7 @@ class DecimalVersion(object):
         """
         a = self.getA()
         a += 1
-        if a > 255:         
+        if a > 255:
             raise RuntimeError("stepMajor() takes it out of range")
         else:
             self.value = DecimalVersion(a)
@@ -104,11 +108,11 @@ class DecimalVersion(object):
         a = self.getA()
         b = self.getB()
         b += 1
-        if b > 255:         
+        if b > 255:
             raise RuntimeError("stepMinor() takes it out of range")
         else:
             self.value = DecimalVersion(a, b)
-    
+
     def stepDecimal(self):
         """
         Increment the decimal part of the version number, the C in a.b.c.d.
@@ -118,7 +122,7 @@ class DecimalVersion(object):
         b = self.getB()
         c = self.getC()
         c += 1
-        if c > 255:         
+        if c > 255:
             raise RuntimeError("stepDecimal() takes it out of range")
         else:
             self.value = DecimalVersion(a, b, c)
@@ -133,18 +137,19 @@ class DecimalVersion(object):
         c = self.getC()
         d = self.getD()
         d += 1
-        if d > 255:         
+        if d > 255:
             raise RuntimeError("stepMicro() takes it out of range")
         else:
             self.value = DecimalVersion(a, b, c, d)
 
+
 def parseDecimalVersion(s):
     """
-    Expect the parameter s to be a string looking like a.b.c.d or a 
+    Expect the parameter s to be a string looking like a.b.c.d or a
     shorter version.  Returns a DecimalVersion object.
     """
 
-    if s == None or s=="":
+    if s is None or s == "":
         raise RuntimeError("nil or empty version string")
 
     dv = None
@@ -171,13 +176,15 @@ def parseDecimalVersion(s):
 # %T is shorthand for %H:%M:%S
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
+
 def parseTimestamp(s):
-    """ 
-    If there is a decimal part to the seconds field, will raise ValueError 
-    with the message 'unconverted data remains: .123456'.  
+    """
+    If there is a decimal part to the seconds field, will raise ValueError
+    with the message 'unconverted data remains: .123456'.
     """
     t = time.strptime(s, TIMESTAMP_FORMAT)
     return calendar.timegm(t)
+
 
 def timestamp(n):       # sec from epoch
     """
@@ -185,7 +192,8 @@ def timestamp(n):       # sec from epoch
     the shorter format.  This truncates microseconds from the time.
     """
     t = time.gmtime(n)
-    return time.strftime(TIMESTAMP_FORMAT,  t)
+    return time.strftime(TIMESTAMP_FORMAT, t)
+
 
 def timestampNow():
     """
@@ -193,5 +201,4 @@ def timestampNow():
     return a string in the shorter format.
     """
     t = time.gmtime()
-    return time.strftime(TIMESTAMP_FORMAT,  t)
-
+    return time.strftime(TIMESTAMP_FORMAT, t)

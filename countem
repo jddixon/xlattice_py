@@ -5,7 +5,7 @@ rm -rf build/* myData/* myU1/* myU2/*  tmp/*
 pySloc -v  $@ \
     txt:MANIFEST.in \
     txt:.gitignore \
-    bash:countem bash:installit \
+    bash:auto8it bash:countem bash:installit \
     bash:makeMoreNodeIDs bash:test.all\
     py:scripts/genNodeID1 py:scripts/genNodeID3 \
     py:verifyContentKeys                        \

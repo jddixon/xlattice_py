@@ -1,21 +1,22 @@
 # xlattice_py/xlattice/crypto.py
 
-__all__ = [ 'AES_BLOCK_SIZE',
-            'pkcs7Padding', 'addPKCS7Padding', 'stripPKCS7Padding',
-            'nextNBLine',  'collectPEMRSAPublicKey',
-            # Classes
-            'SP',
-          ]
+__all__ = ['AES_BLOCK_SIZE',
+           'pkcs7Padding', 'addPKCS7Padding', 'stripPKCS7Padding',
+           'nextNBLine', 'collectPEMRSAPublicKey',
+           # Classes
+           'SP',
+           ]
 
 # EXPORTED CONSTANTS
 
-AES_BLOCK_SIZE  = 16
+AES_BLOCK_SIZE = 16
 
 
 class CryptoException(Exception):
     pass
 
 # PKSC7 PADDING =====================================================
+
 
 def pkcs7Padding(data, blockSize):
     blockSize = int(blockSize)
@@ -36,14 +37,15 @@ def pkcs7Padding(data, blockSize):
         padding[i] = rem        # padding bytes set to length of padding
     return padding
 
+
 def addPKCS7Padding(data, blockSize):
-    if blockSize <= 1 :
+    if blockSize <= 1:
         raise CryptoException("impossible block size")
-    else :
+    else:
         padding = pkcs7Padding(data, blockSize)
-        if not data :
+        if not data:
             out = padding
-        else :
+        else:
             out = data + padding
     return out
 
@@ -53,21 +55,21 @@ def addPKCS7Padding(data, blockSize):
 # is incorrect.
 
 def stripPKCS7Padding(data, blockSize):
-    if blockSize <= 1 :
+    if blockSize <= 1:
         raise CryptoException("impossible block size")
     elif not data:
         raise CryptoException("cannot strip padding from empty data")
     lenData = len(data)
-    if lenData < blockSize :
+    if lenData < blockSize:
         raise CryptoException("data too short to have any padding")
-    else :
+    else:
         # examine the very last byte: it must be padding and must
         # contain the number of padding bytes added
-        lenPadding = data[lenData-1]
-        if lenPadding < 1 or lenData < lenPadding :
+        lenPadding = data[lenData - 1]
+        if lenPadding < 1 or lenData < lenPadding:
             raise CryptoException("incorrect PKCS7 padding")
-        else :
-            out = data[:lenData-lenPadding]
+        else:
+            out = data[:lenData - lenPadding]
     return out
 
 
@@ -76,24 +78,26 @@ def stripPKCS7Padding(data, blockSize):
 class SP(object):
 
     __SPACES__ = ['']
+
     @staticmethod
     def getSpaces(n):
         """ cache strings of N spaces """
         k = len(SP.__SPACES__) - 1
         while k < n:
             k = k + 1
-            SP.__SPACES__.append( ' ' * k) 
-        return SP.__SPACES__[n] 
+            SP.__SPACES__.append(' ' * k)
+        return SP.__SPACES__[n]
+
 
 def nextNBLine(ss):
-    """ 
+    """
     Enter with a reference to a list of lines.  Return the next line
     which is not empty after trimming, advancing the reference to the
     array of strings accordingly.
     """
-    if ss != None:
+    if ss is not None:
         while len(ss) > 0:
-            s  = ss[0]
+            s = ss[0]
             ss = ss[1:]
             s = s.strip()
             if s != '':
@@ -101,16 +105,17 @@ def nextNBLine(ss):
         raise RuntimeError("exhausted list of strings")
     raise RuntimeError("arg to nextNBLine cannot be None")
 
+
 def collectPEMRSAPublicKey(firstLine, ss):
     """
-    Given the opening line of the PEM serializaton of an RSA Public Key, 
+    Given the opening line of the PEM serializaton of an RSA Public Key,
     and a pointer to an array of strings which should begin with the rest
-    of the PEM serialization, return the entire PEM serialization as a 
-    single string.  
+    of the PEM serialization, return the entire PEM serialization as a
+    single string.
     """
 
     firstLine = firstLine.strip()
-    if firstLine != '-----BEGIN RSA PUBLIC KEY-----': 
+    if firstLine != '-----BEGIN RSA PUBLIC KEY-----':
         raise RuntimeError('PEM public key cannot begin with %s' % firstLine)
     foundLast = False
 
@@ -127,11 +132,10 @@ def collectPEMRSAPublicKey(firstLine, ss):
         #print("%2d %s" % (ndx, s))
         # END
         x = x + [s]
-        if s == '-----END RSA PUBLIC KEY-----' :
+        if s == '-----END RSA PUBLIC KEY-----':
             foundLast = True
             break
-    
-    if not foundLast:
-        raise RuntimeError ("didn't find closing line of PEM serialization")
-    return '\n'.join(x), ss
 
+    if not foundLast:
+        raise RuntimeError("didn't find closing line of PEM serialization")
+    return '\n'.join(x), ss

@@ -2,12 +2,14 @@
 
 # dev/py/xlattice_py/testCrypto.py
 
-import os, unittest
+import os
+import unittest
 from rnglib import SimpleRNG
-from xlattice.crypto    import SP
+from xlattice.crypto import SP
+
 
 class TestCrypto (unittest.TestCase):
-    
+
     def setUp(self):
         self.rng = SimpleRNG()
 

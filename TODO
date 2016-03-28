@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py
 
+2016-03-28
+    * get SHA3 bits working or just drop (moved here from pzog)
+    * add test to test.all when if and when it works 
+
 2015-12-02
     * DecimalVersion should have properties a, b, c, d replacing
         getA(), getB(), etc
