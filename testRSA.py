@@ -2,23 +2,29 @@
 
 # xlattice_py/testRSA.py; moved here from buildList
 
-import base64, hashlib, os, time, unittest
+import base64
+import hashlib
+import os
+import time
+import unittest
 from Crypto.PublicKey import RSA
-from Crypto.Hash      import SHA    # presumably 1
+from Crypto.Hash import SHA    # presumably 1
 from Crypto.Signature import PKCS1_PSS
 
-from rnglib         import SimpleRNG
-from buildList      import *
-from xlattice.crypto    import nextNBLine, collectPEMRSAPublicKey
+from rnglib import SimpleRNG
+from buildList import *
+from xlattice.crypto import nextNBLine, collectPEMRSAPublicKey
+
 
 class TestRSA (unittest.TestCase):
 
     def setUp(self):
-        self.rng = SimpleRNG( time.time() )
+        self.rng = SimpleRNG(time.time())
+
     def tearDown(self):
         pass
 
-    def testRSA (self):
+    def testRSA(self):
 
         tmpDir = 'tmp'
         if not os.path.exists(tmpDir):
@@ -68,21 +74,21 @@ class TestRSA (unittest.TestCase):
         sk2 = skPriv2.publickey()
 
         # verify that public key parts are identical
-        self.assertEqual( sk.exportKey('DER'), sk2.exportKey('DER'))
+        self.assertEqual(sk.exportKey('DER'), sk2.exportKey('DER'))
 
         pemFormOfCK = sk.exportKey('PEM')
-        pemStr      = pemFormOfCK.decode('utf-8')
+        pemStr = pemFormOfCK.decode('utf-8')
 
         # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
 
         # depth == 0 test (where depth is number of leading spaces)
         ss = pemStr.split('\n')
-        s  = ss[0]
+        s = ss[0]
         ss = ss[1:]
         pemPK, rest = collectPEMRSAPublicKey(s, ss)
         self.assertEqual(pemPK, pemStr)
 
-        # depth > 0 test 
+        # depth > 0 test
         ss = pemStr.split('\n')
         tt = []
         depth = 1 + self.rng.nextInt16(10)   # so from 1 to 10 inclusive
@@ -90,7 +96,7 @@ class TestRSA (unittest.TestCase):
         for line in ss:
             tt.append(indent + line)
         tt.append('this is a line of junk')
-        s  = tt[0][depth:]
+        s = tt[0][depth:]
         tt = tt[1:]
         pemPK, rest = collectPEMRSAPublicKey(s, tt)
         self.assertEqual(pemPK, pemStr)
@@ -100,7 +106,7 @@ class TestRSA (unittest.TestCase):
         # TEST DIG SIG ----------------------------------------------
 
         count = 64 + self.rng.nextInt16(192)
-        data  = self.rng.someBytes(count)
+        data = self.rng.someBytes(count)
         self.assertTrue(skPriv.can_sign())
         # self.assertFalse(sk, can_sign())  # no such method
 

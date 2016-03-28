@@ -1,0 +1,3 @@
+cd /home/jdd/dev/py/xlattice_py
+
+autopep8 -air xlattice *.py scripts/genNode* verifyContentKeys

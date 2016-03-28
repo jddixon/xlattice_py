@@ -2,24 +2,27 @@
 
 # ~/dev/py/u/verifyContentKeys
 
-import os, re, sys, time
-from argparse   import ArgumentParser
+import os
+import re
+import sys
+import time
+from argparse import ArgumentParser
 
 import u
 
 # PATs AND REs ######################################################
 DIR_NAME_PAT = '^[0-9a-fA-F]{2}$'
-DIR_NAME_RE  = re.compile(DIR_NAME_PAT)
+DIR_NAME_RE = re.compile(DIR_NAME_PAT)
 
 # the default SHA3-based file name
 FILE_NAME_PAT3 = '^[0-9a-fA-F]{64}$'
 # the SHA1-based alternative
 FILE_NAME_PAT1 = '^[0-9a-fA-F]{40}$'
 
+
 def doLeafDir(args, subSub):
     count = 0
-    files = os.listdir(subSub)
-    files.sort()                        # in place
+    files = sorted(os.listdir(subSub))
     for file in files:
         pathTo = os.path.join(subSub, file)
         if args.fileNameRegex.match(file):
@@ -28,47 +31,52 @@ def doLeafDir(args, subSub):
                 hashAsHex = u.fileSHA1(pathTo)
             else:
                 hashAsHex = u.fileSHA3(pathTo)
-            if args.verbose:        print('      ' + pathTo)
+            if args.verbose:
+                print('      ' + pathTo)
             if hashAsHex != file:
                 print("%s has content key %s" % (pathTo, hashAsHex))
         else:
             print("not a proper leaf file name: " + pathTo)
     args.count += count
 
+
 def doSubDir(args, subDir):
-    files = os.listdir(subDir)
-    files.sort()                        # in place
+    files = sorted(os.listdir(subDir))
     for subSub in files:
         pathTo = os.path.join(subDir, subSub)
         if DIR_NAME_RE.match(subSub):
-            if args.verbose:        print('    ' + pathTo)
+            if args.verbose:
+                print('    ' + pathTo)
             doLeafDir(args, pathTo)
         else:
             print("not a proper subsubdirectory: " + pathTo)
 
+
 def doWhatever(args):
-    args.count  = 0
-    uDir        = args.uDir
-    if args.verbose:        print(uDir)
-    files = os.listdir(uDir)
-    files.sort()                        # in place
+    args.count = 0
+    uDir = args.uDir
+    if args.verbose:
+        print(uDir)
+    files = sorted(os.listdir(uDir))
     for subDir in files:
         pathTo = os.path.join(uDir, subDir)
         if DIR_NAME_RE.match(subDir):
-            if args.verbose:        print('  ' + pathTo)
+            if args.verbose:
+                print('  ' + pathTo)
             doSubDir(args, pathTo)
         elif    subDir != 'L'       and \
                 subDir != 'in'      and \
                 subDir != 'nodeID'  and \
-                subDir != 'tmp'   :
+                subDir != 'tmp':
             print("not a proper subdirectory: " + pathTo)
     print("processed %u files" % args.count)
 
+
 def main():
 
-    pgmNameAndVersion   = "verifyContentKey v%s %s" % (
-                                u.__version__, u.__version_date__)
-    timestamp           = "%04d%02d%02d-%02d%02d%02d" % time.gmtime()[:6]
+    pgmNameAndVersion = "verifyContentKey v%s %s" % (
+        u.__version__, u.__version_date__)
+    timestamp = "%04d%02d%02d-%02d%02d%02d" % time.gmtime()[:6]
 
     # -- program defaults -------------------------------------------
     keyLen = 32
@@ -76,41 +84,41 @@ def main():
     # -- check for config file --------------------------------------
 
     # -- parse the command line -------------------------------------
-    # see docs.python.org/library/argparse.html 
+    # see docs.python.org/library/argparse.html
     parser = ArgumentParser()
-   
+
     parser.add_argument('-1', '--usingSHA1', action='store_true',
-            help='use SHA1 hash instead of default SHA3')
+                        help='use SHA1 hash instead of default SHA3')
 
     parser.add_argument('-j', '--justShow', action='store_true',
-            help='show args and exit')
+                        help='show args and exit')
 
     parser.add_argument('-t', '--showTimestamp', action='store_true',
-            help='show run timestamp')
+                        help='show run timestamp')
 
     # just the base name (usually Upax or Upax0) we will fix this up below
-    parser.add_argument('-u', '--uDir',       default='/var/Upax', 
-            help='base name of  U/ directory, defaults to /var/Upax')
+    parser.add_argument('-u', '--uDir', default='/var/Upax',
+                        help='base name of  U/ directory, defaults to /var/Upax')
 
     parser.add_argument('-T', '--testing', action='store_true',
-            help='test run - write to ./testU')
+                        help='test run - write to ./testU')
 
     parser.add_argument('-V', '--showVersion', action='store_true',
-            help='show version number and date')
+                        help='show version number and date')
 
     parser.add_argument('-v', '--verbose', action='store_true',
-            help='talk a lot')
+                        help='talk a lot')
 
     args = parser.parse_args()      # a Namespace object
 
     # -- fixups -----------------------------------------------------
-    args.pgmNameAndVersion  = pgmNameAndVersion
-    args.timestamp          = timestamp
+    args.pgmNameAndVersion = pgmNameAndVersion
+    args.timestamp = timestamp
     if args.usingSHA1:
         print("DEBUG: using SHA1 *** ")
-        args.fileNameRegex  = re.compile(FILE_NAME_PAT1)
+        args.fileNameRegex = re.compile(FILE_NAME_PAT1)
     else:
-        args.fileNameRegex  = re.compile(FILE_NAME_PAT3)
+        args.fileNameRegex = re.compile(FILE_NAME_PAT3)
 
     # -- sanity checks ----------------------------------------------
     if not os.path.exists(args.uDir):
@@ -123,7 +131,7 @@ def main():
     # fixups --------------------------------------------------------
     if args.uDir and args.uDir[-1] == '/':
         args.uDir = args.uDir[:-1]          # drop any trailing slash
-    
+
     # -- do it ------------------------------------------------------
     if args.verbose or args.showVersion or args.justShow:
         print(args.pgmNameAndVersion)
@@ -140,7 +148,7 @@ def main():
         print('uDir             = ' + str(args.uDir))
         print('usingSHA1        = ' + str(args.usingSHA1))
         print('verbose          = ' + str(args.verbose))
-        
+
     if not args.justShow:
         lock = u.ULock(args.uDir)
         try:

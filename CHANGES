@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.4.0
+    2016-03-28
+        * move node.py, testNode.py here from pzog
+        * add and execute auto8it                                   SLOC 1867
+        * move SHA3/Keccak bits here from pzog                      SLOC 1982
+
 v0.3.3
     2016-02-29
         * update CHANGES                                            SLOC 1669
@@ -69,6 +75,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

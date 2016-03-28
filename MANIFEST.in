@@ -1,6 +1,6 @@
 # see http://docs.python.org/distutils/sourcedist.html
 
-include countem installit makeMoreNodeIDs
+include auto8it countem installit makeMoreNodeIDs
 include CHANGES MANIFEST.in README* TODO 
 include test*.py 
 include verifyContentKeys scripts/* makeMoreNodeIDs
