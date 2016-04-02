@@ -3,6 +3,7 @@ cd ~/dev/py/xlattice_py
 rm -rf build/* myData/* myU1/* myU2/*  tmp/*
 
 pySloc -v  $@ \
+    txt:openssl*        \
     txt:MANIFEST.in \
     txt:.gitignore \
     bash:auto8it bash:countem bash:installit \

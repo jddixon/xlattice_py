@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py
 
+2016-04-02
+    * URGENTLY need testing for cFTLogForPy
+    * document cFTLogForPy in {README,index}.py
+
 2016-03-28
     * get SHA3 bits working or just drop (moved here from pzog)
     * add test to test.all when if and when it works 
