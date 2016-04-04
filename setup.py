@@ -10,13 +10,12 @@ __version__ = re.search("__version__\s*=\s*'(.*)'",
 # see http://docs.python.org/distutils/setupscript.html
 
 module1 = Extension('cFTLogForPy',
-                    # include_dirs = ['/usr/include/python2.7',
                     include_dirs=['/usr/include/python3.4m',
                                   '/usr/include',
                                   ],
                     libraries=['ev', ],
                     library_dirs=['/usr/local/lib', ],
-                    sources=[ \
+                    sources=[
                         'extsrc/cFTLogForPy.c',
                         'extsrc/evLoop.c',
                         'extsrc/logBufs.c',
