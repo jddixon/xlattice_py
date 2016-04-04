@@ -8,3 +8,8 @@
 ./testSHA2.py
 ./testTimestamp.py
 ./testULock.py
+
+echo "new cLogForPy tests"
+./testCLogForPy.py
+./testCLogObj.py
+./testLibEv.py

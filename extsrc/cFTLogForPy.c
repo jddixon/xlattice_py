@@ -8,7 +8,7 @@
 int logNdx;                         // 0-based current index
 int secondThreadStarted = false;    // SHOULD NOT NEED ?
 
-cLogDesc_t* logDescs[CLOG_MAX_LOG];             
+cFTLogDesc_t* logDescs[CLOG_MAX_LOG];             
 
 /////////////////////////////////////////////////////////////////////
 // OBJECT-LEVEL CODE 
@@ -47,7 +47,7 @@ LogForPy_init(LogForPyObject *self, PyObject *args) {
     char* pathToLog;
     if (!PyArg_ParseTuple(args, "s", &pathToLog))
         return NULL;
-    int objNdx = _openCLog(pathToLog);
+    int objNdx = _openCFTLog(pathToLog);
     if (objNdx < 0) {
         return NULL;
     }
@@ -65,14 +65,14 @@ LogForPy_getCount(LogForPyObject* self) {
     // XXX SHOULD LOCK
     long count  = (long) logDescs[ndx]->count;
     // XXX AND UNLOCK
-    return PyInt_FromLong(count);
+    return PyLong_FromLong(count);
 }
 /* ndx ----------------------------------------------------------- */
 PyDoc_STRVAR(LogForPy_getNdx__doc__,       "Get objNdx attr.");
 
 static PyObject *
 LogForPy_getNdx(LogForPyObject* self) {
-    return PyInt_FromLong(self->objNdx);
+    return PyLong_FromLong(self->objNdx);
 }
 /* logFile ----------------------------------------------------------- */
 PyDoc_STRVAR(LogForPy_getPathToLog__doc__,       "Get path to log file.");
@@ -80,7 +80,7 @@ PyDoc_STRVAR(LogForPy_getPathToLog__doc__,       "Get path to log file.");
 static PyObject *
 LogForPy_getPathToLog(LogForPyObject* self) {
     int ndx         = (int)self->objNdx;
-    cLogDesc_t* p   = logDescs[ndx];
+    cFTLogDesc_t* p = logDescs[ndx];
     char s[MAX_PATH_LEN+1];
     strncpy(s, p->logDir, MAX_PATH_LEN+1);
     int x = strlen(s);
@@ -92,7 +92,8 @@ LogForPy_getPathToLog(LogForPyObject* self) {
             strncat(s, p->logName, bytesLeft+1);
         }
     }
-    return PyString_FromString(s);
+    // XXX was PyString_FromString
+    return PyBytes_FromString(s);
 }
 
 
@@ -177,6 +178,12 @@ LogForPyType = {
 // MODULE-LEVEL CODE 
 /////////////////////////////////////////////////////////////////////
 
+// Added 2016-04-03 
+struct module_state {
+    PyObject *error;
+}
+#define GETSTATE(m) ((struct module_state*) PyModule_GetState(m))
+
 /* MODULE METHODS -------------------------------------- */
 PyDoc_STRVAR(LogForPy_new__doc__,
 "Return a new LogForPy object.");
@@ -202,13 +209,13 @@ LogForPy_new(PyObject *self, PyObject *args, PyObject *kwdict)
 static PyMethodDef CLogForPyMethods[] = {
     // METH_VARARGS means that the arguments are passed as a tuple
     // which will be parsed with PyArg_ParseTuple()
-    {"initCLogger",     initCLogger,    METH_VARARGS,
+    {"initCFTLogger",     initCFTLogger,    METH_VARARGS,
         "init data structures, start background thread"},
-    {"openCLog",     openCLog,    METH_VARARGS,
+    {"openCFTLog",     openCFTLog,    METH_VARARGS,
         "open named log file"},
     {"logMsg",          logMsg,         METH_VARARGS,
         "write a message to the log"},
-    {"closeCLogger",    closeCLogger,   METH_VARARGS,
+    {"closeCFTLogger",    closeCFTLogger,   METH_VARARGS,
         "stop background thread, join, close log file"},
 
     /* DEFINED IN THIS FILE, ABOVE --------------------- */
@@ -230,7 +237,10 @@ initcFTLogForPy(void) {
 
     // this used to be cast to void; there should be a third, dquoted
     // parameter, a description
-    m = Py_InitModule("cFTLogForPy", CLogForPyMethods);
+    //m = Py_InitModule("cFTLogForPy", CLogForPyMethods);
+   
+    // Python 3
+    m = Py_CreateModule( &moduledef);
     
     if (m == NULL) {
         return;

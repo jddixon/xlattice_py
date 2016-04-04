@@ -14,7 +14,7 @@ struct ev_loop* loop;
  */
 static void
 timedWriterCB(EV_P_ struct ev_timer *w, int revents) {
-    cLogDesc_t* d = logDescs[logNdx];
+    cFTLogDesc_t* d = logDescs[logNdx];
 
     /* XXX THIS IMPLEMENTATION does not handle FULL pages */
 
@@ -36,7 +36,7 @@ timedWriterCB(EV_P_ struct ev_timer *w, int revents) {
 //      write (d->fd, msg, msgLen);
 //      // END
 
-        d->bufInUse = (d->bufInUse + 1) % C_LOG_BUF_COUNT;
+        d->bufInUse = (d->bufInUse + 1) % C_FT_LOG_BUF_COUNT;
 
         // XXX if next page isn't READY, we are in serious trouble
 
@@ -85,7 +85,7 @@ int setupLibEvAndCallbacks(int ndx) {
 // HACKING ABOUT ////////////////////////////////////////////////////
 
 int scheduleWrite(int ndx) {
-    cLogDesc_t* d = logDescs[logNdx];
+    cFTLogDesc_t* d = logDescs[logNdx];
     pthread_mutex_lock(&d->logBufLock);  // get a lock on the descriptor
 
     if (!(d->writeFlags & WRITE_PENDING)) {

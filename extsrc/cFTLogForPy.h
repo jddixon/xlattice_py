@@ -1,7 +1,7 @@
-/* cLogForPy.h */
+/* cFTLogForPy.h */
 
-#ifndef _C_LOG_FOR_PY_H_
-#define _C_LOG_FOR_PY_H_
+#ifndef _C_FT_LOG_FOR_PY_H_
+#define _C_FT_LOG_FOR_PY_H_
 
 // we need something like -I /usr/include/python2.7 on the command line
 // if this isn't first, expect _POSIX_C_SOURCE redefined warnings
@@ -50,7 +50,7 @@ typedef struct _logPage {
 
 #define PATH_SEP '/'
 #define MAX_PATH_LEN (256)
-#define C_LOG_BUF_COUNT (4)
+#define C_FT_LOG_BUF_COUNT (4)
 
 /*
  * This is a data structure allocated for each log in use.  The data structure
@@ -61,8 +61,8 @@ typedef struct _logPage {
  */
 typedef struct _c_log_ {
 
-    logBufDesc_t        logBufDescs[C_LOG_BUF_COUNT];
-    unsigned char       logBuffers[C_LOG_BUF_COUNT * LOG_BUFFER_SIZE];
+    logBufDesc_t        logBufDescs[C_FT_LOG_BUF_COUNT];
+    unsigned char       logBuffers[C_FT_LOG_BUF_COUNT * LOG_BUFFER_SIZE];
 
     // GCC insists upon all the parentheses
     char                logDir [MAX_PATH_LEN+1] __attribute__((aligned(16)));
@@ -79,7 +79,7 @@ typedef struct _c_log_ {
 
     u_int32_t           bufInUse;       // which buffer we are using
     pthread_mutex_t     logBufLock;     // = PTHREAD_MUTEX_INITIALIZER;
-} cLogDesc_t;
+} cFTLogDesc_t;
 
 
 // GLOBALS //////////////////////////////////////////////////////////
@@ -87,7 +87,7 @@ extern int    secondThreadStarted;
 extern struct ev_loop* loop;
 
 extern int logNdx;              // one less than the number of logs open
-extern cLogDesc_t* logDescs[CLOG_MAX_LOG];
+extern cFTLogDesc_t* logDescs[CLOG_MAX_LOG];
 
 extern pthread_t            writerThread;
 // extern int               writerReady;
@@ -104,14 +104,14 @@ extern int   initLogBuffers(int);
 extern int   writerInitThreaded(void);
 
 // MODULE-LEVEL METHODS ////////////////////////////////////
-PyObject* initCLogger(PyObject* self, PyObject* args);
-PyObject* openCLog(PyObject* self, PyObject* args);
+PyObject* initCFTLogger(PyObject* self, PyObject* args);
+PyObject* openCFTLog(PyObject* self, PyObject* args);
 PyObject* logMsg(PyObject* self, PyObject* args);
-PyObject* closeCLogger(PyObject* self, PyObject* args);
+PyObject* closeCFTLogger(PyObject* self, PyObject* args);
 
 // WRAPPED FUNCTIONS //////////////////////////////////////
-int  _openCLog(const char* pathToLog);
+int  _openCFTLog(const char* pathToLog);
 void _logMsg(const int ndx, const char* msg);
 
 
-#endif /* _C_LOG_FOR_PY_H_ */
+#endif /* _C_FT_LOG_FOR_PY_H_ */

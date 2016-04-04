@@ -2,7 +2,7 @@
 
 #include "cFTLogForPy.h"
 
-PyObject* initCLogger(PyObject* self, PyObject* args) {
+PyObject* initCFTLogger(PyObject* self, PyObject* args) {
     // INIT GLOBALS
     logNdx              = -1;           // 0-based current index
     secondThreadStarted = false;        // XXX SHOULD NOT NEED THIS
@@ -23,7 +23,7 @@ PyObject* initCLogger(PyObject* self, PyObject* args) {
  *
  * NOTE that the name begins with an underscore (_).
  */
-int _openCLog(const char* pathToLog) {
+int _openCFTLog(const char* pathToLog) {
     int status = 0;
     logNdx++;                               // USED in openLogFile
     int fd = openLogFile(pathToLog);
@@ -44,15 +44,15 @@ int _openCLog(const char* pathToLog) {
         return logNdx;
     }
 }
-PyObject* openCLog(PyObject* self, PyObject* args) {
+PyObject* openCFTLog(PyObject* self, PyObject* args) {
     char* pathToLog;
     if (!PyArg_ParseTuple(args, "s", &pathToLog))
         return NULL;
-    int status = _openCLog(pathToLog);
+    int status = _openCFTLog(pathToLog);
     return Py_BuildValue("i", status);
 }
 
-PyObject* closeCLogger(PyObject* self, PyObject* args) {
+PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
 
     // we'll just ignore any arguments
     int status = 0;
@@ -188,14 +188,14 @@ void _logMsg(const int ndx, const char* msg) {
 //          fflush(stdout);
 //          // END
         logDescs[ndx]->bufInUse =
-                    (logDescs[ndx]->bufInUse + 1) % C_LOG_BUF_COUNT;
+                    (logDescs[ndx]->bufInUse + 1) % C_FT_LOG_BUF_COUNT;
         /* RISK OF INFINITE LOOP */
         // XXX This risk is real: we sometimes get an infinite loop
         for (p = &logDescs[ndx]->logBufDescs[logDescs[ndx]->bufInUse];
                     p->flags != READY_BUF;
                     p = &logDescs[ndx]->logBufDescs[logDescs[ndx]->bufInUse] )
             logDescs[ndx]->bufInUse =
-                    (logDescs[ndx]->bufInUse + 1) % C_LOG_BUF_COUNT;
+                    (logDescs[ndx]->bufInUse + 1) % C_FT_LOG_BUF_COUNT;
     }
     // write msg to active page and update offset; NOT null-terminated
     memcpy(p->data + p->offset, msg, len);

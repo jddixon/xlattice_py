@@ -3,16 +3,16 @@
 #include "cFTLogForPy.h"
 
 // local prototypes 
-static cLogDesc_t* cLogAllocInit(const char* logDir, const char* logName);
+static cFTLogDesc_t* cLogAllocInit(const char* logDir, const char* logName);
 
 int initLogBuffers(ndx) {
     memset(logDescs[ndx]->logBufDescs, 0, 
-                                C_LOG_BUF_COUNT * sizeof(logBufDesc_t));
+                                C_FT_LOG_BUF_COUNT * sizeof(logBufDesc_t));
 
     // paranoia is good for the soul
     pthread_mutex_lock(&logDescs[ndx]->logBufLock);
     int i;
-    for (i = 0; i < C_LOG_BUF_COUNT; i++) {
+    for (i = 0; i < C_FT_LOG_BUF_COUNT; i++) {
         logBufDesc_t* p = logDescs[ndx]->logBufDescs + i;
         p->flags = i == 0 ? ACTIVE_BUF : READY_BUF;
         p->pageBytes = LOG_BUFFER_SIZE;
@@ -110,7 +110,7 @@ int checkDirs(const char* pathToLog) {
 /** Deallocates a single descriptor */
 // static 
 void cLogDealloc(int ndx) {
-    cLogDesc_t* cLog = logDescs[ndx];
+    cFTLogDesc_t* cLog = logDescs[ndx];
     if (cLog != NULL) {
         free(cLog);
         printf("*** cLog deallocated desc %d successfully ***\n", ndx);
@@ -131,9 +131,9 @@ void initLogDescs(void) {
  * into the logDescs table.
  */
 static 
-cLogDesc_t* cLogAllocInit(const char* logDir, const char* logName) {
+cFTLogDesc_t* cLogAllocInit(const char* logDir, const char* logName) {
     // XXX CHECK FOR NULL OR OUTSIZED PARAMETERS XXX
-    cLogDesc_t* cLog = calloc(1, sizeof(cLogDesc_t));
+    cFTLogDesc_t* cLog = calloc(1, sizeof(cFTLogDesc_t));
     if (cLog != NULL) {
         // this cannot be set with PTHREAD_MUTEX_INITIALIZER because it isn't
         // static; and similarly for the next two fields
@@ -172,7 +172,7 @@ int openLogFile(const char* pathToLog) {
         status  = logFD
                 = open(pathToLog, O_CREAT | O_APPEND | O_WRONLY,
                                 S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-        cLogDesc_t* sd   = cLogAllocInit(logDir, logName);
+        cFTLogDesc_t* sd   = cLogAllocInit(logDir, logName);
         sd->fd           = logFD;
         logDescs[logNdx] = sd;
 
