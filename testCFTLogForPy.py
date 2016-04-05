@@ -42,8 +42,7 @@ class TestCFTLogForPy (unittest.TestCase):
         logFile = self.uniqueFileName()
         status = initCFTLogger()
         status = openCFTLog(logFile)
-        # THIS FAILS
-        # self.assertEquals(0, status)
+        self.assertEqual(0, status)
         time.sleep(0.2)
         if status:
             print("openCFTLog failed, status is %d" % status)
@@ -51,7 +50,7 @@ class TestCFTLogForPy (unittest.TestCase):
             time.sleep(0.2)
             status = closeCFTLogger()
         time.sleep(0.2)
-        self.assertEquals(0, status)
+        self.assertEqual(0, status)
         os.path.exists(logFile)
 
     class DumbLogger:
@@ -70,11 +69,11 @@ class TestCFTLogForPy (unittest.TestCase):
         logger = self.DumbLogger()
         time.sleep(0.1)
         status = logger.openLog()
-        self.assertEquals(0, status)
+        self.assertEqual(0, status)
         time.sleep(0.1)
         status = logger.closeLog()
         time.sleep(0.1)
-        self.assertEquals(0, status)
+        self.assertEqual(0, status)
         self.assertTrue(os.path.exists(logger.logFile))
 
     def testInitialization(self):
@@ -82,7 +81,6 @@ class TestCFTLogForPy (unittest.TestCase):
         logFile = self.uniqueFileName()
         status = initCFTLogger()
         logNdx = openCFTLog(logFile)
-        # XXX STUPID TEST
         if logNdx:
             print("openCFTLogger failed, logNdx is %d" % logNdx)
         else:

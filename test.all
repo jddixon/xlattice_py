@@ -13,3 +13,5 @@ echo "new cLogForPy tests"
 ./testCFTLogForPy.py
 ./testCFTLogObj.py
 ./testLibEv.py
+./testLogMgr.py
+./testTwoLogs.py

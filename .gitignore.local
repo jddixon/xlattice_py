@@ -1,2 +1,4 @@
 xxmodule*
 xxsubtype*
+*.so
+logs

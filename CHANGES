@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.3
+    2016-04-05
+        * all tests succeed, debug prints turned off                SLOC 2843
+        * add LogMgr, testLogMgr.py, testTwoLogs.py                 SLOC 2984
 v0.5.2
     2016-04-04
         * testCFTLogForPy.py, testLibEv.py succeed                  SLOC 2792
@@ -83,6 +87,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
