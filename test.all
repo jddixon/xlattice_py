@@ -10,6 +10,6 @@
 ./testULock.py
 
 echo "new cLogForPy tests"
-./testCLogForPy.py
-./testCLogObj.py
+./testCFTLogForPy.py
+./testCFTLogObj.py
 ./testLibEv.py
