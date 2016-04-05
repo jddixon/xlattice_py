@@ -76,9 +76,9 @@ PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
     nanosleep(&ts, NULL);
 
     // stop the background event loop -------------------------------
-    printf("  DESTROYING event loop\n"); fflush(stdout);
+    // printf("  DESTROYING event loop\n"); fflush(stdout);
     ev_loop_destroy(loop);          // we created it, so this is safe
-    printf("  ... event loop destroyed\n"); fflush(stdout);
+    // printf("  ... event loop destroyed\n"); fflush(stdout);
 
     // we get (25% of the time with twoWrites = 3; 10% with 6; 20% with 10)
     //     (libev) epoll_wait: Bad file descriptor
@@ -89,7 +89,7 @@ PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
     if (e)
         perror("join with writer thread");
 
-    printf("JOIN COMPLETE\n");      fflush(stdout);
+    // printf("JOIN COMPLETE\n");      fflush(stdout);
 
     //===============================================================
     // XXX SEGFAULT but empty log file if we return here ============
@@ -122,7 +122,7 @@ PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
             if (status)
                 perror("fsync to fd");
         }
-        printf("ABOUT TO ACTUALLY CLOSE LOG FILE %d\n", ndx);
+        // printf("ABOUT TO ACTUALLY CLOSE LOG FILE %d\n", ndx);
         // close the log file -------------------------------------------
         if (!status && (logDescs[ndx]->fd >= 0)) {
             status = close(logDescs[ndx]->fd);

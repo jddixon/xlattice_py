@@ -77,7 +77,7 @@ int setupLibEvAndCallbacks(int ndx) {
     ev_timer_init(&logDescs[ndx]->t_watcher, timedWriterCB, 0.1, 0);
     ev_timer_start(loop, &logDescs[ndx]->t_watcher);
     // DEBUG
-    printf ("setup watcher for libNdx %d\n", ndx);
+    // printf ("setup watcher for libNdx %d\n", ndx);
     // END
     return 0;
 } 
@@ -93,7 +93,7 @@ int scheduleWrite(int ndx) {
         ev_timer_init(&d->t_watcher, timedWriterCB, 0.1, 0);
         ev_timer_start(loop, &d->t_watcher);
         // DEBUG
-        printf ("setup watcher for libNdx %d\n", ndx);
+        // printf ("setup watcher for libNdx %d\n", ndx);
         // END
         d->writeFlags |= WRITE_PENDING; 
     }

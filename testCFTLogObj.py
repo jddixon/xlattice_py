@@ -7,7 +7,7 @@ import sys
 import time
 import unittest
 import xlattice
-sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
+sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 import cFTLogForPy
 from cFTLogForPy import (
@@ -36,20 +36,20 @@ class TestCLogObj (unittest.TestCase):
     def testVersionAndMaxLog(self):
         version = xlattice.__version__
         print("VERSION %s" % version, end=' ')
-        if version < '0.5.1':
+        if version >= '0.5.1':
             print(" %s" % xlattice.__version_date__)
-            self.assertEquals(16, cFTLogForPy.max_log)
+            self.assertEqual(16, cFTLogForPy.max_log)
         else:
             print(" THIS IS AN OLD VERSION OF THE LIBRARY")
 
-#    def testCtor(self):
-#        status = initCFTLogger()
-#        logFile = self.uniqueFileName()
-#        obj = cFTLogForPy       ## ???
-#        obj.init(logFile)
-#        self.assertEquals(0, obj.ndx())
-#        self.assertEquals(0, obj.count())
-#        self.assertEquals(logFile, obj.logFile())
+    def testCtor(self):
+        status = initCFTLogger()
+        logFile = self.uniqueFileName()
+        obj = cFTLogForPy.LogForPy()
+        obj.init(logFile)
+        self.assertEqual(0, obj.ndx())
+        self.assertEqual(0, obj.count())
+        self.assertEqual(logFile, obj.logFile())
 
     def testCount(self):
         messages = ["now is the winter of our discontent\n",
@@ -60,24 +60,25 @@ class TestCLogObj (unittest.TestCase):
         logFile = self.uniqueFileName()
         # this 3-line stanza needs to be shortened
         status = initCFTLogger()
-        obj = cFTLogForPy.cFTLogForPy()
+        obj = cFTLogForPy.LogForPy()
         obj.init(logFile)
-        self.assertEquals(logFile, obj.logFile())       # must follow init()
+        self.assertEqual(logFile, obj.logFile())       # must follow init()
 
         logNdx = obj.ndx()
-        self.assertEquals(0, logNdx)
+        self.assertEqual(0, logNdx)
         expected = 0
         count = obj.count()
-        self.assertEquals(expected, count)
+        self.assertEqual(expected, count)
         for msg in messages:
             obj.logMsg(msg)
             expected += 1
             count = obj.count()
-            self.assertEquals(expected, count)
+            self.assertEqual(expected, count)
 
         # XXX OLD MODULE-LEVEL FUNC
         status = closeCFTLogger(logNdx)
-        print("closeCFTLogger returns %s" % str(status))   # GEEP
+        # print("closeCFTLogger returns %s" % str(status))   # GEEP
+        self.assertEqual(status, 0)
 
 if __name__ == '__main__':
     unittest.main()

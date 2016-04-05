@@ -113,7 +113,7 @@ void cLogDealloc(int ndx) {
     cFTLogDesc_t* cLog = logDescs[ndx];
     if (cLog != NULL) {
         free(cLog);
-        printf("*** cLog deallocated desc %d successfully ***\n", ndx);
+        // printf("*** cLog deallocated desc %d successfully ***\n", ndx);
         logDescs[ndx] = NULL;
     }
 

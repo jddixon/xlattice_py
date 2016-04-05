@@ -18,3 +18,5 @@ __pycache__
 THIS.IS.A.GIT*
 xxmodule*
 xxsubtype*
+*.so
+logs
