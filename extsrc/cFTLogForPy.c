@@ -39,8 +39,7 @@ LogForPy_dealloc(PyObject *ptr)
 }
 
 /* LogForPy __init__ ---------------------------------------------- */
-PyDoc_STRVAR(LogForPy_init__doc__,
-"Initialize log object.");
+PyDoc_STRVAR(LogForPy_init__doc__,          "Initialize log object.");
 
 static PyObject *
 LogForPy_init(LogForPyObject *self, PyObject *args) {
@@ -49,11 +48,11 @@ LogForPy_init(LogForPyObject *self, PyObject *args) {
         return NULL;
     int objNdx = _openCFTLog(pathToLog);
     if (objNdx < 0) {
-        return NULL;
+        Py_RETURN_NONE;
     }
     self->objNdx = objNdx;
     Py_INCREF(Py_None);             // XXX ???
-    return Py_None;
+    Py_RETURN_NONE;
 }
 
 /* count --------------------------------------------------------- */
@@ -93,7 +92,7 @@ LogForPy_getPathToLog(LogForPyObject* self) {
         }
     }
     // XXX was PyString_FromString
-    return PyBytes_FromString(s);
+    return PyUnicode_FromString(s);
 }
 
 
@@ -181,12 +180,12 @@ LogForPyType = {
 // Added 2016-04-03 
 struct module_state {
     PyObject *error;
-}
-#define GETSTATE(m) ((struct module_state*) PyModule_GetState(m))
+};
+
+// #define GETSTATE(m) ((struct module_state*) PyModule_GetState(m))
 
 /* MODULE METHODS -------------------------------------- */
-PyDoc_STRVAR(LogForPy_new__doc__,
-"Return a new LogForPy object.");
+PyDoc_STRVAR(LogForPy_new__doc__,   "Return a new LogForPy object.");
 
 static PyObject *
 LogForPy_new(PyObject *self, PyObject *args, PyObject *kwdict)
@@ -204,18 +203,18 @@ LogForPy_new(PyObject *self, PyObject *args, PyObject *kwdict)
     return (PyObject *)new;
 }
 
-// the method table - other methods referred to are defined in modFunc.c
+/* METHOD TABLE - other methods referred to are defined in modFunc.c */
 
-static PyMethodDef CLogForPyMethods[] = {
+static PyMethodDef cFTLogForPyMethods[] = {
     // METH_VARARGS means that the arguments are passed as a tuple
     // which will be parsed with PyArg_ParseTuple()
-    {"initCFTLogger",     initCFTLogger,    METH_VARARGS,
+    {"initCFTLogger",   initCFTLogger,      METH_VARARGS,
         "init data structures, start background thread"},
-    {"openCFTLog",     openCFTLog,    METH_VARARGS,
+    {"openCFTLog",      openCFTLog,         METH_VARARGS,
         "open named log file"},
-    {"logMsg",          logMsg,         METH_VARARGS,
+    {"logMsg",          logMsg,             METH_VARARGS,
         "write a message to the log"},
-    {"closeCFTLogger",    closeCFTLogger,   METH_VARARGS,
+    {"closeCFTLogger",  closeCFTLogger,     METH_VARARGS,
         "stop background thread, join, close log file"},
 
     /* DEFINED IN THIS FILE, ABOVE --------------------- */
@@ -224,43 +223,39 @@ static PyMethodDef CLogForPyMethods[] = {
     {NULL, NULL, 0, NULL}       /* sentinel = end of this list */
 };
 
+/* MODULE DEFINITION --------------------------------------------- */
+
+static struct PyModuleDef ftLogModule = {
+    PyModuleDef_HEAD_INIT,
+    "cFTLogForPy",
+    NULL,                   /* should be pointer to doc */
+    -1,                     // keeps state
+    cFTLogForPyMethods
+};
+                            
 /* MODULE INITIALIZATION  ---------------------------------------- */
 
 /* the method name MUST be "init" prefixed to the module name */
 
 PyMODINIT_FUNC
-initcFTLogForPy(void) {
+PyInit_cFTLogForPy(void) {
     PyObject *m;
     Py_TYPE(&LogForPyType) = &PyType_Type;          // cant
     if (PyType_Ready(&LogForPyType) < 0)
-        return;
+        return NULL;
 
     // this used to be cast to void; there should be a third, dquoted
     // parameter, a description
-    //m = Py_InitModule("cFTLogForPy", CLogForPyMethods);
+    //m = Py_InitModule("cFTLogForPy", CFTLogForPyMethods);
    
-    // Python 3
-    m = Py_CreateModule( &moduledef);
+    m = PyModule_Create( &ftLogModule);
     
     if (m == NULL) {
-        return;
+        return NULL;
     }
     // XXX ADD A CONSTANT, JUST FOR FUN
     PyModule_AddIntConstant(m, "max_log", CLOG_MAX_LOG);
-}
 
-// XXX EVERYTHING IN THIS FUNCTION MUST ALSO BE IN THE VERSION ABOVE 
-// PyMODINIT_FUNC
-// OTHER_initcFTLogForPy(void)
-// {
-//     PyObject *m;
-// 
-//     Py_TYPE(&LogForPyType) = &PyType_Type;
-//     if (PyType_Ready(&LogForPyType) < 0) {
-//         return;
-//     }
-//     m = Py_InitModule("cFTLogForPy", LogForPy_functions);
-//     if (m == NULL) {
-//         return;
-//     }
-// }  
+
+    return m;
+}

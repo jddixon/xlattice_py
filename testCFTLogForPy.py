@@ -5,8 +5,8 @@ import os
 import time
 import unittest
 import sys
+import xlattice
 sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
-sys.path.insert(0, 'pkg')                        # for current Python code
 
 from cFTLogForPy import (
     initCFTLogger, openCFTLog, logMsg, closeCFTLogger)
@@ -33,7 +33,7 @@ class TestCFTLogForPy (unittest.TestCase):
     def testVersion(self):
         version = xlattice.__version__
         print("VERSION %s" % version, end=' ')
-        if version >= '2.1.0':
+        if version >= '0.5.1':
             print(" %s" % xlattice.__version_date__)
         else:
             self.fail("have loaded an old version of the library")
