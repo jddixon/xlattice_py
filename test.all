@@ -9,9 +9,10 @@
 ./testTimestamp.py
 ./testULock.py
 
-echo "new cLogForPy tests"
+echo "new tests"
 ./testCFTLogForPy.py
 ./testCFTLogObj.py
 ./testLibEv.py
 ./testLogMgr.py
+./testProcLock.py
 ./testTwoLogs.py
