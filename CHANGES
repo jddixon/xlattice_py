@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.4
+    2016-04-06
+        * add procLock and test                                     SLOC 3083
 v0.5.3
     2016-04-05
         * all tests succeed, debug prints turned off                SLOC 2843
@@ -87,6 +90,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
