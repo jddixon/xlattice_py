@@ -7,7 +7,7 @@ import sys
 import time
 from cFTLogForPy import (initCFTLogger, openCFTLog, logMsg, closeCFTLogger)
 
-__all__ = ['ProcLockMgr', ]
+__all__ = ['ProcLock', ]
 
 # CONSTANTS #########################################################
 
@@ -17,7 +17,7 @@ SH = '/bin/sh'
 # -------------------------------------------------------------------
 
 
-class ProcLockMgr(object):
+class ProcLock(object):
 
     def __init__(self, pgmName, pidDir='/tmp/run'):
         self._pid = os.getpid()
@@ -28,13 +28,13 @@ class ProcLockMgr(object):
         # pid is running, we are done, there is nothing else to do.
         # Otherwise we will overwrite the PID file.
         if os.path.exists(self._pidFile):
-            pidRunning = ProcLockMgr.readOneLineFile(self._pidFile)
-            whether = ProcLockMgr.isProcessRunning(pidRunning)
+            pidRunning = ProcLock.readOneLineFile(self._pidFile)
+            whether = ProcLock.isProcessRunning(pidRunning)
             if(whether):
                 sys.exit()
         if not os.path.exists(pidDir):
             os.makedirs(pidDir)         # the run directory is created
-        ProcLockMgr.writeOneLineFile(self._pidFile, str(self._pid))
+        ProcLock.writeOneLineFile(self._pidFile, str(self._pid))
 
     @property
     def pid(self):
@@ -56,7 +56,8 @@ class ProcLockMgr(object):
         p = subprocess.Popen([PS, 'waux'], stdout=subprocess.PIPE)
         if p:
             while (True):
-                line = p.stdout.readline()
+                # XXX
+                line = p.stdout.read().decode('utf-8')
                 if (line == ''):
                     break
                 m = pat.match(line)
@@ -78,18 +79,19 @@ class ProcLockMgr(object):
     # UTILITY FUNCTIONS
     @staticmethod
     def readOneLineFile(name):
-        with open(name, "r") as f:
-            return f.readline().strip()
+        with open(name, "rb") as f:
+            data = f.read()
+            return data.decode('utf-8').strip()
 
     @staticmethod
     def readOneLineFileIf(fileName, default):
         ret = default
         if (os.path.exists(fileName)):
-            ret = ProcLockMgr.readOneLineFile(fileName)
+            ret = ProcLock.readOneLineFile(fileName)
         return ret
 
-    # EXCEPTIONS are ignored
+    # possible EXCEPTIONS are ignored
     @staticmethod
     def writeOneLineFile(fileName, value):
-        with open(fileName, 'w') as f:
-            f.write(value)
+        with open(fileName, 'wb') as f:
+            f.write(value.encode('utf-8'))

@@ -1,14 +1,27 @@
 ~/dev/py/xlattice_py
 
+2016-04-07 (edited from -06)
+    * ProcLock should be more 'atomic': 
+        - write lock file under a different name
+        - then rename it to proper name (shortens race period); 
+        - could read it after creation to confirm PID is as expected
+            * raise exception if it fails
+        - similary rename it before deleting it
+    * eventually need 2-phase lock (lock A,B,C, unlock C,B,A)
+        - and a lock daemon
+
+2016-04-06
+    * testProcLock.py should wrap call to ProcLockMgr in try/finally    * DONE
+
 2016-04-04
-    * integrate in LogMgr or drop testTwoLogs.py
+    * integrate in LogMgr or drop testTwoLogs.py                        * ADDED
 
 2016-04-03
     * get rid of warning messages from building extsrc/
     * complete conversion from Python 2.7 to Python 3
     
 2016-04-02
-    * URGENTLY need testing for cFTLogForPy
+    * URGENTLY need testing for cFTLogForPy                             * DONE
     * document cFTLogForPy in {README,index}.py
 
 2016-03-28
