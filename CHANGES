@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.5
+    2016-04-07
+        * rename ProcLockMgr ProcLock
+        * fixed unicode encode/decode error                         SLOC 3096
 v0.5.4
     2016-04-06
         * add procLock and test                                     SLOC 3083
@@ -90,6 +94,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
