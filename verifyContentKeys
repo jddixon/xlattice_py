@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# ~/dev/py/u/verifyContentKeys
+# ~/dev/py/xlattice_py/verifyContentKeys
 
 import os
 import re
