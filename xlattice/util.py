@@ -77,6 +77,137 @@ class DecimalVersion(object):
             return False
         return self._value == other._value
 
+    def __lt__(self, other):
+        sA = self.getA()
+        oA = other.getA()
+        if sA < oA:
+            return True
+        if sA > oA:
+            return False
+
+        sB = self.getC()
+        oB = other.getC()
+        if sB < oB:
+            return True
+        if sB > oB:
+            return False
+
+        sC = self.getC()
+        oC = other.getC()
+        if sC < oC:
+            return True
+        if sC > oC:
+            return False
+
+        sD = self.getD()
+        oD = other.getD()
+        if sD < oD:
+            return True
+        return False
+
+        if self.getA() < other.getA():
+            return False
+        if self.getB() < other.getB():
+            return False
+        if self.getC() < other.getC():
+            return False
+        if self.getD() <= other.getD():
+            return False
+        return True
+
+    def __le__(self, other):
+        sA = self.getA()
+        oA = other.getA()
+        if sA < oA:
+            return True
+        if sA > oA:
+            return False
+
+        sB = self.getB()
+        oB = other.getB()
+        if sB < oB:
+            return True
+        if sB > oB:
+            return False
+
+        sC = self.getC()
+        oC = other.getC()
+        if sC < oC:
+            return True
+        if sC > oC:
+            return False
+
+        sD = self.getD()
+        oD = other.getD()
+        if sD <= oD:
+            return True
+        return False
+        if self.getA() < other.getA():
+            return False
+        if self.getB() < other.getB():
+            return False
+        if self.getC() < other.getC():
+            return False
+        if self.getD() < other.getD():
+            return False
+        return True
+
+    def __gt__(self, other):
+        sA = self.getA()
+        oA = other.getA()
+        if sA > oA:
+            return True
+        if sA < oA:
+            return False
+
+        sB = self.getC()
+        oB = other.getC()
+        if sB > oB:
+            return True
+        if sB < oB:
+            return False
+
+        sC = self.getC()
+        oC = other.getC()
+        if sC > oC:
+            return True
+        if sC < oC:
+            return False
+
+        sD = self.getD()
+        oD = other.getD()
+        if sD > oD:
+            return True
+        return False
+
+    def __ge__(self, other):
+        sA = self.getA()
+        oA = other.getA()
+        if sA > oA:
+            return True
+        if sA < oA:
+            return False
+
+        sB = self.getB()
+        oB = other.getB()
+        if sB > oB:
+            return True
+        if sB < oB:
+            return False
+
+        sC = self.getC()
+        oC = other.getC()
+        if sC > oC:
+            return True
+        if sC < oC:
+            return False
+
+        sD = self.getD()
+        oD = other.getD()
+        if sD >= oD:
+            return True
+        return False
+
     def __str__(self):
         a = self.getA()
         b = self.getB()

@@ -179,5 +179,105 @@ class TestDecimalVErsion (unittest.TestCase):
             except RuntimeError:
                 pass
 
+    def testBooleans(self):
+
+        # test __eq__()
+        v1, a1, b1, c1, d1, dv1 = self.makeDecimalVersion()
+        self.assertEqual(dv1, dv1)
+        v2, a2, b2, c2, d2, dv2 = self.makeDecimalVersion()
+        self.assertEqual(dv2, dv2)
+        while v1 == v2:
+            v2, a2, b2, c2, d2, dv2 = self.makeDecimalVersion()
+            self.assertEqual(dv2, dv2)
+        self.assertNotEqual(dv1, dv2)
+
+        # test __lt__() ---------------------------------------------
+        self.assertFalse(dv1 < dv1)
+        self.assertFalse(dv2 < dv2)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 2, 3, 5)
+        self.assertTrue(x < y)
+        self.assertFalse(y < x)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 3, 4, 5)
+        self.assertTrue(x < y)
+        self.assertFalse(y < x)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(2, 2, 4, 5)
+        self.assertTrue(x < y)
+        self.assertFalse(y < x)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x < y)
+        self.assertFalse(y < x)
+
+        # test __le__() ---------------------------------------------
+        self.assertTrue(dv1 <= dv1)
+        self.assertTrue(dv2 <= dv2)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 2, 3, 5)
+        self.assertTrue(x <= y)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 3, 4, 5)
+        self.assertTrue(x <= y)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(2, 2, 4, 5)
+        self.assertTrue(x <= y)
+
+        x = DecimalVersion(1, 2, 3, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x <= y)
+
+        # test __gt__() ---------------------------------------------
+        self.assertFalse(dv1 > dv1)
+        self.assertFalse(dv2 > dv2)
+
+        x = DecimalVersion(1, 2, 3, 6)
+        y = DecimalVersion(1, 2, 3, 5)
+        self.assertTrue(x > y)
+        self.assertFalse(y > x)
+
+        x = DecimalVersion(1, 2, 5, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x > y)
+        self.assertFalse(y > x)
+
+        x = DecimalVersion(1, 3, 5, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x > y)
+        self.assertFalse(y > x)
+
+        x = DecimalVersion(2, 2, 3, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x > y)
+        self.assertFalse(y > x)
+
+        # test __ge__() ---------------------------------------------
+        self.assertTrue(dv1 >= dv1)
+        self.assertTrue(dv2 >= dv2)
+
+        x = DecimalVersion(1, 2, 3, 6)
+        y = DecimalVersion(1, 2, 3, 5)
+        self.assertTrue(x >= y)
+
+        x = DecimalVersion(1, 2, 7, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x >= y)
+
+        x = DecimalVersion(1, 5, 3, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x >= y)
+
+        x = DecimalVersion(21, 2, 3, 4)
+        y = DecimalVersion(1, 2, 4, 5)
+        self.assertTrue(x >= y)
+
 if __name__ == '__main__':
     unittest.main()
