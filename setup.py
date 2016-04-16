@@ -30,6 +30,7 @@ setup(name='xlattice',
       py_modules=[],
       packages=['xlattice', ],
       scripts=[
+           'uConsolidate',
            'scripts/genNodeID1',
            'scripts/genNodeID3',
            'verifyContentKeys', ],
