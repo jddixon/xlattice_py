@@ -1,5 +1,20 @@
 ~/dev/py/xlattice_py
 
+2016-04-17
+    * need u16x16 storage
+        - ditto for UFLAT
+    * need comprehensive testSha{1,2,3}.py
+    * need test functions to create randomish
+        - u256x256 directories with or without in/, tmp/, L
+        - ditto for u16x16
+        - ditto for uFLAT
+    * this is a library extending rnglib
+
+2016-04-16
+    * need utility uWriteable to make all leaf files in U read-only
+    * need utility uReadOnly  to make all leaf files in U read-write
+    * uConsolidate needs -V/--version option
+
 2016-04-07 (edited from -06)
     * ProcLock should be more 'atomic': 
         - write lock file under a different name

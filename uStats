@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/uStats
+
+import os, stat, sys
+from argparse import ArgumentParser
+
+from xlattice import (__version__, __version_date__)
+from xlattice.stats import collectStats
+
+def doRun(options):
+
+    inDir   = options.inDir
+    outDir  = options.outDir
+    verbose = options.verbose
+
+    # XXX options.outDir currently ignored
+
+    (subDirCount, subSubDirCount, leafCount, oddCount, hasL, hasNodeID) = \
+            collectStats(inDir, outDir, verbose)
+
+    print(
+    "%3d subDirectories, %5d subSubDirectories, %6d leaf files, %d oddities" % (subDirCount, subSubDirCount, leafCount, oddCount))
+
+    if hasL:
+        print("  L present")
+    if hasNodeID:
+        print("  nodeID present")
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    DESC = 'move valid files from input U subdirectory to output subdir'
+    parser = ArgumentParser(description=DESC)
+
+    parser.add_argument('-i', '--inDir', default='/var/U',
+                        help="source U directory (default=/var/U) ")
+
+    parser.add_argument('-j', '--justShow', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-o', '--outDir', type=str,
+                        help='destination directory')
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    args = parser.parse_args()
+
+    # fixups --------------------------------------------------------
+
+    # sanity checks -------------------------------------------------
+
+    if not args.inDir or not os.path.exists(args.inDir):
+        print("input directory '%s' does not exist" % args.inDir)
+        parser.print_help()
+        sys.exit(1)
+
+    if args.outDir and not os.path.exists(args.outDir):
+        print("output directory '%s' does not exist" % args.outDir)
+        parser.print_help()
+        sys.exit(1)
+
+    # complete setup ------------------------------------------------
+    appName = 'uStats %s' % __version__
+
+    # maybe show options and such -----------------------------------
+    if args.verbose or args.justShow:
+        print("%s %s" % (appName, __version_date__))
+
+    if args.verbose or args.justShow:
+        print('inDir        = ' + str(args.inDir))
+        print('outDir       = ' + str(args.outDir))
+        print('justShow     = ' + str(args.justShow))
+        print('verbose      = ' + str(args.verbose))
+
+    if args.justShow:
+        sys.exit(0)
+
+    # do what's required --------------------------------------------
+    doRun(args)
+
+
+if __name__ == '__main__':
+    main()
