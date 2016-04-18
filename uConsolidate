@@ -2,9 +2,7 @@
 
 # ~/dev/py/xlattice_py/uConsolidate
 
-import os
-import shutil
-import sys
+import os, shutil, stat, sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
@@ -41,19 +39,48 @@ def doRun(options):
             if files:
                 for file in files:
                     count = count + 1
-                    pathToFile = os.path.join(subSubDir, file)
-                    key = fileSHA1Hex(pathToFile)
+                    pathToSrc = os.path.join(subSubDir, file)
+                    key = fileSHA1Hex(pathToSrc)
                     # what whould be the the normal case
                     if key == file:
                         pathToDest = os.path.join(destSubSubDir, file)
                         if dontDoIt:
                             print("would be moving\n\t%s to \n\t%s" % (
-                                pathToFile, pathToDest))
+                                pathToSrc, pathToDest))
                         else:
-                            shutil.move(pathToFile, pathToDest)
+                            # check write permission on source
+                            srcInfo = os.lstat(pathToSrc)
+                            srcMode = srcInfo[stat.ST_MODE]
+                            print("src mode is   %6o" % srcMode)
+                            print("write flag is %6o" % stat.S_IWUSR)
+                            if (srcMode & stat.S_IWUSR) == 0:
+                                os.chmod(pathToSrc, 0o644)
+                                # DEBUG
+                                print("changed src perms")
+                            else:
+                                print("src permissions %o is OK" %
+                                        (srcMode & stat.S_IWUSR))
+                                # END
+                            # check write permission on destination
+                            try:
+                                # doesn't follow links
+                                destInfo = os.lstat(pathToDest)
+                            except FileNotFoundError:
+                                destInfo = None
+                            if destInfo:
+                                destMode = destInfo[stat.ST_MODE]
+                                print("dest mode is  %6o" % destMode)
+                                if not (destMode & stat.S_IWUSR):
+                                    os.chmod(pathToDest, 0o644)
+                                    # DEBUG
+                                    print("changed dest perms")
+
+                                    # END
+                            shutil.move(pathToSrc, pathToDest)
+                            # XXX COULD RESTORE srcMode HERE
                             if verbose:
                                 print("moved\n\t%s to \n\t%s" % (
-                                    pathToFile, pathToDest))
+                                    pathToSrc, pathToDest))
                     else:
                         print("content hash is %s but file name is %s" % (
                             key, file))

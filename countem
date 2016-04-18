@@ -8,7 +8,7 @@ pySloc -v  $@ \
     txt:.gitignore \
     bash:auto8it bash:countem bash:installit \
     bash:makeMoreNodeIDs bash:test.all\
-    py:uConsolidate                             \
+    py:uConsolidate py:uStats                   \
     py:scripts/genNodeID1 py:scripts/genNodeID3 \
     py:verifyContentKeys                        \
 

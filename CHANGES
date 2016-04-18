@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.8
+    2016-04-17
+        * add uStats, xlattice/stats.py, skeletal test              SLOC 3531
 v0.5.7
     2016-04-16
         * add uConsolidate                                          SLOC 3392

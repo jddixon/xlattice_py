@@ -16,3 +16,4 @@ echo "new tests"
 ./testLogMgr.py
 ./testProcLock.py
 ./testTwoLogs.py
+./testUStats.py
