@@ -2,30 +2,34 @@
 
 # ~/dev/py/xlattice_py/uStats
 
-import os, stat, sys
+import os
+import stat
+import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collectStats
 
+
 def doRun(options):
 
-    inDir   = options.inDir
-    outDir  = options.outDir
+    inDir = options.inDir
+    outDir = options.outDir
     verbose = options.verbose
 
     # XXX options.outDir currently ignored
 
     (subDirCount, subSubDirCount, leafCount, oddCount, hasL, hasNodeID) = \
-            collectStats(inDir, outDir, verbose)
+        collectStats(inDir, outDir, verbose)
 
     print(
-    "%3d subDirectories, %5d subSubDirectories, %6d leaf files, %d oddities" % (subDirCount, subSubDirCount, leafCount, oddCount))
+        "%3d subDirectories, %5d subSubDirectories, %6d leaf files, %d oddities" % (subDirCount, subSubDirCount, leafCount, oddCount))
 
     if hasL:
         print("  L present")
     if hasNodeID:
         print("  nodeID present")
+
 
 def main():
 
