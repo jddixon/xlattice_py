@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py
 
+2016-04-19
+    * implement regexFromWildcards()                                    * DONE
+    * testRegexesFromWildcars overlaps with testGetExclusions; fix
+
 2016-04-18
     * uPreen should scan for file name/content key mismatches
         - will be much slower

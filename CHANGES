@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.10
+    2016-04-19
+        * add regexesFromWildcards(), getExclusions(), and tests    SLOC 3766
 v0.5.9
     2016-04-18
         * add uPreen, improve uConsolidate                          SLOC 3590
@@ -106,6 +109,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
