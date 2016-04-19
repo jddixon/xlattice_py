@@ -17,3 +17,7 @@ echo "new tests"
 ./testProcLock.py
 ./testTwoLogs.py
 ./testUStats.py
+
+echo "newer still"
+./testGetExclusions.py
+./testRegexesFromWildcards.py

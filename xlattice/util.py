@@ -1,11 +1,15 @@
-# xlattice_py/xlattice/xlutil.py
+# xlattice_py/xlattice/util.py
 
 import calendar
+import fnmatch
+import os
 import time
 
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'parseDecimalVersion',
            'parseTimestamp', 'timestamp', 'timestampNow',
+
+           'getExclusions', 'regexesFromWildcards',
            ]
 
 # DECIMAL VERSION ---------------------------------------------------
@@ -333,3 +337,50 @@ def timestampNow():
     """
     t = time.gmtime()
     return time.strftime(TIMESTAMP_FORMAT, t)
+
+# GLOBS, WILDCARDS --------------------------------------------------
+
+
+def getExclusions(projDir, exclFile='.gitignore'):
+    """
+    projDir must exist and may contain a .gitignore file containing one
+    or more globs.
+
+    Returns the contents of exclusion file (.girignore by default) as a
+    single regular expressions, the exclusion patterns ORed together.
+    The regex returned may be an empty string.
+    """
+
+    regex = ''
+    pathToIgnore = os.path.join(projDir, exclFile)
+    if os.path.isfile(pathToIgnore):
+        with open(pathToIgnore, 'rb') as f:
+            data = f.read().decode('utf8')
+        if data:
+            lines = data.split('\n')
+            if lines[-1] == '':
+                lines = lines[:-1]          # drop the empty last line
+            regexes = regexesFromWildcards(lines)
+            if regexes:
+                regex = '|'.join(regexes)
+    return regex
+
+
+def regexesFromWildcards(ss):
+    """
+    Given a list of wildcards, return a list of regular expressions.
+    """
+    r = []
+    if ss:
+        for glob in ss:
+            glob = glob.strip()
+            # ignore empty wildcards
+            if glob:
+                # \Z means end of string, (?ms) means accept either
+                # the M multiline flag or S, which makes . expand
+                pat = fnmatch.translate(glob)
+                r.append(pat)
+    else:
+        r.append('a^')      # matches nothing
+
+    return r
