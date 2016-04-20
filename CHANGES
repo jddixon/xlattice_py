@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.11
+    2016-04-20
+        * implemented xlattice.util::makeExRE, edited tests         SLOC 3769
 v0.5.10
     2016-04-19
         * add regexesFromWildcards(), getExclusions(), and tests    SLOC 3766
@@ -109,6 +112,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
