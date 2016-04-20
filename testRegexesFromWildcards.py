@@ -9,7 +9,7 @@ import shutil
 import time
 import unittest
 from rnglib import SimpleRNG
-from xlattice.util import regexesFromWildcards
+from xlattice.util import makeExRE, regexesFromWildcards
 
 
 class TestRegexesFromWildcards (unittest.TestCase):
@@ -21,13 +21,6 @@ class TestRegexesFromWildcards (unittest.TestCase):
         pass
 
     # utility functions #############################################
-    def makeExRE(self, globs):
-        """
-        Given a list of globs aka wildcards, return a compiled regular
-        expression representing a match on one or more globs.
-        """
-        r = regexesFromWildcards(globs)
-        return re.compile('|'.join(r))
 
     def doTestForExpectedMatches(self, matchRE, names):
         for name in names:
@@ -47,7 +40,7 @@ class TestRegexesFromWildcards (unittest.TestCase):
 
     def testMakeExRE(self):
         """test utility for making excluded file name regexes"""
-        exRE = self.makeExRE(None)
+        exRE = makeExRE(None)
         self.assertTrue(exRE is not None)
 
         # should not be present
@@ -58,7 +51,7 @@ class TestRegexesFromWildcards (unittest.TestCase):
         exc.append('foo*')
         exc.append('*bar')
         exc.append('junk*')
-        exRE = self.makeExRE(exc)
+        exRE = makeExRE(exc)
         self.doTestForExpectedExclusions(exRE)
 
         self.assertIsNotNone(exRE.match('foobarf'))
@@ -73,14 +66,14 @@ class TestRegexesFromWildcards (unittest.TestCase):
 
     def testMakeMatchRE(self):
         """test utility for making matched file name regexes"""
-        matchRE = self.makeExRE(None)
+        matchRE = makeExRE(None)
         self.assertIsNotNone(matchRE)
 
         matches = []
         matches.append('foo*')
         matches.append('*bar')
         matches.append('junk*')
-        matchRE = self.makeExRE(matches)
+        matchRE = makeExRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['foo', 'foolish', 'roobar', 'junky'])
         self.doTestForExpectedMatchFailures(matchRE,
@@ -88,14 +81,14 @@ class TestRegexesFromWildcards (unittest.TestCase):
         #[ 'roobarf', 'myjunk'])
 
         matches = ['*.tgz']
-        matchRE = self.makeExRE(matches)
+        matchRE = makeExRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['junk.tgz', 'notSoFoolish.tgz'])
         self.doTestForExpectedMatchFailures(matchRE,
                                             ['junk.tar.gz', 'foolish.tar.gz'])
 
         matches = ['*.tgz', '*.tar.gz']
-        matchRE = self.makeExRE(matches)
+        matchRE = makeExRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['junk.tgz', 'notSoFoolish.tgz',
                                        'junk.tar.gz', 'ohHello.tar.gz'])
