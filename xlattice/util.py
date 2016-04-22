@@ -348,11 +348,10 @@ def getExclusions(projDir, exclFile='.gitignore'):
     or more globs.
 
     Returns the contents of exclusion file (.girignore by default) as a
-    single regular expressions, the exclusion patterns ORed together.
-    The regex returned may be an empty string.
+    list of parenthesized regular expressions.  The list may be empty.
     """
 
-    regex = ''
+    regex = []
     pathToIgnore = os.path.join(projDir, exclFile)
     if os.path.isfile(pathToIgnore):
         with open(pathToIgnore, 'rb') as f:
@@ -362,9 +361,7 @@ def getExclusions(projDir, exclFile='.gitignore'):
             if lines[-1] == '':
                 lines = lines[:-1]          # drop the empty last line
             regexes = regexesFromWildcards(lines)
-            if regexes:
-                regex = '|'.join(regexes)
-    return regex
+    return regexes
 
 
 def makeExRE(globs):
@@ -380,7 +377,8 @@ def makeExRE(globs):
 
 def regexesFromWildcards(ss):
     """
-    Given a list of wildcards, return a list of regular expressions.
+    Given a list of wildcards, return a list of parenthesized
+    regular expressions.
     """
     r = []
     if ss:
@@ -391,7 +389,7 @@ def regexesFromWildcards(ss):
                 # \Z means end of string, (?ms) means accept either
                 # the M multiline flag or S, which makes . expand
                 pat = fnmatch.translate(glob)
-                r.append(pat)
+                r.append('(' + pat + ')')
     else:
         r.append('a^')      # matches nothing
 
