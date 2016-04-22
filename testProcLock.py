@@ -46,7 +46,7 @@ class TestProcLock (unittest.TestCase):
 
             # DEBUG
             print("lock file is %s" % mgr.lockFileName)
-            print("  pic in file is %s" % pidInFile)
+            print("  pid in file is %s" % pidInFile)
             # END
 
         except Exception as e:

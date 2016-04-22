@@ -25,18 +25,19 @@ class TestGetExclusions (unittest.TestCase):
 
     def doTestForExpectedExclusions(self, exRE):
         # should always match
-        self.assertTrue(exRE.search('merkle.pyc'))
-        self.assertTrue(exRE.search('.svn'))
-        self.assertTrue(exRE.search('.foo.swp'))          # vi backup file
-        self.assertTrue(exRE.search('junkEverywhere'))    # begins with 'junk'
+        self.assertTrue(exRE.match('merkle.pyc'))
+        self.assertTrue(exRE.match('.svn'))
+        self.assertTrue(exRE.match('.foo.swp'))          # vi backup file
+        self.assertTrue(exRE.match('junkEverywhere'))    # begins with 'junk'
+        self.assertTrue(exRE.match('.merkle'))
 
     def doTestForExpectedMatches(self, matchRE, names):
         for name in names:
-            self.assertTrue(matchRE.search(name))
+            self.assertTrue(matchRE.match(name))
 
     def doTestForExpectedMatchFailures(self, matchRE, names):
         for name in names:
-            m = matchRE.search(name)
+            m = matchRE.match(name)
             if m:
                 print("WE HAVE A MATCH ON '%s'" % name)
             # self.assertEquals( None, where )
@@ -46,7 +47,14 @@ class TestGetExclusions (unittest.TestCase):
         This test assumes that there is a local .gitignore containing
         at least '.merkle', '.svn*' '*.swp', and 'junk*'
         """
-        exclPat = getExclusions(projDir, '.gitignore')
+
+        # convert .gitignore's contents to a list of parenthesized
+        # regular expressions
+        exclPats = getExclusions(projDir, '.gitignore')
+        self.assertTrue(len(exclPats) > 0)
+
+        exclPat = '|'.join(exclPats)
+
         exRE = re.compile(exclPat)
         self.assertTrue(exRE is not None)
         self.doTestForExpectedExclusions(exRE)
