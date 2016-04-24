@@ -35,8 +35,8 @@ class TestRegexesFromWildcards (unittest.TestCase):
         self.assertIsNotNone(exRE.match('foolish'))
         self.assertIsNotNone(exRE.match('superbar'))
         self.assertIsNotNone(exRE.match('junky'))
-        self.assertIsNotNone(exRE.match('junkEverywhere')
-                             )  # begins with 'junk'
+        self.assertIsNotNone(exRE.match('.merkle'))
+        self.assertIsNotNone(exRE.match('foo.pyc'))
 
     def testMakeExRE(self):
         """test utility for making excluded file name regexes"""
@@ -51,6 +51,8 @@ class TestRegexesFromWildcards (unittest.TestCase):
         exc.append('foo*')
         exc.append('*bar')
         exc.append('junk*')
+        exc.append('.merkle')
+        exc.append('*.pyc')
         exRE = makeExRE(exc)
         self.doTestForExpectedExclusions(exRE)
 

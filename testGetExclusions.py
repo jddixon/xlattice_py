@@ -9,9 +9,7 @@ import shutil
 import time
 import unittest
 
-from merkletree import MerkleDoc                        # FOR TESTING ??
-
-from xlattice.util import getExclusions
+from xlattice.util import getExclusions, makeExRE
 from rnglib import SimpleRNG
 
 
@@ -25,15 +23,16 @@ class TestGetExclusions (unittest.TestCase):
 
     def doTestForExpectedExclusions(self, exRE):
         # should always match
-        self.assertTrue(exRE.match('merkle.pyc'))
-        self.assertTrue(exRE.match('.svn'))
-        self.assertTrue(exRE.match('.foo.swp'))          # vi backup file
-        self.assertTrue(exRE.match('junkEverywhere'))    # begins with 'junk'
-        self.assertTrue(exRE.match('.merkle'))
+        self.assertIsNotNone(exRE.match('merkle.pyc'))
+        self.assertIsNotNone(exRE.match('.svn'))
+        self.assertIsNotNone(exRE.match('.foo.swp'))          # vi backup file
+        self.assertIsNotNone(exRE.match('junkEverywhere')
+                             )    # begins with 'junk'
+        self.assertIsNotNone(exRE.match('.merkle'))
 
     def doTestForExpectedMatches(self, matchRE, names):
         for name in names:
-            self.assertTrue(matchRE.match(name))
+            self.assertIsNotNone(matchRE.match(name))
 
     def doTestForExpectedMatchFailures(self, matchRE, names):
         for name in names:
@@ -50,13 +49,11 @@ class TestGetExclusions (unittest.TestCase):
 
         # convert .gitignore's contents to a list of parenthesized
         # regular expressions
-        exclPats = getExclusions(projDir, '.gitignore')
-        self.assertTrue(len(exclPats) > 0)
+        globs = getExclusions(projDir, '.gitignore')
+        self.assertIsNotNone(len(globs) > 0)
 
-        exclPat = '|'.join(exclPats)
-
-        exRE = re.compile(exclPat)
-        self.assertTrue(exRE is not None)
+        exRE = makeExRE(globs)
+        self.assertIsNotNone(exRE is not None)
         self.doTestForExpectedExclusions(exRE)
 
     def testGetExclusions(self):

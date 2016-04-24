@@ -348,20 +348,23 @@ def getExclusions(projDir, exclFile='.gitignore'):
     or more globs.
 
     Returns the contents of exclusion file (.girignore by default) as a
-    list of parenthesized regular expressions.  The list may be empty.
+    list.  The list may be empty.  Any lines in the list are guaranteed
+    be have had leading and trailing spaces stripped and will be
+    non-empty.
     """
 
-    regex = []
+    globs = []
     pathToIgnore = os.path.join(projDir, exclFile)
     if os.path.isfile(pathToIgnore):
         with open(pathToIgnore, 'rb') as f:
             data = f.read().decode('utf8')
         if data:
             lines = data.split('\n')
-            if lines[-1] == '':
-                lines = lines[:-1]          # drop the empty last line
-            regexes = regexesFromWildcards(lines)
-    return regexes
+            for line in lines:
+                line = line.strip()
+                if line:
+                    globs.append(line)
+    return globs
 
 
 def makeExRE(globs):
