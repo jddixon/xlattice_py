@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.5.13
+    2016-04-23
+        * respecified getExclusion to return list of globs          SLOC 3775
 v0.5.12
     2016-04-22
         * parenthesized regexes in getExclusions()                  SLOC 3769
@@ -115,6 +118,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

@@ -1,8 +1,10 @@
-cd ~/dev/py/xlattice_py
+#!/usr/bin/env bash
+
+cd $DEV_BASE/py/xlattice_py
 
 rm -rf build/* myData/* myU1/* myU2/*  tmp/*
 
-pySloc -v  $@ \
+pySloc -X dist -X myData -X myU1 -X myU2 -v  $@ \
     txt:openssl*        \
     txt:MANIFEST.in \
     txt:.gitignore \
