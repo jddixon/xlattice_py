@@ -23,16 +23,17 @@ module1 = Extension('cFTLogForPy',
                         'extsrc/threading.c',
                     ])
 
-setup(name='xlattice',
+setup(name='xlattice_py',
       version=__version__,
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       py_modules=[],
       packages=['xlattice', ],
       scripts=[
-           'uConsolidate',
            'scripts/genNodeID1',
            'scripts/genNodeID3',
+           'uConsolidate',
+           'uStats',
            'verifyContentKeys', ],
       # MISSING url
       ext_modules=[module1]

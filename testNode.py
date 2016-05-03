@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 
-# testNode.py, copied here from pzog/xlattice
+# xlattice_py/testNode.py, copied here from pzog/xlattice
 
-import time
 import hashlib
 import os
 import sys
+import time
 import unittest
 
 from Crypto.Hash import SHA as sha
