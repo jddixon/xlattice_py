@@ -13,14 +13,14 @@ from xlattice.stats import collectStats
 
 def doRun(options):
 
-    inDir = options.inDir
+    uDir = options.uDir
     outDir = options.outDir
     verbose = options.verbose
 
     # XXX options.outDir currently ignored
 
     (subDirCount, subSubDirCount, leafCount, oddCount, hasL, hasNodeID) = \
-        collectStats(inDir, outDir, verbose)
+        collectStats(uDir, outDir, verbose)
 
     print(
         "%3d subDirectories, %5d subSubDirectories, %6d leaf files, %d oddities" % (subDirCount, subSubDirCount, leafCount, oddCount))
@@ -39,7 +39,7 @@ def main():
     DESC = 'move valid files from input U subdirectory to output subdir'
     parser = ArgumentParser(description=DESC)
 
-    parser.add_argument('-i', '--inDir', default='/var/U',
+    parser.add_argument('-u', '--uDir', default='/var/U',
                         help="source U directory (default=/var/U) ")
 
     parser.add_argument('-j', '--justShow', action='store_true',
@@ -57,8 +57,8 @@ def main():
 
     # sanity checks -------------------------------------------------
 
-    if not args.inDir or not os.path.exists(args.inDir):
-        print("input directory '%s' does not exist" % args.inDir)
+    if not args.uDir or not os.path.exists(args.uDir):
+        print("input directory '%s' does not exist" % args.uDir)
         parser.print_help()
         sys.exit(1)
 
@@ -75,9 +75,9 @@ def main():
         print("%s %s" % (appName, __version_date__))
 
     if args.verbose or args.justShow:
-        print('inDir        = ' + str(args.inDir))
         print('outDir       = ' + str(args.outDir))
         print('justShow     = ' + str(args.justShow))
+        print('uDir         = ' + str(args.uDir))
         print('verbose      = ' + str(args.verbose))
 
     if args.justShow:
