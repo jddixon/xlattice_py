@@ -9,7 +9,7 @@ import shutil
 import time
 import unittest
 from rnglib import SimpleRNG
-from xlattice.util import makeExRE, regexesFromWildcards
+from xlattice.util import makeExRE, makeMatchRE, regexesFromWildcards
 
 
 class TestRegexesFromWildcards (unittest.TestCase):
@@ -68,14 +68,14 @@ class TestRegexesFromWildcards (unittest.TestCase):
 
     def testMakeMatchRE(self):
         """test utility for making matched file name regexes"""
-        matchRE = makeExRE(None)
+        matchRE = makeMatchRE(None)
         self.assertIsNotNone(matchRE)
 
         matches = []
         matches.append('foo*')
         matches.append('*bar')
         matches.append('junk*')
-        matchRE = makeExRE(matches)
+        matchRE = makeMatchRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['foo', 'foolish', 'roobar', 'junky'])
         self.doTestForExpectedMatchFailures(matchRE,
@@ -83,14 +83,14 @@ class TestRegexesFromWildcards (unittest.TestCase):
         #[ 'roobarf', 'myjunk'])
 
         matches = ['*.tgz']
-        matchRE = makeExRE(matches)
+        matchRE = makeMatchRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['junk.tgz', 'notSoFoolish.tgz'])
         self.doTestForExpectedMatchFailures(matchRE,
                                             ['junk.tar.gz', 'foolish.tar.gz'])
 
         matches = ['*.tgz', '*.tar.gz']
-        matchRE = makeExRE(matches)
+        matchRE = makeMatchRE(matches)
         self.doTestForExpectedMatches(matchRE,
                                       ['junk.tgz', 'notSoFoolish.tgz',
                                        'junk.tar.gz', 'ohHello.tar.gz'])

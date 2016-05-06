@@ -36,17 +36,17 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'move valid files from input U subdirectory to output subdir'
+    DESC = 'display statistical information on uDir'
     parser = ArgumentParser(description=DESC)
-
-    parser.add_argument('-u', '--uDir', default='/var/U',
-                        help="source U directory (default=/var/U) ")
 
     parser.add_argument('-j', '--justShow', action='store_true',
                         help='show options and exit')
 
     parser.add_argument('-o', '--outDir', type=str,
                         help='destination directory')
+
+    parser.add_argument('-u', '--uDir', default='/var/U',
+                        help="source U directory (default=/var/U) ")
 
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='be chatty')

@@ -1,8 +1,11 @@
 ~/dev/py/xlattice_py
 
+2016-05-03
+    * need uCmp: compares uDirs, for use in testing
+
 2016-04-22
-    * URGENT: error in regexesFromWildcards() has been fixed, needs
-        to be committed XXX
+    * URGENT: error in regexesFromWildcards() has been fixed, needs     * DONE
+        to be committed XXX                                             * DONE
 
 2016-04-19
     * implement regexFromWildcards()                                    * DONE

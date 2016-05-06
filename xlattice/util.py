@@ -10,7 +10,7 @@ __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'parseDecimalVersion',
            'parseTimestamp', 'timestamp', 'timestampNow',
 
-           'getExclusions', 'makeExRE', 'regexesFromWildcards',
+           'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
            ]
 
 # DECIMAL VERSION ---------------------------------------------------
@@ -376,6 +376,16 @@ def makeExRE(globs):
     """
     r = regexesFromWildcards(globs)
     return re.compile('|'.join(r))
+
+
+def makeMatchRE(matchList):
+    """
+    Given a list of globs aka wildcards, return a compiled regular
+    expression representing a match on one or more globs.  That is,
+    we convert the wildcards to regular expressions, OR them all
+    together, and compile and return the result.
+    """
+    return makeExRE(matchList)
 
 
 def regexesFromWildcards(ss):
