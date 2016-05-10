@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v0.6.0
+    2016-05-10
+        * u256.py, testU256SHA{1,2}                                 SLOC 4420
 v0.5.15
     2016-05-06
         * move makeMatchRE here from merkletree; test               SLOC 3995
@@ -125,6 +128,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

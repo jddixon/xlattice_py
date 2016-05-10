@@ -1,5 +1,23 @@
 ~/dev/py/xlattice_py
 
+2016-05-10
+    * xlattice/u.py gets copied, cleaned up a bit, renamed u256.py      * DONE
+    * testSHA{1,2} ditto, creating testU256SHA{1,2}.py                  * DONE
+
+2016-05-10 (edited from 04-17)
+    * need u16x16 storage
+        - ditto for UFLAT
+    * need comprehensive testSha{1,2,3}.py
+        - if possible, this is one big test, or test class with
+            children = subclasses
+
+    * need test functions to create randomish
+        - u256x256 directories with or without in/, tmp/, L
+        - ditto for u16x16
+        - ditto for uFLAT
+
+    * this is or could be a library extending rnglib
+
 2016-05-03
     * need uCmp: compares uDirs, for use in testing
 
@@ -14,16 +32,6 @@
 2016-04-18
     * uPreen should scan for file name/content key mismatches
         - will be much slower
-
-2016-04-17
-    * need u16x16 storage
-        - ditto for UFLAT
-    * need comprehensive testSha{1,2,3}.py
-    * need test functions to create randomish
-        - u256x256 directories with or without in/, tmp/, L
-        - ditto for u16x16
-        - ditto for uFLAT
-    * this is a library extending rnglib
 
 2016-04-16
     * need utility uWriteable to make all leaf files in U read-only
