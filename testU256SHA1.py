@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# xlattice_py/testSHA1.py
+# xlattice_py/testU256SHA1.py
 
 import binascii
 import hashlib
@@ -8,16 +8,12 @@ import os
 import re
 import time
 import unittest
-from xlattice import u
+from xlattice import u256 as u
 from rnglib import SimpleRNG
 
 DATA_PATH = 'myData'      # contains files of random data
 U_PATH = 'myU1'        # those same files stored by content hash
 U_TMP_PATH = 'myU1/tmp'
-
-#######################################################
-# OBSOLESCENT: THIS FILE IS REPLACED BY testU256SHA1.py
-#######################################################
 
 
 class TestSHA1 (unittest.TestCase):

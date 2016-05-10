@@ -4,9 +4,11 @@
 ./testNode.py
 ./testPKCS7.py
 ./testRSA.py
-./testSHA1.py
-./testSHA2.py
+./testSHA1.py                       # obsolescent
+./testSHA2.py                       # obsolescent
 ./testTimestamp.py
+./testU256SHA1.py
+./testU256SHA2.py
 ./testULock.py
 
 echo "new tests"

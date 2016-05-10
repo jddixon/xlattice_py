@@ -16,6 +16,10 @@ DATA_PATH = 'myData'
 U_PATH = 'myU2'
 U_TMP_PATH = 'myU2/tmp'
 
+#######################################################
+# OBSOLESCENT: THIS FILE IS REPLACED BY testU256SHA2.py
+#######################################################
+
 
 class TestSHA2 (unittest.TestCase):
 

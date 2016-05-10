@@ -1,7 +1,6 @@
-# xlattice_py/xlattice/u.py
+# xlattice_py/xlattice/u256.py
 
 __all__ = [
-    'fileSHA1', 'fileSHA2',         # DEPRECATED
     'fileSHA1Bin', 'fileSHA2Bin', 'fileSHA1Hex', 'fileSHA2Hex',
     'copyAndPut1', 'getData1', 'put1', 'putData1',
     'copyAndPut2', 'getData2', 'put2', 'putData2',
@@ -26,13 +25,6 @@ RNG = rnglib.SimpleRNG(time.time())
 
 # - fileSHA1 --------------------------------------------------------
 # returns the SHA1 hash of the contents of a file
-
-# DEPRECATED
-
-
-def fileSHA1(path):
-    return fileSHA1Hex(path)
-# END DEPRECATED
 
 
 def fileSHA1Bin(path):
@@ -68,13 +60,6 @@ def fileSHA1Hex(path):
 
 # - fileSHA2 --------------------------------------------------------
 # returns the SHA256 hash of the contents of a file
-
-# DEPRECATED
-
-
-def fileSHA2(path):
-    return fileSHA2Hex(path)
-# END DEPRECATED
 
 
 def fileSHA2Bin(path):
@@ -229,7 +214,7 @@ def getData2(uPath, key):
 
 
 def put2(inFile, uPath, key):
-    hash = fileSHA2(inFile)
+    hash = fileSHA2Hex(inFile)
     if (hash != key):
         print("expected %s to have key %s, but the content key is %s" % (
             inFile, key, hash))
@@ -277,18 +262,7 @@ def putData2(data, uPath, key):
 
 # COMMON FUNCTIONS ==================================================
 
-# XXX DEPRECATED ####################################################
-def getPath(uPath, key):
-    path = getPathForKey(uPath, key)
-    if (os.path.exists(path)):
-        return path
-    else:
-        print("HASH %s: FULLISH PATH DOES NOT EXIST: %s" % (key, path))
-        return None
-# END DEPRECATED ####################################################
-
 # - exists ----------------------------------------------------------
-
 
 def exists(uPath, key):
     path = getPathForKey(uPath, key)
