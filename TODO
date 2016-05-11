@@ -1,5 +1,20 @@
 ~/dev/py/xlattice_py
 
+2016-05-11
+    * access to the RNG object in u.py, u16.py, u256.py should 
+        synchronized
+    * RNG, fileSHA{1,2}{Hex,Bin} are duplicated among u{,16,256}.py;
+        they should be in just one place, and shared among the three
+    * so restructure so that xlattice/u is a separate package with
+        uFlat.py, u16.py, and u256.py in that package
+    * then fix using projects
+        - buildList
+        - cljutil
+        - bindex
+        - magicsack     # modified to use u16
+        - upax
+    * document all of this
+
 2016-05-10
     * xlattice/u.py gets copied, cleaned up a bit, renamed u256.py      * DONE
     * testSHA{1,2} ditto, creating testU256SHA{1,2}.py                  * DONE

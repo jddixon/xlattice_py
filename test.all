@@ -1,25 +1,26 @@
-./testCrypto.py
-./testDecimalVersion.py
-./testHelloAndReply.py
-./testNode.py
-./testPKCS7.py
-./testRSA.py
-./testSHA1.py                       # obsolescent
-./testSHA2.py                       # obsolescent
-./testTimestamp.py
-./testU256SHA1.py
-./testU256SHA2.py
-./testULock.py
-
-echo "new tests"
 ./testCFTLogForPy.py
 ./testCFTLogObj.py
+./testCrypto.py
+./testDecimalVersion.py
+./testGetExclusions.py
+./testHelloAndReply.py
 ./testLibEv.py
 ./testLogMgr.py
+./testNode.py
+./testPKCS7.py
 ./testProcLock.py
+./testRSA.py
+./testRegexesFromWildcards.py
+./testTimestamp.py
 ./testTwoLogs.py
+./testULock.py
 ./testUStats.py
 
-echo "newer still"
-./testGetExclusions.py
-./testRegexesFromWildcards.py
+# these should be merged
+./testSHA1.py                       # obsolescent
+./testSHA2.py                       # obsolescent
+./testU16SHA1.py
+./testU16SHA2.py
+./testU256SHA1.py
+./testU256SHA2.py
+
