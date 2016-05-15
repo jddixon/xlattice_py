@@ -24,6 +24,7 @@ dir:clr:myU2
 dir:clr:tmp
 
 dir:pkg:xlattice
+dir:pkg:xlattice/u
 dir:local:extsrc
 dir:local:logs
 

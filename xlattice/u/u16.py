@@ -1,7 +1,6 @@
-# xlattice_py/xlattice/u.py
+# xlattice_py/xlattice/u16.py
 
 __all__ = [
-    'fileSHA1', 'fileSHA2',         # DEPRECATED
     'fileSHA1Bin', 'fileSHA2Bin', 'fileSHA1Hex', 'fileSHA2Hex',
     'copyAndPut1', 'getData1', 'put1', 'putData1',
     'copyAndPut2', 'getData2', 'put2', 'putData2',
@@ -22,17 +21,12 @@ import rnglib  # for rnglib.nextFileName
 
 # CONSTANTS ========================================================-
 
+# XXX access to this object is XXX NOT SYNCHRONIZED XXX
+
 RNG = rnglib.SimpleRNG(time.time())
 
 # - fileSHA1 --------------------------------------------------------
 # returns the SHA1 hash of the contents of a file
-
-# DEPRECATED
-
-
-def fileSHA1(path):
-    return fileSHA1Hex(path)
-# END DEPRECATED
 
 
 def fileSHA1Bin(path):
@@ -69,13 +63,6 @@ def fileSHA1Hex(path):
 # - fileSHA2 --------------------------------------------------------
 # returns the SHA256 hash of the contents of a file
 
-# DEPRECATED
-
-
-def fileSHA2(path):
-    return fileSHA2Hex(path)
-# END DEPRECATED
-
 
 def fileSHA2Bin(path):
     if path is None or not os.path.exists(path):
@@ -108,7 +95,7 @@ def fileSHA2Hex(path):
     r.close()
     return d.hexdigest()    # a string, of course!
 
-# SHA1-BASED u256x256 METHODS =======================================
+# SHA1-BASED u16x16 METHODS =======================================
 
 #- copyAndPut1 -------------------------------------------------------
 
@@ -138,7 +125,7 @@ def getData1(uPath, key):
 # - put1 -------------------------------------------------------------
 # tmp is the path to a local file which will be renamed into U (or deleted
 # if it is already present in U)
-# uPath is an absolute or relative path to a U directory organized 256x256
+# uPath is an absolute or relative path to a U directory organized 16x16
 # key is an sha1 content hash.
 # If the operation succeeds we return the length of the file (which must
 # not be zero.  Otherwise we return 0.
@@ -152,8 +139,8 @@ def put1(inFile, uPath, key):
             inFile, key, hash))
         return (0, None)
     len = os.stat(inFile).st_size
-    topSubDir = hash[0:2]
-    lowerDir = hash[2:4]
+    topSubDir = hash[0:1]
+    lowerDir = hash[1:2]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
     if not os.path.exists(targetDir):
         os.makedirs(targetDir)
@@ -177,8 +164,8 @@ def putData1(data, uPath, key):
             key, hash))
         return (0, None)        # length and hash
     length = len(data)          # XXX POINTLESS
-    topSubDir = hash[0:2]
-    lowerDir = hash[2:4]
+    topSubDir = hash[0:1]
+    lowerDir = hash[1:2]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
     if not os.path.exists(targetDir):
         os.makedirs(targetDir)
@@ -191,7 +178,7 @@ def putData1(data, uPath, key):
             f.write(data)
     return (length, hash)               # GEEP2
 
-# SHA256-BASED u256x256 METHODS =====================================
+# SHA256-BASED u16x16 METHODS =====================================
 
 #- copyAndPut2 ------------------------------------------------------
 
@@ -221,7 +208,7 @@ def getData2(uPath, key):
 # - put2 ------------------------------------------------------------
 # tmp is the path to a local file which will be renamed into U (or deleted
 # if it is already present in U)
-# uPath is an absolute or relative path to a U directory organized 256x256
+# uPath is an absolute or relative path to a U directory organized 16x16
 # key is an sha3 content hash.
 # If the operation succeeds we return the length of the file (which must
 # not be zero.  Otherwise we return 0.
@@ -229,14 +216,14 @@ def getData2(uPath, key):
 
 
 def put2(inFile, uPath, key):
-    hash = fileSHA2(inFile)
+    hash = fileSHA2Hex(inFile)
     if (hash != key):
         print("expected %s to have key %s, but the content key is %s" % (
             inFile, key, hash))
         return (0, None)
     len = os.stat(inFile).st_size
-    topSubDir = hash[0:2]
-    lowerDir = hash[2:4]
+    topSubDir = hash[0:1]
+    lowerDir = hash[1:2]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
     if not os.path.exists(targetDir):
         os.makedirs(targetDir)
@@ -260,8 +247,8 @@ def putData2(data, uPath, key):
             key, hash))
         return (0, None)        # length and hash
     length = len(data)          # XXX POINTLESS
-    topSubDir = hash[0:2]
-    lowerDir = hash[2:4]
+    topSubDir = hash[0:1]
+    lowerDir = hash[1:2]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
     if not os.path.exists(targetDir):
         os.makedirs(targetDir)
@@ -277,18 +264,7 @@ def putData2(data, uPath, key):
 
 # COMMON FUNCTIONS ==================================================
 
-# XXX DEPRECATED ####################################################
-def getPath(uPath, key):
-    path = getPathForKey(uPath, key)
-    if (os.path.exists(path)):
-        return path
-    else:
-        print("HASH %s: FULLISH PATH DOES NOT EXIST: %s" % (key, path))
-        return None
-# END DEPRECATED ####################################################
-
 # - exists ----------------------------------------------------------
-
 
 def exists(uPath, key):
     path = getPathForKey(uPath, key)
@@ -311,8 +287,8 @@ def getPathForKey(uPath, key):
     if(os.path.exists(uPath) == False):
         print("HASH %s: UDIR DOES NOT EXIST: %s" % (key, uPath))
         return None
-    topSubDir = key[0:2]
-    lowerDir = key[2:4]
+    topSubDir = key[0:1]
+    lowerDir = key[1:2]
     return uPath + '/' + topSubDir + '/' + lowerDir + '/' + key
 
 # ulock CLASSES =====================================================

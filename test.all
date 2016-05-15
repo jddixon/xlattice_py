@@ -17,10 +17,9 @@
 ./testUStats.py
 
 # these should be merged
-./testSHA1.py                       # obsolescent
-./testSHA2.py                       # obsolescent
+./testUFlatSHA1.py                      
+./testUFlatSHA2.py                       
 ./testU16SHA1.py
 ./testU16SHA2.py
 ./testU256SHA1.py
 ./testU256SHA2.py
-

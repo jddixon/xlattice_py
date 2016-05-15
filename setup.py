@@ -28,7 +28,7 @@ setup(name='xlattice_py',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       py_modules=[],
-      packages=['xlattice', ],
+      packages=['xlattice', 'xlattice.u', ],
       scripts=[
            'scripts/genNodeID1',
            'scripts/genNodeID3',
