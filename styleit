@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+if [ ! -z "${DEV_BASE// }" ]
+then
+  cd $DEV_BASE/py/xlattice_py
+  
+  autopep8 -ai uConsolidate uPreen uStats verifyContentKeys *.py
+  autopep8 -ai -r xlattice 
+  autopep8 -ai -r xlattice/u
+  echo "not styling extsrc/ subdir"
+  echo "not styling logs/ subdir"
+  echo "not styling scripts/ subdir"
+  
+else
+  echo "DEV_BASE is not defined"
+fi

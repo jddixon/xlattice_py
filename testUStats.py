@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # dev/py/xlattice_py/testUStats.py
 
