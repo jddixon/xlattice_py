@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 # xlattice_py/testRSA.py; moved here from buildList
 
@@ -12,7 +12,6 @@ from Crypto.Hash import SHA    # presumably 1
 from Crypto.Signature import PKCS1_PSS
 
 from rnglib import SimpleRNG
-from buildList import *
 from xlattice.crypto import nextNBLine, collectPEMRSAPublicKey
 
 

@@ -1,25 +1,35 @@
-./testCFTLogForPy.py
-./testCFTLogObj.py
-./testCrypto.py
-./testDecimalVersion.py
-./testGetExclusions.py
-./testHelloAndReply.py
-./testLibEv.py
-./testLogMgr.py
-./testNode.py
-./testPKCS7.py
-./testProcLock.py
-./testRSA.py
-./testRegexesFromWildcards.py
-./testTimestamp.py
-./testTwoLogs.py
-./testULock.py
-./testUStats.py
+#!/usr/bin/env bash
 
-# these should be merged
-./testUFlatSHA1.py                      
-./testUFlatSHA2.py                       
-./testU16SHA1.py
-./testU16SHA2.py
-./testU256SHA1.py
-./testU256SHA2.py
+if [ ! -z "${DEV_BASE// }" ]
+then
+  cd $DEV_BASE/py/xlattice_py
+  
+  ./testCFTLogForPy.py
+  ./testCFTLogObj.py
+  ./testCrypto.py
+  ./testDecimalVersion.py
+  ./testGetExclusions.py
+  ./testHelloAndReply.py
+  ./testLibEv.py
+  ./testLogMgr.py
+  ./testNode.py
+  ./testPKCS7.py
+  ./testProcLock.py
+  ./testRSA.py
+  ./testRegexesFromWildcards.py
+  ./testSHA3_256.py
+  ./testTimestamp.py
+  ./testTwoLogs.py
+  ./testU.py
+  ./testU16SHA1.py
+  ./testU16SHA2.py
+  ./testU256SHA1.py
+  ./testU256SHA2.py
+  ./testUFlatSHA1.py
+  ./testUFlatSHA2.py
+  ./testULock.py
+  ./testUStats.py
+  
+else
+  echo "DEV_BASE is not defined"
+fi

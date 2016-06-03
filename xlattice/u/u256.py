@@ -136,7 +136,7 @@ def put1(inFile, uPath, key):
         print("expected %s to have key %s, but the content key is %s" % (
             inFile, key, hash))
         return (0, None)
-    len = os.stat(inFile).st_size
+    length = os.stat(inFile).st_size
     topSubDir = hash[0:2]
     lowerDir = hash[2:4]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
@@ -148,7 +148,7 @@ def put1(inFile, uPath, key):
     else:
         os.rename(inFile, fullishPath)
         os.chmod(fullishPath, 0o444)
-    return (len, hash)
+    return (length, hash)
 
 # - putData1 ---------------------------------------------------------
 
@@ -219,7 +219,7 @@ def put2(inFile, uPath, key):
         print("expected %s to have key %s, but the content key is %s" % (
             inFile, key, hash))
         return (0, None)
-    len = os.stat(inFile).st_size
+    length = os.stat(inFile).st_size
     topSubDir = hash[0:2]
     lowerDir = hash[2:4]
     targetDir = uPath + '/' + topSubDir + '/' + lowerDir + '/'
@@ -231,7 +231,7 @@ def put2(inFile, uPath, key):
     else:
         os.rename(inFile, fullishPath)
         os.chmod(fullishPath, 0o444)
-    return (len, hash)
+    return (length, hash)
 
 # - putData2 --------------------------------------------------------
 
