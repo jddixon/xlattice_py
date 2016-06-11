@@ -34,6 +34,29 @@ class TestU (unittest.TestCase):
 
     # actual unit tests =============================================
 
+    def doDiscoveryTest(self, dirStruc, usingSHA1):
+
+        uPath = os.path.join('tmp', self.rng.nextFileName(16))
+        while os.path.exists(uPath):
+            uPath = os.path.join('tmp', self.rng.nextFileName(16))
+
+        uDir = UDir(uPath, dirStruc, usingSHA1)
+        self.assertEqual(uDir.uPath, uPath)
+        self.assertEqual(uDir.dirStruc, dirStruc)
+        self.assertEqual(uDir.usingSHA1, usingSHA1)
+
+        u2 = UDir.discover(uPath)
+        self.assertEqual(u2.uPath, uPath)
+        self.assertEqual(u2.dirStruc, dirStruc)
+        self.assertEqual(u2.usingSHA1, usingSHA1)
+
+    def testDiscovery(self):
+        for dirStruc in [FLAT_DIR, DIR16x16, DIR256x256]:
+            self.doDiscoveryTest(dirStruc, True)
+            self.doDiscoveryTest(dirStruc, False)
+
+    # ---------------------------------------------------------------
+
     def doTestCopyAndPut(self, dirStruc=DIR16x16, usingSHA1=False):
 
         uDir = UDir(U_PATH, dirStruc, usingSHA1)

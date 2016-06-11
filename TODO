@@ -4,10 +4,10 @@
     * testSHA3_256.py gets an import error
 
 2016-06-03, edited from -02
-    * we need a class for the uDir,                                     * DONE
-        and the constructor should create L, 
-            tmp/ and in/ if these to not exist                          * DONE
-        - classes need to run alongside the existing packages until
+    * the class UDir
+        - the constructor should create L, 
+        - should also create tmp/ and in/ if these to not exist         * DONE
+        - class need to run alongside the existing packages until
             class implementation is complete
     * then modify using projects to use UDir:
         - buildList
@@ -20,22 +20,10 @@
         when UDir is stable and all users converted
 
 2016-06-03, edited from -02, edited from -05-11
-    * access to the RNG object in uFlat.py, u16.py, u256.py should 
-        be synchronized
-    * RNG, fileSHA{1,2}{Hex,Bin} are duplicated among u{,16,256}.py;
-        they should be in just one place, and shared among the three
-    * so restructure so that xlattice/u is a separate package with
-        uFlat.py, u16.py, and u256.py in that package
-        - where u.py has been renamed uFlat.py, with corresponding
-            tests renamed accordingly
-
-2016-05-10
-    * xlattice/u.py gets copied, cleaned up a bit, renamed u256.py      * DONE
-    * testSHA{1,2} ditto, creating testU256SHA{1,2}.py                  * DONE
+    * access to the RNG object in xlattice.u.UDir should be 
+        synchronized
 
 2016-05-10 (edited from 04-17)
-    * need u16x16 storage                                               * DONE
-        - ditto for UFLAT                                               * DONE
     * need comprehensive testSha{1,2,3}.py
         - if possible, this is one big test, or test class with
             children = subclasses
@@ -50,12 +38,7 @@
 2016-05-03
     * need uCmp: compares uDirs, for use in testing
 
-2016-04-22
-    * URGENT: error in regexesFromWildcards() has been fixed, needs     * DONE
-        to be committed XXX                                             * DONE
-
 2016-04-19
-    * implement regexFromWildcards()                                    * DONE
     * testRegexesFromWildcars overlaps with testGetExclusions; fix
 
 2016-04-18

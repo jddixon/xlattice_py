@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.1.1
+    XXX NOT ON GITHUB XXX
+    2016-06-03
+        * add bkp2U, other bash scripts
+        * add UDir discovery and tests                              SLOC 5322
 v1.1.0
     2016-06-03
         * introduced class xlattice.u.UDir and tests                SLOC 5205
@@ -137,3 +142,28 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -163,13 +163,24 @@ class ULock(object):
 
 class UDir (object):
 
-    def __init__(self, uPath, dirStruc, usingSHA1=True):
+    def __init__(self, uPath, dirStruc=FLAT_DIR, usingSHA1=True):
 
         self._uPath = uPath
         self._dirStruc = dirStruc
         self._usingSHA1 = usingSHA1
 
         os.makedirs(self._uPath, mode=0o755, exist_ok=True)
+
+        # simplistic aids to discovery
+
+        if usingSHA1:
+            pathToSig = self.getPathForKey(SHA1_HEX_NONE)
+        else:
+            pathToSig = self.getPathForKey(SHA2_HEX_NONE)
+        sigBase = os.path.dirname(pathToSig)
+        if not os.path.exists(sigBase):
+            os.makedirs(sigBase)
+        open(pathToSig, 'a').close()                # touch
 
         self._inDir = os.path.join(uPath, 'in')
         os.makedirs(self._inDir, mode=0o755, exist_ok=True)
@@ -184,6 +195,65 @@ class UDir (object):
 
     @property
     def usingSHA1(self): return self._usingSHA1
+
+    @classmethod
+    def discover(clz, uPath, dirStruc=FLAT_DIR, usingSHA1=True):
+
+        if os.path.exists(uPath):
+            found = False
+
+            if not found:
+                flatPathTrue = os.path.join(uPath, SHA1_HEX_NONE)
+                if os.path.exists(flatPathTrue):
+                    found = True
+                    dirStruc = FLAT_DIR
+                    usingSHA1 = True
+            if not found:
+                flatPathFalse = os.path.join(uPath, SHA2_HEX_NONE)
+                if os.path.exists(flatPathFalse):
+                    found = True
+                    dirStruc = FLAT_DIR
+                    usingSHA1 = False
+
+            if not found:
+                dir16PathTrue = os.path.join(uPath,
+                                             os.path.join(SHA1_HEX_NONE[0],
+                                                          os.path.join(SHA1_HEX_NONE[1], SHA1_HEX_NONE)))
+                if os.path.exists(dir16PathTrue):
+                    found = True
+                    dirStruc = DIR16x16
+                    usingSHA1 = True
+            if not found:
+                dir16PathFalse = os.path.join(uPath,
+                                              os.path.join(SHA2_HEX_NONE[0],
+                                                           os.path.join(SHA2_HEX_NONE[1], SHA2_HEX_NONE)))
+                if os.path.exists(dir16PathFalse):
+                    found = True
+                    dirStruc = DIR16x16
+                    usingSHA1 = False
+
+            if not found:
+                dir256PathTrue = os.path.join(uPath,
+                                              os.path.join(SHA1_HEX_NONE[0:2],
+                                                           os.path.join(SHA1_HEX_NONE[2:4],
+                                                                        SHA1_HEX_NONE)))
+                if os.path.exists(dir256PathTrue):
+                    found = True
+                    dirStruc = DIR256x256
+                    usingSHA1 = True
+            if not found:
+                dir256PathFalse = os.path.join(uPath,
+                                               os.path.join(SHA2_HEX_NONE[0:2],
+                                                            os.path.join(SHA2_HEX_NONE[2:4],
+                                                                         SHA2_HEX_NONE)))
+                if os.path.exists(dir256PathFalse):
+                    found = True
+                    dirStruc = DIR256x256
+                    usingSHA1 = False
+
+        # if uDir does not already exist, this creates it
+        obj = clz(uPath, dirStruc, usingSHA1)
+        return obj
 
     def copyAndPut(self, path, key):
         """
@@ -297,6 +367,7 @@ class UDir (object):
         return (length, hash)               # GEEP2
 
     def exists(self, key):
+        """ key is hexadecimal content key """
 
         # CHECK KEY LEN
 

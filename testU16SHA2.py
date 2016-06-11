@@ -140,5 +140,6 @@ class TestSHA2 (unittest.TestCase):
         self.assertTrue(u16.exists(U_PATH, dKey))
         uPath = u16.getPathForKey(U_PATH, uKey)
 
+
 if __name__ == '__main__':
     unittest.main()
