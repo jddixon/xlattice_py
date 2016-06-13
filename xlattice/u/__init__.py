@@ -12,7 +12,7 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_BIN_NONE', 'SHA2_BIN_NONE',
            'SHA1_HEX_NONE', 'SHA1_B64_NONE',
            'SHA2_HEX_NONE',
-           'FLAT_DIR', 'DIR16x16', 'DIR256x256',
+           'DIR_FLAT', 'DIR16x16', 'DIR256x256',
            # classes
            'UDir', 'ULock',
            # functions
@@ -48,7 +48,7 @@ SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 # The next line needs to be synchronized
 RNG = rnglib.SimpleRNG(time.time())
 
-FLAT_DIR = 0x200
+DIR_FLAT = 0x200
 DIR16x16 = 0x400
 DIR256x256 = 0x800
 
@@ -163,13 +163,24 @@ class ULock(object):
 
 class UDir (object):
 
-    def __init__(self, uPath, dirStruc, usingSHA1=True):
+    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA1=True):
 
         self._uPath = uPath
         self._dirStruc = dirStruc
         self._usingSHA1 = usingSHA1
 
         os.makedirs(self._uPath, mode=0o755, exist_ok=True)
+
+        # simplistic aids to discovery
+
+        if usingSHA1:
+            pathToSig = self.getPathForKey(SHA1_HEX_NONE)
+        else:
+            pathToSig = self.getPathForKey(SHA2_HEX_NONE)
+        sigBase = os.path.dirname(pathToSig)
+        if not os.path.exists(sigBase):
+            os.makedirs(sigBase)
+        open(pathToSig, 'a').close()                # touch
 
         self._inDir = os.path.join(uPath, 'in')
         os.makedirs(self._inDir, mode=0o755, exist_ok=True)
@@ -184,6 +195,78 @@ class UDir (object):
 
     @property
     def usingSHA1(self): return self._usingSHA1
+
+    @classmethod
+    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True):
+        """
+        If there is a directory at the expected path, return an
+        appropriate tree with the directory structure found.  Otherwise
+        create a directory with the characteristics suggested by the
+        parameters.
+
+        When a directory tree is created we write NONE into the tree
+        as an aid to discovery.  If this is SHA1_HEX_NONE, for example,
+        we discover that usingSHA1 is True.  If NONE is in the top
+        directory, the directory structure is DIR_FLAT.  If its first
+        byte is in the top directory, dirStruc is DIR16x16.  If its
+        first two bytes are there, it is DIR256x256.
+        """
+
+        if os.path.exists(uPath):
+            found = False
+
+            if not found:
+                flatPathTrue = os.path.join(uPath, SHA1_HEX_NONE)
+                if os.path.exists(flatPathTrue):
+                    found = True
+                    dirStruc = DIR_FLAT
+                    usingSHA1 = True
+            if not found:
+                flatPathFalse = os.path.join(uPath, SHA2_HEX_NONE)
+                if os.path.exists(flatPathFalse):
+                    found = True
+                    dirStruc = DIR_FLAT
+                    usingSHA1 = False
+
+            if not found:
+                dir16PathTrue = os.path.join(uPath,
+                                             os.path.join(SHA1_HEX_NONE[0],
+                                                          os.path.join(SHA1_HEX_NONE[1], SHA1_HEX_NONE)))
+                if os.path.exists(dir16PathTrue):
+                    found = True
+                    dirStruc = DIR16x16
+                    usingSHA1 = True
+            if not found:
+                dir16PathFalse = os.path.join(uPath,
+                                              os.path.join(SHA2_HEX_NONE[0],
+                                                           os.path.join(SHA2_HEX_NONE[1], SHA2_HEX_NONE)))
+                if os.path.exists(dir16PathFalse):
+                    found = True
+                    dirStruc = DIR16x16
+                    usingSHA1 = False
+
+            if not found:
+                dir256PathTrue = os.path.join(uPath,
+                                              os.path.join(SHA1_HEX_NONE[0:2],
+                                                           os.path.join(SHA1_HEX_NONE[2:4],
+                                                                        SHA1_HEX_NONE)))
+                if os.path.exists(dir256PathTrue):
+                    found = True
+                    dirStruc = DIR256x256
+                    usingSHA1 = True
+            if not found:
+                dir256PathFalse = os.path.join(uPath,
+                                               os.path.join(SHA2_HEX_NONE[0:2],
+                                                            os.path.join(SHA2_HEX_NONE[2:4],
+                                                                         SHA2_HEX_NONE)))
+                if os.path.exists(dir256PathFalse):
+                    found = True
+                    dirStruc = DIR256x256
+                    usingSHA1 = False
+
+        # if uDir does not already exist, this creates it
+        obj = clz(uPath, dirStruc, usingSHA1)
+        return obj
 
     def copyAndPut(self, path, key):
         """
@@ -238,7 +321,7 @@ class UDir (object):
             return (0, '')
         length = os.stat(inFile).st_size
 
-        if self.dirStruc == FLAT_DIR:
+        if self.dirStruc == DIR_FLAT:
             fullishPath = os.path.join(self.uPath, key)
         else:
             if self.dirStruc == DIR16x16:
@@ -271,7 +354,7 @@ class UDir (object):
             return (0, '')          # length and hash
         length = len(data)
 
-        if self.dirStruc == FLAT_DIR:
+        if self.dirStruc == DIR_FLAT:
             fullishPath = os.path.join(self.uPath, key)
         else:
             if self.dirStruc == DIR16x16:
@@ -297,6 +380,7 @@ class UDir (object):
         return (length, hash)               # GEEP2
 
     def exists(self, key):
+        """ key is hexadecimal content key """
 
         # CHECK KEY LEN
 
@@ -318,7 +402,7 @@ class UDir (object):
         returns a path to a file with the content key passed, or None if
         there is no such file
         """
-        if self.dirStruc == FLAT_DIR:
+        if self.dirStruc == DIR_FLAT:
             return os.path.join(self.uPath, key)
 
         if self.dirStruc == DIR16x16:

@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.2.0
+    2016-06-13
+        * rename FLAT_DIR to DIR_FLAT                               SLOC 5460
+        * dropped specific dirStruc tests
+        * dropped uFlat, u16, u256                                  SLOC 4300
 v1.1.1
     2016-06-03
         * add bkp2U, other bash scripts
@@ -141,6 +146,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
