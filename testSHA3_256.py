@@ -7,6 +7,11 @@ from xlattice import SHA3_256
 
 # This code was crudely hacked from pysha3_0.2.1 tests.py
 
+#####################################################################
+# THIS TEST CURRENTLY FAILS BECAUSE THERE IS NO PYTHON3 SUPPORT FOR
+# SHA3/KECCAK
+#####################################################################
+
 if sys.version_info[0] == 3:
     fromhex = bytes.fromhex
     tobyte = lambda b: bytes([b])
