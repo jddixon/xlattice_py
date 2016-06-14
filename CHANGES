@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
+
+v1.2.1
+    2016-06-14
+        * testU testCopyAndPut to 1K iterations each dir struc
+        * corrected many bugs relating to usingSHA1                 SLOC 4334
 v1.2.0
     2016-06-13
         * rename FLAT_DIR to DIR_FLAT                               SLOC 5460
@@ -146,6 +151,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

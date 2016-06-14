@@ -275,12 +275,11 @@ class UDir (object):
         file and its actual content key.
         """
 
-        # CHECK KEY LENGTH
-
         # RACE CONDITION
         tmpFileName = os.path.join(self._tmpDir, RNG.nextFileName(16))
         while os.path.exists(tmpFileName):
             tmpFileName = os.path.join(self._tmpDir, RNG.nextFileName(16))
+
         shutil.copyfile(path, tmpFileName)
         return self.put(tmpFileName, key)
 
@@ -308,17 +307,23 @@ class UDir (object):
         hash.  Otherwise we return (0, '').
         """
 
-        # CHECK KEY LENGTH
+        keyLen = len(key)
+        errMsg = ''
+        if self.usingSHA1 and keyLen != 40:
+            errMsg = "UDir.put: expected key length 40, actual %d" % keyLen
+        elif not self.usingSHA1 and keyLen != 64:
+            errMsg = "UDir.put: expected key length 64, actual %d" % keyLen
+        if errMsg:
+            raise RuntimeError(errMsg)
 
-        if self._usingSHA1:
+        if self.usingSHA1:
             hash = fileSHA1Hex(inFile)
         else:
-            hash = fileSHA1Hex(inFile)
+            hash = fileSHA2Hex(inFile)
         if (hash != key):
-            # THIS MUST BE EXCEPTION
-            print("expected %s to have key %s, but the content key is %s" % (
-                inFile, key, hash))
-            return (0, '')
+            errMsg = "expected %s to have key %s, but the content key is %s" % (
+                inFile, key, hash)
+            raise RuntimeError(errMsg)
         length = os.stat(inFile).st_size
 
         if self.dirStruc == DIR_FLAT:
@@ -345,13 +350,16 @@ class UDir (object):
         return (length, hash)
 
     def putData(self, data, key):
-        s = hashlib.sha1()
-        s.update(data)
-        hash = s.hexdigest()
+        if self.usingSHA1:
+            sha = hashlib.sha1()
+        else:
+            sha = hashlib.sha256()
+        sha.update(data)
+        hash = sha.hexdigest()
         if (hash != key):
-            print("expected data to have key %s, but the content key is %s" % (
+            msg = ("expected data to have key %s, but the content key is %s" % (
                 key, hash))
-            return (0, '')          # length and hash
+            raise RuntimeError(msg)
         length = len(data)
 
         if self.dirStruc == DIR_FLAT:

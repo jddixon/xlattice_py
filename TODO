@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py
 
+2016-06-14
+    * testU contains many debug comments, needs to be cleaned up
+
 2016-06-03
     * testSHA3_256.py gets an import error
 
