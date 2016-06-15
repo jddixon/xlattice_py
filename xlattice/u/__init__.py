@@ -15,6 +15,7 @@ __all__ = ['__version__', '__version_date__',
            'DIR_FLAT', 'DIR16x16', 'DIR256x256',
            # classes
            'UDir', 'ULock',
+           'XLUError',
            # functions
            'fileSHA1Bin', 'fileSHA1Hex', 'fileSHA2Bin', 'fileSHA2Hex',
            ]
@@ -119,6 +120,10 @@ def fileSHA2Hex(path):
     return d.hexdigest()    # a string, of course!
 
 # CLASSES ===========================================================
+
+
+class XLUError(RuntimeError):
+    pass
 
 
 class ULock(object):
@@ -275,14 +280,28 @@ class UDir (object):
         file and its actual content key.
         """
 
-        # CHECK KEY LENGTH
+        # XXX we do two such stats on this file
+        actualLength = os.stat(path).st_size
 
         # RACE CONDITION
         tmpFileName = os.path.join(self._tmpDir, RNG.nextFileName(16))
         while os.path.exists(tmpFileName):
             tmpFileName = os.path.join(self._tmpDir, RNG.nextFileName(16))
+
         shutil.copyfile(path, tmpFileName)
-        return self.put(tmpFileName, key)
+        length, hash = self.put(tmpFileName, key)
+
+        # integrity check
+        if length != actualLength:
+            print("put of %s: actual length %d, returned length %d" % (
+                path, actualLength, lenght))
+
+        # DEBUG - DO NOT REMOVE THIS CASUALLY =======================
+        if hash != key or path.endswith('uildList') or path.endswith('builds'):
+            print('putting %s\n\tkey  %s\n\thash %s' % (path, key, hash))
+        # END =======================================================
+
+        return length, hash
 
     def getData(self, key):
         """
@@ -308,17 +327,19 @@ class UDir (object):
         hash.  Otherwise we return (0, '').
         """
 
-        # CHECK KEY LENGTH
+        keyLen = len(key)
+        errMsg = ''
+        if self.usingSHA1 and keyLen != 40:
+            errMsg = "UDir.put: expected key length 40, actual %d" % keyLen
+        elif not self.usingSHA1 and keyLen != 64:
+            errMsg = "UDir.put: expected key length 64, actual %d" % keyLen
+        if errMsg:
+            raise XLUError(errMsg)
 
-        if self._usingSHA1:
+        if self.usingSHA1:
             hash = fileSHA1Hex(inFile)
         else:
-            hash = fileSHA1Hex(inFile)
-        if (hash != key):
-            # THIS MUST BE EXCEPTION
-            print("expected %s to have key %s, but the content key is %s" % (
-                inFile, key, hash))
-            return (0, '')
+            hash = fileSHA2Hex(inFile)
         length = os.stat(inFile).st_size
 
         if self.dirStruc == DIR_FLAT:
@@ -331,7 +352,7 @@ class UDir (object):
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
-                raise RuntimeError("unknown dirStruc 0x%x" % self.dirStruc)
+                raise XLUError("unknown dirStruc 0x%x" % self.dirStruc)
             targetDir = self.uPath + '/' + topSubDir + '/' + lowerDir + '/'
             if not os.path.exists(targetDir):
                 os.makedirs(targetDir)
@@ -342,16 +363,16 @@ class UDir (object):
         else:
             shutil.move(inFile, fullishPath)
             os.chmod(fullishPath, 0o444)
+
         return (length, hash)
 
     def putData(self, data, key):
-        s = hashlib.sha1()
-        s.update(data)
-        hash = s.hexdigest()
-        if (hash != key):
-            print("expected data to have key %s, but the content key is %s" % (
-                key, hash))
-            return (0, '')          # length and hash
+        if self.usingSHA1:
+            sha = hashlib.sha1()
+        else:
+            sha = hashlib.sha256()
+        sha.update(data)
+        hash = sha.hexdigest()
         length = len(data)
 
         if self.dirStruc == DIR_FLAT:
@@ -364,7 +385,7 @@ class UDir (object):
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
-                raise RuntimeError("undefined dirStruc 0x%x" % self.dirStruc)
+                raise XLUError("undefined dirStruc 0x%x" % self.dirStruc)
 
             targetDir = self.uPath + '/' + topSubDir + '/' + lowerDir + '/'
             if not os.path.exists(targetDir):
@@ -377,6 +398,13 @@ class UDir (object):
         else:
             with open(fullishPath, 'wb') as f:
                 f.write(data)
+
+        # XXX UNSATISFACTORY HANDLING OF THE ERROR
+        if (hash != key):
+            errMsg = "putData:\n\texpected key %s\n\tcontent hash %s" % (
+                key, hash)
+            print(errMsg)
+
         return (length, hash)               # GEEP2
 
     def exists(self, key):
@@ -412,6 +440,6 @@ class UDir (object):
             topSubDir = key[0:2]
             lowerDir = key[2:4]
         else:
-            raise RuntimeError("unexpected dirStruc 0x%x" % self.dirStruc)
+            raise XLUError("unexpected dirStruc 0x%x" % self.dirStruc)
 
         return self.uPath + '/' + topSubDir + '/' + lowerDir + '/' + key
