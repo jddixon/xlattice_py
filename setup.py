@@ -35,6 +35,10 @@ setup(name='xlattice_py',
            'uConsolidate',
            'uStats',
            'verifyContentKeys', ],
-      # MISSING url
-      ext_modules=[module1]
+      ext_modules=[module1],
+      # MISSING description
+      classifiers=[
+          'License :: OSI Approved :: MIT License',
+          'Programming Language :: Python :: 3',
+      ],
       )

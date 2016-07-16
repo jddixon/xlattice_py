@@ -19,15 +19,24 @@ def doRun(options):
 
     # XXX options.outDir currently ignored
 
-    (subDirCount, subSubDirCount, leafCount, oddCount, hasL, hasNodeID) = \
-        collectStats(uDir, outDir, verbose)
+    # returns a UStats object 
+    s = collectStats(uDir, outDir, verbose)
 
-    print(
-        "%3d subDirectories, %5d subSubDirectories, %6d leaf files, %d oddities" % (subDirCount, subSubDirCount, leafCount, oddCount))
+    if verbose:
+        print("statistics for %s" % uDir)
 
-    if hasL:
+    print("  subDirectories:     %10d" % s.subDirCount)
+    print("  subSubDirectories:  %10d" % s.subSubDirCount)
+    print("  leaf files:         %10d" % s.leafCount)
+    print("  odd files:          %10d" % s.oddCount)
+    if s.minLeafBytes != sys.maxsize:
+        print("  smallest leaf file: %10d" % s.minLeafBytes)
+    print("  largest leaf file:  %10d" % s.maxLeafBytes)
+
+
+    if s.hasL:
         print("  L present")
-    if hasNodeID:
+    if s.hasNodeID:
         print("  nodeID present")
 
 

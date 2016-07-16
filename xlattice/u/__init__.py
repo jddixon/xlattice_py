@@ -202,7 +202,7 @@ class UDir (object):
     def usingSHA1(self): return self._usingSHA1
 
     @classmethod
-    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True):
+    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
         """
         If there is a directory at the expected path, return an
         appropriate tree with the directory structure found.  Otherwise
@@ -270,7 +270,7 @@ class UDir (object):
                     usingSHA1 = False
 
         # if uDir does not already exist, this creates it
-        obj = clz(uPath, dirStruc, usingSHA1)
+        obj = clz(uPath, dirStruc, usingSHA1, mode)
         return obj
 
     def copyAndPut(self, path, key):

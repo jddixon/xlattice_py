@@ -1,4 +1,13 @@
-~/dev/py/xlattice_py
+~/dev/py/xlattice_py/TODO
+
+2016-07-15
+    * add UStats object with fields 
+        - initially subDirCount, subSubDirCount, leafCount, oddCount,
+            bool hasL, bool hasNodeID
+        - then add minCount (init MAXINT, maxCount (init 0)
+
+2016-06-14
+    * testU contains many debug comments, needs to be cleaned up
 
 2016-06-14
     * testU contains many debug comments, needs to be cleaned up
