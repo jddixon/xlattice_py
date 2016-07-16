@@ -1,5 +1,15 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.2.5
+    2016-07-15
+        * extend uStats to get max/min file size in uDir; test      SLOC 4880
+v1.2.4
+    XXX NOT ON GITHUB XXX
+    2016-06-23
+        * add forgotten mode to discover()                          SLOC 4778
+v1.2.3
+    2016-06-23
+        * add ghpDoc/{css,img}/; add mode to Udir.__init__()        SLOC 4768
 v1.2.2
     2016-06-15
         * changed handling of key/hash mismatch in UDir.put()       SLOC 4335
@@ -153,6 +163,9 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
 
 
 

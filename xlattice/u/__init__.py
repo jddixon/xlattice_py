@@ -168,13 +168,13 @@ class ULock(object):
 
 class UDir (object):
 
-    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA1=True):
+    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
 
         self._uPath = uPath
         self._dirStruc = dirStruc
         self._usingSHA1 = usingSHA1
 
-        os.makedirs(self._uPath, mode=0o755, exist_ok=True)
+        os.makedirs(self._uPath, mode=mode, exist_ok=True)
 
         # simplistic aids to discovery
 
@@ -188,9 +188,9 @@ class UDir (object):
         open(pathToSig, 'a').close()                # touch
 
         self._inDir = os.path.join(uPath, 'in')
-        os.makedirs(self._inDir, mode=0o755, exist_ok=True)
+        os.makedirs(self._inDir, mode=mode, exist_ok=True)
         self._tmpDir = os.path.join(uPath, 'tmp')
-        os.makedirs(self._tmpDir, mode=0o755, exist_ok=True)
+        os.makedirs(self._tmpDir, mode=mode, exist_ok=True)
 
     @property
     def dirStruc(self): return self._dirStruc
@@ -202,7 +202,7 @@ class UDir (object):
     def usingSHA1(self): return self._usingSHA1
 
     @classmethod
-    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True):
+    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
         """
         If there is a directory at the expected path, return an
         appropriate tree with the directory structure found.  Otherwise
@@ -270,7 +270,7 @@ class UDir (object):
                     usingSHA1 = False
 
         # if uDir does not already exist, this creates it
-        obj = clz(uPath, dirStruc, usingSHA1)
+        obj = clz(uPath, dirStruc, usingSHA1, mode)
         return obj
 
     def copyAndPut(self, path, key):
