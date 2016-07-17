@@ -19,7 +19,7 @@ def doRun(options):
 
     # XXX options.outDir currently ignored
 
-    # returns a UStats object 
+    # returns a UStats object
     s = collectStats(uDir, outDir, verbose)
 
     if verbose:
@@ -32,7 +32,6 @@ def doRun(options):
     if s.minLeafBytes != sys.maxsize:
         print("  smallest leaf file: %10d" % s.minLeafBytes)
     print("  largest leaf file:  %10d" % s.maxLeafBytes)
-
 
     if s.hasL:
         print("  L present")
