@@ -1,5 +1,13 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-07-17
+    * implement UDir.delete(key), where key is a hex value, returning   * DONE
+        False if not present, True otherwise                            * DONE
+    * test uDir.delete()
+
+    * elaborate testing of UStats, getting code for building random
+        directory tree from ../nlhtree_py/testDropFromU.py
+
 2016-07-15
     * add UStats object with fields 
         - initially subDirCount, subSubDirCount, leafCount, oddCount,

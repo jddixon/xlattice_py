@@ -303,6 +303,19 @@ class UDir (object):
 
         return length, hash
 
+    def delete(self, key):
+        """
+        If there is a file in the store with the hexadecimal content key
+        specified, delete it and return True.  Otherwise return False.
+
+        """
+        path = self.getPathForKey(key)
+        if not os.path.exists(path):
+            return False
+        else:
+            os.unlink(path)
+            return True
+
     def getData(self, key):
         """
         If there is a file in the store with the content key specified,

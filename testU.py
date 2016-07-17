@@ -57,29 +57,36 @@ class TestU (unittest.TestCase):
 
     # ---------------------------------------------------------------
 
-    def doTestCopyAndPut(self, dirStruc=DIR16x16, usingSHA1=False):
+    def doTestCopyAndPut(self, dirStruc, usingSHA1):
 
         uDir = UDir(U_PATH, dirStruc, usingSHA1)
         self.assertEqual(uDir.uPath, U_PATH)
         self.assertEqual(uDir.dirStruc, dirStruc)
         self.assertEqual(uDir.usingSHA1, usingSHA1)
 
-        # create a random file                            maxLen    minLen
-        (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
-        dKey = fileSHA1Hex(dPath)
+        for k in range(1024):
+            # create a random file                            maxLen    minLen
+            (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
+            if usingSHA1:
+                dKey = fileSHA1Hex(dPath)
+            else:
+                dKey = fileSHA2Hex(dPath)
 
-        # copy this file into U
-        (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
-        self.assertEqual(dLen, uLen)
-        self.assertEqual(dKey, uKey)
+            # copy this file into U
+            (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
+            self.assertEqual(dLen, uLen)
+            self.assertEqual(dKey, uKey)
 
-        # verify that original and copy both exist
-        self.assertTrue(os.path.exists(dPath))
-        uPath = uDir.getPathForKey(uKey)
-        self.assertTrue(os.path.exists(uPath))
+            # verify that original and copy both exist
+            self.assertTrue(os.path.exists(dPath))
+            uPath = uDir.getPathForKey(uKey)
+            self.assertTrue(os.path.exists(uPath))
 
-        uKeyHex = fileSHA1Hex(uPath)
-        self.assertEqual(uKeyHex, dKey)
+            if usingSHA1:
+                uKeyHex = fileSHA1Hex(uPath)
+            else:
+                uKeyHex = fileSHA2Hex(uPath)
+            self.assertEqual(uKeyHex, dKey)
 
     def testCopyAndPut(self):
         for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
@@ -97,7 +104,10 @@ class TestU (unittest.TestCase):
         self.assertEqual(uDir.usingSHA1, usingSHA1)
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
-        dKey = fileSHA1Hex(dPath)
+        if usingSHA1:
+            dKey = fileSHA1Hex(dPath)
+        else:
+            dKey = fileSHA2Hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertTrue(os.path.exists(uPath))
@@ -127,7 +137,10 @@ class TestU (unittest.TestCase):
         self.assertEqual(uDir.usingSHA1, usingSHA1)
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
-        dKey = fileSHA1Hex(dPath)
+        if usingSHA1:
+            dKey = fileSHA1Hex(dPath)
+        else:
+            dKey = fileSHA2Hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertEqual(dLen, uLen)
@@ -224,7 +237,10 @@ class TestU (unittest.TestCase):
         self.assertEqual(uDir.usingSHA1, usingSHA1)
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
-        dKey = fileSHA1Hex(dPath)
+        if usingSHA1:
+            dKey = fileSHA1Hex(dPath)
+        else:
+            dKey = fileSHA2Hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
         dupePath = os.path.join(DATA_PATH, dKey)
@@ -262,7 +278,10 @@ class TestU (unittest.TestCase):
 
         # this is just lazy coding ;-)
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
-        dKey = fileSHA1Hex(dPath)
+        if usingSHA1:
+            dKey = fileSHA1Hex(dPath)
+        else:
+            dKey = fileSHA2Hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
 
