@@ -12,11 +12,13 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_BIN_NONE', 'SHA2_BIN_NONE',
            'SHA1_HEX_NONE', 'SHA1_B64_NONE',
            'SHA2_HEX_NONE',
+           'DIR_STRUC_NAMES',
            'DIR_FLAT', 'DIR16x16', 'DIR256x256',
            # classes
            'UDir', 'ULock',
            'XLUError',
            # functions
+           'dirStrucToName', 'nameToDirStruc',
            'fileSHA1Bin', 'fileSHA1Hex', 'fileSHA2Bin', 'fileSHA2Hex',
            ]
 
@@ -52,6 +54,29 @@ RNG = rnglib.SimpleRNG(time.time())
 DIR_FLAT = 0x200
 DIR16x16 = 0x400
 DIR256x256 = 0x800
+
+DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
+_nameToDirStruc = {
+    'DIR_FLAT': DIR_FLAT,
+    'DIR16x16': DIR16x16,
+    'DIR256x256': DIR256x256,
+}
+
+
+def nameToDirStruc(s):
+    """ map a string into an integer"""
+    return _nameToDirStruc[s]
+
+_dirStrucToName = {
+    DIR_FLAT: 'DIR_FLAT',
+    DIR16x16: 'DIR16x16',
+    DIR256x256: 'DIR256x256',
+}
+
+
+def dirStrucToName(n):
+    """ map an integer into a string """
+    return _dirStrucToName[n]
 
 # - fileSHA1 --------------------------------------------------------
 

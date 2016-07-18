@@ -7,6 +7,8 @@ import os
 import time
 import unittest
 from xlattice.u import (UDir, DIR_FLAT, DIR16x16, DIR256x256,
+                        DIR_STRUC_NAMES,
+                        dirStrucToName, nameToDirStruc,
                         fileSHA1Hex, fileSHA1Bin,
                         fileSHA2Hex, fileSHA2Bin)
 
@@ -33,6 +35,12 @@ class TestU (unittest.TestCase):
         pass
 
     # actual unit tests =============================================
+
+    def mapTest(self):
+        for name in DIR_STRUC_NAMES:
+            x = nameToDirStruc(name)
+            name2 = dirStrucToName(x)
+            self.assertEqual(name, name2)
 
     def doDiscoveryTest(self, dirStruc, usingSHA1):
 
