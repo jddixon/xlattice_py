@@ -1,5 +1,18 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-07-19
+    * part of testUStats.py is stubbed; implement it
+    * modify uStats to display discovered dirStruc and usingSHA1        * DONE
+
+2016-07-19, edit from -18
+    * write uReStruc, a tool to restructure a uDir directory to 
+        a different dirStruc
+        - particular interest is in moving DIR_FLAT files into 
+            DIR256x256 subdirectories
+        - pay attention to None files (used to discover whether
+            usingSHA1)
+        - files that are in the right place should be left there
+
 2016-07-17
     * implement UDir.delete(key), where key is a hex value, returning   * DONE
         False if not present, True otherwise                            * DONE
@@ -13,9 +26,6 @@
         - initially subDirCount, subSubDirCount, leafCount, oddCount,
             bool hasL, bool hasNodeID
         - then add minCount (init MAXINT, maxCount (init 0)
-
-2016-06-14
-    * testU contains many debug comments, needs to be cleaned up
 
 2016-06-14
     * testU contains many debug comments, needs to be cleaned up

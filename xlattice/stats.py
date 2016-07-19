@@ -10,7 +10,9 @@ import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
-from xlattice.u import fileSHA1Hex
+from xlattice.u import (fileSHA1Hex,
+                        DIR_FLAT, dirStrucToName, nameToDirStruc,
+                        UDir,)
 
 ###############################
 # XXX assumes usingSHA1 == True
@@ -26,6 +28,9 @@ SHA1_RE = re.compile(SHA1_PAT)
 class UStats:
 
     def __init__(self):
+        self._dirStruc = DIR_FLAT
+        self._usingSHA1 = False
+
         self._subDirCount = 0
         self._subSubDirCount = 0
         self._leafCount = 0
@@ -35,73 +40,49 @@ class UStats:
         self._minLeafBytes = sys.maxsize
         self._maxLeafBytes = 0
 
+        self._unexpectedAtTop = []
+
+    @property
+    def dirStruc(self): return self._dirStruc   # an int
+
+    @property
+    def usingSHA1(self): return self._usingSHA1
+
     @property
     def subDirCount(self):
         return self._subDirCount
-
-    @subDirCount.setter
-    def subDirCount(self, value):
-        self._subDirCount = value
 
     @property
     def subSubDirCount(self):
         return self._subSubDirCount
 
-    @subSubDirCount.setter
-    def subSubDirCount(self, value):
-        self._subSubDirCount = value
-
     @property
     def leafCount(self):
         return self._leafCount
-
-    @leafCount.setter
-    def leafCount(self, value):
-        self._leafCount = value
 
     @property
     def oddCount(self):
         return self._oddCount
 
-    @oddCount.setter
-    def oddCount(self, value):
-        self._oddCount = value
-
     @property
     def hasL(self):
         return self._hasL
-
-    @hasL.setter
-    def hasL(self, value):
-        self._hasL = value
 
     @property
     def hasNodeID(self):
         return self._hasNodeID
 
-    @hasNodeID.setter
-    def hasNodeID(self, value):
-        self._hasNodeID = value
-
     @property
     def minLeafBytes(self):
         return self._minLeafBytes
-
-    @minLeafBytes.setter
-    def minLeafBytes(self, value):
-        """ Try to set the value, succeeding if its smaller """
-        if value < self.minLeafBytes:
-            self._minLeafBytes = value
 
     @property
     def maxLeafBytes(self):
         return self._maxLeafBytes
 
-    @maxLeafBytes.setter
-    def maxLeafBytes(self, value):
-        """ Try to set the value, succeeding if its larger """
-        if value > self.maxLeafBytes:
-            self._maxLeafBytes = value
+    @property
+    def unexpectedAtTop(self):
+        return self._unexpectedAtTop
 
 
 def scanLeafDir(pathToDir, obj):
@@ -119,23 +100,31 @@ def scanLeafDir(pathToDir, obj):
             fileCount = fileCount + 1
             pathToFile = os.path.join(pathToDir, file)
             size = os.stat(pathToFile).st_size
-            obj.minLeafBytes = size
-            obj.maxLeafBytes = size
+            if size < obj.minLeafBytes:
+                obj._minLeafBytes = size
+            if size > obj.maxLeafBytes:
+                obj._maxLeafBytes = size
         else:
             oddCount = oddCount + 1
-    obj.leafCount += fileCount
-    obj.oddCount += oddCount
+    obj._leafCount += fileCount
+    obj._oddCount += oddCount
 
 
-def collectStats(uDir, outDir, verbose):
+def collectStats(uPath, outPath, verbose):
 
     s = UStats()        # we will return this
 
-    if outDir:
-        os.makedirs(outDir, exist_ok=True)
+    # XXX outPath IS NOT USED
+    if outPath:
+        os.makedirs(outPath, exist_ok=True)
+    # END NOT USED
+
+    uDir = UDir.discover(uPath)
+    s._usingSHA1 = uDir.usingSHA1
+    s._dirStruc = uDir.dirStruc
 
     # upper-level files / subdirectories
-    topFiles = os.listdir(uDir)
+    topFiles = os.listdir(uPath)
     for topFile in topFiles:
 
         # -- upper-level files ----------------------------------------
@@ -148,8 +137,8 @@ def collectStats(uDir, outDir, verbose):
 
             # -- upper-level directories ------------------------------
 
-            s.subDirCount += 1
-            pathToSubDir = os.path.join(uDir, topFile)
+            s._subDirCount += 1
+            pathToSubDir = os.path.join(uPath, topFile)
             # DEBUG
             #print("SUBDIR: %s" % pathToSubDir)
             # END
@@ -157,7 +146,7 @@ def collectStats(uDir, outDir, verbose):
             for midFile in midFiles:
                 m2 = HEX2_RE.match(midFile)
                 if m2:
-                    s.subSubDirCount += 1
+                    s._subSubDirCount += 1
                     pathToSubSubDir = os.path.join(pathToSubDir, midFile)
                     # DEBUG
                     #print("  SUBSUBDIR: %s" % pathToSubSubDir)
@@ -169,25 +158,23 @@ def collectStats(uDir, outDir, verbose):
                 else:
                     pathToOddity = os.path.join(pathToSubDir, midFile)
                     # print("unexpected: %s" % pathToOddity)
-                    oddCount += 1
+                    s._oddCount += 1
 
         #-- other upper-level files -----------------------------------
 
         else:
             if topFile == 'L':
-                s.hasL = True
+                s._hasL = True
             elif topFile == 'nodeID':
-                s.hasNodeID = True
+                s._hasNodeID = True
             elif topFile in ['in', 'tmp']:
                 # DEBUG
                 # print("TOP LEVEL OTHER DIR: %s" % topFile)
-                pathToDir = os.path.join(uDir, topFile)
+                pathToDir = os.path.join(uPath, topFile)
                 scanLeafDir(pathToDir, s)
             else:
-                pathToOddity = os.path.join(uDir, topFile)
-                # DEBUB
-                print("unexpected at top level: %s" % pathToOddity)
-                # END
-                s.oddCount += 1
+                pathToOddity = os.path.join(uPath, topFile)
+                s._unexpectedAtTop.append(pathToOddity)
+                s._oddCount += 1
 
     return s

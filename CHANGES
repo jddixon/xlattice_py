@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.2.8
+    2016-07-19
+        * elaborate uStats, but remove property setters             SLOC 4907
 v1.2.7
     2016-07-18
         * add DIR_STRUC_NAMES, dirStrucToName(), nameToDirStruc     SLOC 4926
@@ -169,6 +172,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

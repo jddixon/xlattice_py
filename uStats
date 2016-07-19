@@ -9,26 +9,29 @@ from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collectStats
+from xlattice.u import dirStrucToName
 
 
 def doRun(options):
 
-    uDir = options.uDir
-    outDir = options.outDir
+    uPath = options.uPath
+    outPath = options.outPath
     verbose = options.verbose
 
-    # XXX options.outDir currently ignored
+    # XXX options.outPath currently ignored
 
     # returns a UStats object
-    s = collectStats(uDir, outDir, verbose)
+    s = collectStats(uPath, outPath, verbose)
 
-    if verbose:
-        print("statistics for %s" % uDir)
-
+    print("statistics for %s" % uPath)
+    print("  dirStruc:           %10s" % dirStrucToName(s.dirStruc))
+    print("  usingSHA1:          %10s" % s.usingSHA1)
+    print()
     print("  subDirectories:     %10d" % s.subDirCount)
     print("  subSubDirectories:  %10d" % s.subSubDirCount)
     print("  leaf files:         %10d" % s.leafCount)
     print("  odd files:          %10d" % s.oddCount)
+
     if s.minLeafBytes != sys.maxsize:
         print("  smallest leaf file: %10d" % s.minLeafBytes)
     print("  largest leaf file:  %10d" % s.maxLeafBytes)
@@ -38,22 +41,30 @@ def doRun(options):
     if s.hasNodeID:
         print("  nodeID present")
 
+    if verbose:
+        if s._unexpectedAtTop:
+            print("\nunexpected at top (%d)" % len(s._unexpectedAtTop))
+            for x in s._unexpectedAtTop:
+                print("  %s" % x)
+    else:
+        print("  unexpected at top:  %10d" % len(s._unexpectedAtTop))
+
 
 def main():
 
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'display statistical information on uDir'
+    DESC = 'display statistical information on uPath'
     parser = ArgumentParser(description=DESC)
 
     parser.add_argument('-j', '--justShow', action='store_true',
                         help='show options and exit')
 
-    parser.add_argument('-o', '--outDir', type=str,
+    parser.add_argument('-o', '--outPath', type=str,
                         help='destination directory')
 
-    parser.add_argument('-u', '--uDir', default='/var/U',
+    parser.add_argument('-u', '--uPath', default='/var/U',
                         help="source U directory (default=/var/U) ")
 
     parser.add_argument('-v', '--verbose', action='store_true',
@@ -65,13 +76,13 @@ def main():
 
     # sanity checks -------------------------------------------------
 
-    if not args.uDir or not os.path.exists(args.uDir):
-        print("input directory '%s' does not exist" % args.uDir)
+    if not args.uPath or not os.path.exists(args.uPath):
+        print("input directory '%s' does not exist" % args.uPath)
         parser.print_help()
         sys.exit(1)
 
-    if args.outDir and not os.path.exists(args.outDir):
-        print("output directory '%s' does not exist" % args.outDir)
+    if args.outPath and not os.path.exists(args.outPath):
+        print("output directory '%s' does not exist" % args.outPath)
         parser.print_help()
         sys.exit(1)
 
@@ -83,9 +94,9 @@ def main():
         print("%s %s" % (appName, __version_date__))
 
     if args.verbose or args.justShow:
-        print('outDir       = ' + str(args.outDir))
         print('justShow     = ' + str(args.justShow))
-        print('uDir         = ' + str(args.uDir))
+        print('outPath      = ' + str(args.outPath))
+        print('uPath        = ' + str(args.uPath))
         print('verbose      = ' + str(args.verbose))
 
     if args.justShow:
