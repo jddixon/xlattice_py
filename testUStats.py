@@ -7,6 +7,7 @@ import sys
 import unittest
 from rnglib import SimpleRNG
 from xlattice.stats import UStats
+from xlattice.u import DIR_FLAT
 
 
 class TestUStats (unittest.TestCase):
@@ -17,6 +18,9 @@ class TestUStats (unittest.TestCase):
     def testDefaults(self):
         s = UStats()
 
+        self.assertEqual(s.dirStruc, DIR_FLAT)
+        self.assertEqual(s.usingSHA1, False)
+
         self.assertEqual(s.subDirCount, 0)
         self.assertEqual(s.subSubDirCount, 0)
         self.assertEqual(s.leafCount, 0)
@@ -26,46 +30,12 @@ class TestUStats (unittest.TestCase):
         self.assertEqual(s.minLeafBytes, sys.maxsize)
         self.assertEqual(s.maxLeafBytes, 0)
 
+        self.assertEqual(len(s.unexpectedAtTop), 0)
+
     def testProperties(self):
         s = UStats()
 
-        s.subDirCount += 7
-        self.assertEqual(s.subDirCount, 7)
-
-        s.subSubDirCount += 13
-        self.assertEqual(s.subSubDirCount, 13)
-
-        s.leafCount += 31
-        self.assertEqual(s.leafCount, 31)
-
-        s.oddCount += 19
-        self.assertEqual(s.oddCount, 19)
-
-        s.hasL = True
-        self.assertEqual(s.hasL, True)
-
-        s.hasNodeID = True
-        self.assertEqual(s.hasNodeID, True)
-
-        # this value only decreases ---------------------------------
-        s.minLeafBytes = 47
-        self.assertEqual(s.minLeafBytes, 47)
-
-        s.minLeafBytes = 52
-        self.assertEqual(s.minLeafBytes, 47)
-
-        s.minLeafBytes = 12
-        self.assertEqual(s.minLeafBytes, 12)
-
-        # this value only increases ---------------------------------
-        s.maxLeafBytes = 47
-        self.assertEqual(s.maxLeafBytes, 47)
-
-        s.maxLeafBytes = 12
-        self.assertEqual(s.maxLeafBytes, 47)
-
-        s.maxLeafBytes = 52
-        self.assertEqual(s.maxLeafBytes, 52)
+        # XXX STUB XXX
 
 # subDirCount
 # subSubDirCount

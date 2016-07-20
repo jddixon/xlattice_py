@@ -1,5 +1,23 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-07-20
+    * DIR_FLAT etc should be a class attribute
+
+2016-07-19
+    * part of testUStats.py is stubbed; implement it
+    * modify uStats to display discovered dirStruc and usingSHA1        * DONE
+    * THING ABOVUT THIS: is there any problem with using SHAx_HEX_NONE
+        as the signature for usingSHA1?  
+
+2016-07-19, edit from -18
+    * write uReStruc, a tool to restructure a uDir directory to 
+        a different dirStruc
+        - particular interest is in moving DIR_FLAT files into 
+            DIR256x256 subdirectories
+        - pay attention to None files (used to discover whether
+            usingSHA1)
+        - files that are in the right place should be left there
+
 2016-07-17
     * implement UDir.delete(key), where key is a hex value, returning   * DONE
         False if not present, True otherwise                            * DONE

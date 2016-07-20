@@ -7,6 +7,8 @@ import os
 import time
 import unittest
 from xlattice.u import (UDir, DIR_FLAT, DIR16x16, DIR256x256,
+                        DIR_STRUC_NAMES,
+                        dirStrucToName, nameToDirStruc,
                         fileSHA1Hex, fileSHA1Bin,
                         fileSHA2Hex, fileSHA2Bin)
 
@@ -33,6 +35,12 @@ class TestU (unittest.TestCase):
         pass
 
     # actual unit tests =============================================
+
+    def mapTest(self):
+        for name in DIR_STRUC_NAMES:
+            x = nameToDirStruc(name)
+            name2 = dirStrucToName(x)
+            self.assertEqual(name, name2)
 
     def doDiscoveryTest(self, dirStruc, usingSHA1):
 
@@ -206,7 +214,7 @@ class TestU (unittest.TestCase):
         elif dirStruc == DIR256x256:
             expectedPath = "%s/%s/%s/%s" % (U_PATH, uKey[0:2], uKey[2:4], uKey)
         else:
-            self.fail("INTERNAL ERROR: unexpected dirStruc 0x%x" % dirStruc)
+            self.fail("INTERNAL ERROR: unexpected dirStruc %d" % dirStruc)
 
         # DEBUG
         if expectedPath != uPath:

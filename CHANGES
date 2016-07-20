@@ -1,5 +1,15 @@
 ~/dev/py/xlattice_py/CHANGES
 
+
+v1.2.9
+    2016-07-20
+        * add skeletal testUReStruc.py and uReStruc                 SLOC 4987
+v1.2.8
+    2016-07-19
+        * elaborate uStats, but remove property setters             SLOC 4907
+v1.2.7
+    2016-07-18
+        * add DIR_STRUC_NAMES, dirStrucToName(), nameToDirStruc     SLOC 4926
 v1.2.6
     2016-07-17
         * add uDir.delete(key), fix styleit                         SLOC 4898
@@ -165,6 +175,9 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
 
 
 
