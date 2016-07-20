@@ -214,7 +214,7 @@ class TestU (unittest.TestCase):
         elif dirStruc == DIR256x256:
             expectedPath = "%s/%s/%s/%s" % (U_PATH, uKey[0:2], uKey[2:4], uKey)
         else:
-            self.fail("INTERNAL ERROR: unexpected dirStruc 0x%x" % dirStruc)
+            self.fail("INTERNAL ERROR: unexpected dirStruc %d" % dirStruc)
 
         # DEBUG
         if expectedPath != uPath:

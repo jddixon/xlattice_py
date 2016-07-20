@@ -32,7 +32,7 @@ setup(name='xlattice_py',
       scripts=[
            'scripts/genNodeID1',
            'scripts/genNodeID3',
-           'uConsolidate',
+           'uConsolidate', 'uReStruc',
            'uStats',
            'verifyContentKeys', ],
       ext_modules=[module1],

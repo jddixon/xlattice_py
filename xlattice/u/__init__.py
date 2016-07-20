@@ -13,12 +13,14 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_HEX_NONE', 'SHA1_B64_NONE',
            'SHA2_HEX_NONE',
            'DIR_STRUC_NAMES',
-           'DIR_FLAT', 'DIR16x16', 'DIR256x256',
+           # these need to be a zero-based sequence
+           'DIR_FLAT', 'DIR16x16', 'DIR256x256', 'DIR_STRUC_MAX',
+
            # classes
            'UDir', 'ULock',
            'XLUError',
            # functions
-           'dirStrucToName', 'nameToDirStruc',
+           'dirStrucToName', 'nameToDirStruc', 'dirStrucSig',
            'fileSHA1Bin', 'fileSHA1Hex', 'fileSHA2Bin', 'fileSHA2Hex',
            ]
 
@@ -51,9 +53,55 @@ SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 # The next line needs to be synchronized
 RNG = rnglib.SimpleRNG(time.time())
 
-DIR_FLAT = 0x200
-DIR16x16 = 0x400
-DIR256x256 = 0x800
+DIR_FLAT = 0
+DIR16x16 = 1
+DIR256x256 = 2
+DIR_STRUC_MAX = 3
+
+DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
+_nameToDirStruc = {
+    'DIR_FLAT': DIR_FLAT,
+    'DIR16x16': DIR16x16,
+    'DIR256x256': DIR256x256,
+}
+
+
+def nameToDirStruc(s):
+    """ map a string into an integer"""
+    return _nameToDirStruc[s]
+
+_dirStrucToName = {
+    DIR_FLAT: 'DIR_FLAT',
+    DIR16x16: 'DIR16x16',
+    DIR256x256: 'DIR256x256',
+}
+
+
+def dirStrucToName(n):
+    """ map an integer into a string """
+    return _dirStrucToName[n]
+
+
+def dirStrucSig(uPath, dirStruc, usingSHA1):
+    """ signatures differentiating different types of directories """
+    if usingSHA1:
+        none = SHA1_HEX_NONE
+    else:
+        none = SHA2_HEX_NONE
+    if dirStruc == DIR_FLAT:
+        sig = os.path.join(uPath, none)
+    elif dirStruc == DIR16x16:
+        sig = os.path.join(uPath,
+                           os.path.join(none[0],
+                                        os.path.join(none[1], none)))
+    elif dirStruc == DIR256x256:
+        sig = os.path.join(uPath,
+                           os.path.join(none[0:2],
+                                        os.path.join(none[2:4], none)))
+    else:
+        raise XLUError('invalid dirStruc %d' % dirStruc)
+
+    return sig
 
 DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
 _nameToDirStruc = {
@@ -390,7 +438,7 @@ class UDir (object):
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
-                raise XLUError("unknown dirStruc 0x%x" % self.dirStruc)
+                raise XLUError("unknown dirStruc %d" % self.dirStruc)
             targetDir = self.uPath + '/' + topSubDir + '/' + lowerDir + '/'
             if not os.path.exists(targetDir):
                 os.makedirs(targetDir)
@@ -423,7 +471,7 @@ class UDir (object):
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
-                raise XLUError("undefined dirStruc 0x%x" % self.dirStruc)
+                raise XLUError("undefined dirStruc %d" % self.dirStruc)
 
             targetDir = self.uPath + '/' + topSubDir + '/' + lowerDir + '/'
             if not os.path.exists(targetDir):
@@ -478,6 +526,6 @@ class UDir (object):
             topSubDir = key[0:2]
             lowerDir = key[2:4]
         else:
-            raise XLUError("unexpected dirStruc 0x%x" % self.dirStruc)
+            raise XLUError("unexpected dirStruc %d" % self.dirStruc)
 
         return self.uPath + '/' + topSubDir + '/' + lowerDir + '/' + key
