@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.2.10
+    2016-07-21
+        * DIR_FLAT etc now attributes of UDir (constants)           SLOC 5017
 v1.2.9
     2016-07-20
         * add skeletal testUReStruc.py and uReStruc                 SLOC 4987
@@ -210,7 +213,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+

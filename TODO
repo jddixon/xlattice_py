@@ -1,7 +1,7 @@
 ~/dev/py/xlattice_py/TODO
 
 2016-07-20
-    * DIR_FLAT etc should be a class attribute
+    * DIR_FLAT etc should be a class attribute                          * DONE
 
 2016-07-19
     * part of testUStats.py is stubbed; implement it

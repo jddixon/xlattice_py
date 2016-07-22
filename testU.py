@@ -6,9 +6,7 @@ import hashlib
 import os
 import time
 import unittest
-from xlattice.u import (UDir, DIR_FLAT, DIR16x16, DIR256x256,
-                        DIR_STRUC_NAMES,
-                        dirStrucToName, nameToDirStruc,
+from xlattice.u import (UDir,
                         fileSHA1Hex, fileSHA1Bin,
                         fileSHA2Hex, fileSHA2Bin)
 
@@ -59,7 +57,7 @@ class TestU (unittest.TestCase):
         self.assertEqual(u2.usingSHA1, usingSHA1)
 
     def testDiscovery(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doDiscoveryTest(dirStruc, True)
             self.doDiscoveryTest(dirStruc, False)
 
@@ -97,7 +95,7 @@ class TestU (unittest.TestCase):
             self.assertEqual(uKeyHex, dKey)
 
     def testCopyAndPut(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestCopyAndPut(dirStruc, True)
             self.doTestCopyAndPut(dirStruc, False)
 
@@ -125,7 +123,7 @@ class TestU (unittest.TestCase):
         self.assertFalse(uDir.exists(uKey))
 
     def testExists(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestExists(dirStruc, True)
             self.doTestExists(dirStruc, False)
 
@@ -155,7 +153,7 @@ class TestU (unittest.TestCase):
         self.assertEqual(dLen, uDir.fileLen(uKey))
 
     def testFileLen(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestFileLen(dirStruc, True)
 
     # ---------------------------------------------------------------
@@ -184,7 +182,7 @@ class TestU (unittest.TestCase):
         self.assertEqual(dKey, fsha)
 
     def testFileSHA(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestFileSHA(dirStruc, True)
 
     # ---------------------------------------------------------------
@@ -207,23 +205,23 @@ class TestU (unittest.TestCase):
 
         # XXX implementation-dependent tests
         #
-        if dirStruc == DIR_FLAT:
+        if dirStruc == uDir.DIR_FLAT:
             expectedPath = os.path.join(U_PATH, uKey)
-        elif dirStruc == DIR16x16:
+        elif dirStruc == uDir.DIR16x16:
             expectedPath = "%s/%s/%s/%s" % (U_PATH, uKey[0], uKey[1], uKey)
-        elif dirStruc == DIR256x256:
+        elif dirStruc == uDir.DIR256x256:
             expectedPath = "%s/%s/%s/%s" % (U_PATH, uKey[0:2], uKey[2:4], uKey)
         else:
             self.fail("INTERNAL ERROR: unexpected dirStruc %d" % dirStruc)
 
         # DEBUG
         if expectedPath != uPath:
-            if dirStruc == DIR_FLAT:
-                print("DIR_FLAT")
-            if dirStruc == DIR16x16:
-                print("DIR16x16")
-            if dirStruc == DIR256x256:
-                print("DIR256x256")
+            if dirStruc == uDir.DIR_FLAT:
+                print("uDir.DIR_FLAT")
+            if dirStruc == uDir.DIR16x16:
+                print("uDir.DIR16x16")
+            if dirStruc == uDir.DIR256x256:
+                print("uDir.DIR256x256")
             print("uPath:       %s" % uPath)
             print("expected:    %s" % expectedPath)
         # END
@@ -231,7 +229,7 @@ class TestU (unittest.TestCase):
         self.assertEqual(expectedPath, uPath)
 
     def testGetPathForKey(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestGetPathForKey(dirStruc, True)
 
     # ---------------------------------------------------------------
@@ -269,7 +267,7 @@ class TestU (unittest.TestCase):
         self.assertTrue(uDir.exists(uKey))
 
     def testPut(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestPut(dirStruc, True)
 
     # ---------------------------------------------------------------
@@ -299,7 +297,7 @@ class TestU (unittest.TestCase):
         uPath = uDir.getPathForKey(uKey)             # GEEP
 
     def testPutData(self):
-        for dirStruc in [DIR_FLAT, DIR16x16, DIR256x256]:
+        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             self.doTestPutData(dirStruc, True)
 
 if __name__ == '__main__':

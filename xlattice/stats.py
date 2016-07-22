@@ -10,9 +10,7 @@ import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
-from xlattice.u import (fileSHA1Hex,
-                        DIR_FLAT, dirStrucToName, nameToDirStruc,
-                        UDir,)
+from xlattice.u import (fileSHA1Hex, UDir,)
 
 ###############################
 # XXX assumes usingSHA1 == True
@@ -28,7 +26,7 @@ SHA1_RE = re.compile(SHA1_PAT)
 class UStats:
 
     def __init__(self):
-        self._dirStruc = DIR_FLAT
+        self._dirStruc = UDir.DIR_FLAT
         self._usingSHA1 = False
 
         self._subDirCount = 0

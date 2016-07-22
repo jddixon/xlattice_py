@@ -13,14 +13,11 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_HEX_NONE', 'SHA1_B64_NONE',
            'SHA2_HEX_NONE',
            'DIR_STRUC_NAMES',
-           # these need to be a zero-based sequence
-           'DIR_FLAT', 'DIR16x16', 'DIR256x256', 'DIR_STRUC_MAX',
 
            # classes
            'UDir', 'ULock',
            'XLUError',
            # functions
-           'dirStrucToName', 'nameToDirStruc', 'dirStrucSig',
            'fileSHA1Bin', 'fileSHA1Hex', 'fileSHA2Bin', 'fileSHA2Hex',
            ]
 
@@ -52,79 +49,6 @@ SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 
 # The next line needs to be synchronized
 RNG = rnglib.SimpleRNG(time.time())
-
-DIR_FLAT = 0
-DIR16x16 = 1
-DIR256x256 = 2
-DIR_STRUC_MAX = 3
-
-DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
-_nameToDirStruc = {
-    'DIR_FLAT': DIR_FLAT,
-    'DIR16x16': DIR16x16,
-    'DIR256x256': DIR256x256,
-}
-
-
-def nameToDirStruc(s):
-    """ map a string into an integer"""
-    return _nameToDirStruc[s]
-
-_dirStrucToName = {
-    DIR_FLAT: 'DIR_FLAT',
-    DIR16x16: 'DIR16x16',
-    DIR256x256: 'DIR256x256',
-}
-
-
-def dirStrucToName(n):
-    """ map an integer into a string """
-    return _dirStrucToName[n]
-
-
-def dirStrucSig(uPath, dirStruc, usingSHA1):
-    """ signatures differentiating different types of directories """
-    if usingSHA1:
-        none = SHA1_HEX_NONE
-    else:
-        none = SHA2_HEX_NONE
-    if dirStruc == DIR_FLAT:
-        sig = os.path.join(uPath, none)
-    elif dirStruc == DIR16x16:
-        sig = os.path.join(uPath,
-                           os.path.join(none[0],
-                                        os.path.join(none[1], none)))
-    elif dirStruc == DIR256x256:
-        sig = os.path.join(uPath,
-                           os.path.join(none[0:2],
-                                        os.path.join(none[2:4], none)))
-    else:
-        raise XLUError('invalid dirStruc %d' % dirStruc)
-
-    return sig
-
-DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
-_nameToDirStruc = {
-    'DIR_FLAT': DIR_FLAT,
-    'DIR16x16': DIR16x16,
-    'DIR256x256': DIR256x256,
-}
-
-
-def nameToDirStruc(s):
-    """ map a string into an integer"""
-    return _nameToDirStruc[s]
-
-_dirStrucToName = {
-    DIR_FLAT: 'DIR_FLAT',
-    DIR16x16: 'DIR16x16',
-    DIR256x256: 'DIR256x256',
-}
-
-
-def dirStrucToName(n):
-    """ map an integer into a string """
-    return _dirStrucToName[n]
 
 # - fileSHA1 --------------------------------------------------------
 
@@ -241,6 +165,54 @@ class ULock(object):
 
 class UDir (object):
 
+    DIR_FLAT = 0
+    DIR16x16 = 1
+    DIR256x256 = 2
+    DIR_STRUC_MAX = 3
+
+    DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
+
+    _nameToDirStruc = {
+        'DIR_FLAT': DIR_FLAT,
+        'DIR16x16': DIR16x16,
+        'DIR256x256': DIR256x256,
+    }
+
+    def nameToDirStruc(s):
+        """ map a string into an integer"""
+        return _nameToDirStruc[s]
+
+    _dirStrucToName = {
+        DIR_FLAT: 'DIR_FLAT',
+        DIR16x16: 'DIR16x16',
+        DIR256x256: 'DIR256x256',
+    }
+
+    def dirStrucToName(n):
+        """ map an integer into a string """
+        return UDir._dirStrucToName[n]
+
+    def dirStrucSig(uPath, dirStruc, usingSHA1):
+        """ signatures differentiating different types of directories """
+        if usingSHA1:
+            none = SHA1_HEX_NONE
+        else:
+            none = SHA2_HEX_NONE
+        if dirStruc == UDir.DIR_FLAT:
+            sig = os.path.join(uPath, none)
+        elif dirStruc == UDir.DIR16x16:
+            sig = os.path.join(uPath,
+                               os.path.join(none[0],
+                                            os.path.join(none[1], none)))
+        elif dirStruc == UDir.DIR256x256:
+            sig = os.path.join(uPath,
+                               os.path.join(none[0:2],
+                                            os.path.join(none[2:4], none)))
+        else:
+            raise XLUError('invalid dirStruc %d' % dirStruc)
+
+        return sig
+
     def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
 
         self._uPath = uPath
@@ -256,8 +228,7 @@ class UDir (object):
         else:
             pathToSig = self.getPathForKey(SHA2_HEX_NONE)
         sigBase = os.path.dirname(pathToSig)
-        if not os.path.exists(sigBase):
-            os.makedirs(sigBase)
+        os.makedirs(sigBase, exist_ok=True)
         open(pathToSig, 'a').close()                # touch
 
         self._inDir = os.path.join(uPath, 'in')
@@ -297,13 +268,13 @@ class UDir (object):
                 flatPathTrue = os.path.join(uPath, SHA1_HEX_NONE)
                 if os.path.exists(flatPathTrue):
                     found = True
-                    dirStruc = DIR_FLAT
+                    dirStruc = UDir.DIR_FLAT
                     usingSHA1 = True
             if not found:
                 flatPathFalse = os.path.join(uPath, SHA2_HEX_NONE)
                 if os.path.exists(flatPathFalse):
                     found = True
-                    dirStruc = DIR_FLAT
+                    dirStruc = UDir.DIR_FLAT
                     usingSHA1 = False
 
             if not found:
@@ -312,7 +283,7 @@ class UDir (object):
                                                           os.path.join(SHA1_HEX_NONE[1], SHA1_HEX_NONE)))
                 if os.path.exists(dir16PathTrue):
                     found = True
-                    dirStruc = DIR16x16
+                    dirStruc = UDir.DIR16x16
                     usingSHA1 = True
             if not found:
                 dir16PathFalse = os.path.join(uPath,
@@ -320,7 +291,7 @@ class UDir (object):
                                                            os.path.join(SHA2_HEX_NONE[1], SHA2_HEX_NONE)))
                 if os.path.exists(dir16PathFalse):
                     found = True
-                    dirStruc = DIR16x16
+                    dirStruc = UDir.DIR16x16
                     usingSHA1 = False
 
             if not found:
@@ -330,7 +301,7 @@ class UDir (object):
                                                                         SHA1_HEX_NONE)))
                 if os.path.exists(dir256PathTrue):
                     found = True
-                    dirStruc = DIR256x256
+                    dirStruc = UDir.DIR256x256
                     usingSHA1 = True
             if not found:
                 dir256PathFalse = os.path.join(uPath,
@@ -339,7 +310,7 @@ class UDir (object):
                                                                          SHA2_HEX_NONE)))
                 if os.path.exists(dir256PathFalse):
                     found = True
-                    dirStruc = DIR256x256
+                    dirStruc = UDir.DIR256x256
                     usingSHA1 = False
 
         # if uDir does not already exist, this creates it
@@ -428,13 +399,13 @@ class UDir (object):
             hash = fileSHA2Hex(inFile)
         length = os.stat(inFile).st_size
 
-        if self.dirStruc == DIR_FLAT:
+        if self.dirStruc == UDir.DIR_FLAT:
             fullishPath = os.path.join(self.uPath, key)
         else:
-            if self.dirStruc == DIR16x16:
+            if self.dirStruc == UDir.DIR16x16:
                 topSubDir = hash[0]
                 lowerDir = hash[1]
-            elif self.dirStruc == DIR256x256:
+            elif self.dirStruc == UDir.DIR256x256:
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
@@ -461,13 +432,13 @@ class UDir (object):
         hash = sha.hexdigest()
         length = len(data)
 
-        if self.dirStruc == DIR_FLAT:
+        if self.dirStruc == UDir.DIR_FLAT:
             fullishPath = os.path.join(self.uPath, key)
         else:
-            if self.dirStruc == DIR16x16:
+            if self.dirStruc == UDir.DIR16x16:
                 topSubDir = hash[0]
                 lowerDir = hash[1]
-            elif self.dirStruc == DIR256x256:
+            elif self.dirStruc == UDir.DIR256x256:
                 topSubDir = hash[0:2]
                 lowerDir = hash[2:4]
             else:
@@ -516,16 +487,53 @@ class UDir (object):
         returns a path to a file with the content key passed, or None if
         there is no such file
         """
-        if self.dirStruc == DIR_FLAT:
+        if self.dirStruc == UDir.DIR_FLAT:
             return os.path.join(self.uPath, key)
 
-        if self.dirStruc == DIR16x16:
+        if self.dirStruc == UDir.DIR16x16:
             topSubDir = key[0]
             lowerDir = key[1]
-        elif self.dirStruc == DIR256x256:
+        elif self.dirStruc == UDir.DIR256x256:
             topSubDir = key[0:2]
             lowerDir = key[2:4]
         else:
             raise XLUError("unexpected dirStruc %d" % self.dirStruc)
 
         return self.uPath + '/' + topSubDir + '/' + lowerDir + '/' + key
+
+    def reStruc(self, newDirStruc):
+        """
+        Change the structure of uDir to the new dirStruc specified,
+        where newDirStruc is a small non-negative integer.
+        """
+        oldStruc = self.dirStruc
+        oldSig = UDir.dirStrucSig(self.uPath, self.dirStruc, self.usingSHA1)
+        newSig = UDir.dirStrucSig(self.uPath, newDirStruc, self.usingSHA1)
+
+        # fix signature
+        if newSig != oldSig:
+            if os.path.exists(oldSig):
+                os.unlink(oldSig)
+            if not os.path.exists(newSig):
+                sigBase = os.path.dirname(newSig)
+                os.makedirs(sigBase, exist_ok=True)
+                open(newSig, 'a').close()                # touch
+        self.moveFilesToRightLevel()
+
+    def moveFilesToRightLevel(self):
+        """
+        Scan the directory structure looking for files whose name=content hash
+        of the right length for the SHA used (so 40 bytes for SHA1, 64 for SHA2/3)
+        but in the wrong directory.  Out-of-place files are moved to the correct
+        directory.
+        """
+
+        # Scan top directory.
+        # xxx STUB xxx
+
+        # Scan mid directories, 1- or 2-char length
+        # xxx STUB xxx
+
+        # Scan bottom directories., 1- or 2-char length
+
+        # remove old directories

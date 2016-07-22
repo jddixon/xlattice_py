@@ -13,19 +13,9 @@ from xlattice.u     import (DIR_FLAT, DIR16x16, DIR256x256,
                         DIR_STRUC_NAMES,
                         UDir, nameToDirStruc, dirStrucToName)
 
-def reStructureUDir(options):
+def reStrucUDir(uPath, newStruc, outPath="", verbose=False):
 
-    newStruc = options.newStruc
-    newStrucName = options.newStrucName
-    oldStruc = options.oldStruc
-    oldStrucName = options.oldStrucName
-
-    outPath = options.outPath
-    uDir = options.uDir
-    verbose = options.verbose
-
-    outDir  = None              # surrogate for boolen
-    if outPath:             
+    if outPath:
         outDir = UDir(outPath, dirStruc=newStruc)
 
 def main():
@@ -34,7 +24,7 @@ def main():
 
     # parse the command line ----------------------------------------
     DESC = 'modify directory structure for uDir, optionally copying it to another directory (UPATH)'
-    
+
     parser = ArgumentParser(description=DESC)
 
     parser.add_argument('-j', '--justShow', action='store_true',
@@ -44,10 +34,10 @@ def main():
                         help='optional destination directory')
 
     parser.add_argument('-s', '--newStrucName', type=str,
-                        help="source U directory (no default)")
+                        help="new dirStruc (DIR_FLAT, DIR16x16, or DIR256x256")
 
     parser.add_argument('-u', '--uPath', type=str,
-                        help="source U directory (no default)")
+                        help='path to uDir (no default)')
 
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='be chatty')
@@ -89,14 +79,15 @@ def main():
 
     if args.verbose or args.justShow:
         print('justShow     = ' + str(args.justShow))
-        print('old dirStruc = %d %s' % (args.oldStruc, args.oldStrucName))
-        print('new dirStruc = %d %s' % (args.newStruc, args.newStrucName))
         print('uPath        = ' + str(args.uPath))
+        print('outPath      = ' + str(args.outPath))
+        print('old dirStruc = %d, %s' % (args.oldStruc, args.oldStrucName))
+        print('new dirStruc = %d, %s' % (args.newStruc, args.newStrucName))
         print('verbose      = ' + str(args.verbose))
 
     if args.justShow:
         sys.exit(0)
-    reStructureUDir(args)
+    reStrucUDir( args.uPath, args.newStruc, args.outPath, args.verbose)
 
 if __name__ == '__main__':
     main()
