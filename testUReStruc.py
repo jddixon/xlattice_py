@@ -59,7 +59,7 @@ class TestReStruc (unittest.TestCase):
 
         return (values, hexHashes)
 
-    def doTestReStruc(self, oldStruc, usingSHA1):
+    def doTestReStruc(self, oldStruc, newStruc, usingSHA1):
 
         # Create a unique test directory uDir.  We expect this to write
         # a characteristic signature into uDir.
@@ -67,8 +67,11 @@ class TestReStruc (unittest.TestCase):
         while os.path.exists(uPath):
             uPath = os.path.join('tmp', self.rng.nextFileName(8))
         # DEBUG
-        print("creating %-12s, dirString=%s, usingSHA1=%s" % (
-            uPath, UDir.dirStrucToName(oldStruc), usingSHA1))
+        # print("\ncreating %-12s, oldStruc=%s, newStruc=%s, usingSHA1=%s" % (
+        #     uPath,
+        #     UDir.dirStrucToName(oldStruc),
+        #     UDir.dirStrucToName(newStruc),
+        #     usingSHA1))
         # END
         uDir = UDir(uPath, oldStruc, usingSHA1)
         self.assertEqual(usingSHA1, uDir.usingSHA1)
@@ -81,20 +84,17 @@ class TestReStruc (unittest.TestCase):
         self.assertTrue(os.path.exists(oldSig))
 
         values, hexHashes = self.makeValues(usingSHA1, 32, 32, 128)
-        k = len(values)
-        for n in range(k):
+        K = len(values)
+        for n in range(K):
             uDir.putData(values[n], hexHashes[n])
         # DEBUG
         # print("HASHES:")
         # END
-        for n in range(k):
+        for n in range(K):
             # DEBUG
             #print("  %02d: %s" % (n, hexHashes[n]))
             # END
             self.assertTrue(uDir.exists(hexHashes[n]))
-
-        # select 'next' dirStruc (treat dirStruc as a ring)
-        newStruc = (oldStruc + 1) % UDir.DIR_STRUC_MAX
 
         # restructure the directory
         uDir.reStruc(newStruc)
@@ -103,7 +103,7 @@ class TestReStruc (unittest.TestCase):
         self.assertTrue(os.path.exists(newSig))
         self.assertFalse(os.path.exists(oldSig))
 
-        for n in range(k):
+        for n in range(K):
             self.assertTrue(uDir.exists(hexHashes[n]))
 
         # XXX STUB: veriy any useless directories have been removed
@@ -111,9 +111,11 @@ class TestReStruc (unittest.TestCase):
         #   directoris like 00 and 00/00 should have been removed
 
     def testReStruc(self):
-        for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for usingSHA1 in [True, False]:
-                self.doTestReStruc(dirStruc, usingSHA1)
+        for oldStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+            for newStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+                if oldStruc != newStruc:
+                    self.doTestReStruc(oldStruc, newStruc, True)
+                    self.doTestReStruc(oldStruc, newStruc, False)
 
 if __name__ == '__main__':
     unittest.main()

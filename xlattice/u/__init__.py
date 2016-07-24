@@ -4,6 +4,7 @@ import binascii
 import hashlib
 import io
 import os
+import re
 import shutil
 import time
 import rnglib
@@ -171,6 +172,18 @@ class UDir (object):
     DIR_STRUC_MAX = 3
 
     DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
+
+    HEX_FILE_NAME_1_PAT = r'^[0-9a-fA-F]{40}$'
+    HEX_FILE_NAME_2_PAT = r'^[0-9a-fA-F]{64}$'
+
+    HEX_DIR_NAME_16_PAT = r'^[0-9a-fA-F]{1}$'    # single hex digit
+    HEX_DIR_NAME_256_PAT = r'^[0-9a-fA-F]{2}$'   # two hex digits
+
+    HEX_FILE_NAME_1_RE = re.compile(HEX_FILE_NAME_1_PAT)
+    HEX_FILE_NAME_2_RE = re.compile(HEX_FILE_NAME_2_PAT)
+
+    HEX_DIR_NAME_16_RE = re.compile(HEX_DIR_NAME_16_PAT)
+    HEX_DIR_NAME_256_RE = re.compile(HEX_DIR_NAME_256_PAT)
 
     _nameToDirStruc = {
         'DIR_FLAT': DIR_FLAT,
@@ -501,14 +514,14 @@ class UDir (object):
 
         return self.uPath + '/' + topSubDir + '/' + lowerDir + '/' + key
 
-    def reStruc(self, newDirStruc):
+    def reStruc(self, newStruc):
         """
         Change the structure of uDir to the new dirStruc specified,
-        where newDirStruc is a small non-negative integer.
+        where newStruc is a small non-negative integer.
         """
         oldStruc = self.dirStruc
         oldSig = UDir.dirStrucSig(self.uPath, self.dirStruc, self.usingSHA1)
-        newSig = UDir.dirStrucSig(self.uPath, newDirStruc, self.usingSHA1)
+        newSig = UDir.dirStrucSig(self.uPath, newStruc, self.usingSHA1)
 
         # fix signature
         if newSig != oldSig:
@@ -518,9 +531,11 @@ class UDir (object):
                 sigBase = os.path.dirname(newSig)
                 os.makedirs(sigBase, exist_ok=True)
                 open(newSig, 'a').close()                # touch
-        self.moveFilesToRightLevel()
+        self._dirStruc = newStruc
 
-    def moveFilesToRightLevel(self):
+        self._simpleRestruc(oldStruc, newStruc)
+
+    def _simpleRestruc(self, oldStruc, newStruc):
         """
         Scan the directory structure looking for files whose name=content hash
         of the right length for the SHA used (so 40 bytes for SHA1, 64 for SHA2/3)
@@ -528,12 +543,53 @@ class UDir (object):
         directory.
         """
 
-        # Scan top directory.
-        # xxx STUB xxx
+        pathToTop = self.uPath
+        # DEBUG
+        # print("pathToTop: %s" % pathToTop)
+        # END
+        if oldStruc == UDir.DIR_FLAT:
+            for key in os.listdir(pathToTop):
+                if self.usingSHA1:
+                    m = self.HEX_FILE_NAME_1_RE.match(key)
+                else:
+                    m = self.HEX_FILE_NAME_2_RE.match(key)
+                if m:
+                    # DEBUG
+                    # print("match: %s" % key)
+                    # END
+                    pathToFile = os.path.join(pathToTop, key)
+                    self.put(pathToFile, key)
 
-        # Scan mid directories, 1- or 2-char length
-        # xxx STUB xxx
-
-        # Scan bottom directories., 1- or 2-char length
+        else:
+            # oldStruc == UDir.DIR16x16 or UDir.DIR256x256
+            if oldStruc == UDir.DIR16x16:
+                dirRE = self.HEX_DIR_NAME_16_RE
+            else:
+                dirRE = self.HEX_DIR_NAME_256_RE
+            for midDir in os.listdir(pathToTop):
+                m = dirRE.match(midDir)
+                if m:
+                    pathToMid = os.path.join(pathToTop, midDir)
+                    # DEBUG
+                    # print("pathToMid: %s" % pathToMid)
+                    # END
+                    for botDir in os.listdir(pathToMid):
+                        m = dirRE.match(botDir)
+                        if m:
+                            pathToBot = os.path.join(pathToMid, botDir)
+                            # DEBUG
+                            # print("pathToBot: %s" % pathToBot)
+                            # END
+                            for key in os.listdir(pathToBot):
+                                if self.usingSHA1:
+                                    m = self.HEX_FILE_NAME_1_RE.match(key)
+                                else:
+                                    m = self.HEX_FILE_NAME_2_RE.match(key)
+                                if m:
+                                    # DEBUG
+                                    # print("match at bottom: %s" % key)
+                                    # END
+                                    pathToFile = os.path.join(pathToBot, key)
+                                    self.put(pathToFile, key)
 
         # remove old directories
