@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collectStats
-from xlattice.u import dirStrucToName
+from xlattice.u import UDir
 
 
 def doRun(options):
@@ -24,7 +24,7 @@ def doRun(options):
     s = collectStats(uPath, outPath, verbose)
 
     print("statistics for %s" % uPath)
-    print("  dirStruc:           %10s" % dirStrucToName(s.dirStruc))
+    print("  dirStruc:           %10s" % UDir.dirStrucToName(s.dirStruc))
     print("  usingSHA1:          %10s" % s.usingSHA1)
     print()
     print("  subDirectories:     %10d" % s.subDirCount)

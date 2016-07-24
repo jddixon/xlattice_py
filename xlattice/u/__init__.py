@@ -193,7 +193,7 @@ class UDir (object):
 
     def nameToDirStruc(s):
         """ map a string into an integer"""
-        return _nameToDirStruc[s]
+        return UDir._nameToDirStruc[s]
 
     _dirStrucToName = {
         DIR_FLAT: 'DIR_FLAT',
@@ -567,6 +567,7 @@ class UDir (object):
             else:
                 dirRE = self.HEX_DIR_NAME_256_RE
             for midDir in os.listdir(pathToTop):
+                midOccupied = False
                 m = dirRE.match(midDir)
                 if m:
                     pathToMid = os.path.join(pathToTop, midDir)
@@ -574,6 +575,7 @@ class UDir (object):
                     # print("pathToMid: %s" % pathToMid)
                     # END
                     for botDir in os.listdir(pathToMid):
+                        botOccupied = False
                         m = dirRE.match(botDir)
                         if m:
                             pathToBot = os.path.join(pathToMid, botDir)
@@ -591,5 +593,11 @@ class UDir (object):
                                     # END
                                     pathToFile = os.path.join(pathToBot, key)
                                     self.put(pathToFile, key)
+                                else:
+                                    botOccupied = True
+                        if not botOccupied:
+                            os.rmdir(pathToBot)
+                    if not midOccupied:
+                        os.rmdir(pathToMid)
 
         # remove old directories

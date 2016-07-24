@@ -1,5 +1,7 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-07-24
+    * get rid of extra subdirs left by uReStruc                         * DONE
 2016-07-20
     * DIR_FLAT etc should be a class attribute                          * DONE
 

@@ -9,14 +9,14 @@ from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collectStats
-from xlattice.u     import (DIR_FLAT, DIR16x16, DIR256x256,
-                        DIR_STRUC_NAMES,
-                        UDir, nameToDirStruc, dirStrucToName)
+from xlattice.u     import UDir
 
 def reStrucUDir(uPath, newStruc, outPath="", verbose=False):
 
-    if outPath:
-        outDir = UDir(outPath, dirStruc=newStruc)
+    # XXX outPath not used
+
+    uDir = UDir.discover(uPath)
+    uDir.reStruc(newStruc)
 
 def main():
 
@@ -56,15 +56,15 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if not args.newStrucName or not args.newStrucName in DIR_STRUC_NAMES:
+    if not args.newStrucName or not args.newStrucName in UDir.DIR_STRUC_NAMES:
         print("you must specify a directory structure, one of %s" % DIR_STRUC_NAMES)
         parser.print_help()
         sys.exit(1)
 
     args.uDir = UDir.discover(args.uPath)
     args.oldStruc = args.uDir.dirStruc     # an int
-    args.newStruc = nameToDirStruc(args.newStrucName)
-    args.oldStrucName = dirStrucToName(args.oldStruc)
+    args.newStruc = UDir.nameToDirStruc(args.newStrucName)
+    args.oldStrucName = UDir.dirStrucToName(args.oldStruc)
 
     if args.oldStrucName != args.newStrucName:
         print("restructuring from %s to %s" % (
