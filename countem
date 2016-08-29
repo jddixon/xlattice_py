@@ -6,7 +6,7 @@ then
   
   rm -rf build/* myData/* myU1/* myU2/* tmp/* 
   
-  pySloc -L py  -X dist -v $@
+  pySloc -L py scripts/genNodeID1 scripts/genNodeID3 uConsolidate uReStruc uStats verifyContentKeys  -X dist -v $@
 else
   echo "DEV_BASE is not defined"
 fi

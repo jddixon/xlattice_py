@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.2.13
+    2016-08-29
+        * fix license, setup.py                                     SLOC 5159
 v1.2.12
     2016-07-24
         * debug uStats, uReStruc, and tests                         SLOC 5068
@@ -184,6 +187,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

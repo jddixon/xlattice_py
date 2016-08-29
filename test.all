@@ -17,11 +17,12 @@ then
   ./testProcLock.py
   ./testRSA.py
   ./testRegexesFromWildcards.py
+  ./testSHA3_256.py
   ./testTimestamp.py
   ./testTwoLogs.py
-  ./testUReStruc.py
   ./testU.py
   ./testULock.py
+  ./testUReStruc.py
   ./testUStats.py
   
 else

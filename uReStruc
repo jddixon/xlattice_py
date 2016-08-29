@@ -9,7 +9,8 @@ from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collectStats
-from xlattice.u     import UDir
+from xlattice.u import UDir
+
 
 def reStrucUDir(uPath, newStruc, outPath="", verbose=False):
 
@@ -18,12 +19,13 @@ def reStrucUDir(uPath, newStruc, outPath="", verbose=False):
     uDir = UDir.discover(uPath)
     uDir.reStruc(newStruc)
 
+
 def main():
 
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'modify directory structure for uDir, optionally copying it to another directory (UPATH)'
+    DESC = 'modify directory structure for uDir; this is a low-level operation which does not alter L'
 
     parser = ArgumentParser(description=DESC)
 
@@ -57,7 +59,9 @@ def main():
         sys.exit(1)
 
     if not args.newStrucName or not args.newStrucName in UDir.DIR_STRUC_NAMES:
-        print("you must specify a directory structure, one of %s" % DIR_STRUC_NAMES)
+        print(
+            "you must specify a directory structure, one of %s" %
+            DIR_STRUC_NAMES)
         parser.print_help()
         sys.exit(1)
 
@@ -87,7 +91,7 @@ def main():
 
     if args.justShow:
         sys.exit(0)
-    reStrucUDir( args.uPath, args.newStruc, args.outPath, args.verbose)
+    reStrucUDir(args.uPath, args.newStruc, args.outPath, args.verbose)
 
 if __name__ == '__main__':
     main()

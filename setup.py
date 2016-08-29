@@ -36,9 +36,14 @@ setup(name='xlattice_py',
            'uStats',
            'verifyContentKeys', ],
       ext_modules=[module1],
-      # MISSING description
+      description='xlattice building blocks in Python 3',
+      url='https://jddixon.github.io/xlattice_py',
       classifiers=[
+          'Development Status :: 3 - Alpha',
+          'Intended Audience :: Developers',
           'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3',
+          'Natural Language :: English',
+          'Programming Language :: Python 3',
+          'Topic :: Software Development :: Libraries :: Python Modules',
       ],
       )
