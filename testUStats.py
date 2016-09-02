@@ -6,6 +6,7 @@ import os
 import sys
 import unittest
 from rnglib import SimpleRNG
+from xlattice import Q
 from xlattice.stats import UStats
 from xlattice.u import UDir
 
@@ -19,7 +20,7 @@ class TestUStats (unittest.TestCase):
         s = UStats()
 
         self.assertEqual(s.dirStruc, UDir.DIR_FLAT)
-        self.assertEqual(s.usingSHA1, False)
+        self.assertEqual(s.usingSHA, False)
 
         self.assertEqual(s.subDirCount, 0)
         self.assertEqual(s.subSubDirCount, 0)

@@ -9,6 +9,8 @@ import shutil
 import time
 import rnglib
 
+from xlattice import Q
+
 __all__ = ['__version__', '__version_date__',
            'SHA1_BIN_NONE', 'SHA2_BIN_NONE',
            'SHA1_HEX_NONE', 'SHA1_B64_NONE',
@@ -205,12 +207,14 @@ class UDir (object):
         """ map an integer into a string """
         return UDir._dirStrucToName[n]
 
-    def dirStrucSig(uPath, dirStruc, usingSHA1):
+    def dirStrucSig(uPath, dirStruc, usingSHA):
         """ signatures differentiating different types of directories """
-        if usingSHA1:
+        if usingSHA == Q.USING_SHA1:
             none = SHA1_HEX_NONE
-        else:
+        elif usingSHA == Q.USING_SHA2:
             none = SHA2_HEX_NONE
+        elif usingSHA == Q.USING_SHA3:
+            none = SHA3_HEX_NONE
         if dirStruc == UDir.DIR_FLAT:
             sig = os.path.join(uPath, none)
         elif dirStruc == UDir.DIR16x16:
@@ -226,20 +230,23 @@ class UDir (object):
 
         return sig
 
-    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
+    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA=True, mode=0o755):
 
         self._uPath = uPath
         self._dirStruc = dirStruc
-        self._usingSHA1 = usingSHA1
+        self._usingSHA = usingSHA
 
         os.makedirs(self._uPath, mode=mode, exist_ok=True)
 
         # simplistic aids to discovery
 
-        if usingSHA1:
+        if usingSHA == Q.USING_SHA1:
+            # FIX ME FIX ME FIX ME
             pathToSig = self.getPathForKey(SHA1_HEX_NONE)
-        else:
+        elif usingSHA == Q.USING_SHA2:
             pathToSig = self.getPathForKey(SHA2_HEX_NONE)
+        elif usingSHA == Q.USING_SHA3:
+            pathToSig = self.getPathForKey(SHA3_HEX_NONE)
         sigBase = os.path.dirname(pathToSig)
         os.makedirs(sigBase, exist_ok=True)
         open(pathToSig, 'a').close()                # touch
@@ -256,10 +263,10 @@ class UDir (object):
     def uPath(self): return self._uPath
 
     @property
-    def usingSHA1(self): return self._usingSHA1
+    def usingSHA(self): return self._usingSHA
 
     @classmethod
-    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA1=True, mode=0o755):
+    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA=True, mode=0o755):
         """
         If there is a directory at the expected path, return an
         appropriate tree with the directory structure found.  Otherwise
@@ -268,7 +275,7 @@ class UDir (object):
 
         When a directory tree is created we write NONE into the tree
         as an aid to discovery.  If this is SHA1_HEX_NONE, for example,
-        we discover that usingSHA1 is True.  If NONE is in the top
+        we discover that usingSHA is True.  If NONE is in the top
         directory, the directory structure is DIR_FLAT.  If its first
         byte is in the top directory, dirStruc is DIR16x16.  If its
         first two bytes are there, it is DIR256x256.
@@ -282,13 +289,13 @@ class UDir (object):
                 if os.path.exists(flatPathTrue):
                     found = True
                     dirStruc = UDir.DIR_FLAT
-                    usingSHA1 = True
+                    usingSHA = True
             if not found:
                 flatPathFalse = os.path.join(uPath, SHA2_HEX_NONE)
                 if os.path.exists(flatPathFalse):
                     found = True
                     dirStruc = UDir.DIR_FLAT
-                    usingSHA1 = False
+                    usingSHA = False
 
             if not found:
                 dir16PathTrue = os.path.join(uPath,
@@ -297,7 +304,7 @@ class UDir (object):
                 if os.path.exists(dir16PathTrue):
                     found = True
                     dirStruc = UDir.DIR16x16
-                    usingSHA1 = True
+                    usingSHA = True
             if not found:
                 dir16PathFalse = os.path.join(uPath,
                                               os.path.join(SHA2_HEX_NONE[0],
@@ -305,7 +312,7 @@ class UDir (object):
                 if os.path.exists(dir16PathFalse):
                     found = True
                     dirStruc = UDir.DIR16x16
-                    usingSHA1 = False
+                    usingSHA = False
 
             if not found:
                 dir256PathTrue = os.path.join(uPath,
@@ -315,7 +322,7 @@ class UDir (object):
                 if os.path.exists(dir256PathTrue):
                     found = True
                     dirStruc = UDir.DIR256x256
-                    usingSHA1 = True
+                    usingSHA = True
             if not found:
                 dir256PathFalse = os.path.join(uPath,
                                                os.path.join(SHA2_HEX_NONE[0:2],
@@ -324,10 +331,10 @@ class UDir (object):
                 if os.path.exists(dir256PathFalse):
                     found = True
                     dirStruc = UDir.DIR256x256
-                    usingSHA1 = False
+                    usingSHA = False
 
         # if uDir does not already exist, this creates it
-        obj = clz(uPath, dirStruc, usingSHA1, mode)
+        obj = clz(uPath, dirStruc, usingSHA, mode)
         return obj
 
     def copyAndPut(self, path, key):
@@ -399,17 +406,23 @@ class UDir (object):
 
         keyLen = len(key)
         errMsg = ''
-        if self.usingSHA1 and keyLen != 40:
+        if self.usingSHA == Q.USING_SHA1 and keyLen != SHA1_HEX_LEN:
             errMsg = "UDir.put: expected key length 40, actual %d" % keyLen
-        elif not self.usingSHA1 and keyLen != 64:
+        elif self.usingSHA == Q.USING_SHA2 and keyLen != SHA2_HEX_LEN:
             errMsg = "UDir.put: expected key length 64, actual %d" % keyLen
+        elif self.usingSHA == Q.USING_SHA3 and keyLen != SHA3_HEX_LEN:
+            errMsg = "UDir.put: expected key length 64, actual %d" % keyLen
+        # XXX BAD USING OR LEN NOT ALLOWED FOR
         if errMsg:
             raise XLUError(errMsg)
 
-        if self.usingSHA1:
+        if self.usingSHA == Q.USING_SHA1:
             hash = fileSHA1Hex(inFile)
-        else:
+        elif self.usingSHA == Q.USING_SHA2:
             hash = fileSHA2Hex(inFile)
+        elif self.usingSHA == Q.USING_SHA3:
+            hash = fileSHA3Hex(inFile)
+        # XXX BAD USING OR LEN NOT ALLOWED FOR
         length = os.stat(inFile).st_size
 
         if self.dirStruc == UDir.DIR_FLAT:
@@ -437,7 +450,8 @@ class UDir (object):
         return (length, hash)
 
     def putData(self, data, key):
-        if self.usingSHA1:
+        if self.usingSHA == Q.USING_SHA1:
+            # FIX ME FIX ME FIX ME
             sha = hashlib.sha1()
         else:
             sha = hashlib.sha256()
@@ -520,8 +534,8 @@ class UDir (object):
         where newStruc is a small non-negative integer.
         """
         oldStruc = self.dirStruc
-        oldSig = UDir.dirStrucSig(self.uPath, self.dirStruc, self.usingSHA1)
-        newSig = UDir.dirStrucSig(self.uPath, newStruc, self.usingSHA1)
+        oldSig = UDir.dirStrucSig(self.uPath, self.dirStruc, self.usingSHA)
+        newSig = UDir.dirStrucSig(self.uPath, newStruc, self.usingSHA)
 
         # fix signature
         if newSig != oldSig:
@@ -549,7 +563,8 @@ class UDir (object):
         # END
         if oldStruc == UDir.DIR_FLAT:
             for key in os.listdir(pathToTop):
-                if self.usingSHA1:
+                if self.usingSHA == Q.USING_SHA1:
+                    # FIX ME FIX ME FIX ME
                     m = self.HEX_FILE_NAME_1_RE.match(key)
                 else:
                     m = self.HEX_FILE_NAME_2_RE.match(key)
@@ -583,7 +598,8 @@ class UDir (object):
                             # print("pathToBot: %s" % pathToBot)
                             # END
                             for key in os.listdir(pathToBot):
-                                if self.usingSHA1:
+                                if self.usingSHA == Q.USING_SHA1:
+                                    # FIX ME FIX ME FIX ME
                                     m = self.HEX_FILE_NAME_1_RE.match(key)
                                 else:
                                     m = self.HEX_FILE_NAME_2_RE.match(key)

@@ -12,6 +12,7 @@ from Crypto.Hash import SHA as sha
 from Crypto.PublicKey import RSA as rsa
 from Crypto.Signature import PKCS1_v1_5 as pkcs1
 
+from xlattice import Q
 from xlattice.node import AbstractNode, Node, Peer
 from rnglib import SimpleRNG
 
@@ -30,15 +31,16 @@ class TestNode (unittest.TestCase):
     def tearDown(self):
         pass
 
-    def checkNode(self, node, usingSHA1):
+    def checkNode(self, node, usingSHA):
         assert node is not None
 
         pub = node.pubKey
         id = node.nodeID
-        if usingSHA1:
+        if usingSHA == Q.USING_SHA1:
             self.assertEqual(20, len(id))
             d = hashlib.sha1()
         else:
+            # FIX ME FIX ME FIX ME
             self.assertEqual(32, len(id))
             d = hashlib.sha256()
 
@@ -60,16 +62,16 @@ class TestNode (unittest.TestCase):
         self.assertFalse(node.verify(msg, sig))
 
     # ---------------------------------------------------------------
-    def doTestGenerateRSAKey(self, usingSHA1):
-        n = Node(usingSHA1)          # no RSA key provided, so creates one
-        self.checkNode(n, usingSHA1)
+    def doTestGenerateRSAKey(self, usingSHA):
+        n = Node(usingSHA)          # no RSA key provided, so creates one
+        self.checkNode(n, usingSHA)
 
     def testGeneratedRSAKey(self):
         self.doTestGenerateRSAKey(True)
         self.doTestGenerateRSAKey(False)
 
     # ---------------------------------------------------------------
-    def doTestWithOpenSSLKey(self, usingSHA1):
+    def doTestWithOpenSSLKey(self, usingSHA):
 
         # import an openSSL-generated 2048-bit key (this becomes a
         # string constant in this program)
@@ -78,8 +80,8 @@ class TestNode (unittest.TestCase):
         key = rsa.importKey(pemKey)
         assert key is not None
         self.assertTrue(key.has_private())
-        n = Node(usingSHA1, key)
-        self.checkNode(n, usingSHA1)
+        n = Node(usingSHA, key)
+        self.checkNode(n, usingSHA)
 
         # The _RSAobj.publickey() returns a raw key.
         self.assertEqual(key.publickey().exportKey(),

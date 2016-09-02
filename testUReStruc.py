@@ -9,6 +9,7 @@ import unittest
 from binascii import hexlify
 
 from rnglib import SimpleRNG
+from xlattice import Q
 from xlattice.stats import UStats
 from xlattice.u import (SHA1_HEX_NONE, SHA2_HEX_NONE, UDir)
 
@@ -18,7 +19,7 @@ class TestReStruc (unittest.TestCase):
     def setUp(self):
         self.rng = SimpleRNG()
 
-    def makeValues(self, usingSHA1=False, m=1, n=1, l=1):
+    def makeValues(self, usingSHA=False, m=1, n=1, l=1):
         """
         Create at least m and then up to n more values of random length
         up to l (letter L) and compute their SHAx hashes.
@@ -46,9 +47,10 @@ class TestReStruc (unittest.TestCase):
             count = 1 + self.rng.nextInt16(l)   # so that count >= 1
             v = self.rng.someBytes(count)       # that many random bytes
             values.append(v)
-            if usingSHA1:
+            if usingSHA == Q.USING_SHA1:
                 sha = hashlib.sha1()
             else:
+                # FIX ME FIX ME FIX ME
                 sha = hashlib.sha256()
             sha.update(v)
             h = sha.hexdigest()
@@ -59,7 +61,7 @@ class TestReStruc (unittest.TestCase):
 
         return (values, hexHashes)
 
-    def doTestReStruc(self, oldStruc, newStruc, usingSHA1):
+    def doTestReStruc(self, oldStruc, newStruc, usingSHA):
 
         # Create a unique test directory uDir.  We expect this to write
         # a characteristic signature into uDir.
@@ -67,23 +69,23 @@ class TestReStruc (unittest.TestCase):
         while os.path.exists(uPath):
             uPath = os.path.join('tmp', self.rng.nextFileName(8))
         # DEBUG
-        # print("\ncreating %-12s, oldStruc=%s, newStruc=%s, usingSHA1=%s" % (
+        # print("\ncreating %-12s, oldStruc=%s, newStruc=%s, usingSHA=%s" % (
         #     uPath,
         #     UDir.dirStrucToName(oldStruc),
         #     UDir.dirStrucToName(newStruc),
-        #     usingSHA1))
+        #     usingSHA))
         # END
-        uDir = UDir(uPath, oldStruc, usingSHA1)
-        self.assertEqual(usingSHA1, uDir.usingSHA1)
+        uDir = UDir(uPath, oldStruc, usingSHA)
+        self.assertEqual(usingSHA, uDir.usingSHA)
         self.assertEqual(oldStruc, uDir.dirStruc)
 
         # Verify that the signature datum (SHAx_HEX_NONE) is present
         # in the file system.  How this is stored depends upon oldStruc;
-        # what value is stored depends upon usingSHA1.
-        oldSig = UDir.dirStrucSig(uPath, oldStruc, usingSHA1)
+        # what value is stored depends upon usingSHA.
+        oldSig = UDir.dirStrucSig(uPath, oldStruc, usingSHA)
         self.assertTrue(os.path.exists(oldSig))
 
-        values, hexHashes = self.makeValues(usingSHA1, 32, 32, 128)
+        values, hexHashes = self.makeValues(usingSHA, 32, 32, 128)
         K = len(values)
         for n in range(K):
             uDir.putData(values[n], hexHashes[n])
@@ -99,7 +101,7 @@ class TestReStruc (unittest.TestCase):
         # restructure the directory
         uDir.reStruc(newStruc)
 
-        newSig = UDir.dirStrucSig(uPath, newStruc, usingSHA1)
+        newSig = UDir.dirStrucSig(uPath, newStruc, usingSHA)
         self.assertTrue(os.path.exists(newSig))
         self.assertFalse(os.path.exists(oldSig))
 

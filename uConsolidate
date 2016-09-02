@@ -8,11 +8,11 @@ import stat
 import sys
 from argparse import ArgumentParser
 
-from xlattice import (__version__, __version_date__)
+from xlattice import (__version__, __version_date__, Q)
 from xlattice.u import fileSHA1Hex
 
 ###############################
-# XXX assumes usingSHA1 == True
+# XXX assumes usingSHA == True
 ###############################
 
 

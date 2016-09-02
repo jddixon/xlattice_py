@@ -19,7 +19,7 @@ from Crypto.Hash.hashalgo import HashAlgo
 
 import hashlib
 import sys
-if sys.version_info < (3, 4):
+if sys.version_info < (3, 6):
     import sha3                 # first import patches hashlib
 
 hashFactory = hashlib.sha3_256
