@@ -230,7 +230,8 @@ class UDir (object):
 
         return sig
 
-    def __init__(self, uPath, dirStruc=DIR_FLAT, usingSHA=True, mode=0o755):
+    def __init__(self, uPath, dirStruc=DIR_FLAT,
+                 usingSHA=Q.USING_SHA2, mode=0o755):
 
         self._uPath = uPath
         self._dirStruc = dirStruc
@@ -241,12 +242,13 @@ class UDir (object):
         # simplistic aids to discovery
 
         if usingSHA == Q.USING_SHA1:
-            # FIX ME FIX ME FIX ME
             pathToSig = self.getPathForKey(SHA1_HEX_NONE)
         elif usingSHA == Q.USING_SHA2:
             pathToSig = self.getPathForKey(SHA2_HEX_NONE)
         elif usingSHA == Q.USING_SHA3:
             pathToSig = self.getPathForKey(SHA3_HEX_NONE)
+        else:
+            raise XLUError('unexpected Q.USING_SHAx value %d' % usingSHA)
         sigBase = os.path.dirname(pathToSig)
         os.makedirs(sigBase, exist_ok=True)
         open(pathToSig, 'a').close()                # touch
@@ -266,7 +268,8 @@ class UDir (object):
     def usingSHA(self): return self._usingSHA
 
     @classmethod
-    def discover(clz, uPath, dirStruc=DIR_FLAT, usingSHA=True, mode=0o755):
+    def discover(clz, uPath, dirStruc=DIR_FLAT,
+                 usingSHA=Q.USING_SHA2, mode=0o755):
         """
         If there is a directory at the expected path, return an
         appropriate tree with the directory structure found.  Otherwise
@@ -279,6 +282,8 @@ class UDir (object):
         directory, the directory structure is DIR_FLAT.  If its first
         byte is in the top directory, dirStruc is DIR16x16.  If its
         first two bytes are there, it is DIR256x256.
+
+        FIX ME FIX ME: doesn't handle Q.USING_SHA3
         """
 
         if os.path.exists(uPath):
@@ -289,13 +294,13 @@ class UDir (object):
                 if os.path.exists(flatPathTrue):
                     found = True
                     dirStruc = UDir.DIR_FLAT
-                    usingSHA = True
+                    usingSHA = Q.USING_SHA1
             if not found:
                 flatPathFalse = os.path.join(uPath, SHA2_HEX_NONE)
                 if os.path.exists(flatPathFalse):
                     found = True
                     dirStruc = UDir.DIR_FLAT
-                    usingSHA = False
+                    usingSHA = Q.USING_SHA2
 
             if not found:
                 dir16PathTrue = os.path.join(uPath,
@@ -304,7 +309,7 @@ class UDir (object):
                 if os.path.exists(dir16PathTrue):
                     found = True
                     dirStruc = UDir.DIR16x16
-                    usingSHA = True
+                    usingSHA = Q.USING_SHA1
             if not found:
                 dir16PathFalse = os.path.join(uPath,
                                               os.path.join(SHA2_HEX_NONE[0],
@@ -312,7 +317,7 @@ class UDir (object):
                 if os.path.exists(dir16PathFalse):
                     found = True
                     dirStruc = UDir.DIR16x16
-                    usingSHA = False
+                    usingSHA = Q.USING_SHA2
 
             if not found:
                 dir256PathTrue = os.path.join(uPath,
@@ -322,7 +327,7 @@ class UDir (object):
                 if os.path.exists(dir256PathTrue):
                     found = True
                     dirStruc = UDir.DIR256x256
-                    usingSHA = True
+                    usingSHA = Q.USING_SHA1
             if not found:
                 dir256PathFalse = os.path.join(uPath,
                                                os.path.join(SHA2_HEX_NONE[0:2],
@@ -331,7 +336,7 @@ class UDir (object):
                 if os.path.exists(dir256PathFalse):
                     found = True
                     dirStruc = UDir.DIR256x256
-                    usingSHA = False
+                    usingSHA = Q.USING_SHA2
 
         # if uDir does not already exist, this creates it
         obj = clz(uPath, dirStruc, usingSHA, mode)

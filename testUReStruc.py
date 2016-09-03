@@ -116,8 +116,9 @@ class TestReStruc (unittest.TestCase):
         for oldStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             for newStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
                 if oldStruc != newStruc:
-                    self.doTestReStruc(oldStruc, newStruc, True)
-                    self.doTestReStruc(oldStruc, newStruc, False)
+                    for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                        # FIX ME FIX ME
+                        self.doTestReStruc(oldStruc, newStruc, using)
 
 if __name__ == '__main__':
     unittest.main()

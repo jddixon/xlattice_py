@@ -59,8 +59,9 @@ class TestU (unittest.TestCase):
 
     def testDiscovery(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doDiscoveryTest(dirStruc, True)
-            self.doDiscoveryTest(dirStruc, False)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doDiscoveryTest(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -99,8 +100,9 @@ class TestU (unittest.TestCase):
 
     def testCopyAndPut(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestCopyAndPut(dirStruc, True)
-            self.doTestCopyAndPut(dirStruc, False)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestCopyAndPut(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -128,8 +130,9 @@ class TestU (unittest.TestCase):
 
     def testExists(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestExists(dirStruc, True)
-            self.doTestExists(dirStruc, False)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestExists(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -159,7 +162,9 @@ class TestU (unittest.TestCase):
 
     def testFileLen(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestFileLen(dirStruc, True)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestFileLen(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -238,7 +243,9 @@ class TestU (unittest.TestCase):
 
     def testGetPathForKey(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestGetPathForKey(dirStruc, True)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestGetPathForKey(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -277,7 +284,9 @@ class TestU (unittest.TestCase):
 
     def testPut(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestPut(dirStruc, True)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestPut(dirStruc, using)
 
     # ---------------------------------------------------------------
 
@@ -308,7 +317,9 @@ class TestU (unittest.TestCase):
 
     def testPutData(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestPutData(dirStruc, True)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestPutData(dirStruc, using)
 
 if __name__ == '__main__':
     unittest.main()

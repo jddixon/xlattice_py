@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.1
+    2016-09-03
+        * fix testU.py, testUReStruc.py                             SLOC 5210
 v1.3.0
     2016-09-02
         * usingSHA1 -> usingSHA (PARTIAL)                           SLOC 5198
@@ -232,3 +235,7 @@ v0.0.0
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> devel
