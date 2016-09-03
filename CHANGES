@@ -1,6 +1,24 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.1
+    2016-09-03
+        * fix testU.py, testUReStruc.py                             SLOC 5210
+v1.3.0
+    2016-09-02
+        * usingSHA1 -> usingSHA (PARTIAL)                           SLOC 5198
+v1.2.13
+    2016-08-29
+        * fix license, setup.py                                     SLOC 5159
+v1.2.12
+    2016-07-24
+        * debug uStats, uReStruc, and tests                         SLOC 5068
+v1.2.11
+    2016-07-23
+        * add uReStruc, library function, and tests                 SLOC 5057
+v1.2.10
+    2016-07-21
+        * DIR_FLAT etc now attributes of UDir (constants)           SLOC 5017
 v1.2.9
     2016-07-20
         * add skeletal testUReStruc.py and uReStruc                 SLOC 4987
@@ -175,6 +193,13 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
+
+
+
+
 
 
 
