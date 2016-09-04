@@ -190,12 +190,14 @@ class TestU (unittest.TestCase):
             fsha = fileSHA1Hex(dPath)
         else:
             # FIX ME FIX ME FIX ME
-            fsha = fileSHA1Hex(dPath)
+            fsha = fileSHA2Hex(dPath)
         self.assertEqual(dKey, fsha)
 
     def testFileSHA(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            self.doTestFileSHA(dirStruc, True)
+            # FIX ME FIX ME
+            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                self.doTestFileSHA(dirStruc, using)
 
     # ---------------------------------------------------------------
     def doTestGetPathForKey(self, dirStruc, usingSHA):
