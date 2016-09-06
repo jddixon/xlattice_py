@@ -1,22 +1,24 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-07-24
+    * get rid of extra subdirs left by uReStruc                         * DONE
 2016-07-20
-    * DIR_FLAT etc should be a class attribute
+    * DIR_FLAT etc should be a class attribute                          * DONE
 
 2016-07-19
     * part of testUStats.py is stubbed; implement it
     * modify uStats to display discovered dirStruc and usingSHA1        * DONE
-    * THING ABOVUT THIS: is there any problem with using SHAx_HEX_NONE
+    * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
         as the signature for usingSHA1?  
 
 2016-07-19, edit from -18
-    * write uReStruc, a tool to restructure a uDir directory to 
-        a different dirStruc
-        - particular interest is in moving DIR_FLAT files into 
-            DIR256x256 subdirectories
-        - pay attention to None files (used to discover whether
-            usingSHA1)
-        - files that are in the right place should be left there
+    * write uReStruc, a tool to restructure a uDir directory to         * DONE
+        a different dirStruc                                            * DONE
+        - particular interest is in moving DIR_FLAT files into          * DONE
+            DIR256x256 subdirectories                                   * DONE
+        - pay attention to None files (used to discover whether         * DONE
+            usingSHA1)                                                  * DONE
+        - files that are in the right place should be left there        * DONE
 
 2016-07-17
     * implement UDir.delete(key), where key is a hex value, returning   * DONE
@@ -27,10 +29,10 @@
         directory tree from ../nlhtree_py/testDropFromU.py
 
 2016-07-15
-    * add UStats object with fields 
-        - initially subDirCount, subSubDirCount, leafCount, oddCount,
-            bool hasL, bool hasNodeID
-        - then add minCount (init MAXINT, maxCount (init 0)
+    * add UStats object with fields                                     * DONE
+        - initially subDirCount, subSubDirCount, leafCount, oddCount,   * DONE
+            bool hasL, bool hasNodeID                                   * DONE
+        - then add minCount (init MAXINT, maxCount (init 0)             * DONE
 
 2016-06-14
     * testU contains many debug comments, needs to be cleaned up

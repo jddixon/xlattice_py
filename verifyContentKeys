@@ -8,6 +8,7 @@ import sys
 import time
 from argparse import ArgumentParser
 
+from xlattice import Q
 import u
 
 # PATs AND REs ######################################################
@@ -27,9 +28,10 @@ def doLeafDir(args, subSub):
         pathTo = os.path.join(subSub, file)
         if args.fileNameRegex.match(file):
             count += 1
-            if args.usingSHA1:
+            if args.usingSHA:
                 hashAsHex = u.fileSHA1(pathTo)
             else:
+                # FIX ME FIX ME FIX ME
                 hashAsHex = u.fileSHA3(pathTo)
             if args.verbose:
                 print('      ' + pathTo)
@@ -87,7 +89,7 @@ def main():
     # see docs.python.org/library/argparse.html
     parser = ArgumentParser()
 
-    parser.add_argument('-1', '--usingSHA1', action='store_true',
+    parser.add_argument('-1', '--usingSHA', action='store_true',
                         help='use SHA1 hash instead of default SHA3')
 
     parser.add_argument('-j', '--justShow', action='store_true',
@@ -114,10 +116,11 @@ def main():
     # -- fixups -----------------------------------------------------
     args.pgmNameAndVersion = pgmNameAndVersion
     args.timestamp = timestamp
-    if args.usingSHA1:
+    if args.usingSHA:
         print("DEBUG: using SHA1 *** ")
         args.fileNameRegex = re.compile(FILE_NAME_PAT1)
     else:
+        # FIX ME FIX ME FIX ME
         args.fileNameRegex = re.compile(FILE_NAME_PAT3)
 
     # -- sanity checks ----------------------------------------------
@@ -146,7 +149,7 @@ def main():
         print('showVersion      = ' + str(args.showVersion))
         print('timestamp        = ' + str(args.timestamp))
         print('uDir             = ' + str(args.uDir))
-        print('usingSHA1        = ' + str(args.usingSHA1))
+        print('usingSHA        = ' + str(args.usingSHA))
         print('verbose          = ' + str(args.verbose))
 
     if not args.justShow:

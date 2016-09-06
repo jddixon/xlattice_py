@@ -9,13 +9,11 @@ import stat
 import sys
 from argparse import ArgumentParser
 
-from xlattice import (__version__, __version_date__)
-from xlattice.u import (fileSHA1Hex,
-                        DIR_FLAT, dirStrucToName, nameToDirStruc,
-                        UDir,)
+from xlattice import (__version__, __version_date__, Q)
+from xlattice.u import (fileSHA1Hex, UDir,)
 
 ###############################
-# XXX assumes usingSHA1 == True
+# XXX assumes usingSHA == True
 ###############################
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
@@ -28,8 +26,8 @@ SHA1_RE = re.compile(SHA1_PAT)
 class UStats:
 
     def __init__(self):
-        self._dirStruc = DIR_FLAT
-        self._usingSHA1 = False
+        self._dirStruc = UDir.DIR_FLAT
+        self._usingSHA = False
 
         self._subDirCount = 0
         self._subSubDirCount = 0
@@ -46,7 +44,7 @@ class UStats:
     def dirStruc(self): return self._dirStruc   # an int
 
     @property
-    def usingSHA1(self): return self._usingSHA1
+    def usingSHA(self): return self._usingSHA
 
     @property
     def subDirCount(self):
@@ -120,7 +118,7 @@ def collectStats(uPath, outPath, verbose):
     # END NOT USED
 
     uDir = UDir.discover(uPath)
-    s._usingSHA1 = uDir.usingSHA1
+    s._usingSHA = uDir.usingSHA
     s._dirStruc = uDir.dirStruc
 
     # upper-level files / subdirectories

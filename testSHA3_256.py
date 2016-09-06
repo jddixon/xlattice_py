@@ -2,15 +2,13 @@
 
 import sys
 import unittest
+import hashlib
+if sys.version_info < (3, 6):
+    import sha3                     # pysha3
 
-from xlattice import SHA3_256
+# from xlattice import SHA3_256
 
 # This code was crudely hacked from pysha3_0.2.1 tests.py
-
-#####################################################################
-# THIS TEST CURRENTLY FAILS BECAUSE THERE IS NO PYTHON3 SUPPORT FOR
-# SHA3/KECCAK
-#####################################################################
 
 if sys.version_info[0] == 3:
     fromhex = bytes.fromhex
@@ -86,7 +84,7 @@ class BaseSHA3Tests(unittest.TestCase):
 
 
 class SHA3_256Tests(BaseSHA3Tests):
-    new = SHA3_256.SHA3_256Hash
+    new = hashlib.sha3_256
     name = "sha3_256"
     digest_size = 32
     vectors = [

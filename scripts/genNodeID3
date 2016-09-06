@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # python/u/scriptsgenNodeID3.py -- uses the contents of a subdirectory in U
 # to generate a 256-bit hash.  If for example U is /var/U and the

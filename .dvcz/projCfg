@@ -2,8 +2,8 @@
 project:xlattice_py
 package:xlattice
 mainlang:py
-version:1.2.3
-versionDate:2016-06-23
+version:1.2.12
+versionDate:2016-07-24
 :?dirs?:
 dir:std:ghpDoc
 dir:std:dist
@@ -33,9 +33,8 @@ code:std:MANIFEST.in
 code:local:openssl2k.pem
 code:local:openssl4k.pem
 code:local:moreNodeIDs
-txt:std:.copyright
+txt:std:LICENSE-MIT.md
 txt:std:CHANGES
-txt:std:LICENSE.md
 txt:std:README.md
 txt:std:TODO
 bash:std:bkp2U
@@ -53,6 +52,7 @@ py:global:uConsolidate
 py:global:uPreen
 py:global:uStats
 py:global:verifyContentKeys
+py:global:uReStruc
 py:test:testCFTLogForPy.py
 py:test:testCFTLogObj.py
 py:test:testCrypto.py
@@ -71,4 +71,5 @@ py:test:testTimestamp.py
 py:test:testTwoLogs.py
 py:test:testU.py
 py:test:testULock.py
+py:test:testUReStruc.py
 py:test:testUStats.py

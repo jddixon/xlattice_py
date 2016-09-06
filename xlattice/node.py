@@ -7,20 +7,23 @@ from Crypto.PublicKey import RSA as rsa
 from Crypto.Signature import PKCS1_v1_5 as pkcs1
 import u
 
+from xlattice import Q
+
 
 class AbstractNode(object):
 
-    def __init__(self, usingSHA1=False, pubKey=None, nodeID=None):
-        self._usingSHA1 = usingSHA1
+    def __init__(self, usingSHA=False, pubKey=None, nodeID=None):
+        self._usingSHA = usingSHA
         if nodeID is None:
             if pubKey:
                 # DEBUG
                 print("AbstractNode: public key is %s" % str(pubKey))
                 print("              class is %s" % pubKey.__class__)
                 # END
-                if usingSHA1:
+                if usingSHA == Q.USING_SHA1:
                     h = sha.new()
                 else:
+                    # FIX ME FIX ME FIX ME
                     h = sha2.new()
                 h.update(pubKey.exportKey())
                 nodeID = h.digest()    # a binary value
@@ -41,16 +44,16 @@ class Node(AbstractNode):
     """
     """
 
-    def __init__(self, usingSHA1=False, privateKey=None):
+    def __init__(self, usingSHA=False, privateKey=None):
         # making this the default value doesn't work: it always
         # generates the same key
         if privateKey is None:
             privateKey = rsa.generate(2048, os.urandom)
         nodeID, pubKey = Node.getIDAndPubKeyForNode(
-            usingSHA1, self, privateKey)
-        AbstractNode.__init__(self, usingSHA1, pubKey, nodeID)
+            usingSHA, self, privateKey)
+        AbstractNode.__init__(self, usingSHA, pubKey, nodeID)
 
-        assert(isinstance(usingSHA1, bool))
+        assert(isinstance(usingSHA, bool))
 
         if not privateKey:
             raise ValueError('INTERNAL ERROR: undefined private key')
@@ -69,7 +72,7 @@ class Node(AbstractNode):
         pass
 
     @staticmethod
-    def getIDAndPubKeyForNode(usingSHA1, node, rsaPrivateKey):
+    def getIDAndPubKeyForNode(usingSHA, node, rsaPrivateKey):
 
         (nodeID, pubKey) = (None, None)
         pubKey = rsaPrivateKey.publickey()
@@ -82,7 +85,8 @@ class Node(AbstractNode):
 #       # END
 
         # generate the nodeID from the public key
-        if usingSHA1:
+        if usingSHA == Q.USING_SHA1:
+            # FIX ME FIX ME FIX ME
             h = sha.new()
         else:
             h = sha2.new()
@@ -97,7 +101,8 @@ class Node(AbstractNode):
 
     # these work with
     def sign(self, msg):
-        if self._usingSHA1:
+        if self._usingSHA == Q.USING_SHA1:
+            # FIX ME FIX ME FIX ME
             h = sha.new()
         else:
             h = sha2.new()
@@ -106,7 +111,8 @@ class Node(AbstractNode):
         return self._privateKey.sign(d, msg)
 
     def verify(self, msg, signature):
-        if self._usingSHA1:
+        if self._usingSHA == Q.USING_SHA1:
+            # FIX ME FIX ME FIX ME
             h = sha.new()
         else:
             h = sha2.new()
@@ -118,5 +124,5 @@ class Node(AbstractNode):
 class Peer(AbstractNode):
     """ a Peer is a Node seen from the outside """
 
-    def __init__(self, usingSHA1=False, nodeID=None, pubKey=None):
-        AbstractNode.__init__(self, usingSHA1, nodeID, pubKey)
+    def __init__(self, usingSHA=False, nodeID=None, pubKey=None):
+        AbstractNode.__init__(self, usingSHA, nodeID, pubKey)
