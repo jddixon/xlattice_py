@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.3
+    2016-09-06
+        * SHA3_HEX_NONE was not defined                             SLOC 5219
 v1.3.2
     2016-09-04
         * fixed typo causing all SHA2 calcs to be SHA1              SLOC 5213
@@ -196,6 +199,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
