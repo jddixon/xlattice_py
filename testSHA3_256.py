@@ -1,112 +1,105 @@
 #!/usr/bin/env python3
 
+import binascii
 import sys
 import unittest
 import hashlib
 if sys.version_info < (3, 6):
     import sha3                     # pysha3
 
-# from xlattice import SHA3_256
-
-# This code was crudely hacked from pysha3_0.2.1 tests.py
-
-if sys.version_info[0] == 3:
-    fromhex = bytes.fromhex
-    tobyte = lambda b: bytes([b])
-    asunicode = lambda s: s
-else:
-    fromhex = lambda s: s.decode("hex")
-    tobyte = lambda b: bytes(b)
-    asunicode = lambda s: s.decode("ascii")
+from xlattice import SHA3_HEX_NONE, SHA3_BIN_NONE
 
 
-class BaseSHA3Tests(unittest.TestCase):
-    new = None
-    name = None
-    digest_size = None
-    vectors = []
+class TestSHA3_256(unittest.TestCase):
 
-    def assertHashDigest(self, hexmsg, hexdigest):
-        hexdigest = hexdigest.lower()
-        msg = fromhex(hexmsg)
-        digest = fromhex(hexdigest)
-        self.assertEqual(len(digest), self.digest_size)
+    SHA3_NAME = "sha3_256"
+    DIGEST_SIZE = 32    # bytes
+    BLOCK_SIZE = 136   # bytes (so 1088 bits, not 1600)
+    HEX_VECTORS = [
+        ('', 'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'),
 
-        sha3 = self.new(msg)
-        self.assertEqual(sha3.hexdigest(), hexdigest)
-        self.assertEqual(sha3.digest(), digest)
+        # GET MORE FROM NIST DOCS
 
-        sha3 = self.new()
-        sha3.update(msg)
-        self.assertEqual(sha3.hexdigest(), hexdigest)
-        self.assertEqual(sha3.digest(), digest)
+    ]
+    U2H_VECTORS = [
+        ('abc',
+            '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
+        # GET MORE FROM NIST DOCS
 
-        sha3 = self.new()
-        for b in msg:
-            sha3.update(tobyte(b))
-        self.assertEqual(sha3.hexdigest(), hexdigest)
-        self.assertEqual(sha3.digest(), digest)
-
-    def test_basics(self):
-        sha3 = self.new()
-
-        # XXX FAILS: sha3 instance has no attribute 'name'
-        # self.assertEqual(sha3.name, self.name)
-
-        self.assertEqual(sha3.digest_size, self.digest_size)
-        self.assertEqual(len(sha3.digest()), self.digest_size)
-        self.assertEqual(len(sha3.hexdigest()), self.digest_size * 2)
-
-        # DEBUG - we show that sha3.digest is mutable, although we
-        # would rather that it wasn't
-        print("DEBUG: sha3.digest is %s" % str(sha3.digest))
-        setattr(sha3, 'digest', 42)
-        print("DEBUG: sha3.digest is %s" % str(sha3.digest))
-        # END
-
-        # the first assertion tests much the same thing
-        # self.assertRaises(AttributeError, setattr, sha3, "digest", 3)  # FAILS
-        # self.assertRaises(AttributeError, setattr, sha3, "name", "egg")#
-        # FAILS
-
-        self.new(b"data")
-        # self.new(string=b"data")  # XXX NO SUCH ATTRIBUTE as string
-        # XXX FAILS:
-        # self.assertRaises(TypeError, self.new, None)
-
-        self.assertRaises(TypeError, sha3.update, None)
-        self.assertRaises(TypeError, self.new, asunicode("text"))
-        self.assertRaises(TypeError, sha3.update, asunicode("text"))
-
-    def test_vectors(self):
-        for hexmsg, hexdigest in self.vectors:
-            self.assertHashDigest(hexmsg, hexdigest)
-
-
-class SHA3_256Tests(BaseSHA3Tests):
-    new = hashlib.sha3_256
-    name = "sha3_256"
-    digest_size = 32
-    vectors = [
-        ("", "C5D2460186F7233C927E7DB2DCC703C0E500B653CA82273B7BFAD8045D85A470"),
-        ("CC", "EEAD6DBFC7340A56CAEDC044696A168870549A6A7F6F56961E84A54BD9970B8A"),
-        ("41FB", "A8EACEDA4D47B3281A795AD9E1EA2122B407BAF9AABCB9E18B5717B7873537D2"),
-        ("433C5303131624C0021D868A30825475E8D0BD3052A022180398F4CA4423B98214B6BEAAC21C8807A2C33F8C93BD42B092CC1B06CEDF3224D5ED1EC29784444F22E08A55AA58542B524B02CD3D5D5F6907AFE71C5D7462224A3F9D9E53E7E0846DCBB4CE",
-         "CE87A5173BFFD92399221658F801D45C294D9006EE9F3F9D419C8D427748DC41"),
     ]
 
+    def testConstructor(self):
+        """ verify that behavior of pysha3 is as expected """
 
-def test_main():
-    suite = unittest.TestSuite()
-    classes = [ \
-        # SHA3_224Tests,
-        SHA3_256Tests,
-        # SHA3_384Tests, SHA3_512Tests]
-    ]
-    for cls in classes:
-        suite.addTests(unittest.makeSuite(cls))
-    return suite
+        sha = hashlib.sha3_256()
+
+        # verify it has the right properties ...
+        self.assertEqual(sha.name, self.SHA3_NAME)
+        self.assertEqual(sha.digest_size, self.DIGEST_SIZE)
+        self.assertEqual(len(sha.digest()), self.DIGEST_SIZE)
+        self.assertEqual(len(sha.hexdigest()), self.DIGEST_SIZE * 2)
+        self.assertEqual(sha.block_size, self.BLOCK_SIZE)
+
+        # we shouldn't be able to assign to properties
+        self.assertRaises(AttributeError, setattr, sha, "digest", 42)
+        self.assertRaises(AttributeError, setattr, sha, "name", "foo")
+
+        # byte strings are acceptable parameters
+        hashlib.sha3_256(b"foo")
+        hashlib.sha3_256(string=b"foo")
+
+        # None is not an acceptable parameter to the constructor
+        self.assertRaises(TypeError, hashlib.sha3_256, None)
+        # neitheris unicode
+        self.assertRaises(TypeError, hashlib.sha3_256, "abcdef")
+
+        # same constraints on parameters to update()
+        self.assertRaises(TypeError, sha.update, None)
+        self.assertRaises(TypeError, sha.update, "abcdef")
+
+    def testConstants(self):
+        sha = hashlib.sha3_256()
+        sha.update(b'')
+        self.assertEqual(sha.digest(), SHA3_BIN_NONE)
+        self.assertEqual(sha.hexdigest(), SHA3_HEX_NONE)
+
+    def testHexVectors(self):
+        for hexIn, expectedHexOut in self.HEX_VECTORS:
+            self.doTestHexInOut(hexIn, expectedHexOut)
+
+    def testUnicodeToHexVectors(self):
+        for uniIn, expectedHexOut in self.U2H_VECTORS:
+            # requires py3.5:
+            # hexIn = uniIn.encode('utf-8').hex()
+            hexIn = (binascii.hexlify(uniIn.encode('utf-8'))).decode('ascii')
+            self.doTestHexInOut(hexIn, expectedHexOut)
+
+    def doTestHexInOut(self, hexIn, expectedHexOut):
+        expectedHexOut = expectedHexOut.lower()
+        binIn = bytes.fromhex(hexIn)
+        expectedBinOut = bytes.fromhex(expectedHexOut)
+        self.assertEqual(len(expectedBinOut), self.DIGEST_SIZE)
+
+        # shortcut passes bytes to constructor
+        sha = hashlib.sha3_256(binIn)
+        self.assertEqual(sha.hexdigest(), expectedHexOut)
+        self.assertEqual(sha.digest(), expectedBinOut)
+
+        # longer version has an explicit update() call
+        sha = hashlib.sha3_256()
+        sha.update(binIn)
+        self.assertEqual(sha.hexdigest(), expectedHexOut)
+        self.assertEqual(sha.digest(), expectedBinOut)
+
+        # we can also hash the binary value byte by byte
+        sha = hashlib.sha3_256()
+        for b in binIn:
+            x = bytearray(1)
+            x[0] = b
+            sha.update(x)
+        self.assertEqual(sha.hexdigest(), expectedHexOut)
+        self.assertEqual(sha.digest(), expectedBinOut)
+
 
 if __name__ == "__main__":
-    result = unittest.TextTestRunner(verbosity=2).run(test_main())
-    sys.exit(not result.wasSuccessful())
+    unittest.main()

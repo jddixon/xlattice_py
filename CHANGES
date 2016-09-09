@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.4
+    2016-09-08
+        * testSHA3_256.py works                                     SLOC 5216
 v1.3.3
     2016-09-06
         * SHA3_HEX_NONE was not defined                             SLOC 5219
@@ -243,7 +246,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+
