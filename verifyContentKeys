@@ -8,15 +8,15 @@ import sys
 import time
 from argparse import ArgumentParser
 
-from xlattice import Q
-import u
+from xlattice import Q, checkUsingSHA
 
 # PATs AND REs ######################################################
 DIR_NAME_PAT = '^[0-9a-fA-F]{2}$'
 DIR_NAME_RE = re.compile(DIR_NAME_PAT)
 
-# the default SHA3-based file name
-FILE_NAME_PAT3 = '^[0-9a-fA-F]{64}$'
+# the default SHA2 or SHA3-based file name
+FILE_NAME_PAT256 = '^[0-9a-fA-F]{64}$'
+
 # the SHA1-based alternative
 FILE_NAME_PAT1 = '^[0-9a-fA-F]{40}$'
 
@@ -120,8 +120,8 @@ def main():
         print("DEBUG: using SHA1 *** ")
         args.fileNameRegex = re.compile(FILE_NAME_PAT1)
     else:
-        # FIX ME FIX ME FIX ME
-        args.fileNameRegex = re.compile(FILE_NAME_PAT3)
+        # USING_SHA2 and USING_SHA3
+        args.fileNameRegex = re.compile(FILE_NAME_PAT256)
 
     # -- sanity checks ----------------------------------------------
     if not os.path.exists(args.uDir):
@@ -136,6 +136,11 @@ def main():
         args.uDir = args.uDir[:-1]          # drop any trailing slash
 
     # -- do it ------------------------------------------------------
+
+    # DEBUG
+    print("THIS CODE HAS NOT BEEN TESTED")
+    # END
+
     if args.verbose or args.showVersion or args.justShow:
         print(args.pgmNameAndVersion)
     if args.showTimestamp:

@@ -10,10 +10,11 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_B64_NONE',
            'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
+           'Q', 'UnrecognizedSHAError', 'checkUsingSHA',
            ]
 
-__version__ = '1.3.4'
-__version_date__ = '2016-09-08'
+__version__ = '1.3.5'
+__version_date__ = '2016-09-09'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -53,3 +54,15 @@ class Q (IntEnum):
     USING_SHA1 = 1
     USING_SHA2 = 2
     USING_SHA3 = 3
+
+
+class UnrecognizedSHAError(RuntimeError):
+    pass
+
+
+def checkUsingSHA(using):
+    if not using in [
+            Q.USING_SHA1,
+            Q.USING_SHA2,
+            Q.USING_SHA3, ]:
+        raise UnrecognizedSHAError('%s' % using)

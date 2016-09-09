@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.5
+    2016-09-09
+        * fixed fixMes                                              SLOC 5317
 v1.3.4
     2016-09-08
         * testSHA3_256.py works                                     SLOC 5216
@@ -202,6 +205,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

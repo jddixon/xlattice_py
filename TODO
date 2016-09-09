@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-09-09
+    * verifyContentKeys does not handle SHA3
+        - and otherwise not checked
+
 2016-07-24
     * get rid of extra subdirs left by uReStruc                         * DONE
 2016-07-20
