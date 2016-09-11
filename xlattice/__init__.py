@@ -1,6 +1,8 @@
 # xlattice_py/xlattice/__init__.py
 
 import binascii
+import os
+import sys
 from enum import IntEnum
 
 __all__ = ['__version__', '__version_date__',
@@ -11,10 +13,13 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
            'Q', 'UnrecognizedSHAError', 'checkUsingSHA',
+
+           # argparse-related: -1,-2,-3 become args.usingSHA
+           'parseUsingSHA', 'fixUsingSHA', 'checkUDir', 'showUsingSHA',
            ]
 
-__version__ = '1.3.5'
-__version_date__ = '2016-09-09'
+__version__ = '1.3.6'
+__version_date__ = '2016-09-10'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -66,3 +71,48 @@ def checkUsingSHA(using):
             Q.USING_SHA2,
             Q.USING_SHA3, ]:
         raise UnrecognizedSHAError('%s' % using)
+
+# -- argParse related -----------------------------------------------
+
+# handle -1, -2, -3, -u/--uDir,  -v/--verbose
+
+
+def parseUsingSHA(parser):
+
+    parser.add_argument('-1', '--usingSHA1', action='store_true',
+                        help='using the 160-bit SHA1 hash')
+
+    parser.add_argument('-2', '--usingSHA2', action='store_true',
+                        help='using the 256-bit SHA2 (SHA256) hash')
+
+    parser.add_argument('-3', '--usingSHA3', action='store_true',
+                        help='using the 256-bit SHA3 (Keccak-256) hash')
+
+    parser.add_argument('-u', '--uDir',
+                        help='path to uDir')
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+
+def fixUsingSHA(args):
+
+    if args.usingSHA1:
+        args.usingSHA = Q.USING_SHA1
+    elif args.usingSHA2:
+        args.usingSHA = Q.USING_SHA2
+    elif args.usingSHA3:
+        args.usingSHA = Q.USING_SHA3
+
+
+def checkUDir(parser, args):
+    if args.uDir and not os.path.isdir(args.uDir):
+        print("uDir directory %s is not a directory" % args.uDir)
+        parser.print_usage()
+        sys.exit(1)
+
+
+def showUsingSHA(args):
+    print('uDir         = ' + str(args.uDir))
+    print('usingSHA     = ' + str(args.usingSHA))
+    print('verbose      = ' + str(args.verbose))

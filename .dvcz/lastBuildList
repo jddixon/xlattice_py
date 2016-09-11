@@ -7,21 +7,21 @@ zPjEShF9rvcNa9XEy1dKpcDz9Szbm2SlxOgM83fDDGtOq4SSCSqndtxrOvXXPB57
 H1mJV/FmerbXRPm5ERJVNIxtLk7Gr2Ce45FVlWyJGMhpfVlKkkk+bRQ02OFfazJI
 GQIDAQAB
 -----END RSA PUBLIC KEY-----
-xlattice_py v1.3.5
-2016-09-09 20:30:04
+xlattice_py v1.3.6
+2016-09-11 00:21:05
 # BEGIN CONTENT #
 xlattice_py
  .dvcz
-  builds 76b1f5aaecae0be41bfe5e9aa4d067fa59221af4
+  builds d9393f0441b77ec135c3311a5886e1b35fd78156
   copyright 304c14d702dff7c6c2c39729ff62aed7203b3427
-  lastBuildList c4201102a581d6e5ded24974781b10521faa0bd3
+  lastBuildList 28d18f592376d251289d0e1a2f7fd329257e3614
   license 5977a55c75bb4612004451a56b0b4c22d9d3311d
   projCfg b88749b429d63d9c516e9eb48434634d3bced10e
   projCfg.local 6f331a28e4119fabf5c969c25faf6b6413384282
-  version cf7458dfc171718ce2b0e15f01cfd27b8b7758e1
+  version 032a9c4c0032f17f44cd79d73f09f3475c29cd94
  .gitignore b432824ffded9c173177f16208df2f5624e17293
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 17d072f530c236eb7568a6ebfbca1ef6570aa57a
+ CHANGES 2cfc9b2100934804f1c85807a0a9150d4c07eb9c
  LICENSE-MIT.md ef87ef0aafe2bb3dc3b3ab29651c52e8add097b4
  MANIFEST.in bb466bed4fed4c5b06566e8bf36abb5846f584d2
  README.md 2c419b40aeb07ebab8035e2b9160aa43e5453dc2
@@ -88,6 +88,7 @@ xlattice_py
   xlattice_py-1.3.3.tar.gz 1a33c8a6608f73048ecf2ac954b9ca8aa3500646
   xlattice_py-1.3.4.tar.gz 013affd4583c88a8a87d4040dc6da195d1ad869a
   xlattice_py-1.3.5.tar.gz 2ce051e0ca710d21f616a3c97fabe792fcc182e1
+  xlattice_py-1.3.6.tar.gz d4fafe7814dd41888563c2ae3243d041cb3a8023
  extsrc
   README c8403a804377a5daae614489ffb34894a2c3b9d8
   cFTLogForPy.c fd6e21a797e2ece52ecf1f5bcb49640861af1aec
@@ -150,7 +151,7 @@ xlattice_py
  verifyContentKeys ebc30e573e50228dc93033423318283204d117b7
  xlattice
   SHA3_256.py 29d2186e24d216365f9a38bd3768dbb9d11e4096
-  __init__.py 9f9be7be6696ea5c3b202da1605992a30fe1b59f
+  __init__.py 63392c8cdc08249ce10fb28d7b17b1bcbe6013e4
   crypto.py 3ccedb0c8987fe37df4552ee46e62e287c092b59
   ftLog.py b8c4b908cb3dc1a0a67abbe22106c89849c799cb
   helloAndReply.py 1fabda2d4cfd580d0dfcd1452494ac735db051e8
@@ -167,4 +168,4 @@ xlattice_py
   util.py fd2db1207227781dd052faad205076e01ff0e133
 # END CONTENT #
 
-E8yNQLxj5rd69BGDGVt5Ug2ErMV1mKUcVnkrZYkU2ng/PHs3SW4EOd/DJoH2qz3NzFSLNcNvTLP3VmXS2UEUf9ZvGcKIM1VITiKRR+O6MdDMlRUpqp688rW4tF509oC9+sSauIowxM2RHhyyt+g0eF1IivBY3U1MfeKiu9C0vkzHG3JfQJ2q3mmOBj1kcovacSOtQXP0mvYLJKM+mUkey2duduM3OUlzC+6KCpzG4wWHjin7UCwN0oNjXOMhzMvgkQ1JRkVxJnxanBNXRo9S3A7+kfLHLNltNyQSc7F3fMOyiJ4nfsWXOOW/JE6Twt69li4L3N1vIpOg60JVdxdS5A==
+KjUmwZ7o0aN7uXo1ZWBjzk4hbHl5TJp7w60/uJgbmu3M5U0bhM3o2xYJXbotJPdskZ+ovUwSeYA6UTo4oyaWaXpIfl7MIjRg0UWA4Udvy5ocf2tJsmW0mSZIoDQJkCZPnqaZp2IGuoz28G4SGHCwdwq8yhttU5eV9D9cM9X4Ju+L6EXtG8twNTx8z55zcWgUIdTwUUrfV4Exe1MOX3ueC8z++uz5MH4zjITAl7uZ3uccvfYaqKVj47Vxzjub5WpG20aRSfy4BHG7ZrdOKhY/41dFg9tVos1iqbocnhjWRFk4BUCnxED0VxAOuxiopWx3JQPJ1BjFifmIqOyJ5Gqq1A==
