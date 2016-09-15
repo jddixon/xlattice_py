@@ -12,7 +12,7 @@ These are collected in the `xlattice` subdirectory:
 * **u.py**, XLattice system for storing data by content key
 * **util.py**, which contains functions for dealing with XLattice `DecimalVersion` and `Timestamp` classes
 
-** Project Status
+## Project Status
 
 An incomplete implementation of the Python code necessary to support
 [xlreg_py](https://jddixon.github.io/xlreg_py).  xlreg_py is a library

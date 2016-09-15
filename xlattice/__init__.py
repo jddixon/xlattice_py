@@ -15,11 +15,11 @@ __all__ = ['__version__', '__version_date__',
            'Q', 'UnrecognizedSHAError', 'checkUsingSHA',
 
            # argparse-related: -1,-2,-3 become args.usingSHA
-           'parseUsingSHA', 'fixUsingSHA', 'checkUDir', 'showUsingSHA',
+           'parseUsingSHA', 'fixUsingSHA', 'checkUPath', 'showUsingSHA',
            ]
 
-__version__ = '1.3.6'
-__version_date__ = '2016-09-10'
+__version__ = '1.3.7'
+__version_date__ = '2016-09-11'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -74,7 +74,7 @@ def checkUsingSHA(using):
 
 # -- argParse related -----------------------------------------------
 
-# handle -1, -2, -3, -u/--uDir,  -v/--verbose
+# handle -1, -2, -3, -u/--uPath,  -v/--verbose
 
 
 def parseUsingSHA(parser):
@@ -88,15 +88,16 @@ def parseUsingSHA(parser):
     parser.add_argument('-3', '--usingSHA3', action='store_true',
                         help='using the 256-bit SHA3 (Keccak-256) hash')
 
-    parser.add_argument('-u', '--uDir',
-                        help='path to uDir')
+    parser.add_argument('-u', '--uPath',
+                        help='path to uPath')
 
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='be chatty')
 
 
 def fixUsingSHA(args):
-
+    """ assigns a value to args.usingSHA """
+    args.usingSHA = None
     if args.usingSHA1:
         args.usingSHA = Q.USING_SHA1
     elif args.usingSHA2:
@@ -105,14 +106,29 @@ def fixUsingSHA(args):
         args.usingSHA = Q.USING_SHA3
 
 
-def checkUDir(parser, args):
-    if args.uDir and not os.path.isdir(args.uDir):
-        print("uDir directory %s is not a directory" % args.uDir)
-        parser.print_usage()
-        sys.exit(1)
+def checkUPath(parser, args, mustExist=False, mode=0o755):
+    """
+    Raises RunimeError if uPath is not specified; or does not exist
+    whereas it must; or exists but is not a directory.
+    """
+
+    if not args.uPath:
+        raise RuntimeError("uPath %s must be specified" % args.uPath)
+
+    exists = os.path.exists(args.uPath)
+
+    if mustExist and not exists:
+        raise RuntimeError("uPath %s does not exist but must" % args.uPath)
+
+    if not exists:
+        os.makedirs(args.uPath, mode=mode)
+    else:
+        if not os.path.isdir(args.uPath):
+            raise RuntimeError(
+                "uPath directory %s is not a directory" % args.uPath)
 
 
 def showUsingSHA(args):
-    print('uDir         = ' + str(args.uDir))
+    print('uPath         = ' + str(args.uPath))
     print('usingSHA     = ' + str(args.usingSHA))
     print('verbose      = ' + str(args.verbose))
