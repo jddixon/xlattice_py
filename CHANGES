@@ -1,6 +1,25 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.8
+    2016-10-09
+        * add pylint, coverage; do some refactoring                 SLOC 5552
+v1.3.7
+    2016-09-11
+        * replaced checkUDir() with checkUPath
+    2016-09-14
+        * fixed last FIX_ME, "improved" verifyContentKeys; 123      SLOC 5361
+
+v1.3.6
+    2016-09-10
+        * add parseUsingSHA(), fixUsingSHA(), showUsingSHA(), 
+            checkUDir()                                             SLOC 5347
+v1.3.5
+    2016-09-09
+        * fixed fixMes                                              SLOC 5317
+v1.3.4
+    2016-09-08
+        * testSHA3_256.py works                                     SLOC 5216
 v1.3.3
     2016-09-06
         * SHA3_HEX_NONE was not defined                             SLOC 5219
@@ -199,6 +218,11 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
+
+
 
 
 

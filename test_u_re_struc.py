@@ -3,15 +3,17 @@
 # dev/py/xlattice_py/testReStruc.py
 
 import hashlib
+import sha3         # must follow hashlib
+
 import os
 import sys
 import unittest
 from binascii import hexlify
 
 from rnglib import SimpleRNG
-from xlattice import Q
+from xlattice import Q, checkUsingSHA, UnrecognizedSHAError
 from xlattice.stats import UStats
-from xlattice.u import (SHA1_HEX_NONE, SHA2_HEX_NONE, UDir)
+from xlattice.u import (SHA1_HEX_NONE, SHA2_HEX_NONE, SHA3_HEX_NONE, UDir)
 
 
 class TestReStruc (unittest.TestCase):
@@ -25,6 +27,9 @@ class TestReStruc (unittest.TestCase):
         up to l (letter L) and compute their SHAx hashes.
         return list of values and a list of their hashes
         """
+
+        checkUsingSHA(usingSHA)
+
         # DEBUG
         #print("makeValues: m = %d, n = %d, l = %d)" % (m, n, l))
         # END
@@ -49,9 +54,10 @@ class TestReStruc (unittest.TestCase):
             values.append(v)
             if usingSHA == Q.USING_SHA1:
                 sha = hashlib.sha1()
-            else:
-                # FIX ME FIX ME FIX ME
+            elif usingSHA == Q.USING_SHA2:
                 sha = hashlib.sha256()
+            elif usingSHA == Q.USING_SHA3:
+                sha = hashlib.sha3_256()
             sha.update(v)
             h = sha.hexdigest()
             # DEBUG
@@ -117,7 +123,6 @@ class TestReStruc (unittest.TestCase):
             for newStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
                 if oldStruc != newStruc:
                     for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
-                        # FIX ME FIX ME
                         self.doTestReStruc(oldStruc, newStruc, using)
 
 if __name__ == '__main__':

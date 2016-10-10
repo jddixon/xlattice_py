@@ -1,15 +1,16 @@
 #!/usr/bin/python3
-
 # 'apt-get install python-dev' may be necessary to get .core
+
+""" Set up distutils for xlattice_py. """
 
 import re
 from distutils.core import setup, Extension
-__version__ = re.search("__version__\s*=\s*'(.*)'",
+__version__ = re.search(r"__version__\s*=\s*'(.*)'",
                         open('xlattice/__init__.py').read()).group(1)
 
 # see http://docs.python.org/distutils/setupscript.html
 
-module1 = Extension('cFTLogForPy',
+MODULE1 = Extension('cFTLogForPy',
                     include_dirs=['/usr/include/python3.4m',
                                   '/usr/include',
                                   ],
@@ -30,11 +31,11 @@ setup(name='xlattice_py',
       py_modules=[],
       packages=['xlattice', 'xlattice.u', ],
       scripts=[
-           'scripts/genNodeID1',
-           'scripts/genNodeID3',
-           'uConsolidate', 'uPreen', 'uReStruc', 'uStats',
-           'verifyContentKeys', ],
-      ext_modules=[module1],
+          'scripts/genNodeID1',
+          'scripts/genNodeID3',
+          'uConsolidate', 'uPreen', 'uReStruc', 'uStats',
+          'verifyContentKeys', ],
+      ext_modules=[MODULE1],
       description='xlattice building blocks in Python 3',
       url='https://jddixon.github.io/xlattice_py',
       classifiers=[

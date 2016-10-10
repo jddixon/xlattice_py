@@ -4,26 +4,26 @@ if [ ! -z "${DEV_BASE// }" ]
 then
   cd $DEV_BASE/py/xlattice_py
   
-  ./testCFTLogForPy.py
-  ./testCFTLogObj.py
-  ./testCrypto.py
-  ./testDecimalVersion.py
-  ./testGetExclusions.py
-  ./testHelloAndReply.py
-  ./testLibEv.py
-  ./testLogMgr.py
-  ./testNode.py
-  ./testPKCS7.py
-  ./testProcLock.py
-  ./testRSA.py
-  ./testRegexesFromWildcards.py
-  ./testSHA3_256.py
-  ./testTimestamp.py
-  ./testTwoLogs.py
-  ./testU.py
-  ./testULock.py
-  ./testUReStruc.py
-  ./testUStats.py
+  ./test_cft_log_for_py.py
+  ./test_cft_log_obj.py
+  ./test_crypto.py
+  ./test_decimal_version.py
+  ./test_get_exclusions.py
+  ./test_hello_and_reply.py
+  ./test_lib_ev.py
+  ./test_log_mgr.py
+  ./test_node.py
+  ./test_pkcs7.py
+  ./test_proc_lock.py
+  ./test_regexes_from_wildcards.py
+  ./test_rsa.py
+  ./test_sha3_256.py
+  ./test_timestamp.py
+  ./test_two_logs.py
+  ./test_u.py
+  ./test_u_lock.py
+  ./test_u_re_struc.py
+  ./test_u_stats.py
   
 else
   echo "DEV_BASE is not defined"

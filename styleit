@@ -5,8 +5,8 @@ then
   cd $DEV_BASE/py/xlattice_py
   
   autopep8 -ai -r xlattice 
-  autopep8 -ai -r xlattice/u 
-  autopep8 -ai uConsolidate uPreen uStats verifyContentKeys uReStruc *.py
+  autopep8 -air xlattice/u 
+  autopep8 -air uConsolidate uPreen uStats verifyContentKeys uReStruc *.py
   echo "not styling extsrc/ subdir"
   echo "not styling logs/ subdir"
   echo "not styling scripts/ subdir"

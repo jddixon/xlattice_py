@@ -1,18 +1,22 @@
 # ~/dev/py/xlattice_py/xlattice/node.py
 
 import os
-from Crypto.Hash import SHA as sha, SHA256 as sha2
+import sys
+import hashlib
+import sha3
+
 from Crypto.PublicKey import RSA as rsa
 #from Crypto.Signature       import PKCS1_PSS    as pkcs1
 from Crypto.Signature import PKCS1_v1_5 as pkcs1
-import u
 
-from xlattice import Q
+from xlattice import Q, checkUsingSHA, UnrecognizedSHAError
 
 
 class AbstractNode(object):
 
     def __init__(self, usingSHA=False, pubKey=None, nodeID=None):
+
+        checkUsingSHA(usingSHA)
         self._usingSHA = usingSHA
         if nodeID is None:
             if pubKey:
@@ -20,11 +24,14 @@ class AbstractNode(object):
                 print("AbstractNode: public key is %s" % str(pubKey))
                 print("              class is %s" % pubKey.__class__)
                 # END
+
+                # we have called checkUsingSHA(): one of these cases must apply
                 if usingSHA == Q.USING_SHA1:
-                    h = sha.new()
-                else:
-                    # FIX ME FIX ME FIX ME
-                    h = sha2.new()
+                    h = hashlib.sha1()
+                elif usingSHA == Q.USING_SHA2:
+                    h = hashlib.sha256()
+                elif usingSHA == Q.USING_SHA3:
+                    h = hashlib.sha3_256
                 h.update(pubKey.exportKey())
                 nodeID = h.digest()    # a binary value
             else:
@@ -44,7 +51,8 @@ class Node(AbstractNode):
     """
     """
 
-    def __init__(self, usingSHA=False, privateKey=None):
+    def __init__(self, usingSHA=Q.USING_SHA2, privateKey=None):
+
         # making this the default value doesn't work: it always
         # generates the same key
         if privateKey is None:
@@ -52,8 +60,6 @@ class Node(AbstractNode):
         nodeID, pubKey = Node.getIDAndPubKeyForNode(
             usingSHA, self, privateKey)
         AbstractNode.__init__(self, usingSHA, pubKey, nodeID)
-
-        assert(isinstance(usingSHA, bool))
 
         if not privateKey:
             raise ValueError('INTERNAL ERROR: undefined private key')
@@ -74,6 +80,7 @@ class Node(AbstractNode):
     @staticmethod
     def getIDAndPubKeyForNode(usingSHA, node, rsaPrivateKey):
 
+        checkUsingSHA(usingSHA)
         (nodeID, pubKey) = (None, None)
         pubKey = rsaPrivateKey.publickey()
 
@@ -86,10 +93,12 @@ class Node(AbstractNode):
 
         # generate the nodeID from the public key
         if usingSHA == Q.USING_SHA1:
-            # FIX ME FIX ME FIX ME
-            h = sha.new()
-        else:
-            h = sha2.new()
+            h = hashlib.sha1()
+        elif usingSHA == Q.USING_SHA2:
+            h = hashlib.sha256()
+        elif usingSHA == Q.USING_SHA3:
+            h = hashlib.sha3_256()
+
         h.update(pubKey.exportKey())
         nodeID = h.digest()
         return (nodeID,                 # nodeID = 160/256 bit BINARY value
@@ -101,21 +110,13 @@ class Node(AbstractNode):
 
     # these work with
     def sign(self, msg):
-        if self._usingSHA == Q.USING_SHA1:
-            # FIX ME FIX ME FIX ME
-            h = sha.new()
-        else:
-            h = sha2.new()
+        h = hashlib.sha1()
         h.update(bytes(msg))
         d = h.digest()
         return self._privateKey.sign(d, msg)
 
     def verify(self, msg, signature):
-        if self._usingSHA == Q.USING_SHA1:
-            # FIX ME FIX ME FIX ME
-            h = sha.new()
-        else:
-            h = sha2.new()
+        h = hashlib.sha1()
         h.update(bytes(msg))
         d = h.digest()
         return self._pubKey.verify(d, signature)

@@ -3,13 +3,16 @@
 # xlattice_py/testU.py
 
 import hashlib
+import sha3     # must follow hashlib
+
 import os
 import time
 import unittest
 from xlattice import Q
 from xlattice.u import (UDir,
-                        fileSHA1Hex, fileSHA1Bin,
-                        fileSHA2Hex, fileSHA2Bin)
+                        file_sha1hex, file_sha1bin,
+                        file_sha2hex, file_sha2bin,
+                        file_sha3hex, file_sha3bin)
 
 from rnglib import SimpleRNG
 
@@ -36,7 +39,7 @@ class TestU (unittest.TestCase):
     # actual unit tests =============================================
 
     def mapTest(self):
-        for name in DIR_STRUC_NAMES:
+        for name in UDir.DIR_STRUC_NAMES:
             x = nameToDirStruc(name)
             name2 = dirStrucToName(x)
             self.assertEqual(name, name2)
@@ -55,12 +58,17 @@ class TestU (unittest.TestCase):
         u2 = UDir.discover(uPath)
         self.assertEqual(u2.uPath, uPath)
         self.assertEqual(u2.dirStruc, dirStruc)
+        # DEBUG
+        if u2.usingSHA != usingSHA:
+            print("doDiscoveryTest:")
+            print("  dirStruc: %s" % UDir.DIR_STRUC_NAMES[dirStruc])
+            print("  usingSHA: %s" % usingSHA)
+        # END
         self.assertEqual(u2.usingSHA, usingSHA)
 
     def testDiscovery(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3]:
                 self.doDiscoveryTest(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -76,10 +84,11 @@ class TestU (unittest.TestCase):
             # create a random file                            maxLen    minLen
             (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
             if usingSHA == Q.USING_SHA1:
-                dKey = fileSHA1Hex(dPath)
-            else:
-                # FIX ME FIX ME FIX ME
-                dKey = fileSHA2Hex(dPath)
+                dKey = file_sha1hex(dPath)
+            elif usingSHA == Q.USING_SHA2:
+                dKey = file_sha2hex(dPath)
+            elif usingSHA == Q.USING_SHA3:
+                dKey = file_sha3hex(dPath)
 
             # copy this file into U
             (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
@@ -92,16 +101,16 @@ class TestU (unittest.TestCase):
             self.assertTrue(os.path.exists(uPath))
 
             if usingSHA == Q.USING_SHA1:
-                uKeyHex = fileSHA1Hex(uPath)
-            else:
-                # FIX ME FIX ME FIX ME
-                uKeyHex = fileSHA2Hex(uPath)
+                uKeyHex = file_sha1hex(uPath)
+            elif usingSHA == Q.USING_SHA2:
+                uKeyHex = file_sha2hex(uPath)
+            elif usingSHA == Q.USING_SHA3:
+                uKeyHex = file_sha3hex(uPath)
             self.assertEqual(uKeyHex, dKey)
 
     def testCopyAndPut(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestCopyAndPut(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -116,10 +125,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            dKey = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertTrue(os.path.exists(uPath))
@@ -130,8 +140,7 @@ class TestU (unittest.TestCase):
 
     def testExists(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3]:
                 self.doTestExists(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -151,10 +160,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            dKey = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertEqual(dLen, uLen)
@@ -162,14 +172,13 @@ class TestU (unittest.TestCase):
 
     def testFileLen(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestFileLen(dirStruc, using)
 
     # ---------------------------------------------------------------
 
     def doTestFileSHA(self, dirStruc, usingSHA):
-        """ we are testing shaXKey = fileSHAXHex(path) """
+        """ we are testing shaXKey = file_shaXHex(path) """
 
         uDir = UDir(U_PATH, dirStruc, usingSHA)
         self.assertEqual(uDir.uPath, U_PATH)
@@ -181,22 +190,23 @@ class TestU (unittest.TestCase):
             data = f.read()
         if usingSHA == Q.USING_SHA1:
             digest = hashlib.sha1()
-        else:
-            # FIX ME FIX ME FIX ME
+        elif usingSHA == Q.USING_SHA2:
             digest = hashlib.sha256()
+        elif usingSHA == Q.USING_SHA3:
+            digest = hashlib.sha3_256()
         digest.update(data)
         dKey = digest.hexdigest()
         if usingSHA == Q.USING_SHA1:
-            fsha = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            fsha = fileSHA2Hex(dPath)
+            fsha = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            fsha = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            fsha = file_sha3hex(dPath)
         self.assertEqual(dKey, fsha)
 
     def testFileSHA(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestFileSHA(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -210,10 +220,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            dKey = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         self.assertEqual(uKey, dKey)
         uPath = uDir.getPathForKey(uKey)
@@ -245,8 +256,7 @@ class TestU (unittest.TestCase):
 
     def testGetPathForKey(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestGetPathForKey(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -261,10 +271,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            dKey = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            dKey = file_sha3hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
         dupePath = os.path.join(DATA_PATH, dKey)
@@ -286,8 +297,7 @@ class TestU (unittest.TestCase):
 
     def testPut(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestPut(dirStruc, using)
 
     # ---------------------------------------------------------------
@@ -305,10 +315,11 @@ class TestU (unittest.TestCase):
         # this is just lazy coding ;-)
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
-        else:
-            # FIX ME FIX ME FIX ME
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha1hex(dPath)
+        elif usingSHA == Q.USING_SHA2:
+            dKey = file_sha2hex(dPath)
+        elif usingSHA == Q.USING_SHA3:
+            dKey = file_sha3hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
 
@@ -319,8 +330,7 @@ class TestU (unittest.TestCase):
 
     def testPutData(self):
         for dirStruc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            # FIX ME FIX ME
-            for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
                 self.doTestPutData(dirStruc, using)
 
 if __name__ == '__main__':

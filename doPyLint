@@ -1,0 +1,4 @@
+pylint setup.py test*.py \
+    scripts/genNodeID1 scripts/genNodeID3                   \
+    uConsolidate uPreen uReStruc uStats verifyContentKeys   \
+    xlattice

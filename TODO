@@ -1,5 +1,34 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-09
+    * continue pylinting at xlattice/util and test_get_exclusions
+    * checkCoverage is incorrectly configured - checks pycrypt, 
+        rnglib, etc
+
+2016-09-15
+    * documentation is ridiculously out of date
+    * verifyContentKeys needs some attention
+
+2016-09-15, edited from -06-03, edited from -02
+    * the class UDir
+        - the constructor should create L, 
+        - should also create tmp/ and in/ if these to not exist         * DONE
+        - class need to run alongside the existing packages until
+            class implementation is complete
+    * then modify using projects to use UDir:
+        - buildList
+        - cljutil
+        - bindex
+        - magicsack     # modified to use u16
+        - upax
+    * document all of this
+    * the separate packages uFlat, u16, and u256 should be dropped      * DONE
+        when UDir is stable and all users converted                     * DONE
+
+2016-09-09
+    * verifyContentKeys does not handle SHA3
+        - and otherwise not checked
+
 2016-07-24
     * get rid of extra subdirs left by uReStruc                         * DONE
 2016-07-20
@@ -38,23 +67,7 @@
     * testU contains many debug comments, needs to be cleaned up
 
 2016-06-03
-    * testSHA3_256.py gets an import error
-
-2016-06-03, edited from -02
-    * the class UDir
-        - the constructor should create L, 
-        - should also create tmp/ and in/ if these to not exist         * DONE
-        - class need to run alongside the existing packages until
-            class implementation is complete
-    * then modify using projects to use UDir:
-        - buildList
-        - cljutil
-        - bindex
-        - magicsack     # modified to use u16
-        - upax
-    * document all of this
-    * the separate packages uFlat, u16, and u256 should be dropped
-        when UDir is stable and all users converted
+    * testSHA3_256.py gets an import error                              * FIXED
 
 2016-06-03, edited from -02, edited from -05-11
     * access to the RNG object in xlattice.u.UDir should be 
