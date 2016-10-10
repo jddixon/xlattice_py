@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # testGetExclusions.py
+
+""" Test the glob/wildcard functions in xlattice/util.py """
 
 import hashlib
 import os
@@ -13,7 +14,8 @@ from xlattice.util import getExclusions, makeExRE
 from rnglib import SimpleRNG
 
 
-class TestGetExclusions (unittest.TestCase):
+class TestGetExclusions(unittest.TestCase):
+    """ Test the glob/wildcard functions in xlattice/util.py """
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())                 # XXX NOT USED

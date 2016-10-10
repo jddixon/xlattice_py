@@ -26,6 +26,11 @@ __all__ = ['__version__', '__version_date__',
            'fileSHA1Bin', 'fileSHA1Hex',
            'fileSHA2Bin', 'fileSHA2Hex',
            'fileSHA3Bin', 'fileSHA3Hex',
+
+           # SYNONYMS
+           'file_sha1bin', 'file_sha1hex',
+           'file_sha2bin', 'file_sha2hex',
+           'file_sha3bin', 'file_sha3hex',
            ]
 
 # CONSTANTS =========================================================
@@ -68,7 +73,12 @@ RNG = rnglib.SimpleRNG(time.time())
 # - fileSHA1 --------------------------------------------------------
 
 
+# SYNONYM
 def fileSHA1Bin(path):
+    return file_sha1bin(path)
+
+
+def file_sha1bin(path):
     if path is None or not os.path.exists(path):
         return None
 
@@ -83,8 +93,14 @@ def fileSHA1Bin(path):
     r.close()
     return bytes(d.digest())    # a binary value
 
+# SYNONYM
+
 
 def fileSHA1Hex(path):
+    return file_sha1hex(path)
+
+
+def file_sha1hex(path):
     if path is None or not os.path.exists(path):
         return None
 
@@ -99,8 +115,14 @@ def fileSHA1Hex(path):
     r.close()
     return d.hexdigest()    # a string, of course!
 
+# SYNONYM
+
 
 def fileSHA2Bin(path):
+    return file_sha2bin(path)
+
+
+def file_sha2bin(path):
     if path is None or not os.path.exists(path):
         return None
 
@@ -115,8 +137,14 @@ def fileSHA2Bin(path):
     r.close()
     return bytes(d.digest())   # a binary value
 
+# SYNONYM
+
 
 def fileSHA2Hex(path):
+    return file_sha2hex(path)
+
+
+def file_sha2hex(path):
     if path is None or not os.path.exists(path):
         return None
 
@@ -131,8 +159,14 @@ def fileSHA2Hex(path):
     r.close()
     return d.hexdigest()    # a string, of course!
 
+# SYNONYM
+
 
 def fileSHA3Bin(path):
+    return file_sha3bin(path)
+
+
+def file_sha3bin(path):
     if path is None or not os.path.exists(path):
         return None
 
@@ -147,8 +181,14 @@ def fileSHA3Bin(path):
     r.close()
     return bytes(d.digest())   # a binary value
 
+# SYNONYM
+
 
 def fileSHA3Hex(path):
+    return file_sha3hex(path)
+
+
+def file_sha3hex(path):
     if path is None or not os.path.exists(path):
         return None
 

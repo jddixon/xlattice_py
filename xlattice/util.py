@@ -7,9 +7,9 @@ import re
 import time
 
 __all__ = ['TIMESTAMP_FORMAT',
-           'DecimalVersion', 'parseDecimalVersion',
-           'parseTimestamp', 'timestamp', 'timestampNow',
+           'DecimalVersion', 'timestamp',
 
+           'parseDecimalVersion', 'parseTimestamp', 'timestampNow',
            'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
            ]
 

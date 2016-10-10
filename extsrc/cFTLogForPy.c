@@ -123,6 +123,14 @@ static PyMethodDef LogForPy_methods[] = {
                 METH_VARARGS,   LogForPy_logMsg__doc__},
     {"ndx",     (PyCFunction)LogForPy_getNdx,   
                 METH_NOARGS,    LogForPy_getNdx__doc__},
+
+    /* SYNONYMS jdd 2016-10-09 */
+    {"log_file", (PyCFunction)LogForPy_getPathToLog, 
+                METH_NOARGS,    LogForPy_getPathToLog__doc__},
+    {"log_msg",  (PyCFunction)LogForPy_logMsg,   
+                METH_VARARGS,   LogForPy_logMsg__doc__},
+
+    /* END OF LIST: */
     {NULL,        NULL}         /* sentinel */
 };
 
@@ -212,7 +220,7 @@ static PyMethodDef cFTLogForPyMethods[] = {
         "init data structures, start background thread"},
     {"openCFTLog",      openCFTLog,         METH_VARARGS,
         "open named log file"},
-    {"logMsg",          logMsg,             METH_VARARGS,
+    {"log_msg",         log_msg,             METH_VARARGS,
         "write a message to the log"},
     {"closeCFTLogger",  closeCFTLogger,     METH_VARARGS,
         "stop background thread, join, close log file"},
@@ -220,6 +228,12 @@ static PyMethodDef cFTLogForPyMethods[] = {
     /* DEFINED IN THIS FILE, ABOVE --------------------- */
     {"LogForPy", (PyCFunction)LogForPy_new, METH_VARARGS|METH_KEYWORDS, 
         LogForPy_new__doc__},
+
+    /* SYNONYM */
+    {"logMsg",          logMsg,             METH_VARARGS,
+        "write a message to the log"},
+
+    /* END OF LIST */
     {NULL, NULL, 0, NULL}       /* sentinel = end of this list */
 };
 

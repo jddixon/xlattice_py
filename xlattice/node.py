@@ -24,15 +24,14 @@ class AbstractNode(object):
                 print("AbstractNode: public key is %s" % str(pubKey))
                 print("              class is %s" % pubKey.__class__)
                 # END
+
+                # we have called checkUsingSHA(): one of these cases must apply
                 if usingSHA == Q.USING_SHA1:
                     h = hashlib.sha1()
                 elif usingSHA == Q.USING_SHA2:
                     h = hashlib.sha256()
                 elif usingSHA == Q.USING_SHA3:
                     h = hashlib.sha3_256
-                else:
-                    # an internal error
-                    raise UnrecognizedSHAError(usingSHA)
                 h.update(pubKey.exportKey())
                 nodeID = h.digest()    # a binary value
             else:

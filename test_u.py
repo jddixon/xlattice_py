@@ -10,9 +10,9 @@ import time
 import unittest
 from xlattice import Q
 from xlattice.u import (UDir,
-                        fileSHA1Hex, fileSHA1Bin,
-                        fileSHA2Hex, fileSHA2Bin,
-                        fileSHA3Hex, fileSHA3Bin)
+                        file_sha1hex, file_sha1bin,
+                        file_sha2hex, file_sha2bin,
+                        file_sha3hex, file_sha3bin)
 
 from rnglib import SimpleRNG
 
@@ -84,11 +84,11 @@ class TestU (unittest.TestCase):
             # create a random file                            maxLen    minLen
             (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
             if usingSHA == Q.USING_SHA1:
-                dKey = fileSHA1Hex(dPath)
+                dKey = file_sha1hex(dPath)
             elif usingSHA == Q.USING_SHA2:
-                dKey = fileSHA2Hex(dPath)
+                dKey = file_sha2hex(dPath)
             elif usingSHA == Q.USING_SHA3:
-                dKey = fileSHA3Hex(dPath)
+                dKey = file_sha3hex(dPath)
 
             # copy this file into U
             (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
@@ -101,11 +101,11 @@ class TestU (unittest.TestCase):
             self.assertTrue(os.path.exists(uPath))
 
             if usingSHA == Q.USING_SHA1:
-                uKeyHex = fileSHA1Hex(uPath)
+                uKeyHex = file_sha1hex(uPath)
             elif usingSHA == Q.USING_SHA2:
-                uKeyHex = fileSHA2Hex(uPath)
+                uKeyHex = file_sha2hex(uPath)
             elif usingSHA == Q.USING_SHA3:
-                uKeyHex = fileSHA3Hex(uPath)
+                uKeyHex = file_sha3hex(uPath)
             self.assertEqual(uKeyHex, dKey)
 
     def testCopyAndPut(self):
@@ -125,11 +125,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
+            dKey = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            dKey = fileSHA3Hex(dPath)
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertTrue(os.path.exists(uPath))
@@ -160,11 +160,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
+            dKey = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            dKey = fileSHA3Hex(dPath)
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         uPath = uDir.getPathForKey(uKey)
         self.assertEqual(dLen, uLen)
@@ -178,7 +178,7 @@ class TestU (unittest.TestCase):
     # ---------------------------------------------------------------
 
     def doTestFileSHA(self, dirStruc, usingSHA):
-        """ we are testing shaXKey = fileSHAXHex(path) """
+        """ we are testing shaXKey = file_shaXHex(path) """
 
         uDir = UDir(U_PATH, dirStruc, usingSHA)
         self.assertEqual(uDir.uPath, U_PATH)
@@ -197,11 +197,11 @@ class TestU (unittest.TestCase):
         digest.update(data)
         dKey = digest.hexdigest()
         if usingSHA == Q.USING_SHA1:
-            fsha = fileSHA1Hex(dPath)
+            fsha = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            fsha = fileSHA2Hex(dPath)
+            fsha = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            fsha = fileSHA3Hex(dPath)
+            fsha = file_sha3hex(dPath)
         self.assertEqual(dKey, fsha)
 
     def testFileSHA(self):
@@ -220,11 +220,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
+            dKey = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            dKey = fileSHA3Hex(dPath)
+            dKey = file_sha3hex(dPath)
         (uLen, uKey) = uDir.copyAndPut(dPath, dKey)
         self.assertEqual(uKey, dKey)
         uPath = uDir.getPathForKey(uKey)
@@ -271,11 +271,11 @@ class TestU (unittest.TestCase):
 
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
+            dKey = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            dKey = fileSHA3Hex(dPath)
+            dKey = file_sha3hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
         dupePath = os.path.join(DATA_PATH, dKey)
@@ -315,11 +315,11 @@ class TestU (unittest.TestCase):
         # this is just lazy coding ;-)
         (dLen, dPath) = self.rng.nextDataFile(DATA_PATH, 16 * 1024, 1)
         if usingSHA == Q.USING_SHA1:
-            dKey = fileSHA1Hex(dPath)
+            dKey = file_sha1hex(dPath)
         elif usingSHA == Q.USING_SHA2:
-            dKey = fileSHA2Hex(dPath)
+            dKey = file_sha2hex(dPath)
         elif usingSHA == Q.USING_SHA3:
-            dKey = fileSHA3Hex(dPath)
+            dKey = file_sha3hex(dPath)
         with open(dPath, 'rb') as f:
             data = f.read()
 

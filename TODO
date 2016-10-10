@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-09
+    * continue pylinting at xlattice/util and test_get_exclusions
+    * checkCoverage is incorrectly configured - checks pycrypt, 
+        rnglib, etc
+
 2016-09-15
     * documentation is ridiculously out of date
     * verifyContentKeys needs some attention

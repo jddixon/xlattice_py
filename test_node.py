@@ -24,7 +24,7 @@ rng = SimpleRNG(time.time)
 class TestNode (unittest.TestCase):
     """
     Tests an XLattice-style Node, including its sign() and verify()
-    functions, using SHA1 and SHA2 (-256)
+    functions, using SHA1, SHA2(56), and SHA3[-256]
     """
 
     def setUp(self): pass
