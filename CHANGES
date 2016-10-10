@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.3.9
+    2016-10-10
+        * refactor xlattice.{util,crypto}                           SLOC 5632
 v1.3.8
     2016-10-09
         * add pylint, coverage; do some refactoring                 SLOC 5552
@@ -267,7 +270,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+

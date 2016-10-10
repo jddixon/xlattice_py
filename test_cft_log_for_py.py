@@ -3,20 +3,19 @@
 
 """ Test the C fault-tolerant log for Python. """
 
-# pylint wants this here
-from cFTLogForPy import (
-    initCFTLogger, openCFTLog, log_msg, closeCFTLogger)
-
 import os
+import sys
 import time
 import unittest
-import sys
+
 import xlattice
-sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
-
-# pylint: disable=no-name-in-module
-
 from rnglib import SimpleRNG
+from cFTLogForPy import (
+    # pylint: disable=no-name-in-module
+    initCFTLogger, openCFTLog, log_msg, closeCFTLogger)
+
+
+sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
 
 
 class TestCFTLogForPy(unittest.TestCase):

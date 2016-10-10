@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-
 # xlattice_py/testTimestamp.py
+
+""" Test timestamp-related functions. """
 
 import calendar
 import time
 import unittest
 
 from rnglib import SimpleRNG
-from xlattice.util import parseTimestamp, timestamp, timestampNow
+from xlattice.util import parse_timestamp, timestamp, timestamp_now
 
 
-class TestTimestamp (unittest.TestCase):
+class TestTimestamp(unittest.TestCase):
+    """ Test timestamp-related functions. """
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
@@ -18,33 +20,35 @@ class TestTimestamp (unittest.TestCase):
     def tearDown(self):
         pass
 
-    # utility functions #############################################
-
-    # actual unit tests #############################################
-
     # Note that in the Go code timestamp is an int64, whereas here it
     # is a string.
 
-    def testConstructor(self):
-        structNow = time.gmtime()                 # struct_time
-        gmtNow = calendar.timegm(structNow)    # seconds from epoch
-        strNow = timestamp(gmtNow)
-        nowAgain = parseTimestamp(strNow)
-        strAgain = timestamp(nowAgain)
-        self.assertEqual(strNow, strAgain)
+    def test_constructor(self):
+        """ Verify that successive timestamps are about the same. """
 
-    def testParser(self):
-        DOC_TIME = "2004-11-18 20:03:34"
-        fromEpoch = parseTimestamp(DOC_TIME)      # seconds from epoch
-        fromAsStr = timestamp(fromEpoch)
-        self.assertEqual(fromAsStr, DOC_TIME)
+        struct_now = time.gmtime()                  # struct_time
+        gmt_now = calendar.timegm(struct_now)       # seconds from epoch
+        str_now = timestamp(gmt_now)
+        now_again = parse_timestamp(str_now)
+        str_again = timestamp(now_again)
+        self.assertEqual(str_now, str_again)
 
-    def testNow(self):
-        structNow = time.gmtime()                 # struct_time
-        gmtNow = calendar.timegm(structNow)    # seconds from epoch
-        nowAsStr = timestampNow()                # in string format
-        now2 = parseTimestamp(nowAsStr)
-        self.assertTrue(now2 - gmtNow <= 1)
+    def test_parser(self):
+        """ Exercise the timestamp parser. """
+
+        example = "2004-11-18 20:03:34"
+        from_epoch = parse_timestamp(example)      # seconds from epoch
+        from_as_str = timestamp(from_epoch)
+        self.assertEqual(from_as_str, example)
+
+    def test_now(self):
+        """ Verify that timestamp_now() returns the GMT time. """
+
+        struct_now = time.gmtime()                 # struct_time
+        gmt_now = calendar.timegm(struct_now)      # seconds from epoch
+        now_as_str = timestamp_now()               # in string format
+        now2 = parse_timestamp(now_as_str)
+        self.assertTrue(now2 - gmt_now <= 1)
 
 if __name__ == '__main__':
     unittest.main()

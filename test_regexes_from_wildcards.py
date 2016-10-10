@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-
 # testRegexesFromWildcards.py
 
-import hashlib
-import os
-import re
-import shutil
+""" test generation of regular expressions from wildcards (globs) """
+
 import time
 import unittest
 from rnglib import SimpleRNG
-from xlattice.util import makeExRE, makeMatchRE, regexesFromWildcards
+from xlattice.util import make_ex_re, make_match_re
+# , regexes_from_wildcards      # NOT TESTED
 
 
-class TestRegexesFromWildcards (unittest.TestCase):
+class TestRegexesFromWildcards(unittest.TestCase):
+    """ test generation of regular expressions from wildcards (globs) """
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
@@ -22,30 +21,33 @@ class TestRegexesFromWildcards (unittest.TestCase):
 
     # utility functions #############################################
 
-    def doTestForExpectedMatches(self, matchRE, names):
+    def do_test_expected_matches(self, match_re, names):
+        """ Verify that matches succeed for all names. """
         for name in names:
-            self.assertIsNotNone(matchRE.match(name))
+            self.assertIsNotNone(match_re.match(name))
 
-    def doTestForExpectedMatchFailures(self, matchRE, names):
+    def do_test_expected_match_failures(self, match_re, names):
+        """ Verify that matches fail for all names. """
         for name in names:
-            m = matchRE.match(name)
-            self.assertIsNone(m)
+            m__ = match_re.match(name)
+            self.assertIsNone(m__)
 
-    def doTestForExpectedExclusions(self, exRE):
-        self.assertIsNotNone(exRE.match('foolish'))
-        self.assertIsNotNone(exRE.match('superbar'))
-        self.assertIsNotNone(exRE.match('junky'))
-        self.assertIsNotNone(exRE.match('.merkle'))
-        self.assertIsNotNone(exRE.match('foo.pyc'))
+    def do_test_expected_exclusions(self, ex_re):
+        """ Verify that names are not matched. """
+        self.assertIsNotNone(ex_re.match('foolish'))
+        self.assertIsNotNone(ex_re.match('superbar'))
+        self.assertIsNotNone(ex_re.match('junky'))
+        self.assertIsNotNone(ex_re.match('.merkle'))
+        self.assertIsNotNone(ex_re.match('foo.pyc'))
 
-    def testMakeExRE(self):
+    def test_make_ex_re(self):
         """test utility for making excluded file name regexes"""
-        exRE = makeExRE(None)
-        self.assertTrue(exRE is not None)
+        ex_re = make_ex_re(None)
+        self.assertTrue(ex_re is not None)
 
         # should not be present
-        self.assertTrue(None == exRE.match('bar'))
-        self.assertTrue(None == exRE.match('foo'))
+        self.assertIsNone(ex_re.match('bar'))
+        self.assertIsNone(ex_re.match('foo'))
 
         exc = []
         exc.append('foo*')
@@ -53,49 +55,49 @@ class TestRegexesFromWildcards (unittest.TestCase):
         exc.append('junk*')
         exc.append('.merkle')
         exc.append('*.pyc')
-        exRE = makeExRE(exc)
-        self.doTestForExpectedExclusions(exRE)
+        ex_re = make_ex_re(exc)
+        self.do_test_expected_exclusions(ex_re)
 
-        self.assertIsNotNone(exRE.match('foobarf'))
-        self.assertIsNotNone(None == exRE.match(' foobarf'))
-        self.assertIsNone(exRE.match(' foobarf'))
+        self.assertIsNotNone(ex_re.match('foobarf'))
+        self.assertIsNone(ex_re.match(' foobarf'))      # leading space
 
-        self.assertIsNotNone(exRE.match('ohMybar'))
+        self.assertIsNotNone(ex_re.match('ohMybar'))
 
-        self.assertIsNone(exRE.match('ohMybarf'))
-        self.assertIsNotNone(exRE.match('junky'))
-        self.assertIsNone(exRE.match(' junk'))           # GEEP
+        self.assertIsNone(ex_re.match('ohMybarf'))
+        self.assertIsNotNone(ex_re.match('junky'))
+        self.assertIsNone(ex_re.match(' junk'))
 
-    def testMakeMatchRE(self):
+    def test_make_match_re(self):
         """test utility for making matched file name regexes"""
-        matchRE = makeMatchRE(None)
-        self.assertIsNotNone(matchRE)
+        match_re = make_match_re(None)
+        self.assertIsNotNone(match_re)
 
         matches = []
         matches.append('foo*')
         matches.append('*bar')
         matches.append('junk*')
-        matchRE = makeMatchRE(matches)
-        self.doTestForExpectedMatches(matchRE,
-                                      ['foo', 'foolish', 'roobar', 'junky'])
-        self.doTestForExpectedMatchFailures(matchRE,
-                                            [' foo', 'roobarf', 'myjunk'])
+        match_re = make_match_re(matches)
+        self.do_test_expected_matches(
+            match_re, ['foo', 'foolish', 'roobar', 'junky'])
+        self.do_test_expected_match_failures(
+            match_re, [' foo', 'roobarf', 'myjunk'])
         #[ 'roobarf', 'myjunk'])
 
         matches = ['*.tgz']
-        matchRE = makeMatchRE(matches)
-        self.doTestForExpectedMatches(matchRE,
-                                      ['junk.tgz', 'notSoFoolish.tgz'])
-        self.doTestForExpectedMatchFailures(matchRE,
-                                            ['junk.tar.gz', 'foolish.tar.gz'])
+        match_re = make_match_re(matches)
+        self.do_test_expected_matches(
+            match_re, ['junk.tgz', 'notSoFoolish.tgz'])
+        self.do_test_expected_match_failures(
+            match_re, ['junk.tar.gz', 'foolish.tar.gz'])
 
         matches = ['*.tgz', '*.tar.gz']
-        matchRE = makeMatchRE(matches)
-        self.doTestForExpectedMatches(matchRE,
-                                      ['junk.tgz', 'notSoFoolish.tgz',
-                                       'junk.tar.gz', 'ohHello.tar.gz'])
-        self.doTestForExpectedMatchFailures(matchRE,
-                                            ['junk.gz', 'foolish.tar'])
+        match_re = make_match_re(matches)
+        self.do_test_expected_matches(
+            match_re,
+            ['junk.tgz', 'notSoFoolish.tgz',
+             'junk.tar.gz', 'ohHello.tar.gz'])
+        self.do_test_expected_match_failures(
+            match_re, ['junk.gz', 'foolish.tar'])
 
 if __name__ == '__main__':
     unittest.main()

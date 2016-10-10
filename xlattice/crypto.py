@@ -15,34 +15,61 @@ AES_BLOCK_SIZE = 16
 class CryptoException(Exception):
     pass
 
+# SYNONYMS used while refactoring dependent classes =================
+
+
+def pkcs7Padding(data, block_size):
+    """ SYNONYM """
+    return pkcs7_padding(data, block_size)
+
+
+def addPKCS7Padding(data, block_size):
+    """ SYNONYM """
+    return add_pkcs7_padding(data, block_size)
+
+
+def stripPKCS7Padding(data, block_size):
+    """ SYNONYM """
+    return strip_pkcs7_padding(data, block_size)
+
+
+def nextNBLine(strings):
+    """ SYNONYM """
+    return next_nb_line(strings)
+
+
+def collectPEMRSAPublicKey(first_line, lines):
+    """ SYNONYM """
+    return collect_pem_rsa_public_key(first_line, lines)
+
+
 # PKSC7 PADDING =====================================================
 
-
-def pkcs7Padding(data, blockSize):
-    blockSize = int(blockSize)
-    if blockSize < 1:
+def pkcs7_padding(data, block_size):
+    block_size = int(block_size)
+    if block_size < 1:
         raise CryptoException("impossible block size")
     if not data:
         length = 0
     else:
         length = len(data)
 
-    # we want from 1 to blockSize bytes of padding
-    nBlocks = int((length + blockSize - 1) / blockSize)
-    rem = nBlocks * blockSize - length
+    # we want from 1 to block_size bytes of padding
+    nBlocks = int((length + block_size - 1) / block_size)
+    rem = nBlocks * block_size - length
     if rem == 0:
-        rem = blockSize
+        rem = block_size
     padding = bytearray(rem)    # that many null bytes
-    for i in range(rem):
-        padding[i] = rem        # padding bytes set to length of padding
+    for iii in range(rem):
+        padding[iii] = rem      # padding bytes set to length of padding
     return padding
 
 
-def addPKCS7Padding(data, blockSize):
-    if blockSize <= 1:
+def add_pkcs7_padding(data, block_size):
+    if block_size <= 1:
         raise CryptoException("impossible block size")
     else:
-        padding = pkcs7Padding(data, blockSize)
+        padding = pkcs7Padding(data, block_size)
         if not data:
             out = padding
         else:
@@ -54,22 +81,22 @@ def addPKCS7Padding(data, blockSize):
 # a copy of the data without the padding.  Return an error if the padding
 # is incorrect.
 
-def stripPKCS7Padding(data, blockSize):
-    if blockSize <= 1:
+def strip_pkcs7_padding(data, block_size):
+    if block_size <= 1:
         raise CryptoException("impossible block size")
     elif not data:
         raise CryptoException("cannot strip padding from empty data")
-    lenData = len(data)
-    if lenData < blockSize:
+    len_data = len(data)
+    if len_data < block_size:
         raise CryptoException("data too short to have any padding")
     else:
         # examine the very last byte: it must be padding and must
         # contain the number of padding bytes added
-        lenPadding = data[lenData - 1]
-        if lenPadding < 1 or lenData < lenPadding:
+        len_padding = data[len_data - 1]
+        if len_padding < 1 or len_data < len_padding:
             raise CryptoException("incorrect PKCS7 padding")
         else:
-            out = data[:lenData - lenPadding]
+            out = data[:len_data - len_padding]
     return out
 
 
@@ -80,33 +107,39 @@ class SP(object):
     __SPACES__ = ['']
 
     @staticmethod
-    def getSpaces(n):
+    def get_spaces(nnn):
         """ cache strings of N spaces """
-        k = len(SP.__SPACES__) - 1
-        while k < n:
-            k = k + 1
-            SP.__SPACES__.append(' ' * k)
-        return SP.__SPACES__[n]
+        kkk = len(SP.__SPACES__) - 1
+        while kkk < nnn:
+            kkk = kkk + 1
+            SP.__SPACES__.append(' ' * kkk)
+        return SP.__SPACES__[nnn]
+
+    @staticmethod
+    def getSpaces(nnn):
+        """ SYNONYM """
+
+        return SP.get_spaces(nnn)
 
 
-def nextNBLine(ss):
+def next_nb_line(lines):
     """
     Enter with a reference to a list of lines.  Return the next line
-    which is not empty after trimming, advancing the reference to the
-    array of strings accordingly.
+    which is not empty after trimming, AND a reference to the edited
+    array of strings.
     """
-    if ss is not None:
-        while len(ss) > 0:
-            s = ss[0]
-            ss = ss[1:]
-            s = s.strip()
-            if s != '':
-                return s, ss
+    if lines is not None:
+        while len(lines) > 0:
+            line = lines[0]
+            lines = lines[1:]
+            line = line.strip()
+            if line != '':
+                return line, lines
         raise RuntimeError("exhausted list of strings")
     raise RuntimeError("arg to nextNBLine cannot be None")
 
 
-def collectPEMRSAPublicKey(firstLine, ss):
+def collect_pem_rsa_public_key(first_line, lines):
     """
     Given the opening line of the PEM serializaton of an RSA Public Key,
     and a pointer to an array of strings which should begin with the rest
@@ -114,28 +147,28 @@ def collectPEMRSAPublicKey(firstLine, ss):
     single string.
     """
 
-    firstLine = firstLine.strip()
-    if firstLine != '-----BEGIN RSA PUBLIC KEY-----':
-        raise RuntimeError('PEM public key cannot begin with %s' % firstLine)
-    foundLast = False
+    first_line = first_line.strip()
+    if first_line != '-----BEGIN RSA PUBLIC KEY-----':
+        raise RuntimeError('PEM public key cannot begin with %s' % first_line)
+    found_last = False
 
     # DEBUG
     #ndx = 0
-    #print("%2d %s" % (ndx, firstLine))
+    #print("%2d %s" % (ndx, first_line))
     # END
 
-    x = [firstLine]      # of string
-    while len(ss) > 0:
-        s, ss = nextNBLine(ss)
+    ret = [first_line]      # of string
+    while len(lines) > 0:
+        line, lines = next_nb_line(lines)
         # DEBUG
         #ndx += 1
-        #print("%2d %s" % (ndx, s))
+        #print("%2d %s" % (ndx, line))
         # END
-        x = x + [s]
-        if s == '-----END RSA PUBLIC KEY-----':
-            foundLast = True
+        ret = ret + [line]
+        if line == '-----END RSA PUBLIC KEY-----':
+            found_last = True
             break
 
-    if not foundLast:
+    if not found_last:
         raise RuntimeError("didn't find closing line of PEM serialization")
-    return '\n'.join(x), ss
+    return '\n'.join(ret), lines
