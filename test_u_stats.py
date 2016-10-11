@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # dev/py/xlattice_py/testUStats.py
+
+""" Exercise statistical functions for content-keyed store. """
 
 import os
 import sys
@@ -12,15 +13,16 @@ from xlattice.u import UDir
 
 
 class TestUStats (unittest.TestCase):
+    """ Exercise statistical functions for content-keyed store. """
 
     def setUp(self):
         self.rng = SimpleRNG()
 
-    def testDefaults(self):
+    def test_defaults(self):
         s = UStats()
 
         self.assertEqual(s.dirStruc, UDir.DIR_FLAT)
-        self.assertEqual(s.usingSHA, False)
+        self.assertFalse(s.usingSHA)
 
         self.assertEqual(s.subDirCount, 0)
         self.assertEqual(s.subSubDirCount, 0)
@@ -33,7 +35,7 @@ class TestUStats (unittest.TestCase):
 
         self.assertEqual(len(s.unexpectedAtTop), 0)
 
-    def testProperties(self):
+    def test_properties(self):
         s = UStats()
 
         # XXX STUB XXX

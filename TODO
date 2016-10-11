@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-11
+    * uncomment test_u.py::map_test and get it running
+    * UStats is skeletal
+        - needs to be pylinted
+
 2016-10-09
     * continue pylinting at xlattice/util and test_get_exclusions
     * checkCoverage is incorrectly configured - checks pycrypt, 
