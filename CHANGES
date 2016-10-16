@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.4.0
+    2016-10-15
+        * bugs bugs in handling -1/2/3 options                      SLOC 5684
 v1.3.10
     2016-10-11
         * refactor xlattice.u                                       SLOC 5674
@@ -224,6 +227,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
