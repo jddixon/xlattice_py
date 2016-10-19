@@ -9,7 +9,7 @@ import shutil
 import time
 import unittest
 import sys
-from xlattice.ftLog import LogMgr
+from xlattice.ftlog import LogMgr
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
@@ -32,13 +32,13 @@ class TestLogMgr (unittest.TestCase):
         self.assertIsNotNone(logger)
         # print "XXX NO MESSAGES XXX"
         expectedLogFile = 'logs/foo.log'
-        self.assertEqual(expectedLogFile, logger.logFileName)
+        self.assertEqual(expectedLogFile, logger.log_file_name)
         # we don't provide any way to close individual logs
         mgr.close()
 
         contents = None
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        with open(expectedLogFile, 'r') as file:
+            contents = file.read()
         if contents:
             contents = contents.strip()
             self.assertEqual(0, len(contents))
@@ -51,12 +51,12 @@ class TestLogMgr (unittest.TestCase):
         logger.log('oh hello')
         # can't test this after logger closed - because object destroyes
         expectedLogFile = 'logs/foo.log'
-        self.assertEqual(expectedLogFile, logger.logFileName)
+        self.assertEqual(expectedLogFile, logger.log_file_name)
         mgr.close()
 
         self.assertTrue(os.path.exists(expectedLogFile))
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        with open(expectedLogFile, 'r') as file:
+            contents = file.read()
         contents = contents.strip()
         self.assertTrue(contents.endswith('oh hello'))    # GEEP
 
@@ -75,8 +75,8 @@ class TestLogMgr (unittest.TestCase):
         mgr.close()
 
         self.assertTrue(os.path.exists(expectedLogFile))
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        with open(expectedLogFile, 'r') as file:
+            contents = file.read()
         self.assertEqual(msg, contents)          # END
 
     def testMessagesWithSleeps(self):
@@ -103,8 +103,8 @@ class TestLogMgr (unittest.TestCase):
         mgr.close()
 
         self.assertTrue(os.path.exists(expectedLogFile))
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        with open(expectedLogFile, 'r') as file:
+            contents = file.read()
         self.assertEqual(msg, contents)      # FOOFOO
 
 if __name__ == '__main__':

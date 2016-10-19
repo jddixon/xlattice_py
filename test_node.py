@@ -31,25 +31,25 @@ class TestNode (unittest.TestCase):
 
     def tearDown(self): pass
 
-    def checkNode(self, node, usingSHA):
+    def checkNode(self, node, using_sha):
         assert node is not None
 
-        pub = node.pubKey
-        id = node.nodeID
-        if usingSHA == Q.USING_SHA1:
+        pub = node.pub_key
+        id = node.node_id
+        if using_sha == Q.USING_SHA1:
             self.assertEqual(20, len(id))
-            d = hashlib.sha1()
-        elif usingSHA == Q.USING_SHA2:
+            dVal = hashlib.sha1()
+        elif using_sha == Q.USING_SHA2:
             self.assertEqual(32, len(id))
-            d = hashlib.sha256()
-        elif usingSHA == Q.USING_SHA3:
+            dVal = hashlib.sha256()
+        elif using_sha == Q.USING_SHA3:
             self.assertEqual(32, len(id))
-            d = hashlib.sha3_256()
+            dVal = hashlib.sha3_256()
         else:
-            raise UnrecognizedSHAError("%d" % usingSHA)
+            raise UnrecognizedSHAError("%d" % using_sha)
 
-        d.update(pub.exportKey())
-        expectedID = d.digest()
+        dVal.update(pub.exportKey())
+        expectedID = dVal.digest()
         self.assertEqual(expectedID, id)
 
         # make a random array of bytes
@@ -66,30 +66,30 @@ class TestNode (unittest.TestCase):
         self.assertFalse(node.verify(msg, sig))
 
     # ---------------------------------------------------------------
-    def doTestGenerateRSAKey(self, usingSHA):
-        n = Node(usingSHA)          # no RSA key provided, so creates one
-        self.checkNode(n, usingSHA)
+    def doTestGenerateRSAKey(self, using_sha):
+        n = Node(using_sha)          # no RSA key provided, so creates one
+        self.checkNode(n, using_sha)
 
     def testGeneratedRSAKey(self):
         for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
             self.doTestGenerateRSAKey(using)
 
     # ---------------------------------------------------------------
-    def doTestWithOpenSSLKey(self, usingSHA):
+    def doTestWithOpenSSLKey(self, using_sha):
 
         # import an openSSL-generated 2048-bit key (this becomes a
         # string constant in this program)
-        with open('openssl2k.pem', 'r') as f:
-            pemKey = f.read()
+        with open('openssl2k.pem', 'r') as file:
+            pemKey = file.read()
         key = rsa.importKey(pemKey)
         assert key is not None
         self.assertTrue(key.has_private())
-        n = Node(usingSHA, key)
-        self.checkNode(n, usingSHA)
+        n = Node(using_sha, key)
+        self.checkNode(n, using_sha)
 
         # The _RSAobj.publickey() returns a raw key.
         self.assertEqual(key.publickey().exportKey(),
-                         n.pubKey.exportKey())
+                         n.pub_key.exportKey())
 
         # -----------------------------------------------------------
         # CLEAN THIS UP: node.key and node.pubKey should return

@@ -1,0 +1,171 @@
+# xlattice_py/name-pairs-api
+#
+# extsrc - left and right are synonyms in the exported API
+
+initCFTLogger           init_cft_logger
+openCFTLogger           open_cft_logger
+closeCFTLogger          close_cft_logger
+logMsg                  log_msg
+
+# crypto - these also are synonyms in the existing API
+
+pkcs7Padding            pkcs7_padding
+addPKCS7Padding         add_pkcs7_padding
+stripPKCS7Padding       strip_pkcs7_padding
+nextNBLine              next_nb_line
+collectPEMRSAPublicKey  collect_pem_rsa_public_key
+
+# ftlog -------------------------------------------------------------
+
+# LogEntry api
+t                       tstamp
+# ActualLog api
+baseName                base_name
+logFileName             log_file_name
+# LogMgr api
+logDir                  log_dir
+
+# hello_and_reply ---------------------------------------------------
+
+clientEncryptHello      client_encrypt_hello
+serverDecryptHello      server_decrypt_hello
+serverEncryptHelloReply server_encrypt_hello_reply
+clientDecryptHelloReply client_decrypt_hello_reply
+
+# __init__ ----------------------------------------------------------
+
+# argparser-related -----------------------------
+
+checkUPath              check_u_path
+
+checkUsingSHA           check_using_sha
+parseUsingSHA           parseUsingSHA
+fixUsingSHA             fix_using_sha
+showUsingSHA            show_using_sha
+
+# lfs ---------------------------------------------------------------
+
+
+# node --------------------------------------------------------------
+
+# class AbstractNode
+nodeID                  node_id
+pubKey                  pub_key
+
+# class Node
+getIDAndPubKeyForNode   get_id_and_pub_key_for_node
+privateKey              priv_key
+rsaPrivateKey           rsa_priv_key
+
+# class Peer
+
+# proc_lock ---------------------------------------------------------
+
+# class ProcLock
+isProcessRunning        is_process_running
+pgmName                 pgm_name
+pidDir                  pid_dir
+readOneLineFile         read_one_line_file
+readOneLiner            read_one_liner
+removePIDFile           remove_pid_file
+writeOneLiner           write_one_liner
+
+# stats -------------------------------------------------------------
+
+collectStats            collect_stats
+  midFile                 mid_file
+  midFiles                mid_files
+  outPath                 out_path
+  pathToDir               pathToDir
+  pathToOddity            path_to_oddity
+  topFile                 top_file
+  topFiles                top_files
+  uDir                    u_dir
+  uPath                   u_path
+
+scanLeafDir             scan_leaf_dir
+  fileCount               file_count
+
+# class UStats
+hasL                    has_l
+hasNodeID               has_node_id
+minLeafBytes            min_leaf_bytes
+maxLeafBytes            max_leaf_bytes
+leafCount               leaf_count
+oddCount                odd_count
+subDirCount             subdir_count
+subSubDirCount          sub_subdir_count
+unexpectedAtTop         unexpected_at_top
+
+# ui ----------------------------------------------------------------
+
+confirmYorN             confirm_y_or_n
+  doIt                    do_it
+passwdStrength          passwd_strength
+  charSetSize             char_set_size
+
+# util --------------------------------------------------------------
+getExclusions           get_exclusions
+  f                       file
+makeExRE                make_ex_re
+makeMatchRE             make_match_re
+parseDecimalVersion     parse_decimal_version
+  dv                      dver
+  dv_                     dver
+  s                       string
+  ss                      strings
+parseTimestamp          parse_timestamp
+regexesFromWildcards    regexes_from_wildcards
+timestampNow            timestamp_now
+
+# class DecimalVersion
+getA                    get_a
+getB                    get_b
+getC                    get_c
+getD                    get_d
+oA                      otherA
+oB                      otherB
+oC                      otherC
+oD                      otherD
+sA                      selfA
+sB                      selfB
+sC                      selfC
+sD                      selfD
+
+stepMajor               step_major
+  a                       aVal
+  b                       bVal
+  c                       cVal
+  d                       dVal
+stepMinor               step_minor
+stepDecimal             step_decimal
+stepMicro               step_micro
+
+# u/__init__ --------------------------------------------------------
+
+fileSHA1Bin             file_sha1bin
+fileSHA2Bin             file_sha2bin
+fileSHA3Bin             file_sha3bin
+fileSHA1Hex             file_sha1hex
+fileSHA2Hex             file_sha2hex
+fileSHA3Hex             file_sha3hex
+
+# class ULock
+getLock                 get_lock
+lockDir                 lock_dir
+lockFile                lock_file
+releaseLock             release_lock
+
+# class uDir
+
+copyAndPut              copy_and_put
+dirStruc                dir_struc
+dirStrucSig             dir_struc_sig
+dirStrucToName          dir_struc_to_name
+fileLen                 file_len
+getData                 get_data
+getPathForKey           get_path_for_key
+nameToDirStruc          name_to_dir_struc
+putData                 put_data
+reStruc                 re_struc
+usingSHA                using_sha

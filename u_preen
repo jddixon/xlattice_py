@@ -24,7 +24,7 @@ def doPreen(options):
 
     # expect to find any or all of in/, tmp/, L, and xx/, where x is a hex
     # digit
-    for file in ['L', 'nodeID']:
+    for file in ['L', 'node_id']:
         if os.path.exists(file):
             os.chmod(file, FILE_PERM)
 

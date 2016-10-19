@@ -9,8 +9,8 @@ import time
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__,
-                      Q, checkUsingSHA, u,
-                      parseUsingSHA, fixUsingSHA, showUsingSHA, checkUPath)
+                      Q, check_using_sha, u,
+                      parseUsingSHA, fix_using_sha, show_using_sha, check_u_path)
 
 # PATs AND REs ######################################################
 DIR_NAME_PAT = '^[0-9a-fA-F]{2}$'
@@ -30,11 +30,11 @@ def doLeafDir(args, subSub):
         pathTo = os.path.join(subSub, file)
         if args.fileNameRegex.match(file):
             count += 1
-            if args.usingSHA == Q.USING_SHA1:
+            if args.using_sha == Q.USING_SHA1:
                 hashAsHex = u.fileSHA1(pathTo)
-            elif args.usingSHA == Q.USING_SHA2:
+            elif args.using_sha == Q.USING_SHA2:
                 hashAsHex = u.fileSHA2(pathTo)
-            elif args.usingSHA == Q.USING_SHA3:
+            elif args.using_sha == Q.USING_SHA3:
                 hashAsHex = u.fileSHA3(pathTo)
             if args.verbose:
                 print('      ' + pathTo)
@@ -59,19 +59,19 @@ def doSubDir(args, subDir):
 
 def doWhatever(args):
     args.count = 0
-    uPath = args.uPath
+    u_path = args.u_path
     if args.verbose:
-        print(uPath)
-    files = sorted(os.listdir(uPath))
+        print(u_path)
+    files = sorted(os.listdir(u_path))
     for subDir in files:
-        pathTo = os.path.join(uPath, subDir)
+        pathTo = os.path.join(u_path, subDir)
         if DIR_NAME_RE.match(subDir):
             if args.verbose:
                 print('  ' + pathTo)
             doSubDir(args, pathTo)
-        elif    subDir != 'L'       and \
-                subDir != 'in'      and \
-                subDir != 'nodeID'  and \
+        elif    subDir != 'L'       and\
+                subDir != 'in'      and\
+                subDir != 'node_id'  and\
                 subDir != 'tmp':
             print("not a proper subdirectory: " + pathTo)
     print("processed %u files" % args.count)
@@ -112,11 +112,11 @@ def main():
     args = parser.parse_args()      # a Namespace object
 
     # -- fixups -----------------------------------------------------
-    fixUsingSHA(args)
+    fix_using_sha(args)
 
     args.pgmNameAndVersion = pgmNameAndVersion
     args.timestamp = timestamp
-    if args.usingSHA:
+    if args.using_sha:
         print("DEBUG: using SHA1 *** ")
         args.fileNameRegex = re.compile(FILE_NAME_PAT1)
     else:
@@ -124,12 +124,12 @@ def main():
         args.fileNameRegex = re.compile(FILE_NAME_PAT256)
 
     # -- sanity checks ----------------------------------------------
-    checkUsingSHA(args.usingSHA)
-    checkUPath(parser, args, mustExist=True)
+    check_using_sha(args.using_sha)
+    check_u_path(parser, args, mustExist=True)
 
     # fixups --------------------------------------------------------
-    if args.uPath and args.uPath[-1] == '/':
-        args.uPath = args.uPath[:-1]          # drop any trailing slash
+    if args.u_path and args.u_path[-1] == '/':
+        args.u_path = args.u_path[:-1]          # drop any trailing slash
 
     # -- do it ------------------------------------------------------
 
@@ -149,21 +149,21 @@ def main():
         print('showTimestamp    = ' + str(args.showTimestamp))
         print('showVersion      = ' + str(args.showVersion))
         print('timestamp        = ' + str(args.timestamp))
-        showUsingSHA(args)
+        show_using_sha(args)
 
     if not args.justShow:
-        lock = u.ULock(args.uPath)
+        lock = u.ULock(args.u_path)
         try:
-            if lock.getLock():
+            if lock.get_lock():
                 if args.verbose:
-                    print('have lock on ' + args.uPath)
+                    print('have lock on ' + args.u_path)
                 doWhatever(args)
             else:
-                print('could not get lock on %s' % args.uPath)
+                print('could not get lock on %s' % args.u_path)
         finally:
             if args.verbose:
-                print('releasing lock on ' + args.uPath)
-            lock.releaseLock()
+                print('releasing lock on ' + args.u_path)
+            lock.release_lock()
 
 if __name__ == '__main__':
     main()

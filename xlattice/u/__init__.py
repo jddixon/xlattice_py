@@ -23,11 +23,11 @@ __all__ = ['__version__', '__version_date__',
            'XLUError',
 
            # functions
-           'fileSHA1Bin', 'fileSHA1Hex',
-           'fileSHA2Bin', 'fileSHA2Hex',
-           'fileSHA3Bin', 'fileSHA3Hex',
+           'file_sha1bin', 'file_sha1hex',
+           'file_sha2bin', 'file_sha2hex',
+           'file_sha3bin', 'file_sha3hex',
 
-           """ SYNONYM """
+           # SYNONYMS
            'file_sha1bin', 'file_sha1hex',
            'file_sha2bin', 'file_sha2hex',
            'file_sha3bin', 'file_sha3hex',
@@ -44,12 +44,12 @@ SHA1_B64_NONE = '2jmj7l5rSw0yVb/vlWAYkK/YBwk='
 
 # The SHA2(56) of an empty string or file
 #    ....x....1....x....2....x....3....x....4....x....5....x....6....
-SHA2_HEX_NONE   = \
+SHA2_HEX_NONE   =\
     'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 
 # The SHA3-(56) of an empty string or file
 #    ....x....1....x....2....x....3....x....4....x....5....x....6....
-SHA3_HEX_NONE   = \
+SHA3_HEX_NONE   =\
     'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'
 
 # The lengths of SHA byte arrays or hex strings respectively
@@ -71,6 +71,7 @@ SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 RNG = rnglib.SimpleRNG(time.time())
 
 # == SYNONYMS =======================================================
+#
 
 
 def fileSHA1Bin(path):
@@ -102,6 +103,8 @@ def fileSHA3Hex(path):
     """ SYNONYM """
     return file_sha3hex(path)
 
+# END SYN
+
 # - fileSHA1 --------------------------------------------------------
 
 
@@ -109,96 +112,96 @@ def file_sha1bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha1()
+    dVal = hashlib.sha1()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return bytes(d.digest())    # a binary value
+        dVal.update(byteStr)
+    regexes.close()
+    return bytes(dVal.digest())    # a binary value
 
 
 def file_sha1hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha1()
+    dVal = hashlib.sha1()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return d.hexdigest()    # a string, of course!
+        dVal.update(byteStr)
+    regexes.close()
+    return dVal.hexdigest()    # a string, of course!
 
 
 def file_sha2bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha256()
+    dVal = hashlib.sha256()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return bytes(d.digest())   # a binary value
+        dVal.update(byteStr)
+    regexes.close()
+    return bytes(dVal.digest())   # a binary value
 
 
 def file_sha2hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha256()
+    dVal = hashlib.sha256()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return d.hexdigest()    # a string, of course!
+        dVal.update(byteStr)
+    regexes.close()
+    return dVal.hexdigest()    # a string, of course!
 
 
 def file_sha3bin(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha3_256()
+    dVal = hashlib.sha3_256()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return bytes(d.digest())   # a binary value
+        dVal.update(byteStr)
+    regexes.close()
+    return bytes(dVal.digest())   # a binary value
 
 
 def file_sha3hex(path):
     if path is None or not os.path.exists(path):
         return None
 
-    d = hashlib.sha3_256()
+    dVal = hashlib.sha3_256()
     f = io.FileIO(path, 'rb')
-    r = io.BufferedReader(f)
+    regexes = io.BufferedReader(f)
     while (True):
-        byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
+        byteStr = regexes.read(io.DEFAULT_BUFFER_SIZE)
         if (len(byteStr) == 0):
             break
-        d.update(byteStr)
-    r.close()
-    return d.hexdigest()    # a string, of course!
+        dVal.update(byteStr)
+    regexes.close()
+    return dVal.hexdigest()    # a string, of course!
 
 # CLASSES ===========================================================
 
@@ -209,9 +212,9 @@ class XLUError(RuntimeError):
 
 class ULock(object):
 
-    def __init__(self, uPath='/var/U'):
+    def __init__(self, u_path='/var/U'):
         self._pid = os.getpid()
-        abs_path_to_u = os.path.abspath(uPath)
+        abs_path_to_u = os.path.abspath(u_path)
         self._lock_dir = '/tmp/u' + abs_path_to_u
         if (not os.path.exists(self.lock_dir)):
             os.makedirs(self._lock_dir)
@@ -291,9 +294,9 @@ class UDir (object):
         'DIR256x256': DIR256x256,
     }
 
-    def name_to_dir_struc(s):
+    def name_to_dir_struc(string):
         """ map a string into an integer"""
-        return UDir._name_to_dir_struc[s]
+        return UDir._name_to_dir_struc[string]
 
     _dir_struc_to_name = {
         DIR_FLAT: 'DIR_FLAT',
@@ -548,11 +551,11 @@ class UDir (object):
             raise XLUError(errMsg)
 
         if self.using_sha == Q.USING_SHA1:
-            hash = fileSHA1Hex(inFile)
+            hash = file_sha1hex(inFile)
         elif self.using_sha == Q.USING_SHA2:
-            hash = fileSHA2Hex(inFile)
+            hash = file_sha2hex(inFile)
         elif self.using_sha == Q.USING_SHA3:
-            hash = fileSHA3Hex(inFile)
+            hash = file_sha3hex(inFile)
         # XXX BAD USING OR LEN NOT ALLOWED FOR
         length = os.stat(inFile).st_size
 

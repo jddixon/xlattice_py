@@ -10,8 +10,8 @@ from Crypto.Cipher import PKCS1_OAEP
 from Crypto.PublicKey import RSA
 import rnglib
 
-import xlattice.helloAndReply as hr
-from xlattice.util import DecimalVersion, parseDecimalVersion
+import xlattice.hello_and_reply as hr
+from xlattice.util import DecimalVersion, parse_decimal_version
 from xlattice import SHA1_BIN_LEN
 
 KEY_BITS = 2048
@@ -50,19 +50,19 @@ class TestRSA_OAEP (unittest.TestCase):
         versionObj = DecimalVersion(w, x, y, z)
         version = versionObj.value            # a property
         serialVersion = '%d.%d.%d.%d' % (w, x, y, z)
-        versionFromS = parseDecimalVersion(serialVersion)
+        versionFromS = parse_decimal_version(serialVersion)
         self.assertEqual(version, versionFromS.value)
 
         # CLIENT ENCRYPTS HELLO -------------------------------------
 
-        encryptedHello, iv1, key1, salt1 = hr.clientEncryptHello(version, ck)
+        encryptedHello, iv1, key1, salt1 = hr.client_encrypt_hello(version, ck)
         self.assertEqual(len(encryptedHello), KEYBITS / 8)
         self.assertEqual(len(iv1), hr.AES_BLOCK_SIZE)
         self.assertEqual(len(key1), 2 * hr.AES_BLOCK_SIZE)
         self.assertEqual(len(salt1), 8)
 
         # SERVER DECRYPTS HELLO -------------------------------------
-        iv1s, key1s, salt1s, versionS = hr.serverDecryptHello(
+        iv1s, key1s, salt1s, versionS = hr.server_decrypt_hello(
             encryptedHello, ckPriv)
 
         # in real use, the server could require a different version
@@ -73,11 +73,11 @@ class TestRSA_OAEP (unittest.TestCase):
 
         # SERVER PREPARES AND ENCRYPTS REPLY ------------------------
         version2s = self.rng.nextInt32()
-        iv2s, key2s, salt2s, encryptedReply = hr.serverEncryptHelloReply(
+        iv2s, key2s, salt2s, encryptedReply = hr.server_encrypt_hello_reply(
             iv1, key1, salt1, version2s)
 
         # CLIENT DECRYPTS REPLY -------------------------------------
-        iv2, key2, salt2, salt1x, version2 = hr.clientDecryptHelloReply(
+        iv2, key2, salt2, salt1x, version2 = hr.client_decrypt_hello_reply(
             encryptedReply, iv1, key1)
 
         self.assertEqual(iv2, iv2s)

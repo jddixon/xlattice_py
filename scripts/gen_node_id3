@@ -19,41 +19,41 @@ from u import ULock
 # DEFAULTS for command line arguments ###############################
 # a random number between 00 and 0xff
 subDir = str("%02x" % randint(0, 0xff))
-uDir = '/var/U'
+u_dir = '/var/U'
 verbose = False
 
 # UTILITY FUNCTIONS #################################################
 
 
-def genNodeID3(subDir, uDir='/var/U'):
-    lock = ULock(uDir)
-    lock.getLock()
+def genNodeID3(subDir, u_dir='/var/U'):
+    lock = ULock(u_dir)
+    lock.get_lock()
 
-    d = sha3.SHA3256()
-    subDir = "%s/%s" % (uDir, subDir)
+    dVal = sha3.SHA3256()
+    subDir = "%s/%s" % (u_dir, subDir)
     for root, dirs, files in os.walk(subDir):
         for name in files:
             absPath = join(root, name)
             try:
-                f = io.FileIO(absPath, "r")
-                r = io.BufferedReader(f)
+                file = io.FileIO(absPath, "r")
+                r = io.BufferedReader(file)
                 while True:
                     byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
                     if len(byteStr) == 0:
                         break
-                    d.update(byteStr)
+                    dVal.update(byteStr)
             except Exception as e:
                 print "unexpected exception reading %s: %s" % (absPath, str(e))
                 # otherwise we just ignore it
 
-    lock.releaseLock()
-    return d.hexdigest()        # a string
+    lock.release_lock()
+    return dVal.hexdigest()        # a string
 
 # COMMAND LINE HANDLING #############################################
 
 
 def usage():
-    s = [
+    string = [
         'usage: genNodeID3 [options]',
         'where the options are',
         '  -h/--help     view this very helpful message',
@@ -62,28 +62,28 @@ def usage():
         '  -v/--verbose  be chatty',
         'Generates a nodeID as the SHA3 of the pid and the contents of subDir',
     ]
-    print '\n'.join(s)
+    print '\n'.join(string)
     sys.exit()
 
 argVec = sys.argv[1:]
 try:
     opts, args = getopt.getopt(argVec, "hs:u:v",
-                               ["help", "subDir", "uDir", "verbose"])
+                               ["help", "subDir", "u_dir", "verbose"])
 except getopt.GetoptError as err:
     print str(err)
     usage()
 
-for o, a in opts:
+for o, aVal in opts:
     if o in ('-h', '--help'):
         usage()
     elif o in ('-s', '--subDir'):
-        subDir = a
+        subDir = aVal
 
     elif o in ('-v', '--verbose'):
         showVersion = True
         verbose = True
     elif o in ('-u', '--uDir'):
-        uDir = a
+        u_dir = aVal
     else:
         assert False, 'unhandled option'
 
@@ -96,9 +96,9 @@ subDir = subDir.lower()
 if (verbose):
     print "pid    = %u" % os.getpid()
     print "subDir = %s" % subDir
-    print "uDir   = %s" % uDir
+    print "uDir   = %s" % u_dir
     print ''
 
 # notice that the order of names is odd!
-nodeID = genNodeID3(subDir, uDir)
-print nodeID
+node_id = genNodeID3(subDir, u_dir)
+print node_id

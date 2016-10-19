@@ -19,24 +19,24 @@ class TestUStats (unittest.TestCase):
         self.rng = SimpleRNG()
 
     def test_defaults(self):
-        s = UStats()
+        string = UStats()
 
-        self.assertEqual(s.dirStruc, UDir.DIR_FLAT)
-        self.assertFalse(s.usingSHA)
+        self.assertEqual(string.dir_struc, UDir.DIR_FLAT)
+        self.assertFalse(string.using_sha)
 
-        self.assertEqual(s.subDirCount, 0)
-        self.assertEqual(s.subSubDirCount, 0)
-        self.assertEqual(s.leafCount, 0)
-        self.assertEqual(s.oddCount, 0)
-        self.assertEqual(s.hasL, False)
-        self.assertEqual(s.hasNodeID, False)
-        self.assertEqual(s.minLeafBytes, sys.maxsize)
-        self.assertEqual(s.maxLeafBytes, 0)
+        self.assertEqual(string.subdir_count, 0)
+        self.assertEqual(string.sub_subdir_count, 0)
+        self.assertEqual(string.leaf_count, 0)
+        self.assertEqual(string.odd_count, 0)
+        self.assertEqual(string.has_l, False)
+        self.assertEqual(string.has_node_id, False)
+        self.assertEqual(string.min_leaf_bytes, sys.maxsize)
+        self.assertEqual(string.max_leaf_bytes, 0)
 
-        self.assertEqual(len(s.unexpectedAtTop), 0)
+        self.assertEqual(len(string.unexpected_at_top), 0)
 
     def test_properties(self):
-        s = UStats()
+        string = UStats()
 
         # XXX STUB XXX
 

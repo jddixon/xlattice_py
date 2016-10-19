@@ -95,7 +95,7 @@ class TestU(unittest.TestCase):
                 d_key = file_sha3hex(d_path)
 
             # copy this file into U
-            (u_len, u_key) = u_dir.copyAndPut(d_path, d_key)
+            (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
             self.assertEqual(d_len, u_len)
             self.assertEqual(d_key, u_key)
 
@@ -135,7 +135,7 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif using_sha == Q.USING_SHA3:
             d_key = file_sha3hex(d_path)
-        (u_len, u_key) = u_dir.copyAndPut(d_path, d_key)
+        (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
         u_path = u_dir.get_path_for_key(u_key)
         self.assertTrue(os.path.exists(u_path))
         self.assertTrue(u_dir.exists(u_key))
@@ -171,10 +171,10 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif using_sha == Q.USING_SHA3:
             d_key = file_sha3hex(d_path)
-        (u_len, u_key) = u_dir.copyAndPut(d_path, d_key)
+        (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
         u_path = u_dir.get_path_for_key(u_key)
         self.assertEqual(d_len, u_len)
-        self.assertEqual(d_len, u_dir.fileLen(u_key))
+        self.assertEqual(d_len, u_dir.file_len(u_key))
 
     def test_file_len(self):
         """ Test file_len() for all structures and hash types. """
@@ -234,7 +234,7 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif using_sha == Q.USING_SHA3:
             d_key = file_sha3hex(d_path)
-        (u_len, u_key) = u_dir.copyAndPut(d_path, d_key)
+        (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
         self.assertEqual(u_key, d_key)
         u_path = u_dir.get_path_for_key(u_key)
 

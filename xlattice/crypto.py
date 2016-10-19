@@ -1,8 +1,8 @@
 # xlattice_py/xlattice/crypto.py
 
 __all__ = ['AES_BLOCK_SIZE',
-           'pkcs7Padding', 'addPKCS7Padding', 'stripPKCS7Padding',
-           'nextNBLine', 'collectPEMRSAPublicKey',
+           'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
+           'next_nb_line', 'collect_pem_rsa_public_key',
            # Classes
            'SP',
            ]
@@ -42,8 +42,10 @@ def collectPEMRSAPublicKey(first_line, lines):
     """ SYNONYM """
     return collect_pem_rsa_public_key(first_line, lines)
 
+# END SYN
 
 # PKSC7 PADDING =====================================================
+
 
 def pkcs7_padding(data, block_size):
     block_size = int(block_size)
@@ -69,7 +71,7 @@ def add_pkcs7_padding(data, block_size):
     if block_size <= 1:
         raise CryptoException("impossible block size")
     else:
-        padding = pkcs7Padding(data, block_size)
+        padding = pkcs7_padding(data, block_size)
         if not data:
             out = padding
         else:

@@ -14,18 +14,18 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
            'Q', 'UnrecognizedSHAError',
 
-           # SYNONYMS
+           # SYNONYMS -----------------------------------------------
            'checkUsingSHA',
-           # argparse-related: -1,-2,-3 become args.using_sha
+           #  argparse-related: -1,-2,-3 become args.using_sha
            'parseUsingSHA', 'fixUsingSHA', 'checkUPath', 'showUsingSHA',
-           # END SYN
+           # END SYN ------------------------------------------------
 
            'check_using_sha',
            'parse_using_sha', 'fix_using_sha', 'check_u_path', 'show_using_sha',
            ]
 
-__version__ = '1.4.0'
-__version_date__ = '2016-10-15'
+__version__ = '1.5.0'
+__version_date__ = '2016-10-19'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -143,35 +143,45 @@ def check_u_path(parser, args, mustExist=False, mode=0o755):
 
 
 def show_using_sha(args):
-    print('u_path       = ' + str(args.u_path))
-    print('using_sha    = ' + str(args.using_sha))
-    print('verbose      = ' + str(args.verbose))
+    print('u_path               = ' + str(args.u_path))
+    print('using_sha            = ' + str(args.using_sha))
+    print('verbose              = ' + str(args.verbose))
 
 # SYNONYM -----------------------------------------------------------
+#
+#
 
 
 def checkUsingSHA(using):
     """ SYNONYM """
     return check_using_sha(using)
+#
+#
 
 
 def checkUPath(parser, args, mustExist=False, mode=0o755):
     """ SYNONYM """
     return check_u_path(parser, args, mustExist, mode)
+#
+#
 
 
 def fixUsingSHA(args):
     """ SYNONYM """
     return fix_using_sha(args)
+#
+#
 
 
 def parseUsingSHA(parser):
     """ SYNONYM """
     return parse_using_sha(parser)
+#
+#
 
 
 def showUsingSHA(args):
     """ SYNONYM """
     return show_using_sha(args)
-
+#
 # END SYN -----------------------------------------------------------

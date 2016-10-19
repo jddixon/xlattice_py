@@ -102,67 +102,67 @@ class TestDecimalVErsion(unittest.TestCase):
         b__ = 0xff & (v__ >> 8)
         c__ = 0xff & (v__ >> 16)
         d__ = 0xff & (v__ >> 24)
-        dv_ = DecimalVersion(a__, b__, c__, d__)
-        self.assertEqual(dv_.value, v__)
-        self.assertEqual(a__, dv_.get_a())
-        self.assertEqual(b__, dv_.get_b())
-        self.assertEqual(c__, dv_.get_c())
-        self.assertEqual(d__, dv_.get_d())
+        dver = DecimalVersion(a__, b__, c__, d__)
+        self.assertEqual(dver.value, v__)
+        self.assertEqual(a__, dver.get_a())
+        self.assertEqual(b__, dver.get_b())
+        self.assertEqual(c__, dver.get_c())
+        self.assertEqual(d__, dver.get_d())
 
-        return v__, a__, b__, c__, d__, dv_
+        return v__, a__, b__, c__, d__, dver
 
     def test_assigning_values(self):
         """ Test various forms of assignment. """
 
-        v__, _, _, _, _, dv_ = self.make_decimal_version()
+        v__, _, _, _, _, dver = self.make_decimal_version()
 
         # test int assignment
         dv2 = DecimalVersion()
         dv2.value = v__
         self.assertEqual(dv2.value, v__)
-        self.assertEqual(dv2, dv_)
+        self.assertEqual(dv2, dver)
 
         # test str assignment
         dv3 = DecimalVersion()
-        dv3.value = dv_.__str__()
+        dv3.value = dver.__str__()
         self.assertEqual(dv3.value, v__)
-        self.assertEqual(dv3, dv_)
+        self.assertEqual(dv3, dver)
 
         # test DecimalValue assignment
         dv4 = DecimalVersion()
-        dv4.value = dv_
+        dv4.value = dver
         self.assertEqual(dv4.value, v__)
-        self.assertEqual(dv4, dv_)
+        self.assertEqual(dv4, dver)
 
     def test_stepping_major(self):
         """ Test stepping the major version number. """
 
-        _, a__, _, _, _, dv_ = self.make_decimal_version()
+        _, a__, _, _, _, dver = self.make_decimal_version()
         if a__ < 255:
-            dv_.stepMajor()
-            self.assertEqual(dv_.get_a(), a__ + 1)
-            self.assertEqual(dv_.get_b(), 0)
-            self.assertEqual(dv_.get_c(), 0)
-            self.assertEqual(dv_.get_d(), 0)
+            dver.step_major()
+            self.assertEqual(dver.get_a(), a__ + 1)
+            self.assertEqual(dver.get_b(), 0)
+            self.assertEqual(dver.get_c(), 0)
+            self.assertEqual(dver.get_d(), 0)
         else:
             try:
-                dv_.stepMajor()
+                dver.step_major()
                 self.fail("didn't get exception stepping to 256")
             except RuntimeError:
                 pass
 
     def test_stepping_minor(self):
         """ Test stepping the minor version number. """
-        _, a__, b__, _, _, dv_ = self.make_decimal_version()
+        _, a__, b__, _, _, dver = self.make_decimal_version()
         if b__ < 255:
-            dv_.stepMinor()
-            self.assertEqual(dv_.get_a(), a__)
-            self.assertEqual(dv_.get_b(), b__ + 1)
-            self.assertEqual(dv_.get_c(), 0)
-            self.assertEqual(dv_.get_d(), 0)
+            dver.step_minor()
+            self.assertEqual(dver.get_a(), a__)
+            self.assertEqual(dver.get_b(), b__ + 1)
+            self.assertEqual(dver.get_c(), 0)
+            self.assertEqual(dver.get_d(), 0)
         else:
             try:
-                dv_.stepMinor()
+                dver.step_minor()
                 self.fail("didn't get exception stepping to 256")
             except RuntimeError:
                 pass
@@ -170,16 +170,16 @@ class TestDecimalVErsion(unittest.TestCase):
     def test_stepping_decimal(self):
         """ Test stepping the decimal (third part of) version number. """
 
-        _, a__, b__, c__, _, dv_ = self.make_decimal_version()
+        _, a__, b__, c__, _, dver = self.make_decimal_version()
         if c__ < 255:
-            dv_.stepDecimal()
-            self.assertEqual(dv_.get_a(), a__)
-            self.assertEqual(dv_.get_b(), b__)
-            self.assertEqual(dv_.get_c(), c__ + 1)
-            self.assertEqual(dv_.get_d(), 0)
+            dver.step_decimal()
+            self.assertEqual(dver.get_a(), a__)
+            self.assertEqual(dver.get_b(), b__)
+            self.assertEqual(dver.get_c(), c__ + 1)
+            self.assertEqual(dver.get_d(), 0)
         else:
             try:
-                dv_.stepDecimal()
+                dver.step_decimal()
                 self.fail("didn't get exception stepping to 256")
             except RuntimeError:
                 pass
@@ -187,16 +187,16 @@ class TestDecimalVErsion(unittest.TestCase):
     def test_stepping_micro(self):
         """ Test stepping the micro (fourth part of) version number. """
 
-        _, a__, b__, c__, d__, dv_ = self.make_decimal_version()
+        _, a__, b__, c__, d__, dver = self.make_decimal_version()
         if d__ < 255:
-            dv_.stepMicro()
-            self.assertEqual(dv_.get_a(), a__)
-            self.assertEqual(dv_.get_b(), b__)
-            self.assertEqual(dv_.get_c(), c__)
-            self.assertEqual(dv_.get_d(), d__ + 1)
+            dver.step_micro()
+            self.assertEqual(dver.get_a(), a__)
+            self.assertEqual(dver.get_b(), b__)
+            self.assertEqual(dver.get_c(), c__)
+            self.assertEqual(dver.get_d(), d__ + 1)
         else:
             try:
-                dv_.stepMicro()
+                dver.step_micro()
                 self.fail("didn't get exception stepping to 256")
             except RuntimeError:
                 pass

@@ -9,7 +9,7 @@ import time
 import unittest
 import sys
 from rnglib import SimpleRNG
-from xlattice.procLock import ProcLock
+from xlattice.proc_lock import ProcLock
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
@@ -35,13 +35,13 @@ class TestProcLock (unittest.TestCase):
             myPID = os.getpid()
             mgr = ProcLock('foo')
 
-            self.assertEqual('foo', mgr.pgmName)
+            self.assertEqual('foo', mgr.pgm_name)
             self.assertEqual(myPID, mgr.pid)
             # XXX bad practice wiring in location
             self.assertEqual('/tmp/run/foo.pid', mgr.lockFileName)
             self.assertTrue(os.path.exists(mgr.lockFileName))
-            with open(mgr.lockFileName, 'r') as f:
-                pidInFile = f.read()
+            with open(mgr.lockFileName, 'r') as file:
+                pidInFile = file.read()
             self.assertEqual(str(myPID), pidInFile)
 
             # DEBUG

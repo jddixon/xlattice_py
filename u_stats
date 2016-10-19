@@ -8,46 +8,49 @@ import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__, Q)
-from xlattice.stats import collectStats
+from xlattice.stats import collect_stats
 from xlattice.u import UDir
 
 
 def doRun(options):
 
-    uPath = options.uPath
-    outPath = options.outPath
+    u_path = options.u_path
+    out_path = options.out_path
     verbose = options.verbose
 
     # XXX options.outPath currently ignored
 
     # returns a UStats object
-    s = collectStats(uPath, outPath, verbose)
+    string = collect_stats(u_path, out_path, verbose)
 
-    print("statistics for %s" % uPath)
-    print("  dirStruc:           %10s" % UDir.dirStrucToName(s.dirStruc))
-    print("  usingSHA:          %10s" % s.usingSHA)
+    print("statistics for %s" % u_path)
+    print(
+        "  dirStruc:           %10s" %
+        UDir.dir_struc_to_name(
+            string.dir_struc))
+    print("  usingSHA:          %10s" % string.using_sha)
     print()
-    print("  subDirectories:     %10d" % s.subDirCount)
-    print("  subSubDirectories:  %10d" % s.subSubDirCount)
-    print("  leaf files:         %10d" % s.leafCount)
-    print("  odd files:          %10d" % s.oddCount)
+    print("  subDirectories:     %10d" % string.subdir_count)
+    print("  subSubDirectories:  %10d" % string.sub_subdir_count)
+    print("  leaf files:         %10d" % string.leaf_count)
+    print("  odd files:          %10d" % string.odd_count)
 
-    if s.minLeafBytes != sys.maxsize:
-        print("  smallest leaf file: %10d" % s.minLeafBytes)
-    print("  largest leaf file:  %10d" % s.maxLeafBytes)
+    if string.min_leaf_bytes != sys.maxsize:
+        print("  smallest leaf file: %10d" % string.min_leaf_bytes)
+    print("  largest leaf file:  %10d" % string.max_leaf_bytes)
 
-    if s.hasL:
+    if string.has_l:
         print("  L present")
-    if s.hasNodeID:
+    if string.has_node_id:
         print("  nodeID present")
 
     if verbose:
-        if s._unexpectedAtTop:
-            print("\nunexpected at top (%d)" % len(s._unexpectedAtTop))
-            for x in s._unexpectedAtTop:
+        if string._unexpectedAtTop:
+            print("\nunexpected at top (%d)" % len(string._unexpectedAtTop))
+            for x in string._unexpectedAtTop:
                 print("  %s" % x)
     else:
-        print("  unexpected at top:  %10d" % len(s._unexpectedAtTop))
+        print("  unexpected at top:  %10d" % len(string._unexpectedAtTop))
 
 
 def main():
@@ -76,13 +79,13 @@ def main():
 
     # sanity checks -------------------------------------------------
 
-    if not args.uPath or not os.path.exists(args.uPath):
-        print("input directory '%s' does not exist" % args.uPath)
+    if not args.u_path or not os.path.exists(args.u_path):
+        print("input directory '%s' does not exist" % args.u_path)
         parser.print_help()
         sys.exit(1)
 
-    if args.outPath and not os.path.exists(args.outPath):
-        print("output directory '%s' does not exist" % args.outPath)
+    if args.out_path and not os.path.exists(args.out_path):
+        print("output directory '%s' does not exist" % args.out_path)
         parser.print_help()
         sys.exit(1)
 
@@ -95,8 +98,8 @@ def main():
 
     if args.verbose or args.justShow:
         print('justShow     = ' + str(args.justShow))
-        print('outPath      = ' + str(args.outPath))
-        print('uPath        = ' + str(args.uPath))
+        print('outPath      = ' + str(args.out_path))
+        print('uPath        = ' + str(args.u_path))
         print('verbose      = ' + str(args.verbose))
 
     if args.justShow:

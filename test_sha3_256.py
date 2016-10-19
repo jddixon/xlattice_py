@@ -93,9 +93,9 @@ class TestSHA3_256(unittest.TestCase):
 
         # we can also hash the binary value byte by byte
         sha = hashlib.sha3_256()
-        for b in binIn:
+        for bVal in binIn:
             x = bytearray(1)
-            x[0] = b
+            x[0] = bVal
             sha.update(x)
         self.assertEqual(sha.hexdigest(), expectedHexOut)
         self.assertEqual(sha.digest(), expectedBinOut)

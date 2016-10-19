@@ -3,17 +3,17 @@
 from Crypto.Cipher import PKCS1_OAEP, AES
 from Crypto.PublicKey import RSA
 from rnglib import SystemRNG
-from xlattice.crypto    import AES_BLOCK_SIZE, \
-    addPKCS7Padding, stripPKCS7Padding
+from xlattice.crypto    import AES_BLOCK_SIZE,\
+    add_pkcs7_padding, strip_pkcs7_padding
 
-__all__ = ['clientEncryptHello', 'serverDecryptHello',
-           'serverEncryptHelloReply', 'clientDecryptHelloReply',
+__all__ = ['client_encrypt_hello', 'server_decrypt_hello',
+           'server_encrypt_hello_reply', 'client_decrypt_hello_reply',
            ]
 
 AES_BLOCK_SIZE = 16
 
 
-def clientEncryptHello(version, ck):
+def client_encrypt_hello(version, ck):
     """
     Generate a client Hello message for public key ck  and
     DecimalVersion version.
@@ -70,7 +70,7 @@ def clientEncryptHello(version, ck):
     return ciphertext, iv1, key1, salt1
 
 
-def serverDecryptHello(ciphertext, ckPriv):
+def server_decrypt_hello(ciphertext, ckPriv):
     """
     The server uses its private RSA key to decryptthe message from
     the client, discarding the OAEP padding.
@@ -85,14 +85,14 @@ def serverDecryptHello(ciphertext, ckPriv):
     salt1s = msg[3 * AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE + 8]
     vOffset = 3 * AES_BLOCK_SIZE + 8
     vBytes = msg[vOffset: vOffset + 4]
-    version =  vBytes[0]        +  \
-        (vBytes[1] <<  8) +  \
-        (vBytes[2] << 16) +  \
+    version =  vBytes[0]        +\
+        (vBytes[1] <<  8) +\
+        (vBytes[2] << 16) +\
         (vBytes[3] << 24)
     return iv1s, key1s, salt1s, version
 
 
-def serverEncryptHelloReply(iv1, key1, salt1, version2s):
+def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
     """
     We use iv1, key1 to AES-encrypt our reply.  The server returns salt1
     to show it has decrypted the hello correctly.  It also sends version2
@@ -131,7 +131,7 @@ def serverEncryptHelloReply(iv1, key1, salt1, version2s):
     reply = iv2 + key2 + salt2 + salt1 + version2
 
     # add PKCS7 padding
-    paddedReply = addPKCS7Padding(reply, AES_BLOCK_SIZE)
+    paddedReply = add_pkcs7_padding(reply, AES_BLOCK_SIZE)
 
     # encrypt the reply using iv1, key1, CBC.
     cipher = AES.new(key1, AES.MODE_CBC, iv1)
@@ -140,7 +140,7 @@ def serverEncryptHelloReply(iv1, key1, salt1, version2s):
     return iv2, key2, salt2, ciphertext
 
 
-def clientDecryptHelloReply(ciphertext, iv1, key1):
+def client_decrypt_hello_reply(ciphertext, iv1, key1):
     """
     Decrypt the server's reply using the IV and key we sent to it.
     Returns iv2, key2, salt2 (8 bytes), and the original salt1.
@@ -158,16 +158,16 @@ def clientDecryptHelloReply(ciphertext, iv1, key1):
     # END
     cipher = AES.new(key1, AES.MODE_CBC, iv1)
     plaintext = cipher.decrypt(ciphertext[AES_BLOCK_SIZE:])
-    unpadded = stripPKCS7Padding(plaintext, AES_BLOCK_SIZE)
+    unpadded = strip_pkcs7_padding(plaintext, AES_BLOCK_SIZE)
 
     iv2 = unpadded[:AES_BLOCK_SIZE]
     key2 = unpadded[AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE]
     salt2 = unpadded[3 * AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE + 8]
     salt1 = unpadded[3 * AES_BLOCK_SIZE + 8: 3 * AES_BLOCK_SIZE + 16]
     vBytes = unpadded[3 * AES_BLOCK_SIZE + 16: 3 * AES_BLOCK_SIZE + 20]
-    version2 = vBytes[0]         |   \
-        (vBytes[1] <<  8) |   \
-        (vBytes[2] << 16) |   \
+    version2 = vBytes[0]         |\
+        (vBytes[1] <<  8) |\
+        (vBytes[2] << 16) |\
         (vBytes[3] << 24)
 
     return iv2, key2, salt2, salt1, version2

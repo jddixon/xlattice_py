@@ -9,7 +9,7 @@ import shutil
 import sys
 import time
 import unittest
-from xlattice.ftLog import LogMgr
+from xlattice.ftlog import LogMgr
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
@@ -53,19 +53,19 @@ class TestTwoLogs (unittest.TestCase):
 
         # -- test our expectations ----------------------------------
         expectedLogFile = 'logs/foo.log'
-        self.assertEqual(expectedLogFile, fooLog.logFileName)
+        self.assertEqual(expectedLogFile, fooLog.log_file_name)
         self.assertTrue(os.path.exists(expectedLogFile))
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        with open(expectedLogFile, 'r') as file:
+            contents = file.read()
         contents = contents.strip()
         self.assertTrue(contents.endswith('oh hello, foo'))  # END FOO
 
         if barLog:
             expectedLogFile = 'logs/bar.log'
-            self.assertEqual(expectedLogFile, barLog.logFileName)
+            self.assertEqual(expectedLogFile, barLog.log_file_name)
             self.assertTrue(os.path.exists(expectedLogFile))
-            with open(expectedLogFile, 'r') as f:
-                contents = f.read()
+            with open(expectedLogFile, 'r') as file:
+                contents = file.read()
             contents = contents.strip()
             self.assertTrue(contents.endswith('oh hello, bar'))  # END BAR
 

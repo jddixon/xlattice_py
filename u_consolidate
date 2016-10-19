@@ -9,7 +9,7 @@ import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__, Q)
-from xlattice.u import fileSHA1Hex
+from xlattice.u import file_sha1hex
 
 ###############################
 # XXX assumes usingSHA == True
@@ -43,7 +43,7 @@ def doRun(options):
                 for file in files:
                     count = count + 1
                     pathToSrc = os.path.join(subSubDir, file)
-                    key = fileSHA1Hex(pathToSrc)
+                    key = file_sha1hex(pathToSrc)
                     # what whould be the the normal case
                     if key == file:
                         pathToDest = os.path.join(destSubSubDir, file)

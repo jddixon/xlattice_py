@@ -14,7 +14,7 @@ import cFTLogForPy
 # pylint: disable=no-name-in-module
 from cFTLogForPy import (
     # openCFTLog, logMsg not imported
-    initCFTLogger, closeCFTLogger)
+    init_cft_logger, close_cft_logger)
 
 from rnglib import SimpleRNG
 
@@ -55,7 +55,7 @@ class TestCLogObj(unittest.TestCase):
     def test_ctor(self):
         """ Verify that the constructor creates a logger with sensible props."""
 
-        _ = initCFTLogger()
+        _ = init_cft_logger()
         log_file = self.unique_file_name()
         # pylint: disable=no-member
         obj = cFTLogForPy.LogForPy()
@@ -76,7 +76,7 @@ class TestCLogObj(unittest.TestCase):
                     ]
         log_file = self.unique_file_name()
         # this 3-line stanza needs to be shortened
-        _ = initCFTLogger()
+        _ = init_cft_logger()
         obj = cFTLogForPy.LogForPy()  # pylint: disable=no-member
         obj.init(log_file)
         # try SYNONYM first
@@ -90,13 +90,13 @@ class TestCLogObj(unittest.TestCase):
         self.assertEqual(expected, count)
         for msg in messages:
             # pylint: disable=no-member
-            obj.logMsg(msg)
+            obj.log_msg(msg)
             expected += 1
             count = obj.count()
             self.assertEqual(expected, count)
 
         # XXX OLD MODULE-LEVEL FUNC
-        status = closeCFTLogger(log_ndx)
+        status = close_cft_logger(log_ndx)
         # print("closeCFTLogger returns %s" % str(status))
         self.assertEqual(status, 0)
 
