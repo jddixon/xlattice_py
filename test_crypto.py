@@ -19,7 +19,7 @@ class TestCrypto(unittest.TestCase):
 
         for _ in range(4):
             count = self.rng.nextInt16(32)
-            spaces = SP.getSpaces(count)
+            spaces = SP.get_spaces(count)
             self.assertEqual(len(spaces), count)
             for ch_ in spaces:
                 self.assertEqual(ch_, ' ')

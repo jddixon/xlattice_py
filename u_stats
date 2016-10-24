@@ -12,7 +12,7 @@ from xlattice.stats import collect_stats
 from xlattice.u import UDir
 
 
-def doRun(options):
+def do_run(options):
 
     u_path = options.u_path
     out_path = options.out_path
@@ -47,8 +47,8 @@ def doRun(options):
     if verbose:
         if string._unexpectedAtTop:
             print("\nunexpected at top (%d)" % len(string._unexpectedAtTop))
-            for x in string._unexpectedAtTop:
-                print("  %s" % x)
+            for xxx in string._unexpectedAtTop:
+                print("  %s" % xxx)
     else:
         print("  unexpected at top:  %10d" % len(string._unexpectedAtTop))
 
@@ -58,8 +58,8 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'display statistical information on uPath'
-    parser = ArgumentParser(description=DESC)
+    desc = 'display statistical information on uPath'
+    parser = ArgumentParser(description=desc)
 
     parser.add_argument('-j', '--justShow', action='store_true',
                         help='show options and exit')
@@ -93,20 +93,20 @@ def main():
     appName = 'uStats %s' % __version__
 
     # maybe show options and such -----------------------------------
-    if args.verbose or args.justShow:
+    if args.verbose or args.just_show:
         print("%s %s" % (appName, __version_date__))
 
-    if args.verbose or args.justShow:
-        print('justShow     = ' + str(args.justShow))
+    if args.verbose or args.just_show:
+        print('justShow     = ' + str(args.just_show))
         print('outPath      = ' + str(args.out_path))
         print('uPath        = ' + str(args.u_path))
         print('verbose      = ' + str(args.verbose))
 
-    if args.justShow:
+    if args.just_show:
         sys.exit(0)
 
     # do what's required --------------------------------------------
-    doRun(args)
+    do_run(args)
 
 
 if __name__ == '__main__':

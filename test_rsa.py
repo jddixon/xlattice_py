@@ -25,80 +25,80 @@ class TestRSA (unittest.TestCase):
 
     def testRSA(self):
 
-        tmpDir = 'tmp'
-        if not os.path.exists(tmpDir):
-            os.mkdir(tmpDir)
+        tmp_dir = 'tmp'
+        if not os.path.exists(tmp_dir):
+            os.mkdir(tmp_dir)
         while True:
             subDir = self.rng.nextFileName(12)
-            nodeDir = os.path.join(tmpDir, subDir)
-            if not os.path.exists(nodeDir):
+            node_dir = os.path.join(tmp_dir, subDir)
+            if not os.path.exists(node_dir):
                 break
         # DEBUG
         #print("nodeDir is %s" % nodeDir)
         # END
-        os.mkdir(nodeDir)
+        os.mkdir(node_dir)
 
         # TEST SERIALIZATIon, DESERIALIZATION OF KEYS ---------------
 
         # we begin with the private key in PEM (text) format
-        skPriv = RSA.generate(1024)     # cheap key for testing
-        keyFile = os.path.join(nodeDir, 'skPriv.pem')
+        sk_priv = RSA.generate(1024)     # cheap key for testing
+        keyFile = os.path.join(node_dir, 'skPriv.pem')
         with open(keyFile, 'wb') as file:
-            file.write(skPriv.exportKey('PEM'))
+            file.write(sk_priv.exportKey('PEM'))
 
-        self.assertTrue(os.path.exists(nodeDir))
+        self.assertTrue(os.path.exists(node_dir))
         with open(keyFile, 'r') as file:
-            skPriv = RSA.importKey(file.read())
+            sk_priv = RSA.importKey(file.read())
 
         # get the public part of the key
-        sk = skPriv.publickey()
+        sk_ = sk_priv.publickey()
 
         # transform key into DER (binary) format
-        skPrivDerFile = os.path.join(nodeDir, 'skPriv.der')
-        derData = skPriv.exportKey('DER')
-        with open(skPrivDerFile, 'wb') as file:
-            file.write(derData)
+        sk_priv_der_file = os.path.join(node_dir, 'skPriv.der')
+        der_data = sk_priv.exportKey('DER')
+        with open(sk_priv_der_file, 'wb') as file:
+            file.write(der_data)
 
         # write the public key in PEM format
-        skFile = os.path.join(nodeDir, 'sk.pem')
-        with open(skFile, 'wb') as file:
-            file.write(sk.exportKey('PEM'))
+        sk_file = os.path.join(node_dir, 'sk.pem')
+        with open(sk_file, 'wb') as file:
+            file.write(sk_.exportKey('PEM'))
 
         # write the public key in OpenSSH format
-        oFile = os.path.join(nodeDir, 'sk.openssh')
-        with open(oFile, 'wb') as file:
-            file.write(sk.exportKey('OpenSSH'))
+        o_file = os.path.join(node_dir, 'sk.openssh')
+        with open(o_file, 'wb') as file:
+            file.write(sk_.exportKey('OpenSSH'))
 
-        skPriv2 = RSA.importKey(derData)
-        sk2 = skPriv2.publickey()
+        sk_priv2 = RSA.importKey(der_data)
+        sk2 = sk_priv2.publickey()
 
         # verify that public key parts are identical
-        self.assertEqual(sk.exportKey('DER'), sk2.exportKey('DER'))
+        self.assertEqual(sk_.exportKey('DER'), sk2.exportKey('DER'))
 
-        pemFormOfCK = sk.exportKey('PEM')
-        pemStr = pemFormOfCK.decode('utf-8')
+        pem_form_of_ck = sk_.exportKey('PEM')
+        pem_str = pem_form_of_ck.decode('utf-8')
 
         # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
 
         # depth == 0 test (where depth is number of leading spaces)
-        strings = pemStr.split('\n')
+        strings = pem_str.split('\n')
         string = strings[0]
         strings = strings[1:]
-        pemPK, rest = collect_pem_rsa_public_key(string, strings)
-        self.assertEqual(pemPK, pemStr)
+        pem_pk, rest = collect_pem_rsa_public_key(string, strings)
+        self.assertEqual(pem_pk, pem_str)
 
         # depth > 0 test
-        strings = pemStr.split('\n')
-        tt = []
+        strings = pem_str.split('\n')
+        tt_ = []
         depth = 1 + self.rng.nextInt16(10)   # so from 1 to 10 inclusive
         indent = ' ' * depth
         for line in strings:
-            tt.append(indent + line)
-        tt.append('this is a line of junk')
-        string = tt[0][depth:]
-        tt = tt[1:]
-        pemPK, rest = collect_pem_rsa_public_key(string, tt)
-        self.assertEqual(pemPK, pemStr)
+            tt_.append(indent + line)
+        tt_.append('this is a line of junk')
+        string = tt_[0][depth:]
+        tt_ = tt_[1:]
+        pem_pk, rest = collect_pem_rsa_public_key(string, tt_)
+        self.assertEqual(pem_pk, pem_str)
         self.assertEqual(len(rest), 1)
         self.assertEqual(rest[0], 'this is a line of junk')
 
@@ -106,13 +106,13 @@ class TestRSA (unittest.TestCase):
 
         count = 64 + self.rng.nextInt16(192)
         data = self.rng.someBytes(count)
-        self.assertTrue(skPriv.can_sign())
+        self.assertTrue(sk_priv.can_sign())
         # self.assertFalse(sk, can_sign())  # no such method
 
-        h = SHA.new()
-        h.update(data)
-        signer = PKCS1_PSS.new(skPriv)
-        signature = signer.sign(h)     # guess at interface ;-)
+        sha = SHA.new()
+        sha.update(data)
+        signer = PKCS1_PSS.new(sk_priv)
+        signature = signer.sign(sha)     # guess at interface ;-)
 
         b64sig = base64.b64encode(signature).decode('utf-8')
         # DEBUG
@@ -121,17 +121,17 @@ class TestRSA (unittest.TestCase):
         sig2 = base64.b64decode(b64sig)
         self.assertEqual(sig2, signature)
 
-        h = SHA.new()
-        h.update(data)
-        verifier = PKCS1_PSS.new(sk)
-        self.assertTrue(verifier.verify(h, signature))
+        sha = SHA.new()
+        sha.update(data)
+        verifier = PKCS1_PSS.new(sk_)
+        self.assertTrue(verifier.verify(sha, signature))
 
         # twiddle a random byte in data array to make verification fail
-        h2 = SHA.new()
+        sha_2 = SHA.new()
         which = self.rng.nextInt16(count)
         data[which] = 0xff & ~data[which]
-        h2.update(data)
-        self.assertFalse(verifier.verify(h2, signature))
+        sha_2.update(data)
+        self.assertFalse(verifier.verify(sha_2, signature))
 
 if __name__ == '__main__':
     unittest.main()

@@ -45,7 +45,7 @@ def genNodeID1(subDir, u_dir='/var/U'):
                         break
                     dVal.update(byteStr)
             except Exception as e:
-                print "unexpected exception reading %s: %s" % (absPath, str(e))
+                print("unexpected exception reading %s: %s" % (absPath, str(e)))
                 # otherwise we just ignore it
 
     lock.release_lock()
@@ -55,14 +55,14 @@ def genNodeID1(subDir, u_dir='/var/U'):
 
 
 def usage():
-    print "usage message"
+    print("usage message")
 
 argVec = sys.argv[1:]
 try:
     opts, args = getopt.getopt(argVec, "hs:u:v",
                                ["help", "subDir", "u_dir", "verbose"])
 except getopt.GetoptError as err:
-    print str(err)
+    print(str(err))
     usage()
     sys.exit(2)
 
@@ -82,17 +82,17 @@ for o, aVal in opts:
         assert False, 'unhandled option'
 
 if (not re.match("^[0-9a-fA-F]{2}$", subDir)):
-    print "subDir '%s' should be a two-digit hex number" % subDir
+    print("subDir '%s' should be a two-digit hex number" % subDir)
     usage()
     sys.exit()
 subDir = subDir.lower()
 
 if (verbose):
-    print "pid    = %u" % os.getpid()
-    print "subDir = %s" % subDir
-    print "uDir   = %s" % u_dir
-    print ''
+    print("pid    = %u" % os.getpid())
+    print("subDir = %s" % subDir)
+    print("uDir   = %s" % u_dir)
+    print('')
 
 # notice that the order of names is odd!
 node_id = genNodeID1(subDir, u_dir)
-print node_id
+print(node_id)

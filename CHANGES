@@ -1,6 +1,12 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.2
+    2016-10-23
+        * rename variables per PEP 8; phase 1                       SLOC 5799
+v1.5.1
+    2016-10-20
+        * restore DecimalVersion synonyms                           SLOC 5803
 v1.5.0
     2016-10-19
         * change file and API names per PEP 8                       SLOC 5776
@@ -230,6 +236,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

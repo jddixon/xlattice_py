@@ -23,9 +23,9 @@ class TestGetExclusions(unittest.TestCase):
         """ Should always match. """
         self.assertIsNotNone(exre.match('merkle.pyc'))
         self.assertIsNotNone(exre.match('.svn'))
-        self.assertIsNotNone(exre.match('.foo.swp'))          # vi backup file
+        self.assertIsNotNone(exre.match('.foo.swp'))       # vi backup file
         self.assertIsNotNone(exre.match('junkEverywhere')
-                             )    # begins with 'junk'
+                             )  # begins with 'junk'
         self.assertIsNotNone(exre.match('.merkle'))
 
     def do_test_expected_matches(self, match_re, names):

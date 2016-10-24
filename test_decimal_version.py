@@ -19,7 +19,7 @@ class TestDecimalVErsion(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEmpty(self):
+    def test_empty(self):
         """ Verify that empty strings cannot be parsed. """
 
         try:

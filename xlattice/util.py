@@ -284,6 +284,40 @@ class DecimalVersion(object):
         else:
             self.value = DecimalVersion(aVal, bVal, cVal, dVal)
 
+    # SYNONYMS ------------------------------------------------------
+    def getA(self):
+        """ SYNONYM """
+        return self.get_a()
+
+    def getB(self):
+        """ SYNONYM """
+        return self.get_b()
+
+    def getC(self):
+        """ SYNONYM """
+        return self.get_c()
+
+    def getD(self):
+        """ SYNONYM """
+        return self.get_d()
+
+    def stepMajor(self):
+        """ SYNONYM """
+        self.step_major()
+
+    def stepMinor(self):
+        """ SYNONYM """
+        self.step_minor()
+
+    def stepDecimal(self):
+        """ SYNONYM """
+        self.step_decimal()
+
+    def stepMicro(self):
+        """ SYNONYM """
+        self.step_micro()
+    # END SYNONYMS --------------------------------------------------
+
 
 def parse_decimal_version(string):
     """

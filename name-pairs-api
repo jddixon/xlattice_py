@@ -9,11 +9,12 @@ logMsg                  log_msg
 
 # crypto - these also are synonyms in the existing API
 
-pkcs7Padding            pkcs7_padding
 addPKCS7Padding         add_pkcs7_padding
-stripPKCS7Padding       strip_pkcs7_padding
-nextNBLine              next_nb_line
 collectPEMRSAPublicKey  collect_pem_rsa_public_key
+getSpaces               get_spaces
+nextNBLine              next_nb_line
+pkcs7Padding            pkcs7_padding
+stripPKCS7Padding       strip_pkcs7_padding
 
 # ftlog -------------------------------------------------------------
 

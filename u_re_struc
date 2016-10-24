@@ -25,9 +25,9 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'modify directory structure for uDir; this is a low-level operation which does not alter L'
+    desc = 'modify directory structure for uDir; this is a low-level operation which does not alter L'
 
-    parser = ArgumentParser(description=DESC)
+    parser = ArgumentParser(description=desc)
 
     parser.add_argument('-j', '--justShow', action='store_true',
                         help='show options and exit')
@@ -48,7 +48,7 @@ def main():
 
     # complete setup ------------------------------------------------
     appName = 'uReStruc %s' % __version__
-    if args.verbose or args.justShow:
+    if args.verbose or args.just_show:
         print("%s %s" % (appName, __version_date__))
 
     # fixups and sanity checks --------------------------------------
@@ -81,15 +81,15 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.verbose or args.justShow:
-        print('justShow     = ' + str(args.justShow))
+    if args.verbose or args.just_show:
+        print('justShow     = ' + str(args.just_show))
         print('uPath        = ' + str(args.u_path))
         print('outPath      = ' + str(args.out_path))
         print('old dirStruc = %d, %s' % (args.oldStruc, args.oldStrucName))
         print('new dirStruc = %d, %s' % (args.newStruc, args.newStrucName))
         print('verbose      = ' + str(args.verbose))
 
-    if args.justShow:
+    if args.just_show:
         sys.exit(0)
     reStrucUDir(args.u_path, args.newStruc, args.out_path, args.verbose)
 

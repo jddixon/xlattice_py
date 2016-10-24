@@ -13,14 +13,14 @@ FILE_PERM = 0o644
 DIR_PERM = 0o755
 
 
-def doPreen(options):
-    bDir = options.bDir
+def do_preen(options):
+    b_dir = options.b_dir
     group = options.group
-    justShow = options.justShow
+    just_show = options.just_show
     user = options.user
     verbose = options.verbose
 
-    os.chdir(bDir)
+    os.chdir(b_dir)
 
     # expect to find any or all of in/, tmp/, L, and xx/, where x is a hex
     # digit
@@ -29,25 +29,25 @@ def doPreen(options):
             os.chmod(file, FILE_PERM)
 
     for dir in ['in', 'tmp', ]:
-        path = os.path.join(bDir, dir)
+        path = os.path.join(b_dir, dir)
         if os.path.exists(path):
             os.chmod(path, DIR_PERM)
 
-    hexDirs = []
-    for n in range(256):
-        hexDirs.append('%02x' % n)
+    hex_dirs = []
+    for nnn in range(256):
+        hex_dirs.append('%02x' % nnn)
 
-    for top in hexDirs:
-        topDir = os.path.join(bDir, top)
-        if os.path.exists(topDir):
-            os.chmod(topDir, DIR_PERM)
-            for mid in hexDirs:
-                midDir = os.path.join(topDir, mid)
-                if os.path.exists(midDir):
-                    os.chmod(midDir, DIR_PERM)
-                    files = os.listdir(midDir)
+    for top in hex_dirs:
+        top_dir = os.path.join(b_dir, top)
+        if os.path.exists(top_dir):
+            os.chmod(top_dir, DIR_PERM)
+            for mid in hex_dirs:
+                mid_dir = os.path.join(top_dir, mid)
+                if os.path.exists(mid_dir):
+                    os.chmod(mid_dir, DIR_PERM)
+                    files = os.listdir(mid_dir)
                     for file in files:
-                        pathToLeaf = os.path.join(midDir, file)
+                        pathToLeaf = os.path.join(mid_dir, file)
                         os.chmod(pathToLeaf, FILE_PERM)
 
 
@@ -56,8 +56,8 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    DESC = 'regularize permissions in a U directory structure'
-    parser = ArgumentParser(description=DESC)
+    desc = 'regularize permissions in a U directory structure'
+    parser = ArgumentParser(description=desc)
 
     parser.add_argument('-b', '--bDir', default='/var/U',
                         help="path to U directory to be preened (default=/var/U) ")
@@ -80,8 +80,8 @@ def main():
 
     # sanity checks -------------------------------------------------
 
-    if not args.bDir or not os.path.exists(args.bDir):
-        print("base directory '%s' does not exist" % args.bDir)
+    if not args.b_dir or not os.path.exists(args.b_dir):
+        print("base directory '%s' does not exist" % args.b_dir)
         parser.print_help()
         sys.exit(1)
 
@@ -89,21 +89,21 @@ def main():
     appName = 'uPreen %s' % __version__
 
     # maybe show options and such -----------------------------------
-    if args.verbose or args.justShow:
+    if args.verbose or args.just_show:
         print("%s %s" % (appName, __version_date__))
 
-    if args.verbose or args.justShow:
-        print('bDir         = ' + str(args.bDir))
+    if args.verbose or args.just_show:
+        print('bDir         = ' + str(args.b_dir))
         print('group        = ' + str(args.group))
-        print('justShow     = ' + str(args.justShow))
+        print('justShow     = ' + str(args.just_show))
         print('user         = ' + str(args.user))
         print('verbose      = ' + str(args.verbose))
 
-    if args.justShow:
+    if args.just_show:
         sys.exit(0)
 
     # do what's required --------------------------------------------
-    doPreen(args)
+    do_preen(args)
 
 
 if __name__ == '__main__':
