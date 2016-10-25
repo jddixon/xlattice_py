@@ -97,7 +97,7 @@ class TestDecimalVErsion(unittest.TestCase):
     def make_decimal_version(self):
         """ Creata a quasi-random 4-part version number. """
 
-        v__ = self.rng.nextInt32()
+        v__ = self.rng.next_int32()
         a__ = 0xff & v__
         b__ = 0xff & (v__ >> 8)
         c__ = 0xff & (v__ >> 16)
@@ -205,12 +205,12 @@ class TestDecimalVErsion(unittest.TestCase):
         """ Verify relops return expected values."""
 
         # test __eq__()
-        v1_, a1_, b1_, c1_, d1_, dv1 = self.make_decimal_version()
+        v1_, _, _, _, _, dv1 = self.make_decimal_version()
         self.assertEqual(dv1, dv1)
-        v2_, a2_, b2_, c2_, d2_, dv2 = self.make_decimal_version()
+        v2_, _, _, _, _, dv2 = self.make_decimal_version()
         self.assertEqual(dv2, dv2)
         while v1_ == v2_:
-            v2_, a2_, b2_, c2_, d2_, dv2 = self.make_decimal_version()
+            v2_, _, _, _, _, dv2 = self.make_decimal_version()
             self.assertEqual(dv2, dv2)
         self.assertNotEqual(dv1, dv2)
 

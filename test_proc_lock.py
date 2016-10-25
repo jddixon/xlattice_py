@@ -38,14 +38,14 @@ class TestProcLock(unittest.TestCase):
             self.assertEqual('foo', mgr.pgm_name)
             self.assertEqual(my_pid, mgr.pid)
             # XXX bad practice wiring in location
-            self.assertEqual('/tmp/run/foo.pid', mgr.lockFileName)
-            self.assertTrue(os.path.exists(mgr.lockFileName))
-            with open(mgr.lockFileName, 'r') as file:
+            self.assertEqual('/tmp/run/foo.pid', mgr.lock_file_name)
+            self.assertTrue(os.path.exists(mgr.lock_file_name))
+            with open(mgr.lock_file_name, 'r') as file:
                 pid_in_file = file.read()
             self.assertEqual(str(my_pid), pid_in_file)
 
             # DEBUG
-            print("lock file is %s" % mgr.lockFileName)
+            print("lock file is %s" % mgr.lock_file_name)
             print("  pid in file is %s" % pid_in_file)
             # END
 
@@ -53,7 +53,7 @@ class TestProcLock(unittest.TestCase):
             self.fail("unexpected exception %s" % exc)
         finally:
             mgr.unlock()
-        self.assertFalse(os.path.exists(mgr.lockFileName))
+        self.assertFalse(os.path.exists(mgr.lock_file_name))
 
 if __name__ == '__main__':
     unittest.main()

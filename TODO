@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-24
+    * rewrite gen_node_id{1,3} as conventional scripts using argparse
+
 2016-10-22
     * import of sha3 should be conditional
 

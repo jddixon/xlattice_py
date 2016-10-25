@@ -57,8 +57,8 @@ def pkcs7_padding(data, block_size):
         length = len(data)
 
     # we want from 1 to block_size bytes of padding
-    nBlocks = int((length + block_size - 1) / block_size)
-    rem = nBlocks * block_size - length
+    n_blocks = int((length + block_size - 1) / block_size)
+    rem = n_blocks * block_size - length
     if rem == 0:
         rem = block_size
     padding = bytearray(rem)    # that many null bytes

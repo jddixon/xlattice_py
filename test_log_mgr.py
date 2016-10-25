@@ -71,7 +71,7 @@ class TestLogMgr(unittest.TestCase):
         msg += logger.log("this is gibberish ending in uhm lots of stuff and C")
         msg += logger.log("this is gibberish ending in uhm lots of stuff and D")
         expected_log_file = 'logs/bar.log'
-        self.assertEqual(expected_log_file, logger._logFile)
+        self.assertEqual(expected_log_file, logger._log_file)
         mgr.close()
 
         self.assertTrue(os.path.exists(expected_log_file))
@@ -99,7 +99,7 @@ class TestLogMgr(unittest.TestCase):
         msg += logger.log("this is gibberish ending in uhm lots of stuff and H")
         time.sleep(0.2)
         expected_log_file = 'logs/baz.log'
-        self.assertEqual(expected_log_file, logger._logFile)
+        self.assertEqual(expected_log_file, logger._log_file)
         mgr.close()
 
         self.assertTrue(os.path.exists(expected_log_file))

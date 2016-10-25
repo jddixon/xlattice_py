@@ -30,9 +30,9 @@ class TestCFTLogForPy(unittest.TestCase):
     def unique_file_name(self):
         """ Create a locally unique file name under tmp/. """
 
-        log_file = "tmp/foo%04x" % self.rng.nextInt16()
+        log_file = "tmp/foo%04x" % self.rng.next_int16()
         while os.path.exists(log_file):
-            log_file = "tmp/foo%04x" % self.rng.nextInt16()
+            log_file = "tmp/foo%04x" % self.rng.next_int16()
         return log_file
 
     # actual unit tests #############################################

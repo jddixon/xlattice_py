@@ -1,6 +1,10 @@
 # name-pairs-util
 
 absPath                     abs_path
+<<<<<<< HEAD
+=======
+appName                     app_name
+>>>>>>> devel
 argVec                      arg_vec
 
 _baseName                   _base_name
@@ -22,6 +26,11 @@ derData                     der_data
 DESC                        desc
 destInfo                    dest_info
 destMode                    dest_mode
+<<<<<<< HEAD
+=======
+destSubDir                  dest_sub_dir
+destSubSubDir               dest_sub_sub_dir
+>>>>>>> devel
 doLeafDir                   do_leaf_dir
 dontDoIt                    dont_do_it
 doPreen                     do_preen
@@ -34,6 +43,10 @@ e                           exc
 encryptedFromHello          encrypted_from_hello
 expectedBinOut              expected_bin_out
 expectedHexOut              expected_hex_out
+<<<<<<< HEAD
+=======
+expectedID                  expected_id
+>>>>>>> devel
 expectedLogFile             expected_log_file
 
 fooLog                      foo_log
@@ -54,6 +67,11 @@ justShow                    just_show
 
 keyLen                      key_len
 
+<<<<<<< HEAD
+=======
+lockFileName                lock_file_name
+
+>>>>>>> devel
 m                           match
 m2                          match2
 
@@ -71,16 +89,28 @@ outDir                      out_dir
 p                           ppp
 paddedReply                 padded_reply
 pathTo                      path_to
+<<<<<<< HEAD
+=======
+pathToLeaf                  path_to_leaf
+>>>>>>> devel
 pathToSrc                   path_to_src
 pathToDest                  path_to_dest
 
 pemFormOfCK                 pem_form_of_ck
+<<<<<<< HEAD
+=======
+pemKey                      pem_key
+>>>>>>> devel
 pemPK                       pem_pk
 pemStr                      pem_str
 pgmNameAndVersion           pgm_name_and_version
 pidInFile                   pid_in_file
 
+<<<<<<< HEAD
 
+=======
+reStrucUDir                 re_struc_u_dir
+>>>>>>> devel
 
 
 
@@ -96,7 +126,13 @@ skPrivDerFile               sk_priv_der_file
 
 srcInfo                     src_info
 srcMode                     src_mode
+<<<<<<< HEAD
 
+=======
+subDir                      sub_dir
+subSub                      sub_sub
+subSubDir                   sub_sub_dir
+>>>>>>> devel
 tmpDir                      tmp_dir
 topDir                      top_dir
 tt                          tt_

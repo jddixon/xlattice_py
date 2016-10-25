@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# xlattice_py/testRSA.py; moved here from buildList
+# xlattice_py/test_rsa.py; moved here from buildList
 
 import base64
 import hashlib
@@ -15,7 +15,7 @@ from rnglib import SimpleRNG
 from xlattice.crypto import next_nb_line, collect_pem_rsa_public_key
 
 
-class TestRSA (unittest.TestCase):
+class TestRSA(unittest.TestCase):
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
@@ -23,14 +23,14 @@ class TestRSA (unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testRSA(self):
+    def test_rsa(self):
 
         tmp_dir = 'tmp'
         if not os.path.exists(tmp_dir):
             os.mkdir(tmp_dir)
         while True:
-            subDir = self.rng.nextFileName(12)
-            node_dir = os.path.join(tmp_dir, subDir)
+            sub_dir = self.rng.next_file_name(12)
+            node_dir = os.path.join(tmp_dir, sub_dir)
             if not os.path.exists(node_dir):
                 break
         # DEBUG
@@ -42,12 +42,12 @@ class TestRSA (unittest.TestCase):
 
         # we begin with the private key in PEM (text) format
         sk_priv = RSA.generate(1024)     # cheap key for testing
-        keyFile = os.path.join(node_dir, 'skPriv.pem')
-        with open(keyFile, 'wb') as file:
+        key_file = os.path.join(node_dir, 'skPriv.pem')
+        with open(key_file, 'wb') as file:
             file.write(sk_priv.exportKey('PEM'))
 
         self.assertTrue(os.path.exists(node_dir))
-        with open(keyFile, 'r') as file:
+        with open(key_file, 'r') as file:
             sk_priv = RSA.importKey(file.read())
 
         # get the public part of the key
@@ -90,7 +90,7 @@ class TestRSA (unittest.TestCase):
         # depth > 0 test
         strings = pem_str.split('\n')
         tt_ = []
-        depth = 1 + self.rng.nextInt16(10)   # so from 1 to 10 inclusive
+        depth = 1 + self.rng.next_int16(10)   # so from 1 to 10 inclusive
         indent = ' ' * depth
         for line in strings:
             tt_.append(indent + line)
@@ -104,8 +104,8 @@ class TestRSA (unittest.TestCase):
 
         # TEST DIG SIG ----------------------------------------------
 
-        count = 64 + self.rng.nextInt16(192)
-        data = self.rng.someBytes(count)
+        count = 64 + self.rng.next_int16(192)
+        data = self.rng.some_bytes(count)
         self.assertTrue(sk_priv.can_sign())
         # self.assertFalse(sk, can_sign())  # no such method
 
@@ -128,7 +128,7 @@ class TestRSA (unittest.TestCase):
 
         # twiddle a random byte in data array to make verification fail
         sha_2 = SHA.new()
-        which = self.rng.nextInt16(count)
+        which = self.rng.next_int16(count)
         data[which] = 0xff & ~data[which]
         sha_2.update(data)
         self.assertFalse(verifier.verify(sha_2, signature))

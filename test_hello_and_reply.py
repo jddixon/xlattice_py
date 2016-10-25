@@ -42,10 +42,10 @@ class TestRSA_OAEP(unittest.TestCase):
         self.assertEqual(ck_.has_private(), False)
 
         # prepare DecimalVersion object, get its value, an int
-        www = self.rng.nextInt16(256)
-        xxx = self.rng.nextInt16(256)
-        yyy = self.rng.nextInt16(256)
-        zzz = self.rng.nextInt16(256)
+        www = self.rng.next_int16(256)
+        xxx = self.rng.next_int16(256)
+        yyy = self.rng.next_int16(256)
+        zzz = self.rng.next_int16(256)
         version_obj = DecimalVersion(www, xxx, yyy, zzz)
         version = version_obj.value            # a property
         serial_version = '%d.%d.%d.%d' % (www, xxx, yyy, zzz)
@@ -72,7 +72,7 @@ class TestRSA_OAEP(unittest.TestCase):
         self.assertEqual(salt1, salt1s)
 
         # SERVER PREPARES AND ENCRYPTS REPLY ------------------------
-        version2s = self.rng.nextInt32()
+        version2s = self.rng.next_int32()
         iv2s, key2s, salt2s, encrypted_reply = hr.server_encrypt_hello_reply(
             iv1, key1, salt1, version2s)
 

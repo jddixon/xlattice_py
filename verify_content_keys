@@ -9,7 +9,7 @@ import time
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__,
-                      Q, check_using_sha, u,
+                      QQQ, check_using_sha, u,
                       parseUsingSHA, fix_using_sha, show_using_sha, check_u_path)
 
 # PATs AND REs ######################################################
@@ -30,11 +30,11 @@ def do_leaf_dir(args, subSub):
         path_to = os.path.join(subSub, file)
         if args.fileNameRegex.match(file):
             count += 1
-            if args.using_sha == Q.USING_SHA1:
+            if args.using_sha == QQQ.USING_SHA1:
                 hash_as_hex = u.fileSHA1(path_to)
-            elif args.using_sha == Q.USING_SHA2:
+            elif args.using_sha == QQQ.USING_SHA2:
                 hash_as_hex = u.fileSHA2(path_to)
-            elif args.using_sha == Q.USING_SHA3:
+            elif args.using_sha == QQQ.USING_SHA3:
                 hash_as_hex = u.fileSHA3(path_to)
             if args.verbose:
                 print('      ' + path_to)
@@ -45,10 +45,10 @@ def do_leaf_dir(args, subSub):
     args.count += count
 
 
-def do_sub_dir(args, subDir):
-    files = sorted(os.listdir(subDir))
+def do_sub_dir(args, sub_dir):
+    files = sorted(os.listdir(sub_dir))
     for subSub in files:
-        path_to = os.path.join(subDir, subSub)
+        path_to = os.path.join(sub_dir, subSub)
         if DIR_NAME_RE.match(subSub):
             if args.verbose:
                 print('    ' + path_to)
@@ -63,16 +63,16 @@ def doWhatever(args):
     if args.verbose:
         print(u_path)
     files = sorted(os.listdir(u_path))
-    for subDir in files:
-        path_to = os.path.join(u_path, subDir)
-        if DIR_NAME_RE.match(subDir):
+    for sub_dir in files:
+        path_to = os.path.join(u_path, sub_dir)
+        if DIR_NAME_RE.match(sub_dir):
             if args.verbose:
                 print('  ' + path_to)
             do_sub_dir(args, path_to)
-        elif    subDir != 'L'       and\
-                subDir != 'in'      and\
-                subDir != 'node_id'  and\
-                subDir != 'tmp':
+        elif    sub_dir != 'L'       and\
+                sub_dir != 'in'      and\
+                sub_dir != 'node_id'  and\
+                sub_dir != 'tmp':
             print("not a proper subdirectory: " + path_to)
     print("processed %u files" % args.count)
 

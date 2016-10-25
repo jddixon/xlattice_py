@@ -1,5 +1,12 @@
 # xlattice_py/name-pairs-api
 #
+<<<<<<< HEAD
+=======
+# __init__ ----------------------------------------------------------
+
+Q                       QQQ
+
+>>>>>>> devel
 # extsrc - left and right are synonyms in the exported API
 
 initCFTLogger           init_cft_logger

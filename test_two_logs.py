@@ -4,16 +4,16 @@
 
 import hashlib
 import os
-import re
 import shutil
 import sys
 import time
 import unittest
 from xlattice.ftlog import LogMgr
+
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
-class TestTwoLogs (unittest.TestCase):
+class TestTwoLogs(unittest.TestCase):
 
     def setUp(self):
         now = time.time()

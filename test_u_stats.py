@@ -7,12 +7,11 @@ import os
 import sys
 import unittest
 from rnglib import SimpleRNG
-from xlattice import Q
 from xlattice.stats import UStats
 from xlattice.u import UDir
 
 
-class TestUStats (unittest.TestCase):
+class TestUStats(unittest.TestCase):
     """ Exercise statistical functions for content-keyed store. """
 
     def setUp(self):

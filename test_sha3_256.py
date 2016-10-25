@@ -24,7 +24,7 @@ class TestSHA3_256(unittest.TestCase):
     ]
     U2H_VECTORS = [
         ('abc',
-            '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
+         '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
         # GET MORE FROM NIST DOCS
 
     ]
@@ -68,7 +68,7 @@ class TestSHA3_256(unittest.TestCase):
         for hex_in, expected_hex_out in self.HEX_VECTORS:
             self.do_test_hex_in_out(hex_in, expected_hex_out)
 
-    def testUnicodeToHexVectors(self):
+    def test_unicode_to_hex_vectors(self):
         for uni_in, expected_hex_out in self.U2H_VECTORS:
             # requires py3.5:
             # hexIn = uniIn.encode('utf-8').hex()

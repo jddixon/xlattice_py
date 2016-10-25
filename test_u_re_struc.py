@@ -9,8 +9,8 @@ import unittest
 #from binascii import hexlify
 
 from rnglib import SimpleRNG
-from xlattice import Q, check_using_sha
-from xlattice.u import (SHA1_HEX_NONE, SHA2_HEX_NONE, SHA3_HEX_NONE, UDir)
+from xlattice import QQQ, check_using_sha
+from xlattice.u import UDir  # ,SHA1_HEX_NONE, SHA2_HEX_NONE, SHA3_HEX_NONE
 
 
 class TestReStruc(unittest.TestCase):
@@ -48,14 +48,14 @@ class TestReStruc(unittest.TestCase):
         # END
         for _ in range(nnn):
             count = 1 + self.rng.next_int16(l__)   # so that count >= 1
-            v__ = self.rng.someBytes(count)       # that many random bytes
+            v__ = self.rng.some_bytes(count)       # that many random bytes
             values.append(v__)
             # pylint: disable=redefined-variable-type
-            if using_sha == Q.USING_SHA1:
+            if using_sha == QQQ.USING_SHA1:
                 sha = hashlib.sha1()
-            elif using_sha == Q.USING_SHA2:
+            elif using_sha == QQQ.USING_SHA2:
                 sha = hashlib.sha256()
-            elif using_sha == Q.USING_SHA3:
+            elif using_sha == QQQ.USING_SHA3:
                 sha = hashlib.sha3_256()
             sha.update(v__)
             h__ = sha.hexdigest()
@@ -124,7 +124,7 @@ class TestReStruc(unittest.TestCase):
         for old_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
             for new_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
                 if old_struc != new_struc:
-                    for using in [Q.USING_SHA1, Q.USING_SHA2, ]:
+                    for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
                         self.do_test_re_struc(old_struc, new_struc, using)
 
 if __name__ == '__main__':

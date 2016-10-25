@@ -27,32 +27,32 @@ class DecimalVersion(object):
     def __init__(self, aIn=None, bIn=None, cIn=None, dIn=None):
         if aIn is None:
             aIn = 0
-        aVal = int(aIn)
-        if aVal < 0 or 255 < aVal:
+        a_val = int(aIn)
+        if a_val < 0 or 255 < a_val:
             raise RuntimeError(
                 "version number part a '%d' out of range" %
-                aVal)
+                a_val)
         if bIn is None:
-            bVal = 0
+            b_val = 0
         else:
-            bVal = int(bIn)
-            if bVal < 0 or 255 < bVal:
-                raise RuntimeError("version part b '%d' out of range" % bVal)
+            b_val = int(bIn)
+            if b_val < 0 or 255 < b_val:
+                raise RuntimeError("version part b '%d' out of range" % b_val)
         if cIn is None:
-            cVal = 0
+            c_val = 0
         else:
-            cVal = int(cIn)
-            if cVal < 0 or 255 < cVal:
-                raise RuntimeError("version part c '%d' out of range" % cVal)
+            c_val = int(cIn)
+            if c_val < 0 or 255 < c_val:
+                raise RuntimeError("version part c '%d' out of range" % c_val)
         if dIn is None:
-            dVal = 0
+            d_val = 0
         else:
-            dVal = int(dIn)
-            if dVal < 0 or 255 < dVal:
-                raise RuntimeError("version part d '%d' out of range" % dVal)
+            d_val = int(dIn)
+            if d_val < 0 or 255 < d_val:
+                raise RuntimeError("version part d '%d' out of range" % d_val)
 
-        self._value = (0xff & aVal)         | ((0xff & bVal) << 8)  |\
-            ((0xff & cVal) << 16) | ((0xff & dVal) << 24)
+        self._value = (0xff & a_val)         | ((0xff & b_val) << 8)  |\
+            ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
     def get_a(self):
         return self._value & 0xff
@@ -89,30 +89,30 @@ class DecimalVersion(object):
         return self._value == other._value
 
     def __lt__(self, other):
-        selfA = self.get_a()
-        otherA = other.get_a()
-        if selfA < otherA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a < other_a:
             return True
-        if selfA > otherA:
+        if self_a > other_a:
             return False
 
-        selfB = self.get_c()
-        otherB = other.get_c()
-        if selfB < otherB:
+        self_b = self.get_c()
+        other_b = other.get_c()
+        if self_b < other_b:
             return True
-        if selfB > otherB:
+        if self_b > other_b:
             return False
 
-        selfC = self.get_c()
-        otherC = other.get_c()
-        if selfC < otherC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c < other_c:
             return True
-        if selfC > otherC:
+        if self_c > other_c:
             return False
 
-        selfD = self.get_d()
-        otherD = other.get_d()
-        if selfD < otherD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d < other_d:
             return True
         return False
 
@@ -127,30 +127,30 @@ class DecimalVersion(object):
         return True
 
     def __le__(self, other):
-        selfA = self.get_a()
-        otherA = other.get_a()
-        if selfA < otherA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a < other_a:
             return True
-        if selfA > otherA:
+        if self_a > other_a:
             return False
 
-        selfB = self.get_b()
-        otherB = other.get_b()
-        if selfB < otherB:
+        self_b = self.get_b()
+        other_b = other.get_b()
+        if self_b < other_b:
             return True
-        if selfB > otherB:
+        if self_b > other_b:
             return False
 
-        selfC = self.get_c()
-        otherC = other.get_c()
-        if selfC < otherC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c < other_c:
             return True
-        if selfC > otherC:
+        if self_c > other_c:
             return False
 
-        selfD = self.get_d()
-        otherD = other.get_d()
-        if selfD <= otherD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d <= other_d:
             return True
         return False
         if self.get_a() < other.get_a():
@@ -164,70 +164,70 @@ class DecimalVersion(object):
         return True
 
     def __gt__(self, other):
-        selfA = self.get_a()
-        otherA = other.get_a()
-        if selfA > otherA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a > other_a:
             return True
-        if selfA < otherA:
+        if self_a < other_a:
             return False
 
-        selfB = self.get_c()
-        otherB = other.get_c()
-        if selfB > otherB:
+        self_b = self.get_c()
+        other_b = other.get_c()
+        if self_b > other_b:
             return True
-        if selfB < otherB:
+        if self_b < other_b:
             return False
 
-        selfC = self.get_c()
-        otherC = other.get_c()
-        if selfC > otherC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c > other_c:
             return True
-        if selfC < otherC:
+        if self_c < other_c:
             return False
 
-        selfD = self.get_d()
-        otherD = other.get_d()
-        if selfD > otherD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d > other_d:
             return True
         return False
 
     def __ge__(self, other):
-        selfA = self.get_a()
-        otherA = other.get_a()
-        if selfA > otherA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a > other_a:
             return True
-        if selfA < otherA:
+        if self_a < other_a:
             return False
 
-        selfB = self.get_b()
-        otherB = other.get_b()
-        if selfB > otherB:
+        self_b = self.get_b()
+        other_b = other.get_b()
+        if self_b > other_b:
             return True
-        if selfB < otherB:
+        if self_b < other_b:
             return False
 
-        selfC = self.get_c()
-        otherC = other.get_c()
-        if selfC > otherC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c > other_c:
             return True
-        if selfC < otherC:
+        if self_c < other_c:
             return False
 
-        selfD = self.get_d()
-        otherD = other.get_d()
-        if selfD >= otherD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d >= other_d:
             return True
         return False
 
     def __str__(self):
-        aVal = self.get_a()
-        bVal = self.get_b()
-        cVal = self.get_c()
-        dVal = self.get_d()
-        if dVal != 0:
-            string = "%d.%d.%d.%d" % (aVal, bVal, cVal, dVal)
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        d_val = self.get_d()
+        if d_val != 0:
+            string = "%d.%d.%d.%d" % (a_val, b_val, c_val, d_val)
         else:
-            string = "%d.%d.%d" % (aVal, bVal, cVal)
+            string = "%d.%d.%d" % (a_val, b_val, c_val)
         return string
 
     def step_major(self):
@@ -235,54 +235,54 @@ class DecimalVersion(object):
         Increment the major part of the version number, the A in a.b.c.d.
         This clears (zeroes out) the other three fields.
         """
-        aVal = self.get_a()
-        aVal += 1
-        if aVal > 255:
+        a_val = self.get_a()
+        a_val += 1
+        if a_val > 255:
             raise RuntimeError("stepMajor() takes it out of range")
         else:
-            self.value = DecimalVersion(aVal)
+            self.value = DecimalVersion(a_val)
 
     def step_minor(self):
         """
         Increment the minor part of the version number, the B in a.b.c.d.
         This zeroes out the 'decimal' and 'micro' fields.
         """
-        aVal = self.get_a()
-        bVal = self.get_b()
-        bVal += 1
-        if bVal > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        b_val += 1
+        if b_val > 255:
             raise RuntimeError("stepMinor() takes it out of range")
         else:
-            self.value = DecimalVersion(aVal, bVal)
+            self.value = DecimalVersion(a_val, b_val)
 
     def step_decimal(self):
         """
         Increment the decimal part of the version number, the C in a.b.c.d.
         This clears the 4th 'micro' field.
         """
-        aVal = self.get_a()
-        bVal = self.get_b()
-        cVal = self.get_c()
-        cVal += 1
-        if cVal > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        c_val += 1
+        if c_val > 255:
             raise RuntimeError("stepDecimal() takes it out of range")
         else:
-            self.value = DecimalVersion(aVal, bVal, cVal)
+            self.value = DecimalVersion(a_val, b_val, c_val)
 
     def step_micro(self):
         """
         Increment the micro part of the version number, the D in a.b.c.d.
         This leaves the other three fields unaffected.
         """
-        aVal = self.get_a()
-        bVal = self.get_b()
-        cVal = self.get_c()
-        dVal = self.get_d()
-        dVal += 1
-        if dVal > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        d_val = self.get_d()
+        d_val += 1
+        if d_val > 255:
             raise RuntimeError("stepMicro() takes it out of range")
         else:
-            self.value = DecimalVersion(aVal, bVal, cVal, dVal)
+            self.value = DecimalVersion(a_val, b_val, c_val, d_val)
 
     # SYNONYMS ------------------------------------------------------
     def getA(self):
@@ -362,12 +362,12 @@ def parse_timestamp(string):
     return calendar.timegm(tstamp)
 
 
-def timestamp(n):       # sec from epoch
+def timestamp(nnn):       # sec from epoch
     """
     Given n the number of seconds from the epoch, return a string in
     the shorter format.  This truncates microseconds from the time.
     """
-    tstamp = time.gmtime(n)
+    tstamp = time.gmtime(nnn)
     return time.strftime(TIMESTAMP_FORMAT, tstamp)
 
 
@@ -382,7 +382,7 @@ def timestamp_now():
 # GLOBS, WILDCARDS --------------------------------------------------
 
 
-def get_exclusions(projDir, exclFile='.gitignore'):
+def get_exclusions(proj_dir, excl_file='.gitignore'):
     """
     projDir must exist and may contain a .gitignore file containing one
     or more globs.
@@ -394,9 +394,9 @@ def get_exclusions(projDir, exclFile='.gitignore'):
     """
 
     globs = []
-    pathToIgnore = os.path.join(projDir, exclFile)
-    if os.path.isfile(pathToIgnore):
-        with open(pathToIgnore, 'rb') as file:
+    path_to_ignore = os.path.join(proj_dir, excl_file)
+    if os.path.isfile(path_to_ignore):
+        with open(path_to_ignore, 'rb') as file:
             data = file.read().decode('utf8')
         if data:
             lines = data.split('\n')
@@ -418,14 +418,14 @@ def make_ex_re(globs):
     return re.compile('|'.join(regexes))
 
 
-def make_match_re(matchList):
+def make_match_re(match_list):
     """
     Given a list of globs aka wildcards, return a compiled regular
     expression representing a match on one or more globs.  That is,
     we convert the wildcards to regular expressions, OR them all
     together, and compile and return the result.
     """
-    return make_ex_re(matchList)
+    return make_ex_re(match_list)
 
 
 def regexes_from_wildcards(strings):
@@ -466,9 +466,9 @@ def timestampNow():
     return timestamp_now()
 
 
-def getExclusions(projDir, excl_file='.gitignore'):
+def getExclusions(proj_dir, excl_file='.gitignore'):
     """ SYNONYM """
-    return get_exclusions(projDir, excl_file)
+    return get_exclusions(proj_dir, excl_file)
 
 
 def makeExRE(globs):

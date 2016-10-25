@@ -8,7 +8,7 @@ import os
 import time
 import unittest
 
-from xlattice import Q
+from xlattice import QQQ
 from xlattice.u import (UDir, file_sha1hex, file_sha2hex, file_sha3hex)
 
 from rnglib import SimpleRNG
@@ -71,7 +71,7 @@ class TestU(unittest.TestCase):
         """ Verify that discovery of directory structure works. """
 
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3]:
                 self.do_discovery_test(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -87,11 +87,11 @@ class TestU(unittest.TestCase):
         for _ in range(1024):
             # create a random file                            maxLen    minLen
             (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-            if using_sha == Q.USING_SHA1:
+            if using_sha == QQQ.USING_SHA1:
                 d_key = file_sha1hex(d_path)
-            elif using_sha == Q.USING_SHA2:
+            elif using_sha == QQQ.USING_SHA2:
                 d_key = file_sha2hex(d_path)
-            elif using_sha == Q.USING_SHA3:
+            elif using_sha == QQQ.USING_SHA3:
                 d_key = file_sha3hex(d_path)
 
             # copy this file into U
@@ -104,18 +104,18 @@ class TestU(unittest.TestCase):
             u_path = u_dir.get_path_for_key(u_key)
             self.assertTrue(os.path.exists(u_path))
 
-            if using_sha == Q.USING_SHA1:
+            if using_sha == QQQ.USING_SHA1:
                 u_key_kex = file_sha1hex(u_path)
-            elif using_sha == Q.USING_SHA2:
+            elif using_sha == QQQ.USING_SHA2:
                 u_key_kex = file_sha2hex(u_path)
-            elif using_sha == Q.USING_SHA3:
+            elif using_sha == QQQ.USING_SHA3:
                 u_key_kex = file_sha3hex(u_path)
             self.assertEqual(u_key_kex, d_key)
 
     def test_copy_and_put(self):
         """ Check copying a directory structure into a content-keyed store."""
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_copy_and_put(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -128,14 +128,14 @@ class TestU(unittest.TestCase):
         self.assertEqual(u_dir.dir_struc, dir_struc)
         self.assertEqual(u_dir.using_sha, using_sha)
 
-        (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-        if using_sha == Q.USING_SHA1:
+        (_, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
+        if using_sha == QQQ.USING_SHA1:
             d_key = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             d_key = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
-        (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
+        (_, u_key) = u_dir.copy_and_put(d_path, d_key)
         u_path = u_dir.get_path_for_key(u_key)
         self.assertTrue(os.path.exists(u_path))
         self.assertTrue(u_dir.exists(u_key))
@@ -146,7 +146,7 @@ class TestU(unittest.TestCase):
     def test_exists(self):
         """ Run existence tests over all combinations. """
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3]:
                 self.do_test_exists(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -165,21 +165,21 @@ class TestU(unittest.TestCase):
         self.assertEqual(u_dir.using_sha, using_sha)
 
         (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-        if using_sha == Q.USING_SHA1:
+        if using_sha == QQQ.USING_SHA1:
             d_key = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             d_key = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
         (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
-        u_path = u_dir.get_path_for_key(u_key)
+        u_path = u_dir.get_path_for_key(u_key)              # XXX unused
         self.assertEqual(d_len, u_len)
         self.assertEqual(d_len, u_dir.file_len(u_key))
 
     def test_file_len(self):
         """ Test file_len() for all structures and hash types. """
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_file_len(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -196,26 +196,26 @@ class TestU(unittest.TestCase):
         with open(d_path, 'rb') as file:
             data = file.read()
         # pylint: disable=redefined-variable-type
-        if using_sha == Q.USING_SHA1:
+        if using_sha == QQQ.USING_SHA1:
             digest = hashlib.sha1()
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             digest = hashlib.sha256()
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             digest = hashlib.sha3_256()
         digest.update(data)
         d_key = digest.hexdigest()
-        if using_sha == Q.USING_SHA1:
+        if using_sha == QQQ.USING_SHA1:
             fsha = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             fsha = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             fsha = file_sha3hex(d_path)
         self.assertEqual(d_key, fsha)
 
     def test_file_sha(self):
         """ Verify content keys match file names for combinations. """
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_file_sha(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -228,13 +228,13 @@ class TestU(unittest.TestCase):
         self.assertEqual(u_dir.using_sha, using_sha)
 
         (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-        if using_sha == Q.USING_SHA1:
+        if using_sha == QQQ.USING_SHA1:
             d_key = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             d_key = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
-        (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
+        (_, u_key) = u_dir.copy_and_put(d_path, d_key)
         self.assertEqual(u_key, d_key)
         u_path = u_dir.get_path_for_key(u_key)
 
@@ -268,7 +268,7 @@ class TestU(unittest.TestCase):
         """ Verify path correct for content for all combinations. """
 
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_get_path_for_key(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -282,11 +282,11 @@ class TestU(unittest.TestCase):
         self.assertEqual(u_dir.using_sha, using_sha)
 
         (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-        if using_sha == Q.USING_SHA1:
+        if using_sha == QQQ.USING_SHA1:
             d_key = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             d_key = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
         with open(d_path, 'rb') as file:
             data = file.read()
@@ -301,7 +301,7 @@ class TestU(unittest.TestCase):
         self.assertFalse(os.path.exists(d_path))
         self.assertTrue(u_dir.exists(u_key))
 
-        (dupe_len, dupe_key) = u_dir.put(dupe_path, d_key)
+        (_, dupe_key) = u_dir.put(dupe_path, d_key)
         # dupe file is deleted'
         self.assertEqual(u_key, dupe_key)
         self.assertFalse(os.path.exists(dupe_path))
@@ -311,7 +311,7 @@ class TestU(unittest.TestCase):
         """ Verify len,hash correct on file puts for all combinations. """
 
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_put(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -327,17 +327,17 @@ class TestU(unittest.TestCase):
         self.assertEqual(u_dir.using_sha, using_sha)
 
         # this is just lazy coding ;-)
-        (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
-        if using_sha == Q.USING_SHA1:
+        (_, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
+        if using_sha == QQQ.USING_SHA1:
             d_key = file_sha1hex(d_path)
-        elif using_sha == Q.USING_SHA2:
+        elif using_sha == QQQ.USING_SHA2:
             d_key = file_sha2hex(d_path)
-        elif using_sha == Q.USING_SHA3:
+        elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
         with open(d_path, 'rb') as file:
             data = file.read()
 
-        (u_len, u_key) = u_dir.put_data(data, d_key)
+        (_, u_key) = u_dir.put_data(data, d_key)
         self.assertEqual(d_key, u_key)
         self.assertTrue(u_dir.exists(d_key))
         u_path = u_dir.get_path_for_key(u_key)             # GEEP
@@ -346,7 +346,7 @@ class TestU(unittest.TestCase):
         """ Verify len,hash correct on data puts for all combinations. """
 
         for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for using in [Q.USING_SHA1, Q.USING_SHA2, Q.USING_SHA3, ]:
+            for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_put_data(dir_struc, using)
 
 if __name__ == '__main__':

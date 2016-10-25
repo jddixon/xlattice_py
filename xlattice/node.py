@@ -9,7 +9,7 @@ from Crypto.PublicKey import RSA as rsa
 #from Crypto.Signature       import PKCS1_PSS    as pkcs1
 from Crypto.Signature import PKCS1_v1_5 as pkcs1
 
-from xlattice import Q, check_using_sha, UnrecognizedSHAError
+from xlattice import QQQ, check_using_sha, UnrecognizedSHAError
 
 
 class AbstractNode(object):
@@ -17,7 +17,7 @@ class AbstractNode(object):
     def __init__(self, using_sha=False, pub_key=None, node_id=None):
 
         check_using_sha(using_sha)
-        self._usingSHA = using_sha
+        self._using_sha = using_sha
         if node_id is None:
             if pub_key:
                 # DEBUG
@@ -26,32 +26,35 @@ class AbstractNode(object):
                 # END
 
                 # we have called checkUsingSHA(): one of these cases must apply
-                if using_sha == Q.USING_SHA1:
-                    h = hashlib.sha1()
-                elif using_sha == Q.USING_SHA2:
-                    h = hashlib.sha256()
-                elif using_sha == Q.USING_SHA3:
-                    h = hashlib.sha3_256
-                h.update(pub_key.exportKey())
-                node_id = h.digest()    # a binary value
+                # pylint:disable=redefined-variable-type
+                if using_sha == QQQ.USING_SHA1:
+                    sha = hashlib.sha1()
+                elif using_sha == QQQ.USING_SHA2:
+                    sha = hashlib.sha256()
+                elif using_sha == QQQ.USING_SHA3:
+                    sha = hashlib.sha3_256
+                sha.update(pub_key.exportKey())
+                node_id = sha.digest()    # a binary value
             else:
                 raise ValueError('cannot calculate nodeID without pubKey')
 
-        self._nodeID = node_id
-        self._pubKey = pub_key
+        self._node_id = node_id
+        self._pub_key = pub_key
 
     @property
-    def node_id(self): return self._nodeID
+    def node_id(self):
+        return self._node_id
 
     @property
-    def pub_key(self): return self._pubKey
+    def pub_key(self):
+        return self._pub_key
 
 
 class Node(AbstractNode):
     """
     """
 
-    def __init__(self, using_sha=Q.USING_SHA2, priv_key=None):
+    def __init__(self, using_sha=QQQ.USING_SHA2, priv_key=None):
 
         # making this the default value doesn't work: it always
         # generates the same key
@@ -63,7 +66,7 @@ class Node(AbstractNode):
 
         if not priv_key:
             raise ValueError('INTERNAL ERROR: undefined private key')
-        self._privateKey = priv_key
+        self._private_key = priv_key
 
         # each of these needs some sort of map or maps, or we will have to do
         # a linear search
@@ -92,34 +95,34 @@ class Node(AbstractNode):
 #       # END
 
         # generate the nodeID from the public key
-        if using_sha == Q.USING_SHA1:
-            h = hashlib.sha1()
-        elif using_sha == Q.USING_SHA2:
-            h = hashlib.sha256()
-        elif using_sha == Q.USING_SHA3:
-            h = hashlib.sha3_256()
+        if using_sha == QQQ.USING_SHA1:
+            sha = hashlib.sha1()
+        elif using_sha == QQQ.USING_SHA2:
+            sha = hashlib.sha256()
+        elif using_sha == QQQ.USING_SHA3:
+            sha = hashlib.sha3_256()
 
-        h.update(pub_key.exportKey())
-        node_id = h.digest()
+        sha.update(pub_key.exportKey())
+        node_id = sha.digest()
         return (node_id,                 # nodeID = 160/256 bit BINARY value
                 pub_key)                 # from private key
 
     @property
     def key(self):
-        return self._privateKey
+        return self._private_key
 
     # these work with
     def sign(self, msg):
-        h = hashlib.sha1()
-        h.update(bytes(msg))
-        dVal = h.digest()
-        return self._privateKey.sign(dVal, msg)
+        sha = hashlib.sha1()
+        sha.update(bytes(msg))
+        d_val = sha.digest()
+        return self._private_key.sign(d_val, msg)
 
     def verify(self, msg, signature):
-        h = hashlib.sha1()
-        h.update(bytes(msg))
-        dVal = h.digest()
-        return self._pubKey.verify(dVal, signature)
+        sha = hashlib.sha1()
+        sha.update(bytes(msg))
+        d_val = sha.digest()
+        return self._pub_key.verify(d_val, signature)
 
 
 class Peer(AbstractNode):

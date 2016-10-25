@@ -25,7 +25,7 @@ def confirm_y_or_n(prompt, default='y'):
     return do_it
 
 
-def passwd_strength(p):
+def passwd_strength(ppp):
     """
     Return a crude estimate of strength, a string.
 
@@ -37,26 +37,26 @@ def passwd_strength(p):
     separate package.
     """
 
-    if not p:
-        p = ''
-    length = len(p)
+    if not ppp:
+        ppp = ''
+    length = len(ppp)
     if length == 0:
         est = 'empty password'
     elif length < 6:
         est = 'too short'
-    elif re.search(r'password', p, re.IGNORECASE):
+    elif re.search(r'password', ppp, re.IGNORECASE):
         est = 'contains dictionary word'
     else:
         if length > 16:
             length = 16
         char_set_size = 0
-        if re.search(r'[a-z]', p):
+        if re.search(r'[a-z]', ppp):
             char_set_size += 26
-        if re.search(r'[A-Z]', p):
+        if re.search(r'[A-Z]', ppp):
             char_set_size += 26
-        if re.search(r'\d', p):
+        if re.search(r'\d', ppp):
             char_set_size += 10
-        if re.search(r'[^\w]', p):
+        if re.search(r'[^\w]', ppp):
             char_set_size += 16  # say ;-)
 
         if length >= 12:
