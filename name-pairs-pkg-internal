@@ -1,0 +1,101 @@
+# name-pairs-pkg-internal
+
+actualLength                actual_length
+
+aVal                        a_val
+_baseName                   _base_name
+botDir                      bot_dir
+botOccupied                 bot_occupied
+bVal                        b_val
+byteStr                     byte_str
+
+ck                          ck_
+ckPriv                      ck_priv
+
+cVal                        c_val
+dVal                        d_val
+
+errMsg                      err_msg
+exclFile                    excl_file
+
+f                           file
+fileName                    file_name
+
+h                           sha
+_hasL                       _has_l
+fullishPath                 fullish_path
+
+_inDir                      _in_dir
+inFile                      in_file
+
+
+keyLen                      key_len
+
+_leafCount                  _leaf_count
+
+lenght                      length
+lockFileName                lock_file_name
+
+_logDir                     _log_dir
+_logFile                    _log_file
+logHandle                   logHandle
+_logMap                     _log_map
+lowerDir                    lower_dir
+
+m                           match
+m2                          match2
+_maxLeafBytes               _max_leaf_bytes
+matchList                   match_list
+midDir                      mid_dir
+midOccupied                 mid_occupied
+mustExist                   must_exist
+n                           nnn
+nBlocks                     n_blocks
+nameCopy                    name_copy
+newStruc                    new_struc
+_nodeID                     _node_id
+
+otherA                       other_a
+otherB                       other_b
+otherC                       other_c
+otherD                       other_d
+
+p                           ppp
+pathToBot                   path_to_bot
+pathToDir                   path_to_dir
+pathToFile                  path_to_file
+pathToIgnore                path_to_ignore
+pathToMid                   path_to_mid
+
+pathToSig                   path_to_sig
+pathToSubDir                path_to_sub_dir
+
+_pgmName                    _pgm_name
+
+_pidFile                    _pid_file
+pidRunning                  pid_running
+pidStr                      pid_str
+projDir                     proj_dir
+_privateKey                 _private_key
+_pubKey                     _pub_key
+
+readOneLifeIf               read_one_line_if
+
+selfA                       self_a
+selfB                       self_b
+selfC                       self_c
+selfD                       self_d
+
+_subDirCount                _sub_dir_count
+subSubFile                  sub_sub_file
+_t                          _tstamp
+targetDir                   target_dir
+_tmpDir                     _tmp_dir
+tmpFileName                 tmp_file_name
+topSubDir                   top_sub_dir
+
+_usingSHA                   _using_sha
+
+vBytes                      v_bytes
+vOffset                     v_offset
+

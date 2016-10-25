@@ -1,0 +1,6 @@
+# this is now broken into two parts, one in the project directory
+# (this one) and the other under xlattice/
+
+pylint setup.py test*.py \
+    scripts/gen_node_id1 scripts/gen_node_id3                   \
+    u_consolidate u_preen u_re_struc u_stats verify_content_keys  

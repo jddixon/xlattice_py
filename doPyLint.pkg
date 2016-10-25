@@ -1,0 +1,4 @@
+# this is now broken into two parts, one in the project directory
+# and the other (this one) under xlattice/
+
+pylint xlattice

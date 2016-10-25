@@ -1,6 +1,27 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.3
+    2016-10-24
+        * rename variables per PEP 8: phase 2; plus some debugging  SLOC 5693
+v1.5.2
+    2016-10-23
+        * rename variables per PEP 8; phase 1                       SLOC 5799
+v1.5.1
+    2016-10-20
+        * restore DecimalVersion synonyms                           SLOC 5803
+v1.5.0
+    2016-10-19
+        * change file and API names per PEP 8                       SLOC 5776
+v1.4.0
+    2016-10-15
+        * bugs bugs in handling -1/2/3 options                      SLOC 5684
+v1.3.10
+    2016-10-11
+        * refactor xlattice.u                                       SLOC 5674
+v1.3.9
+    2016-10-10
+        * refactor xlattice.{util,crypto}                           SLOC 5632
 v1.3.8
     2016-10-09
         * add pylint, coverage; do some refactoring                 SLOC 5552
@@ -218,6 +239,12 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
+
+
+
 
 
 

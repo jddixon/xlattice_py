@@ -1,0 +1,97 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/uReStruc
+
+import os
+import stat
+import sys
+from argparse import ArgumentParser
+
+from xlattice import (__version__, __version_date__)
+from xlattice.stats import collect_stats
+from xlattice.u import UDir, DIR_STRUC_NAMES
+
+
+def re_struc_u_dir(u_path, newStruc, out_path="", verbose=False):
+
+    # XXX outPath not used
+
+    u_dir = UDir.discover(u_path)
+    u_dir.re_struc(newStruc)
+
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    desc = 'modify directory structure for uDir; this is a low-level operation which does not alter L'
+
+    parser = ArgumentParser(description=desc)
+
+    parser.add_argument('-j', '--justShow', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-o', '--outPath', type=str,
+                        help='optional destination directory')
+
+    parser.add_argument('-s', '--newStrucName', type=str,
+                        help="new dirStruc (DIR_FLAT, DIR16x16, or DIR256x256")
+
+    parser.add_argument('-u', '--uPath', type=str,
+                        help='path to uDir (no default)')
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    args = parser.parse_args()
+
+    # complete setup ------------------------------------------------
+    app_name = 'uReStruc %s' % __version__
+    if args.verbose or args.just_show:
+        print("%s %s" % (app_name, __version_date__))
+
+    # fixups and sanity checks --------------------------------------
+
+    if not args.u_path or not os.path.exists(args.u_path):
+        print("input directory '%s' does not exist" % args.u_path)
+        parser.print_help()
+        sys.exit(1)
+
+    if not args.newStrucName or not args.newStrucName in UDir.DIR_STRUC_NAMES:
+        print(
+            "you must specify a directory structure, one of %s" %
+            DIR_STRUC_NAMES)
+        parser.print_help()
+        sys.exit(1)
+
+    args.u_dir = UDir.discover(args.u_path)
+    args.oldStruc = args.u_dir.dir_struc     # an int
+    args.newStruc = UDir.name_to_dir_struc(args.newStrucName)
+    args.oldStrucName = UDir.dir_struc_to_name(args.oldStruc)
+
+    if args.oldStrucName != args.newStrucName:
+        print("restructuring from %s to %s" % (
+            args.oldStrucName, args.newStrucName))
+    else:
+        print("retaining %s" % args.oldStrucName)
+
+    if args.out_path and os.path.exists(args.out_path):
+        print("output directory '%s' already exists" % args.out_path)
+        parser.print_help()
+        sys.exit(1)
+
+    if args.verbose or args.just_show:
+        print('justShow     = ' + str(args.just_show))
+        print('uPath        = ' + str(args.u_path))
+        print('outPath      = ' + str(args.out_path))
+        print('old dirStruc = %d, %s' % (args.oldStruc, args.oldStrucName))
+        print('new dirStruc = %d, %s' % (args.newStruc, args.newStrucName))
+        print('verbose      = ' + str(args.verbose))
+
+    if args.just_show:
+        sys.exit(0)
+    re_struc_u_dir(args.u_path, args.newStruc, args.out_path, args.verbose)
+
+if __name__ == '__main__':
+    main()

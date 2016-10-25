@@ -64,7 +64,7 @@ class TestLibev(unittest.TestCase):
 
         # pylint: disable=no-member
         self.loop = pyev.default_loop()
-        self.log_name = 'tmp/log%05x' % self.rng.nextInt32(1024 * 1024)
+        self.log_name = 'tmp/log%05x' % self.rng.next_int32(1024 * 1024)
 
         # never used, never closed !
         self.fd_ = os.open(self.log_name,

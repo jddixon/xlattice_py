@@ -1,0 +1,113 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/uStats
+
+import os
+import stat
+import sys
+from argparse import ArgumentParser
+
+from xlattice import (__version__, __version_date__, QQQ)
+from xlattice.stats import collect_stats
+from xlattice.u import UDir
+
+
+def do_run(options):
+
+    u_path = options.u_path
+    out_path = options.out_path
+    verbose = options.verbose
+
+    # XXX options.outPath currently ignored
+
+    # returns a UStats object
+    string = collect_stats(u_path, out_path, verbose)
+
+    print("statistics for %s" % u_path)
+    print(
+        "  dirStruc:           %10s" %
+        UDir.dir_struc_to_name(
+            string.dir_struc))
+    print("  usingSHA:          %10s" % string.using_sha)
+    print()
+    print("  subDirectories:     %10d" % string.subdir_count)
+    print("  subSubDirectories:  %10d" % string.sub_subdir_count)
+    print("  leaf files:         %10d" % string.leaf_count)
+    print("  odd files:          %10d" % string.odd_count)
+
+    if string.min_leaf_bytes != sys.maxsize:
+        print("  smallest leaf file: %10d" % string.min_leaf_bytes)
+    print("  largest leaf file:  %10d" % string.max_leaf_bytes)
+
+    if string.has_l:
+        print("  L present")
+    if string.has_node_id:
+        print("  nodeID present")
+
+    if verbose:
+        if string._unexpectedAtTop:
+            print("\nunexpected at top (%d)" % len(string._unexpectedAtTop))
+            for xxx in string._unexpectedAtTop:
+                print("  %s" % xxx)
+    else:
+        print("  unexpected at top:  %10d" % len(string._unexpectedAtTop))
+
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    desc = 'display statistical information on uPath'
+    parser = ArgumentParser(description=desc)
+
+    parser.add_argument('-j', '--justShow', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-o', '--outPath', type=str,
+                        help='destination directory')
+
+    parser.add_argument('-u', '--uPath', default='/var/U',
+                        help="source U directory (default=/var/U) ")
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    args = parser.parse_args()
+
+    # fixups --------------------------------------------------------
+
+    # sanity checks -------------------------------------------------
+
+    if not args.u_path or not os.path.exists(args.u_path):
+        print("input directory '%s' does not exist" % args.u_path)
+        parser.print_help()
+        sys.exit(1)
+
+    if args.out_path and not os.path.exists(args.out_path):
+        print("output directory '%s' does not exist" % args.out_path)
+        parser.print_help()
+        sys.exit(1)
+
+    # complete setup ------------------------------------------------
+    app_name = 'uStats %s' % __version__
+
+    # maybe show options and such -----------------------------------
+    if args.verbose or args.just_show:
+        print("%s %s" % (app_name, __version_date__))
+
+    if args.verbose or args.just_show:
+        print('justShow     = ' + str(args.just_show))
+        print('outPath      = ' + str(args.out_path))
+        print('uPath        = ' + str(args.u_path))
+        print('verbose      = ' + str(args.verbose))
+
+    if args.just_show:
+        sys.exit(0)
+
+    # do what's required --------------------------------------------
+    do_run(args)
+
+
+if __name__ == '__main__':
+    main()

@@ -3,29 +3,29 @@
 import re
 from distutils.util import strtobool
 
-__all__ = ['confirmYorN', 'passwdStrength', ]
+__all__ = ['confirm_y_or_n', 'passwd_strength', ]
 
 
-def confirmYorN(prompt, default='y'):
+def confirm_y_or_n(prompt, default='y'):
     """
     Prompt for agreement to continue.  Any default should be one of
     'y', 'n', 'yes', 'no', etc.
     """
-    doIt = False
+    do_it = False
     prompt = "%s (default = '%s') " % (prompt, default)
     while True:
         reply = input(prompt)
         if reply == '':
             reply = default
         try:
-            doIt = strtobool(reply)
+            do_it = strtobool(reply)
             break
         except ValueError:
             print("please type 'y' or 'n'")
-    return doIt
+    return do_it
 
 
-def passwdStrength(p):
+def passwd_strength(ppp):
     """
     Return a crude estimate of strength, a string.
 
@@ -37,54 +37,54 @@ def passwdStrength(p):
     separate package.
     """
 
-    if not p:
-        p = ''
-    length = len(p)
+    if not ppp:
+        ppp = ''
+    length = len(ppp)
     if length == 0:
         est = 'empty password'
     elif length < 6:
         est = 'too short'
-    elif re.search(r'password', p, re.IGNORECASE):
+    elif re.search(r'password', ppp, re.IGNORECASE):
         est = 'contains dictionary word'
     else:
         if length > 16:
             length = 16
-        charSetSize = 0
-        if re.search(r'[a-z]', p):
-            charSetSize += 26
-        if re.search(r'[A-Z]', p):
-            charSetSize += 26
-        if re.search(r'\d', p):
-            charSetSize += 10
-        if re.search(r'[^\w]', p):
-            charSetSize += 16  # say ;-)
+        char_set_size = 0
+        if re.search(r'[a-z]', ppp):
+            char_set_size += 26
+        if re.search(r'[A-Z]', ppp):
+            char_set_size += 26
+        if re.search(r'\d', ppp):
+            char_set_size += 10
+        if re.search(r'[^\w]', ppp):
+            char_set_size += 16  # say ;-)
 
         if length >= 12:
-            if charSetSize >= 52:
+            if char_set_size >= 52:
                 est = 'very strong'
             else:
                 est = 'strong'
         elif length >= 10:
-            if charSetSize >= 52:
+            if char_set_size >= 52:
                 est = 'strong'
             else:
                 est = 'medium'
         elif length >= 8:
-            if charSetSize >= 52:
+            if char_set_size >= 52:
                 est = 'medium'
             else:
                 est = 'fair'
         else:
-            if charSetSize >= 78:
+            if char_set_size >= 78:
                 est = 'fair'
-            elif charSetSize >= 52:
+            elif char_set_size >= 52:
                 est = 'poor'
             else:
                 est = 'weak'
 
         # DEBUG
         print(("length %d, charSetSize %d: %s" % (
-            length, charSetSize, est)))
+            length, char_set_size, est)))
         # END
 
     return est

@@ -1,0 +1,169 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/verifyContentKeys
+
+import os
+import re
+import sys
+import time
+from argparse import ArgumentParser
+
+from xlattice import (__version__, __version_date__,
+                      QQQ, check_using_sha, u,
+                      parseUsingSHA, fix_using_sha, show_using_sha, check_u_path)
+
+# PATs AND REs ######################################################
+DIR_NAME_PAT = '^[0-9a-fA-F]{2}$'
+DIR_NAME_RE = re.compile(DIR_NAME_PAT)
+
+# the default SHA2 or SHA3-based file name
+FILE_NAME_PAT256 = '^[0-9a-fA-F]{64}$'
+
+# the SHA1-based alternative
+FILE_NAME_PAT1 = '^[0-9a-fA-F]{40}$'
+
+
+def do_leaf_dir(args, subSub):
+    count = 0
+    files = sorted(os.listdir(subSub))
+    for file in files:
+        path_to = os.path.join(subSub, file)
+        if args.fileNameRegex.match(file):
+            count += 1
+            if args.using_sha == QQQ.USING_SHA1:
+                hash_as_hex = u.fileSHA1(path_to)
+            elif args.using_sha == QQQ.USING_SHA2:
+                hash_as_hex = u.fileSHA2(path_to)
+            elif args.using_sha == QQQ.USING_SHA3:
+                hash_as_hex = u.fileSHA3(path_to)
+            if args.verbose:
+                print('      ' + path_to)
+            if hash_as_hex != file:
+                print("%s has content key %s" % (path_to, hash_as_hex))
+        else:
+            print("not a proper leaf file name: " + path_to)
+    args.count += count
+
+
+def do_sub_dir(args, sub_dir):
+    files = sorted(os.listdir(sub_dir))
+    for subSub in files:
+        path_to = os.path.join(sub_dir, subSub)
+        if DIR_NAME_RE.match(subSub):
+            if args.verbose:
+                print('    ' + path_to)
+            do_leaf_dir(args, path_to)
+        else:
+            print("not a proper subsubdirectory: " + path_to)
+
+
+def doWhatever(args):
+    args.count = 0
+    u_path = args.u_path
+    if args.verbose:
+        print(u_path)
+    files = sorted(os.listdir(u_path))
+    for sub_dir in files:
+        path_to = os.path.join(u_path, sub_dir)
+        if DIR_NAME_RE.match(sub_dir):
+            if args.verbose:
+                print('  ' + path_to)
+            do_sub_dir(args, path_to)
+        elif    sub_dir != 'L'       and\
+                sub_dir != 'in'      and\
+                sub_dir != 'node_id'  and\
+                sub_dir != 'tmp':
+            print("not a proper subdirectory: " + path_to)
+    print("processed %u files" % args.count)
+
+
+def main():
+
+    pgm_name_and_version = "verifyContentKey v%s %s" % (
+        __version__, __version_date__)
+    timestamp = "%04d%02d%02d-%02d%02d%02d" % time.gmtime()[:6]
+
+    # -- program defaults -------------------------------------------
+    key_len = 32
+
+    # -- check for config file --------------------------------------
+
+    # -- parse the command line -------------------------------------
+    # see docs.python.org/library/argparse.html
+    parser = ArgumentParser()
+
+    parser.add_argument('-j', '--justShow', action='store_true',
+                        help='show args and exit')
+
+    parser.add_argument('-t', '--showTimestamp', action='store_true',
+                        help='show run timestamp')
+
+    # uPath: just the base name (usually Upax or Upax0) we will fix this up
+    # below
+
+    parser.add_argument('-T', '--testing', action='store_true',
+                        help='test run - write to ./testU')
+
+    parser.add_argument('-V', '--showVersion', action='store_true',
+                        help='show version number and date')
+
+    parseUsingSHA(parser)
+
+    args = parser.parse_args()      # a Namespace object
+
+    # -- fixups -----------------------------------------------------
+    fix_using_sha(args)
+
+    args.pgm_name_and_version = pgm_name_and_version
+    args.timestamp = timestamp
+    if args.using_sha:
+        print("DEBUG: using SHA1 *** ")
+        args.fileNameRegex = re.compile(FILE_NAME_PAT1)
+    else:
+        # USING_SHA2 and USING_SHA3
+        args.fileNameRegex = re.compile(FILE_NAME_PAT256)
+
+    # -- sanity checks ----------------------------------------------
+    check_using_sha(args.using_sha)
+    check_u_path(parser, args, must_exist=True)
+
+    # fixups --------------------------------------------------------
+    if args.u_path and args.u_path[-1] == '/':
+        args.u_path = args.u_path[:-1]          # drop any trailing slash
+
+    # -- do it ------------------------------------------------------
+
+    # DEBUG
+    print("THIS CODE HAS NOT BEEN TESTED")
+    # END
+
+    if args.verbose or args.showVersion or args.just_show:
+        print(args.pgm_name_and_version)
+    if args.showTimestamp:
+        print('run at %s GMT' % timestamp)   # could be prettier
+    else:
+        print()                               # there's a comma up there
+
+    if args.just_show or args.verbose:
+        print('justShow         = ' + str(args.just_show))
+        print('showTimestamp    = ' + str(args.showTimestamp))
+        print('showVersion      = ' + str(args.showVersion))
+        print('timestamp        = ' + str(args.timestamp))
+        show_using_sha(args)
+
+    if not args.just_show:
+        lock = u.ULock(args.u_path)
+        try:
+            if lock.get_lock():
+                if args.verbose:
+                    print('have lock on ' + args.u_path)
+                doWhatever(args)
+            else:
+                print('could not get lock on %s' % args.u_path)
+        finally:
+            if args.verbose:
+                print('releasing lock on ' + args.u_path)
+            lock.release_lock()
+
+if __name__ == '__main__':
+    main()

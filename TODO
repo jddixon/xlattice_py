@@ -1,5 +1,16 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-24
+    * rewrite gen_node_id{1,3} as conventional scripts using argparse
+
+2016-10-22
+    * import of sha3 should be conditional
+
+2016-10-11
+    * uncomment test_u.py::map_test and get it running
+    * UStats is skeletal
+        - needs to be pylinted
+
 2016-10-09
     * continue pylinting at xlattice/util and test_get_exclusions
     * checkCoverage is incorrectly configured - checks pycrypt, 

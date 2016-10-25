@@ -9,8 +9,12 @@ import time
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'timestamp',
 
+           'parse_decimal_version', 'parse_timestamp', 'timestamp_now',
+           'get_exclusions', 'make_ex_re', 'make_match_re', 'regexes_from_wildcards',
+           # SYNONYMS, restored
            'parseDecimalVersion', 'parseTimestamp', 'timestampNow',
            'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
+           # END SYN
            ]
 
 # DECIMAL VERSION ---------------------------------------------------
@@ -23,41 +27,43 @@ class DecimalVersion(object):
     def __init__(self, aIn=None, bIn=None, cIn=None, dIn=None):
         if aIn is None:
             aIn = 0
-        a = int(aIn)
-        if a < 0 or 255 < a:
-            raise RuntimeError("version number part a '%d' out of range" % a)
+        a_val = int(aIn)
+        if a_val < 0 or 255 < a_val:
+            raise RuntimeError(
+                "version number part a '%d' out of range" %
+                a_val)
         if bIn is None:
-            b = 0
+            b_val = 0
         else:
-            b = int(bIn)
-            if b < 0 or 255 < b:
-                raise RuntimeError("version part b '%d' out of range" % b)
+            b_val = int(bIn)
+            if b_val < 0 or 255 < b_val:
+                raise RuntimeError("version part b '%d' out of range" % b_val)
         if cIn is None:
-            c = 0
+            c_val = 0
         else:
-            c = int(cIn)
-            if c < 0 or 255 < c:
-                raise RuntimeError("version part c '%d' out of range" % c)
+            c_val = int(cIn)
+            if c_val < 0 or 255 < c_val:
+                raise RuntimeError("version part c '%d' out of range" % c_val)
         if dIn is None:
-            d = 0
+            d_val = 0
         else:
-            d = int(dIn)
-            if d < 0 or 255 < d:
-                raise RuntimeError("version part d '%d' out of range" % d)
+            d_val = int(dIn)
+            if d_val < 0 or 255 < d_val:
+                raise RuntimeError("version part d '%d' out of range" % d_val)
 
-        self._value = (0xff & a)         | ((0xff & b) << 8)  |  \
-            ((0xff & c) << 16) | ((0xff & d) << 24)
+        self._value = (0xff & a_val)         | ((0xff & b_val) << 8)  |\
+            ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
-    def getA(self):
+    def get_a(self):
         return self._value & 0xff
 
-    def getB(self):
+    def get_b(self):
         return (self._value >> 8) & 0xff
 
-    def getC(self):
+    def get_c(self):
         return (self._value >> 16) & 0xff
 
-    def getD(self):
+    def get_d(self):
         return (self._value >> 24) & 0xff
 
     @property
@@ -69,7 +75,7 @@ class DecimalVersion(object):
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
-            self._value = parseDecimalVersion(val).value
+            self._value = parse_decimal_version(val).value
         elif isinstance(val, DecimalVersion):
             self._value = val.value
         else:
@@ -83,225 +89,259 @@ class DecimalVersion(object):
         return self._value == other._value
 
     def __lt__(self, other):
-        sA = self.getA()
-        oA = other.getA()
-        if sA < oA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a < other_a:
             return True
-        if sA > oA:
+        if self_a > other_a:
             return False
 
-        sB = self.getC()
-        oB = other.getC()
-        if sB < oB:
+        self_b = self.get_c()
+        other_b = other.get_c()
+        if self_b < other_b:
             return True
-        if sB > oB:
+        if self_b > other_b:
             return False
 
-        sC = self.getC()
-        oC = other.getC()
-        if sC < oC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c < other_c:
             return True
-        if sC > oC:
+        if self_c > other_c:
             return False
 
-        sD = self.getD()
-        oD = other.getD()
-        if sD < oD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d < other_d:
             return True
         return False
 
-        if self.getA() < other.getA():
+        if self.get_a() < other.get_a():
             return False
-        if self.getB() < other.getB():
+        if self.get_b() < other.get_b():
             return False
-        if self.getC() < other.getC():
+        if self.get_c() < other.get_c():
             return False
-        if self.getD() <= other.getD():
+        if self.get_d() <= other.get_d():
             return False
         return True
 
     def __le__(self, other):
-        sA = self.getA()
-        oA = other.getA()
-        if sA < oA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a < other_a:
             return True
-        if sA > oA:
+        if self_a > other_a:
             return False
 
-        sB = self.getB()
-        oB = other.getB()
-        if sB < oB:
+        self_b = self.get_b()
+        other_b = other.get_b()
+        if self_b < other_b:
             return True
-        if sB > oB:
+        if self_b > other_b:
             return False
 
-        sC = self.getC()
-        oC = other.getC()
-        if sC < oC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c < other_c:
             return True
-        if sC > oC:
+        if self_c > other_c:
             return False
 
-        sD = self.getD()
-        oD = other.getD()
-        if sD <= oD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d <= other_d:
             return True
         return False
-        if self.getA() < other.getA():
+        if self.get_a() < other.get_a():
             return False
-        if self.getB() < other.getB():
+        if self.get_b() < other.get_b():
             return False
-        if self.getC() < other.getC():
+        if self.get_c() < other.get_c():
             return False
-        if self.getD() < other.getD():
+        if self.get_d() < other.get_d():
             return False
         return True
 
     def __gt__(self, other):
-        sA = self.getA()
-        oA = other.getA()
-        if sA > oA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a > other_a:
             return True
-        if sA < oA:
+        if self_a < other_a:
             return False
 
-        sB = self.getC()
-        oB = other.getC()
-        if sB > oB:
+        self_b = self.get_c()
+        other_b = other.get_c()
+        if self_b > other_b:
             return True
-        if sB < oB:
+        if self_b < other_b:
             return False
 
-        sC = self.getC()
-        oC = other.getC()
-        if sC > oC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c > other_c:
             return True
-        if sC < oC:
+        if self_c < other_c:
             return False
 
-        sD = self.getD()
-        oD = other.getD()
-        if sD > oD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d > other_d:
             return True
         return False
 
     def __ge__(self, other):
-        sA = self.getA()
-        oA = other.getA()
-        if sA > oA:
+        self_a = self.get_a()
+        other_a = other.get_a()
+        if self_a > other_a:
             return True
-        if sA < oA:
+        if self_a < other_a:
             return False
 
-        sB = self.getB()
-        oB = other.getB()
-        if sB > oB:
+        self_b = self.get_b()
+        other_b = other.get_b()
+        if self_b > other_b:
             return True
-        if sB < oB:
+        if self_b < other_b:
             return False
 
-        sC = self.getC()
-        oC = other.getC()
-        if sC > oC:
+        self_c = self.get_c()
+        other_c = other.get_c()
+        if self_c > other_c:
             return True
-        if sC < oC:
+        if self_c < other_c:
             return False
 
-        sD = self.getD()
-        oD = other.getD()
-        if sD >= oD:
+        self_d = self.get_d()
+        other_d = other.get_d()
+        if self_d >= other_d:
             return True
         return False
 
     def __str__(self):
-        a = self.getA()
-        b = self.getB()
-        c = self.getC()
-        d = self.getD()
-        if d != 0:
-            s = "%d.%d.%d.%d" % (a, b, c, d)
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        d_val = self.get_d()
+        if d_val != 0:
+            string = "%d.%d.%d.%d" % (a_val, b_val, c_val, d_val)
         else:
-            s = "%d.%d.%d" % (a, b, c)
-        return s
+            string = "%d.%d.%d" % (a_val, b_val, c_val)
+        return string
 
-    def stepMajor(self):
+    def step_major(self):
         """
         Increment the major part of the version number, the A in a.b.c.d.
         This clears (zeroes out) the other three fields.
         """
-        a = self.getA()
-        a += 1
-        if a > 255:
+        a_val = self.get_a()
+        a_val += 1
+        if a_val > 255:
             raise RuntimeError("stepMajor() takes it out of range")
         else:
-            self.value = DecimalVersion(a)
+            self.value = DecimalVersion(a_val)
 
-    def stepMinor(self):
+    def step_minor(self):
         """
         Increment the minor part of the version number, the B in a.b.c.d.
         This zeroes out the 'decimal' and 'micro' fields.
         """
-        a = self.getA()
-        b = self.getB()
-        b += 1
-        if b > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        b_val += 1
+        if b_val > 255:
             raise RuntimeError("stepMinor() takes it out of range")
         else:
-            self.value = DecimalVersion(a, b)
+            self.value = DecimalVersion(a_val, b_val)
 
-    def stepDecimal(self):
+    def step_decimal(self):
         """
         Increment the decimal part of the version number, the C in a.b.c.d.
         This clears the 4th 'micro' field.
         """
-        a = self.getA()
-        b = self.getB()
-        c = self.getC()
-        c += 1
-        if c > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        c_val += 1
+        if c_val > 255:
             raise RuntimeError("stepDecimal() takes it out of range")
         else:
-            self.value = DecimalVersion(a, b, c)
+            self.value = DecimalVersion(a_val, b_val, c_val)
 
-    def stepMicro(self):
+    def step_micro(self):
         """
         Increment the micro part of the version number, the D in a.b.c.d.
         This leaves the other three fields unaffected.
         """
-        a = self.getA()
-        b = self.getB()
-        c = self.getC()
-        d = self.getD()
-        d += 1
-        if d > 255:
+        a_val = self.get_a()
+        b_val = self.get_b()
+        c_val = self.get_c()
+        d_val = self.get_d()
+        d_val += 1
+        if d_val > 255:
             raise RuntimeError("stepMicro() takes it out of range")
         else:
-            self.value = DecimalVersion(a, b, c, d)
+            self.value = DecimalVersion(a_val, b_val, c_val, d_val)
+
+    # SYNONYMS ------------------------------------------------------
+    def getA(self):
+        """ SYNONYM """
+        return self.get_a()
+
+    def getB(self):
+        """ SYNONYM """
+        return self.get_b()
+
+    def getC(self):
+        """ SYNONYM """
+        return self.get_c()
+
+    def getD(self):
+        """ SYNONYM """
+        return self.get_d()
+
+    def stepMajor(self):
+        """ SYNONYM """
+        self.step_major()
+
+    def stepMinor(self):
+        """ SYNONYM """
+        self.step_minor()
+
+    def stepDecimal(self):
+        """ SYNONYM """
+        self.step_decimal()
+
+    def stepMicro(self):
+        """ SYNONYM """
+        self.step_micro()
+    # END SYNONYMS --------------------------------------------------
 
 
-def parseDecimalVersion(s):
+def parse_decimal_version(string):
     """
     Expect the parameter s to be a string looking like a.b.c.d or a
     shorter version.  Returns a DecimalVersion object.
     """
 
-    if s is None or s == "":
+    if string is None or string == "":
         raise RuntimeError("nil or empty version string")
 
-    dv = None
-    ss = s.split(".")
-    length = len(ss)
+    dver = None
+    strings = string.split(".")
+    length = len(strings)
     if length == 1:
-        dv = DecimalVersion(ss[0])
+        dver = DecimalVersion(strings[0])
     elif length == 2:
-        dv = DecimalVersion(ss[0], ss[1])
+        dver = DecimalVersion(strings[0], strings[1])
     elif length == 3:
-        dv = DecimalVersion(ss[0], ss[1], ss[2])
+        dver = DecimalVersion(strings[0], strings[1], strings[2])
     elif length == 4:
-        dv = DecimalVersion(ss[0], ss[1], ss[2], ss[3])
+        dver = DecimalVersion(strings[0], strings[1], strings[2], strings[3])
     else:
-        raise RuntimeError("not a well-formed DecimalVersion: '%s'" % s)
-    return dv
+        raise RuntimeError("not a well-formed DecimalVersion: '%s'" % string)
+    return dver
 
 # TIMESTAMP FUNCTIONS -----------------------------------------------
 
@@ -313,36 +353,36 @@ def parseDecimalVersion(s):
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def parseTimestamp(s):
+def parse_timestamp(string):
     """
     If there is a decimal part to the seconds field, will raise ValueError
     with the message 'unconverted data remains: .123456'.
     """
-    t = time.strptime(s, TIMESTAMP_FORMAT)
-    return calendar.timegm(t)
+    tstamp = time.strptime(string, TIMESTAMP_FORMAT)
+    return calendar.timegm(tstamp)
 
 
-def timestamp(n):       # sec from epoch
+def timestamp(nnn):       # sec from epoch
     """
     Given n the number of seconds from the epoch, return a string in
     the shorter format.  This truncates microseconds from the time.
     """
-    t = time.gmtime(n)
-    return time.strftime(TIMESTAMP_FORMAT, t)
+    tstamp = time.gmtime(nnn)
+    return time.strftime(TIMESTAMP_FORMAT, tstamp)
 
 
-def timestampNow():
+def timestamp_now():
     """
     Get the current time, truncate it by omiting microseconds, and
     return a string in the shorter format.
     """
-    t = time.gmtime()
-    return time.strftime(TIMESTAMP_FORMAT, t)
+    tstamp = time.gmtime()
+    return time.strftime(TIMESTAMP_FORMAT, tstamp)
 
 # GLOBS, WILDCARDS --------------------------------------------------
 
 
-def getExclusions(projDir, exclFile='.gitignore'):
+def get_exclusions(proj_dir, excl_file='.gitignore'):
     """
     projDir must exist and may contain a .gitignore file containing one
     or more globs.
@@ -354,10 +394,10 @@ def getExclusions(projDir, exclFile='.gitignore'):
     """
 
     globs = []
-    pathToIgnore = os.path.join(projDir, exclFile)
-    if os.path.isfile(pathToIgnore):
-        with open(pathToIgnore, 'rb') as f:
-            data = f.read().decode('utf8')
+    path_to_ignore = os.path.join(proj_dir, excl_file)
+    if os.path.isfile(path_to_ignore):
+        with open(path_to_ignore, 'rb') as file:
+            data = file.read().decode('utf8')
         if data:
             lines = data.split('\n')
             for line in lines:
@@ -367,43 +407,82 @@ def getExclusions(projDir, exclFile='.gitignore'):
     return globs
 
 
-def makeExRE(globs):
+def make_ex_re(globs):
     """
     Given a list of globs aka wildcards, return a compiled regular
     expression representing a match on one or more globs.  That is,
     we convert the wildcards to regular expressions, OR them all
     together, and compile and return the result.
     """
-    r = regexesFromWildcards(globs)
-    return re.compile('|'.join(r))
+    regexes = regexes_from_wildcards(globs)
+    return re.compile('|'.join(regexes))
 
 
-def makeMatchRE(matchList):
+def make_match_re(match_list):
     """
     Given a list of globs aka wildcards, return a compiled regular
     expression representing a match on one or more globs.  That is,
     we convert the wildcards to regular expressions, OR them all
     together, and compile and return the result.
     """
-    return makeExRE(matchList)
+    return make_ex_re(match_list)
 
 
-def regexesFromWildcards(ss):
+def regexes_from_wildcards(strings):
     """
     Given a list of wildcards, return a list of parenthesized
     regular expressions.
     """
-    r = []
-    if ss:
-        for glob in ss:
+    regexes = []
+    if strings:
+        for glob in strings:
             glob = glob.strip()
             # ignore empty wildcards
             if glob:
                 # \Z means end of string, (?ms) means accept either
                 # the M multiline flag or S, which makes . expand
                 pat = fnmatch.translate(glob)
-                r.append('(' + pat + ')')
+                regexes.append('(' + pat + ')')
     else:
-        r.append('a^')      # matches nothing
+        regexes.append('a^')      # matches nothing
 
-    return r
+    return regexes
+
+# SYNONYMS ----------------------------------------------------------
+
+
+def parseDecimalVersion(string):
+    """ SYNONYM """
+    return parse_decimal_version(string)
+
+
+def parseTimestamp(string):
+    """ SYNONYM """
+    return parse_timestamp(string)
+
+
+def timestampNow():
+    """ SYNONYM """
+    return timestamp_now()
+
+
+def getExclusions(proj_dir, excl_file='.gitignore'):
+    """ SYNONYM """
+    return get_exclusions(proj_dir, excl_file)
+
+
+def makeExRE(globs):
+    """ SYNONYM """
+    return make_ex_re(globs)
+
+
+def makeMatchRE(match_list):
+    """ SYNONYM """
+    return make_match_re(match_list)
+
+
+def regexesFromWildcards(strings):
+    """ SYNONUM """
+    return regexes_from_wildcards(strings)
+
+# END SYNONYMS ------------------------------------------------------

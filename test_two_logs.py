@@ -4,16 +4,16 @@
 
 import hashlib
 import os
-import re
 import shutil
 import sys
 import time
 import unittest
-from xlattice.ftLog import LogMgr
+from xlattice.ftlog import LogMgr
+
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
-class TestTwoLogs (unittest.TestCase):
+class TestTwoLogs(unittest.TestCase):
 
     def setUp(self):
         now = time.time()
@@ -25,24 +25,24 @@ class TestTwoLogs (unittest.TestCase):
 
     # actual unit tests #############################################
 
-    def testWithSingleMessage(self):
+    def test_with_single_message(self):
 
         if os.path.exists('./logs'):
             shutil.rmtree('./logs')
 
         # -- open ---------------------------------------------------
-        def showLogHandle(h):
-            print("HANDLE: %s as %d writing to %s" % (h._baseName,
-                                                      h._lfd,
-                                                      h._logFile,
+        def show_log_handle(handle):
+            print("HANDLE: %s as %d writing to %s" % (handle.base_name,
+                                                      handle.lfd,
+                                                      handle.logFile,
                                                       ))
         mgr = LogMgr('logs')
-        fooLog = mgr.open('foo')
-        fooLog.log('oh hello, foo')
+        foo_log = mgr.open('foo')
+        foo_log.log('oh hello, foo')
         # showLogHandle(fooLog)                       # DEBUG
 
-        barLog = mgr.open('bar')
-        barLog.log('oh hello, bar')
+        bar_log = mgr.open('bar')
+        bar_log.log('oh hello, bar')
         # showLogHandle(barLog)                       # DEBUG
 
         # print("TEST_TWO: closing")
@@ -52,20 +52,20 @@ class TestTwoLogs (unittest.TestCase):
         mgr.close()
 
         # -- test our expectations ----------------------------------
-        expectedLogFile = 'logs/foo.log'
-        self.assertEqual(expectedLogFile, fooLog.logFileName)
-        self.assertTrue(os.path.exists(expectedLogFile))
-        with open(expectedLogFile, 'r') as f:
-            contents = f.read()
+        expected_log_file = 'logs/foo.log'
+        self.assertEqual(expected_log_file, foo_log.log_file_name)
+        self.assertTrue(os.path.exists(expected_log_file))
+        with open(expected_log_file, 'r') as file:
+            contents = file.read()
         contents = contents.strip()
         self.assertTrue(contents.endswith('oh hello, foo'))  # END FOO
 
-        if barLog:
-            expectedLogFile = 'logs/bar.log'
-            self.assertEqual(expectedLogFile, barLog.logFileName)
-            self.assertTrue(os.path.exists(expectedLogFile))
-            with open(expectedLogFile, 'r') as f:
-                contents = f.read()
+        if bar_log:
+            expected_log_file = 'logs/bar.log'
+            self.assertEqual(expected_log_file, bar_log.log_file_name)
+            self.assertTrue(os.path.exists(expected_log_file))
+            with open(expected_log_file, 'r') as file:
+                contents = file.read()
             contents = contents.strip()
             self.assertTrue(contents.endswith('oh hello, bar'))  # END BAR
 

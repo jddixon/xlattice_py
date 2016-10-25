@@ -1,0 +1,110 @@
+#!/usr/bin/python3
+
+# ~/dev/py/xlattice_py/uPreen
+
+import os
+import stat
+import sys
+from argparse import ArgumentParser
+
+from xlattice import (__version__, __version_date__)
+
+FILE_PERM = 0o644
+DIR_PERM = 0o755
+
+
+def do_preen(options):
+    b_dir = options.b_dir
+    group = options.group
+    just_show = options.just_show
+    user = options.user
+    verbose = options.verbose
+
+    os.chdir(b_dir)
+
+    # expect to find any or all of in/, tmp/, L, and xx/, where x is a hex
+    # digit
+    for file in ['L', 'node_id']:
+        if os.path.exists(file):
+            os.chmod(file, FILE_PERM)
+
+    for dir_ in ['in', 'tmp', ]:
+        path = os.path.join(b_dir, dir_)
+        if os.path.exists(path):
+            os.chmod(path, DIR_PERM)
+
+    hex_dirs = []
+    for nnn in range(256):
+        hex_dirs.append('%02x' % nnn)
+
+    for top in hex_dirs:
+        top_dir = os.path.join(b_dir, top)
+        if os.path.exists(top_dir):
+            os.chmod(top_dir, DIR_PERM)
+            for mid in hex_dirs:
+                mid_dir = os.path.join(top_dir, mid)
+                if os.path.exists(mid_dir):
+                    os.chmod(mid_dir, DIR_PERM)
+                    files = os.listdir(mid_dir)
+                    for file in files:
+                        path_to_leaf = os.path.join(mid_dir, file)
+                        os.chmod(path_to_leaf, FILE_PERM)
+
+
+def main():
+
+    # program defaults ----------------------------------------------
+
+    # parse the command line ----------------------------------------
+    desc = 'regularize permissions in a U directory structure'
+    parser = ArgumentParser(description=desc)
+
+    parser.add_argument('-b', '--bDir', default='/var/U',
+                        help="path to U directory to be preened (default=/var/U) ")
+
+    parser.add_argument('-g', '--group', default='jdd',
+                        help="group (default jdd)")
+
+    parser.add_argument('-j', '--justShow', action='store_true',
+                        help='show options and exit')
+
+    parser.add_argument('-u', '--user', default='jdd',
+                        help="user (login, default jdd)")
+
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='be chatty')
+
+    args = parser.parse_args()
+
+    # fixups --------------------------------------------------------
+
+    # sanity checks -------------------------------------------------
+
+    if not args.b_dir or not os.path.exists(args.b_dir):
+        print("base directory '%s' does not exist" % args.b_dir)
+        parser.print_help()
+        sys.exit(1)
+
+    # complete setup ------------------------------------------------
+    app_name = 'uPreen %s' % __version__
+
+    # maybe show options and such -----------------------------------
+    if args.verbose or args.just_show:
+        print("%s %s" % (app_name, __version_date__))
+
+    if args.verbose or args.just_show:
+        print('bDir         = ' + str(args.b_dir))
+        print('group        = ' + str(args.group))
+        print('justShow     = ' + str(args.just_show))
+        print('user         = ' + str(args.user))
+        print('verbose      = ' + str(args.verbose))
+
+    if args.just_show:
+        sys.exit(0)
+
+    # do what's required --------------------------------------------
+    do_preen(args)
+
+
+if __name__ == '__main__':
+    main()

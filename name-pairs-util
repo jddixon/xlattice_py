@@ -1,0 +1,140 @@
+# name-pairs-util
+
+absPath                     abs_path
+appName                     app_name
+argVec                      arg_vec
+
+_baseName                   _base_name
+
+barLog                      bar_log
+bDir                        b_dir
+binIn                       bin_in
+bVal                        b_val
+byteStr                     byte_str
+
+checkUsingSHA               check_using_sha
+checkUPath                  check_u_path
+ck                          ck_
+ckPriv                      ck_priv
+collectPEMRSAPublicKey      collect_pem_rsa_public_key
+
+derData                     der_data
+
+DESC                        desc
+destInfo                    dest_info
+destMode                    dest_mode
+destSubDir                  dest_sub_dir
+destSubSubDir               dest_sub_sub_dir
+doLeafDir                   do_leaf_dir
+dontDoIt                    dont_do_it
+doPreen                     do_preen
+doRun                       do_run
+doSubDir                    do_sub_dir
+dVal                        d_val
+
+
+e                           exc
+encryptedFromHello          encrypted_from_hello
+expectedBinOut              expected_bin_out
+expectedHexOut              expected_hex_out
+expectedID                  expected_id
+expectedLogFile             expected_log_file
+
+fooLog                      foo_log
+genNodeID1                  get_node_id1
+genNodeID3                  get_node_id3
+hashAsHex                   hash_as_hex
+hexDirs                     hex_dirs
+hexIn                       hex_in
+
+h                           sha
+h2                          sha_2
+
+id                          id_
+inDir                       in_dir
+iv                          iv_
+
+justShow                    just_show
+
+keyLen                      key_len
+
+lockFileName                lock_file_name
+
+m                           match
+m2                          match2
+
+maxCount                    max_count
+midDir                      mid_dir
+mustExist                   must_exist
+myPID                       my_pid
+
+n                           nnn
+nBlocks                     n_blocks
+nodeDir                     node_dir
+oFile                       o_file
+outDir                      out_dir
+
+p                           ppp
+paddedReply                 padded_reply
+pathTo                      path_to
+pathToLeaf                  path_to_leaf
+pathToSrc                   path_to_src
+pathToDest                  path_to_dest
+
+pemFormOfCK                 pem_form_of_ck
+pemKey                      pem_key
+pemPK                       pem_pk
+pemStr                      pem_str
+pgmNameAndVersion           pgm_name_and_version
+pidInFile                   pid_in_file
+
+reStrucUDir                 re_struc_u_dir
+
+
+
+
+
+serialVersion               serial_version
+showLogHandle               show_log_handle
+sk                          sk_
+skFile                      sk_file
+skPriv                      sk_priv
+skPriv2                     sk_priv2
+skPrivDerFile               sk_priv_der_file
+
+srcInfo                     src_info
+srcMode                     src_mode
+subDir                      sub_dir
+subSub                      sub_sub
+subSubDir                   sub_sub_dir
+tmpDir                      tmp_dir
+topDir                      top_dir
+tt                          tt_
+
+uMin                        u_min
+
+uniIn                       uni_in
+vBytes                      v_bytes
+versionFromS                version_from_s
+versionObj                  version_obj
+version2                    version2
+versionS                    version_s
+vOffset                     v_offset
+
+w                           www
+x                           xxx
+y                           yyy
+z                           zzz
+
+
+doTestHexInOut              do_test_hex_in_out
+
+testConstructor             test_constructor
+testConstants               test_constants
+testEmpty                   test_empty
+testEncryptDecrypt          test_encrypt_decrypt
+testGeneratedRSAKey         test_generated_rsa_key
+testHexVectors              test_hex_vectors
+testJustOpenAndClose        test_just_open_and_close
+testWithOpenSSLKey          test_with_open_ssl_key
+testWithSingleMessage       test_with_single_message

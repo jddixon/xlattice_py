@@ -4,10 +4,11 @@ import binascii
 import sys
 import unittest
 import hashlib
-if sys.version_info < (3, 6):
-    import sha3                     # pysha3
 
 from xlattice import SHA3_HEX_NONE, SHA3_BIN_NONE
+
+if sys.version_info < (3, 6):
+    import sha3                     # pysha3
 
 
 class TestSHA3_256(unittest.TestCase):
@@ -23,12 +24,12 @@ class TestSHA3_256(unittest.TestCase):
     ]
     U2H_VECTORS = [
         ('abc',
-            '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
+         '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
         # GET MORE FROM NIST DOCS
 
     ]
 
-    def testConstructor(self):
+    def test_constructor(self):
         """ verify that behavior of pysha3 is as expected """
 
         sha = hashlib.sha3_256()
@@ -57,48 +58,48 @@ class TestSHA3_256(unittest.TestCase):
         self.assertRaises(TypeError, sha.update, None)
         self.assertRaises(TypeError, sha.update, "abcdef")
 
-    def testConstants(self):
+    def test_constants(self):
         sha = hashlib.sha3_256()
         sha.update(b'')
         self.assertEqual(sha.digest(), SHA3_BIN_NONE)
         self.assertEqual(sha.hexdigest(), SHA3_HEX_NONE)
 
-    def testHexVectors(self):
-        for hexIn, expectedHexOut in self.HEX_VECTORS:
-            self.doTestHexInOut(hexIn, expectedHexOut)
+    def test_hex_vectors(self):
+        for hex_in, expected_hex_out in self.HEX_VECTORS:
+            self.do_test_hex_in_out(hex_in, expected_hex_out)
 
-    def testUnicodeToHexVectors(self):
-        for uniIn, expectedHexOut in self.U2H_VECTORS:
+    def test_unicode_to_hex_vectors(self):
+        for uni_in, expected_hex_out in self.U2H_VECTORS:
             # requires py3.5:
             # hexIn = uniIn.encode('utf-8').hex()
-            hexIn = (binascii.hexlify(uniIn.encode('utf-8'))).decode('ascii')
-            self.doTestHexInOut(hexIn, expectedHexOut)
+            hex_in = (binascii.hexlify(uni_in.encode('utf-8'))).decode('ascii')
+            self.do_test_hex_in_out(hex_in, expected_hex_out)
 
-    def doTestHexInOut(self, hexIn, expectedHexOut):
-        expectedHexOut = expectedHexOut.lower()
-        binIn = bytes.fromhex(hexIn)
-        expectedBinOut = bytes.fromhex(expectedHexOut)
-        self.assertEqual(len(expectedBinOut), self.DIGEST_SIZE)
+    def do_test_hex_in_out(self, hex_in, expected_hex_out):
+        expected_hex_out = expected_hex_out.lower()
+        bin_in = bytes.fromhex(hex_in)
+        expected_bin_out = bytes.fromhex(expected_hex_out)
+        self.assertEqual(len(expected_bin_out), self.DIGEST_SIZE)
 
         # shortcut passes bytes to constructor
-        sha = hashlib.sha3_256(binIn)
-        self.assertEqual(sha.hexdigest(), expectedHexOut)
-        self.assertEqual(sha.digest(), expectedBinOut)
+        sha = hashlib.sha3_256(bin_in)
+        self.assertEqual(sha.hexdigest(), expected_hex_out)
+        self.assertEqual(sha.digest(), expected_bin_out)
 
         # longer version has an explicit update() call
         sha = hashlib.sha3_256()
-        sha.update(binIn)
-        self.assertEqual(sha.hexdigest(), expectedHexOut)
-        self.assertEqual(sha.digest(), expectedBinOut)
+        sha.update(bin_in)
+        self.assertEqual(sha.hexdigest(), expected_hex_out)
+        self.assertEqual(sha.digest(), expected_bin_out)
 
         # we can also hash the binary value byte by byte
         sha = hashlib.sha3_256()
-        for b in binIn:
-            x = bytearray(1)
-            x[0] = b
-            sha.update(x)
-        self.assertEqual(sha.hexdigest(), expectedHexOut)
-        self.assertEqual(sha.digest(), expectedBinOut)
+        for b_val in bin_in:
+            xxx = bytearray(1)
+            xxx[0] = b_val
+            sha.update(xxx)
+        self.assertEqual(sha.hexdigest(), expected_hex_out)
+        self.assertEqual(sha.digest(), expected_bin_out)
 
 
 if __name__ == "__main__":

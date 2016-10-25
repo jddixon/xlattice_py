@@ -3,20 +3,19 @@
 
 """ Test the C fault-tolerant log for Python. """
 
-# pylint wants this here
-from cFTLogForPy import (
-    initCFTLogger, openCFTLog, log_msg, closeCFTLogger)
-
 import os
+import sys
 import time
 import unittest
-import sys
+
 import xlattice
-sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
-
-# pylint: disable=no-name-in-module
-
 from rnglib import SimpleRNG
+from cFTLogForPy import (
+    # pylint: disable=no-name-in-module
+    init_cft_logger, openCFTLog, log_msg, close_cft_logger)
+
+
+sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
 
 
 class TestCFTLogForPy(unittest.TestCase):
@@ -31,9 +30,9 @@ class TestCFTLogForPy(unittest.TestCase):
     def unique_file_name(self):
         """ Create a locally unique file name under tmp/. """
 
-        log_file = "tmp/foo%04x" % self.rng.nextInt16()
+        log_file = "tmp/foo%04x" % self.rng.next_int16()
         while os.path.exists(log_file):
-            log_file = "tmp/foo%04x" % self.rng.nextInt16()
+            log_file = "tmp/foo%04x" % self.rng.next_int16()
         return log_file
 
     # actual unit tests #############################################
@@ -51,7 +50,7 @@ class TestCFTLogForPy(unittest.TestCase):
         """ Test open and close functions. """
 
         log_file = self.unique_file_name()
-        status = initCFTLogger()
+        status = init_cft_logger()
         status = openCFTLog(log_file)
         self.assertEqual(0, status)
         time.sleep(0.2)
@@ -59,7 +58,7 @@ class TestCFTLogForPy(unittest.TestCase):
             print("openCFTLog failed, status is %d" % status)
         else:
             time.sleep(0.2)
-            status = closeCFTLogger()
+            status = close_cft_logger()
         time.sleep(0.2)
         self.assertEqual(0, status)
         os.path.exists(log_file)
@@ -72,12 +71,12 @@ class TestCFTLogForPy(unittest.TestCase):
 
         def open_log(self):
             """ Open the dummy logger. """
-            initCFTLogger()
+            init_cft_logger()
             return openCFTLog(self.log_file)
 
         def close_log(self):
             """ Close the dummy logger. """
-            return closeCFTLogger()
+            return close_cft_logger()
 
     def test_dumb_logger(self):
         """ Run some simple tests of the DumbLogger. """
@@ -96,7 +95,7 @@ class TestCFTLogForPy(unittest.TestCase):
         """Tests init, log messages, close, with sleeps. """
 
         log_file = self.unique_file_name()
-        initCFTLogger()
+        init_cft_logger()
         log_ndx = openCFTLog(log_file)
         if log_ndx:
             print("openCFTLogger failed, log_ndx is %d" % log_ndx)
@@ -140,7 +139,7 @@ class TestCFTLogForPy(unittest.TestCase):
 
             # print "BRANCHING TO closeCFTLogger"; sys.stdout.flush()   # NOT
             # :1SEEN
-            closeCFTLogger()
+            close_cft_logger()
             # print "closeCFTLogger returns %s" % str(junk);
             # sys.stdout.flush()
 
