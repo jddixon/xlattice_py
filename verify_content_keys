@@ -92,10 +92,10 @@ def main():
     # see docs.python.org/library/argparse.html
     parser = ArgumentParser()
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show args and exit')
 
-    parser.add_argument('-t', '--showTimestamp', action='store_true',
+    parser.add_argument('-t', '--show_timestamp', action='store_true',
                         help='show run timestamp')
 
     # uPath: just the base name (usually Upax or Upax0) we will fix this up
@@ -104,7 +104,7 @@ def main():
     parser.add_argument('-T', '--testing', action='store_true',
                         help='test run - write to ./testU')
 
-    parser.add_argument('-V', '--showVersion', action='store_true',
+    parser.add_argument('-V', '--show_version', action='store_true',
                         help='show version number and date')
 
     parseUsingSHA(parser)
@@ -137,17 +137,17 @@ def main():
     print("THIS CODE HAS NOT BEEN TESTED")
     # END
 
-    if args.verbose or args.showVersion or args.just_show:
+    if args.verbose or args.show_version or args.just_show:
         print(args.pgm_name_and_version)
-    if args.showTimestamp:
+    if args.show_timestamp:
         print('run at %s GMT' % timestamp)   # could be prettier
     else:
         print()                               # there's a comma up there
 
     if args.just_show or args.verbose:
-        print('justShow         = ' + str(args.just_show))
-        print('showTimestamp    = ' + str(args.showTimestamp))
-        print('showVersion      = ' + str(args.showVersion))
+        print('just_show        = ' + str(args.just_show))
+        print('show_timestamp   = ' + str(args.show_timestamp))
+        print('show_version     = ' + str(args.showVersion))
         print('timestamp        = ' + str(args.timestamp))
         show_using_sha(args)
 

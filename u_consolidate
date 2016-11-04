@@ -8,7 +8,7 @@ import stat
 import sys
 from argparse import ArgumentParser
 
-from xlattice import (__version__, __version_date__, Q)
+from xlattice import (__version__, __version_date__)
 from xlattice.u import file_sha1hex
 
 ###############################
@@ -27,26 +27,26 @@ def do_run(options):
     os.makedirs(out_dir, exist_ok=True)
     count = 0
     for i in range(256):
-        subDir = "%s/%02x" % (in_dir, i)
-        if not os.path.exists(subDir):
+        sub_dir = "%s/%02x" % (in_dir, i)
+        if not os.path.exists(sub_dir):
             continue
-        destSubDir = "%s/%02x" % (out_dir, i)
-        os.makedirs(destSubDir, exist_ok=True)
+        dest_sub_dir = "%s/%02x" % (out_dir, i)
+        os.makedirs(dest_sub_dir, exist_ok=True)
         for j in range(256):
-            subSubDir = "%s/%02x" % (subDir, j)
-            if not os.path.exists(subSubDir):
+            sub_sub_dir = "%s/%02x" % (sub_dir, j)
+            if not os.path.exists(sub_sub_dir):
                 continue
-            destSubSubDir = "%s/%02x" % (destSubDir, i)
-            os.makedirs(destSubSubDir, exist_ok=True)
-            files = os.listdir(subSubDir)
+            dest_sub_sub_dir = "%s/%02x" % (dest_sub_dir, i)
+            os.makedirs(dest_sub_sub_dir, exist_ok=True)
+            files = os.listdir(sub_sub_dir)
             if files:
                 for file in files:
                     count = count + 1
-                    path_to_src = os.path.join(subSubDir, file)
+                    path_to_src = os.path.join(sub_sub_dir, file)
                     key = file_sha1hex(path_to_src)
                     # what whould be the the normal case
                     if key == file:
-                        path_to_dest = os.path.join(destSubSubDir, file)
+                        path_to_dest = os.path.join(dest_sub_sub_dir, file)
                         if dont_do_it:
                             print("would be moving\n\t%s to \n\t%s" % (
                                 path_to_src, path_to_dest))
@@ -64,7 +64,7 @@ def do_run(options):
                                 dest_info = None
                             if dest_info:
                                 dest_mode = dest_info[stat.ST_MODE]
-                                if not (dest_mode & stat.S_IWUSR):
+                                if not dest_mode & stat.S_IWUSR:
                                     os.chmod(path_to_dest, 0o644)
                                     # DEBUG
                                     print("changed dest perms")
@@ -90,19 +90,19 @@ def main():
     desc = 'move valid files from input U subdirectory to output subdir'
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-b', '--baseDir', default="./",
+    parser.add_argument('-b', '--base_dir', default="./",
                         help='base directory holding U subdirectories')
 
-    parser.add_argument('-i', '--inDir', type=str,
+    parser.add_argument('-i', '--in_dir', type=str,
                         help='source U directory')
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
-    parser.add_argument('-n', '--maxCount', default='1',
+    parser.add_argument('-n', '--max_count', default='1',
                         help='number of files to move; -1 = all of them')
 
-    parser.add_argument('-o', '--outDir', default='Ue',
+    parser.add_argument('-o', '--out_dir', default='Ue',
                         help='destination U directory')
 
     parser.add_argument('-v', '--verbose', action='store_true',
@@ -111,7 +111,7 @@ def main():
     parser.add_argument('-w', '--writing', action='store_true',
                         help='overwrite existing files')
 
-    parser.add_argument('-z', '--dontDoIt', action='store_true',
+    parser.add_argument('-z', '--dont_do_it', action='store_true',
                         help="don't do anything, just say what you would do")
 
     args = parser.parse_args()
@@ -128,12 +128,12 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.baseDir != './':
-        if not os.path.exists(args.baseDir):
-            print("base directory '%s' does not exist" % args.baseDir)
+    if args.base_dir != './':
+        if not os.path.exists(args.base_dir):
+            print("base directory '%s' does not exist" % args.base_dir)
             parser.print_help()
             sys.exit(1)
-        os.chdir(args.baseDir)
+        os.chdir(args.base_dir)
 
     if not args.in_dir or not os.path.exists(args.in_dir):
         print("input directory '%s' does not exist" % args.in_dir)
@@ -146,19 +146,19 @@ def main():
         sys.exit(1)
 
     # complete setup ------------------------------------------------
-    appName = 'uConsolidate %s' % __version__
+    app_name = 'uConsolidate %s' % __version__
 
     # maybe show options and such -----------------------------------
     if args.verbose or args.just_show:
-        print("%s %s" % (appName, __version_date__))
+        print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('baseDir      = ' + str(args.baseDir))
-        print('maxCount     = ' + str(args.max_count))
-        print('dontDoIt     = ' + str(args.dont_do_it))
-        print('inDir        = ' + str(args.in_dir))
-        print('outDir       = ' + str(args.out_dir))
-        print('justShow     = ' + str(args.just_show))
+        print('base_dir     = ' + str(args.base_dir))
+        print('max_count    = ' + str(args.max_count))
+        print('dont_do_it   = ' + str(args.dont_do_it))
+        print('in_dir       = ' + str(args.in_dir))
+        print('out_dir      = ' + str(args.out_dir))
+        print('just_show    = ' + str(args.just_show))
         print('verbose      = ' + str(args.verbose))
         print('writing      = ' + str(args.writing))
 

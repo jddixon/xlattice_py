@@ -15,41 +15,40 @@ from os.path import join
 from random import randint
 # XXX this import does not succeed until u has been installed; need
 # better understanding of search path
-from ulock import ULock
-import u256x256
+from xlattice.u import ULock
 
 # DEFAULTS for command line arguments ###############################
 # a random number between 00 and 0xff
-subDir = str("%02x" % randint(0, 0xff))
-u_dir = '/var/U'
+SUB_DIR = str("%02x" % randint(0, 0xff))
+U_DIR = '/var/U'
 verbose = False
 
 # UTILITY FUNCTIONS #################################################
 
 
-def genNodeID1(subDir, u_dir='/var/U'):
+def get_node_id1(sub_dir, u_dir=U_DIR):
     lock = ULock(u_dir)
     lock.get_lock()
 
-    dVal = hashlib.sha1()
-    subDir = "%s/%s" % (u_dir, subDir)
-    for root, dirs, files in os.walk(subDir):
+    d_val = hashlib.sha1()
+    sub_dir = "%s/%s" % (u_dir, SUB_DIR)
+    for root, dirs, files in os.walk(sub_dir):
         for name in files:
-            absPath = join(root, name)
+            abs_path = join(root, name)
             try:
-                file = io.FileIO(absPath, "r")
+                file = io.FileIO(abs_path, "r")
                 r = io.BufferedReader(file)
                 while True:
-                    byteStr = r.read(io.DEFAULT_BUFFER_SIZE)
-                    if len(byteStr) == 0:
+                    byte_str = r.read(io.DEFAULT_BUFFER_SIZE)
+                    if len(byte_str) == 0:
                         break
-                    dVal.update(byteStr)
-            except Exception as e:
-                print("unexpected exception reading %s: %s" % (absPath, str(e)))
+                    d_val.update(byte_str)
+            except Exception as exc:
+                print("unexpected exception reading %s: %s" % (abs_path, str(exc)))
                 # otherwise we just ignore it
 
     lock.release_lock()
-    return dVal.hexdigest()        # a string
+    return d_val.hexdigest()        # a string
 
 # COMMAND LINE HANDLING #############################################
 
@@ -57,10 +56,10 @@ def genNodeID1(subDir, u_dir='/var/U'):
 def usage():
     print("usage message")
 
-argVec = sys.argv[1:]
+arg_vec = sys.argv[1:]
 try:
-    opts, args = getopt.getopt(argVec, "hs:u:v",
-                               ["help", "subDir", "u_dir", "verbose"])
+    opts, args = getopt.getopt(arg_vec, "hs:u:v",
+                               ["help", "sub_dir", "u_dir", "verbose"])
 except getopt.GetoptError as err:
     print(str(err))
     usage()
@@ -71,7 +70,7 @@ for o, aVal in opts:
         usage()
         sys.exit()
     elif o in ('-s', '--subDir'):
-        subDir = aVal
+        sub_dir = aVal
 
     elif o in ('-v', '--verbose'):
         showVersion = True
@@ -81,18 +80,18 @@ for o, aVal in opts:
     else:
         assert False, 'unhandled option'
 
-if (not re.match("^[0-9a-fA-F]{2}$", subDir)):
-    print("subDir '%s' should be a two-digit hex number" % subDir)
+if not re.match("^[0-9a-fA-F]{2}$", sub_dir):
+    print("subDir '%s' should be a two-digit hex number" % sub_dir)
     usage()
     sys.exit()
-subDir = subDir.lower()
+sub_dir = sub_dir.lower()
 
-if (verbose):
+if verbose:
     print("pid    = %u" % os.getpid())
-    print("subDir = %s" % subDir)
+    print("subDir = %s" % sub_dir)
     print("uDir   = %s" % u_dir)
     print('')
 
 # notice that the order of names is odd!
-node_id = genNodeID1(subDir, u_dir)
+node_id = get_node_id1(sub_dir, u_dir)
 print(node_id)

@@ -1,10 +1,13 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.4
+    2016-11-04
+        * fix command line utilities and web page                   SLOC 5698
+
 v1.5.3
     2016-10-24
         * rename variables per PEP 8: phase 2; plus some debugging  SLOC 5693
->>>>>>> devel
 v1.5.2
     2016-10-23
         * rename variables per PEP 8; phase 1                       SLOC 5799
@@ -295,7 +298,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+

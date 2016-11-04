@@ -28,8 +28,8 @@ def do_preen(options):
         if os.path.exists(file):
             os.chmod(file, FILE_PERM)
 
-    for dir in ['in', 'tmp', ]:
-        path = os.path.join(b_dir, dir)
+    for dir_ in ['in', 'tmp', ]:
+        path = os.path.join(b_dir, dir_)
         if os.path.exists(path):
             os.chmod(path, DIR_PERM)
 
@@ -47,8 +47,8 @@ def do_preen(options):
                     os.chmod(mid_dir, DIR_PERM)
                     files = os.listdir(mid_dir)
                     for file in files:
-                        pathToLeaf = os.path.join(mid_dir, file)
-                        os.chmod(pathToLeaf, FILE_PERM)
+                        path_to_leaf = os.path.join(mid_dir, file)
+                        os.chmod(path_to_leaf, FILE_PERM)
 
 
 def main():
@@ -59,13 +59,13 @@ def main():
     desc = 'regularize permissions in a U directory structure'
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-b', '--bDir', default='/var/U',
+    parser.add_argument('-b', '--b_dir', default='/var/U',
                         help="path to U directory to be preened (default=/var/U) ")
 
     parser.add_argument('-g', '--group', default='jdd',
                         help="group (default jdd)")
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
     parser.add_argument('-u', '--user', default='jdd',
@@ -86,16 +86,16 @@ def main():
         sys.exit(1)
 
     # complete setup ------------------------------------------------
-    appName = 'uPreen %s' % __version__
+    app_name = 'uPreen %s' % __version__
 
     # maybe show options and such -----------------------------------
     if args.verbose or args.just_show:
-        print("%s %s" % (appName, __version_date__))
+        print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('bDir         = ' + str(args.b_dir))
+        print('b_dir        = ' + str(args.b_dir))
         print('group        = ' + str(args.group))
-        print('justShow     = ' + str(args.just_show))
+        print('just_show    = ' + str(args.just_show))
         print('user         = ' + str(args.user))
         print('verbose      = ' + str(args.verbose))
 

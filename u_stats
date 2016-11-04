@@ -18,7 +18,7 @@ def do_run(options):
     out_path = options.out_path
     verbose = options.verbose
 
-    # XXX options.outPath currently ignored
+    # XXX options.out_path currently ignored
 
     # returns a UStats object
     string = collect_stats(u_path, out_path, verbose)
@@ -58,16 +58,16 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    desc = 'display statistical information on uPath'
+    desc = 'display statistical information on u_path'
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
-    parser.add_argument('-o', '--outPath', type=str,
+    parser.add_argument('-o', '--out_path', type=str,
                         help='destination directory')
 
-    parser.add_argument('-u', '--uPath', default='/var/U',
+    parser.add_argument('-u', '--u_path', default='/var/U',
                         help="source U directory (default=/var/U) ")
 
     parser.add_argument('-v', '--verbose', action='store_true',
@@ -97,9 +97,9 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('justShow     = ' + str(args.just_show))
-        print('outPath      = ' + str(args.out_path))
-        print('uPath        = ' + str(args.u_path))
+        print('just_show    = ' + str(args.just_show))
+        print('out_path     = ' + str(args.out_path))
+        print('u_path       = ' + str(args.u_path))
         print('verbose      = ' + str(args.verbose))
 
     if args.just_show:

@@ -13,7 +13,7 @@ __all__ = ['client_encrypt_hello', 'server_decrypt_hello',
 AES_BLOCK_SIZE = 16
 
 
-def client_encrypt_hello(version, ck):
+def client_encrypt_hello(version, ck_):
     """
     Generate a client Hello message for public key ck  and
     DecimalVersion version.
@@ -59,7 +59,7 @@ def client_encrypt_hello(version, ck):
     msg = iv1 + key1 + salt1 + version1
 
     # hash defaults to SHA1
-    cipher = PKCS1_OAEP.new(ck)     # public key as encryption engine
+    cipher = PKCS1_OAEP.new(ck_)     # public key as encryption engine
     ciphertext = cipher.encrypt(msg)
 
     # The IV, key, and salt are returned to allow the caller to confirm
@@ -70,25 +70,25 @@ def client_encrypt_hello(version, ck):
     return ciphertext, iv1, key1, salt1
 
 
-def server_decrypt_hello(ciphertext, ckPriv):
+def server_decrypt_hello(ciphertext, ck_priv):
     """
     The server uses its private RSA key to decryptthe message from
     the client, discarding the OAEP padding.
     """
 
-    cipher = PKCS1_OAEP.new(ckPriv)
+    cipher = PKCS1_OAEP.new(ck_priv)
     msg = cipher.decrypt(ciphertext)
 
     # split the msg into its constituent bits
     iv1s = msg[0: AES_BLOCK_SIZE]
     key1s = msg[AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE]
     salt1s = msg[3 * AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE + 8]
-    vOffset = 3 * AES_BLOCK_SIZE + 8
-    vBytes = msg[vOffset: vOffset + 4]
-    version =  vBytes[0]        +\
-        (vBytes[1] <<  8) +\
-        (vBytes[2] << 16) +\
-        (vBytes[3] << 24)
+    v_offset = 3 * AES_BLOCK_SIZE + 8
+    v_bytes = msg[v_offset: v_offset + 4]
+    version =  v_bytes[0]        +\
+        (v_bytes[1] <<  8) +\
+        (v_bytes[2] << 16) +\
+        (v_bytes[3] << 24)
     return iv1s, key1s, salt1s, version
 
 
@@ -164,10 +164,10 @@ def client_decrypt_hello_reply(ciphertext, iv1, key1):
     key2 = unpadded[AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE]
     salt2 = unpadded[3 * AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE + 8]
     salt1 = unpadded[3 * AES_BLOCK_SIZE + 8: 3 * AES_BLOCK_SIZE + 16]
-    vBytes = unpadded[3 * AES_BLOCK_SIZE + 16: 3 * AES_BLOCK_SIZE + 20]
-    version2 = vBytes[0]         |\
-        (vBytes[1] <<  8) |\
-        (vBytes[2] << 16) |\
-        (vBytes[3] << 24)
+    v_bytes = unpadded[3 * AES_BLOCK_SIZE + 16: 3 * AES_BLOCK_SIZE + 20]
+    version2 = v_bytes[0]         |\
+        (v_bytes[1] <<  8) |\
+        (v_bytes[2] << 16) |\
+        (v_bytes[3] << 24)
 
     return iv2, key2, salt2, salt1, version2

@@ -4,8 +4,8 @@ import os
 import sys
 import time
 
-from cFTLogForPy import (init_cft_logger, openCFTLog, log_msg, close_cft_logger,
-                         )
+from cFTLogForPy import init_cft_logger, openCFTLog, log_msg, close_cft_logger
+
 
 __all__ = ['LogEntry',
            'ActualLog', 'LogMgr',
@@ -28,7 +28,7 @@ class LogEntry(object):
                  src,            # aka 'by'
                  path):          # path relative to project root
 
-        self._t = tstamp
+        self._tstamp = tstamp
         self._key = key
         self._owner = owner,
         self._length = length
@@ -36,32 +36,38 @@ class LogEntry(object):
         self._path = path
 
     @property
-    def tstamp(self): return self._t
+    def tstamp(self):
+        return self._tstamp
 
     @property
-    def key(self): return self._key
+    def key(self):
+        return self._key
 
     @property
-    def owner(self): return self._owner
+    def owner(self):
+        return self._owner
 
     @property
-    def length(self): return self._length
+    def length(self):
+        return self._length
 
     @property
-    def src(self): return self._src
+    def src(self):
+        return self._src
 
     @property
-    def path(self): return self._path
+    def path(self):
+        return self._path
 
     def __eq__(self, other):
         if not isinstance(other, LogEntry):
             return False
-        return self._t == other._t and\
-            self._key == other._key and\
-            self._owner == other._owner and\
-            self._length == other._length and\
-            self._src == other._src and\
-            self._path == other._path
+        return self._tstamp == other.tstamp and\
+            self._key == other.key and\
+            self._owner == other.owner and\
+            self._length == other.length and\
+            self._src == other.src and\
+            self._path == other.path
 
 
 # -------------------------------------------------------------------
@@ -74,17 +80,17 @@ class ActualLog(object):
         base name is unique.
         """
         # __slots__ = { '__baseName',
-        self._baseName = base_name
+        self._base_name = base_name
         self._mgr = mgr
-        self._logFile = os.path.join(mgr.log_dir, base_name + '.log')
+        self._log_file = os.path.join(mgr.log_dir, base_name + '.log')
         self._lfd = None
 
         # we pass the full path name
-        self.nameCopy = self._logFile.strip()   # should copy the string
+        self.name_copy = self._log_file.strip()   # should copy the string
         # DEBUG
         #print("trying to open log with path '%s'" % self.nameCopy)
         # END
-        lfd = openCFTLog(self.nameCopy)
+        lfd = openCFTLog(self.name_copy)
         if lfd < 0:
             raise RuntimeError("ERROR: initCFTLogger returns %d", lfd)
         else:
@@ -109,7 +115,7 @@ class ActualLog(object):
 
     @property
     def log_file_name(self):
-        return self.nameCopy
+        return self.name_copy
 
 
 class LogMgr(object):
@@ -122,19 +128,19 @@ class LogMgr(object):
         # __slots__ = { }
 
         # a map indexed by the base name of the log
-        self._logMap = {}
-        self._logDir = log_dir
+        self._log_map = {}
+        self._log_dir = log_dir
 
         # THIS IS A PARTIAL FIX: the above assumes that all logs
         # share the same directory
         status = init_cft_logger()
 
     def open(self, base_name):
-        if base_name in self._logMap:
+        if base_name in self._log_map:
             raise ValueError('log named %s already exists' % base_name)
         logHandle = ActualLog(base_name, self)
         if logHandle:
-            self._logMap[base_name] = logHandle
+            self._log_map[base_name] = logHandle
             # DEBUG
             # print("logHandle for %s is %s" % (baseName, str(logHandle)))
             # END
@@ -142,10 +148,10 @@ class LogMgr(object):
 
     def close(self):
         """closes all log files """
-        self._logMap = {}
+        self._log_map = {}
         # print("BRANCHING TO closeClogger()") ; sys.stdout.flush();
         return close_cft_logger(None)
 
     @property
     def log_dir(self):
-        return self._logDir
+        return self._log_dir
