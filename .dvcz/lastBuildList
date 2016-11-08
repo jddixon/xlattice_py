@@ -7,25 +7,25 @@ zPjEShF9rvcNa9XEy1dKpcDz9Szbm2SlxOgM83fDDGtOq4SSCSqndtxrOvXXPB57
 H1mJV/FmerbXRPm5ERJVNIxtLk7Gr2Ce45FVlWyJGMhpfVlKkkk+bRQ02OFfazJI
 GQIDAQAB
 -----END RSA PUBLIC KEY-----
-xlattice_py v1.5.4
-2016-11-04 22:35:07
+xlattice_py v1.5.5
+2016-11-08 01:01:58
 # BEGIN CONTENT #
 xlattice_py
  .dvcz
-  builds 92a0a40753250caaa35fa483d2f24222019978af
+  builds 6e5d7f3e682acd697e806f38f588d90a3ffede63
   copyright 304c14d702dff7c6c2c39729ff62aed7203b3427
-  lastBuildList f0c631b882db71df3a0eaa2d0b12f587fe1f42cd
+  lastBuildList db04a8cec106914661b14b3f827d25fe40e677e6
   license 5977a55c75bb4612004451a56b0b4c22d9d3311d
   projCfg c1df28aef74838e54b27d25154a2771bd380bb32
   projCfg.local 6f331a28e4119fabf5c969c25faf6b6413384282
-  version a85f48d92d7a8c36948005f9744afb1cb61c0df7
+  version d789cd95c5007ca2b602af51a69d4952653f450d
  .gitignore 86e76dc965020518584f7be1e5b312144b94c73d
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES fdff07843dcb7107df681c1356794e99528c2267
+ CHANGES fa4d224ba2eff7f08e7470b6a4a21c2f27e8e7d9
  LICENSE-MIT.md ef87ef0aafe2bb3dc3b3ab29651c52e8add097b4
  MANIFEST.in bb466bed4fed4c5b06566e8bf36abb5846f584d2
- README.md 9263909f6efd149cc520d72ebab83cc106c9471f
- TODO 9dd7dbc14f0a908eeed4a029fdfdbbf33cd401d2
+ README.md ebd47cdee310285f7bc2efb85de4586051b73ad6
+ TODO 2a7d0c62a1ea036ef51332822dc8202a37d3648d
  auto8it 492f276b2834f33de554598641534a07738153c8
  bkp2U e69ea8fe2ca2c3f74bac91f01b34f8948ee42324
  checkCoverage bf2d8d003ad883bf69c137bf1b500c3b7175420c
@@ -100,6 +100,7 @@ xlattice_py
   xlattice_py-1.5.2.tar.gz 63014ce7e16fe884ab6744dc119119203457ef4e
   xlattice_py-1.5.3.tar.gz 541f36b6ed6e7c7f2b470804f7b47ad0594d7b1f
   xlattice_py-1.5.4.tar.gz 00797aba54a9ca2b2b809810600af95c776b3fc1
+  xlattice_py-1.5.5.tar.gz 7f833c4764ac6656869eb7c2cf3b890b16e50d13
  doPyLint.pkg 34a89e1beddad3714377e12425bda7af61e65168
  doPyLint.util 644c628b48300b9e917b2691d8504b0e735a258d
  extsrc
@@ -124,7 +125,7 @@ xlattice_py
    simple-cluster.jpg 6b223ddd25937c1ef75ef328f36fc3436f10bd62
    xl-registration.jpg 15cbf951f9db173a45428b32dcec87aca83bbdf0
    xlattice-2014.jpg f185aaad06db71acd9454f31054c62c56d36f37f
-  index.md a07a284d9a0d9fe0cd4f5db9a45f1001848d0ed1
+  index.md e23eefd9413160f1b1148a5032471d57fabcb084
  installit 113a31c52356c4cf40d0330abbf0d157dbcf89bb
  makeMoreNodeIDs 73f085f649efe7018751883556ff8a491e040614
  moreNodeIDs f663ad65d8309e7c043dc5f029f7610c5adb593d
@@ -164,13 +165,13 @@ xlattice_py
  test_u_lock.py 017dabca1e8e3b1f7d80a3224a6e9ffeadbbf924
  test_u_re_struc.py f55f4d4ff9342a1fe66494715b22bdabfea192e1
  test_u_stats.py 4b81af0c69d6343f7e447c25310fe1333e918c9c
- u_consolidate 69486da21e155739298e408dc76d14d8fd8c4ca5
+ u_consolidate 255261ba827f752033a40d87d097def792d8d3dd
  u_preen 9407cbfb8b6c8e6ab73988b1e00203afef7e5ef3
  u_re_struc 27000f4ba1b1537788657a72a8b46ccd445451c6
  u_stats 082b09893b84671061fa5e8a544a05f0cf862374
  verify_content_keys 599051182ed9674b7d1ef87047fb9277c5f7dc1a
  xlattice
-  __init__.py 5a13ed89f84eee90e0ae9f80f719eb30ad895601
+  __init__.py 81f5bb9f439f045a3b8721aff464b6f2a51b5e34
   crypto.py 88ec08d07a945882136c67c08d39a96c3dfe1817
   ftlog.py e58d0e2363fbc7e4ba04083b655278d4c189446a
   hello_and_reply.py d6f2d759cf6a75afcb4c6afbe3d84512af8e680b
@@ -187,4 +188,4 @@ xlattice_py
   util.py 01d633c854d2a0f702ed526f944e63dae8fbeb99
 # END CONTENT #
 
-UCueSGgvP5UuViuvm17q7cXqKnBfmg4fzLsgka6nd1dLLQNfmsrkxc+WBCDNWbeGkoy56kMm9Db6dTT0Uhzd/DWIggQEecIKOCBn3e5pVPSlTTSBPqt5qctmV0nniLuegFEAN4WxKlZ4S3PQF08pLR1MU+C1VT4eyrh95+vMPwdDTvkKMFWGSnVBxZXiTmw1Y28r3RyE2Uwxx1BAzYFusTx6JwZFk/lrLmcUeeEc7c4a9oRjW5fe5afMiKBFCBUoyv8zx9gQjJ9t7vXA96hcffpw9DsuJUo0J1WoCiILsiXsebwN83zuCQuasrVw43MJlXLTPiOGcouBe8AyFBFhtg==
+CMvglJACqgZLbm7+JRSh2PEYPVBjifBaK30aSDEatxFDxckP/WDmMdiYrDnuxa3gGo0XwnohBG0RyjTVUt3A+LwBNue/ZrEjBBjKSKZBqWZYueex98PMhrj8huLhmaeBLk5OMSAxYfvULptYc6wKJlUbRdAFcJA2TsT/BEwQZElQp7DOnpMx4hWeoZ4z7gxamWwnVRSvU7bOmSwQsTZPsK8gULS3sJ1aa83S+7/zJNPZ21V8Q48+6t37fz+sZgiJK7Golpp1VH11v2XwBG2UxYA770cQJ6UNZOu5Y/k+8g/mq4yf9SZ3aaQt1USI6D8AD4WrNUAOyB722DeooH/v8Q==

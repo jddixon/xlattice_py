@@ -11,10 +11,6 @@ from argparse import ArgumentParser
 from xlattice import (__version__, __version_date__)
 from xlattice.u import file_sha1hex
 
-###############################
-# XXX assumes usingSHA == True
-###############################
-
 
 def do_run(options):
     dont_do_it = options.dont_do_it

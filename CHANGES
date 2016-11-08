@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.5
+    2016-11-07
+        * update web pages                                          SLOC 5700
 v1.5.4
     2016-11-04
         * fix command line utilities and web page                   SLOC 5698
@@ -300,3 +303,7 @@ v0.0.0
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> devel
