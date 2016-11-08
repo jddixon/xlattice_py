@@ -4,9 +4,9 @@ if [ ! -z "${DEV_BASE// }" ]
 then
   cd $DEV_BASE/py/xlattice_py
   
-  autopep8 -ai -r xlattice 
+  autopep8 -air xlattice 
   autopep8 -air xlattice/u 
-  autopep8 -air uConsolidate uPreen uStats verifyContentKeys uReStruc *.py
+  autopep8 -air u_consolidate u_preen u_stats verify_content_keys *.py
   echo "not styling extsrc/ subdir"
   echo "not styling logs/ subdir"
   echo "not styling scripts/ subdir"

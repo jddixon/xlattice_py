@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-10-04
+    * README.md needs to be corrected for utilities                     * DONE
+    * README also needs better explantion of the function of those
+        uitlities
+
 2016-10-24
     * rewrite gen_node_id{1,3} as conventional scripts using argparse
 

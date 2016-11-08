@@ -104,12 +104,17 @@ extern int   initLogBuffers(int);
 extern int   writerInitThreaded(void);
 
 // MODULE-LEVEL METHODS ////////////////////////////////////
+
+/* SYNONYM */
 PyObject* initCFTLogger(PyObject* self, PyObject* args);
 PyObject* openCFTLog(PyObject* self, PyObject* args);
 PyObject* closeCFTLogger(PyObject* self, PyObject* args);
-
-/* SYONYM */
 PyObject* logMsg(PyObject* self, PyObject* args);
+/* END SYNONYMS */
+
+PyObject* init_cft_logger(PyObject* self, PyObject* args);
+PyObject* open_cft_log(PyObject* self, PyObject* args);
+PyObject* close_cft_logger(PyObject* self, PyObject* args);
 PyObject* log_msg(PyObject* self, PyObject* args);
 
 // WRAPPED FUNCTIONS //////////////////////////////////////

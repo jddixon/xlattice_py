@@ -11,10 +11,6 @@ from argparse import ArgumentParser
 from xlattice import (__version__, __version_date__)
 from xlattice.u import file_sha1hex
 
-###############################
-# XXX assumes usingSHA == True
-###############################
-
 
 def do_run(options):
     dont_do_it = options.dont_do_it
@@ -90,19 +86,19 @@ def main():
     desc = 'move valid files from input U subdirectory to output subdir'
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-b', '--baseDir', default="./",
+    parser.add_argument('-b', '--base_dir', default="./",
                         help='base directory holding U subdirectories')
 
-    parser.add_argument('-i', '--inDir', type=str,
+    parser.add_argument('-i', '--in_dir', type=str,
                         help='source U directory')
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
-    parser.add_argument('-n', '--maxCount', default='1',
+    parser.add_argument('-n', '--max_count', default='1',
                         help='number of files to move; -1 = all of them')
 
-    parser.add_argument('-o', '--outDir', default='Ue',
+    parser.add_argument('-o', '--out_dir', default='Ue',
                         help='destination U directory')
 
     parser.add_argument('-v', '--verbose', action='store_true',
@@ -111,7 +107,7 @@ def main():
     parser.add_argument('-w', '--writing', action='store_true',
                         help='overwrite existing files')
 
-    parser.add_argument('-z', '--dontDoIt', action='store_true',
+    parser.add_argument('-z', '--dont_do_it', action='store_true',
                         help="don't do anything, just say what you would do")
 
     args = parser.parse_args()
@@ -128,12 +124,12 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if args.baseDir != './':
-        if not os.path.exists(args.baseDir):
-            print("base directory '%s' does not exist" % args.baseDir)
+    if args.base_dir != './':
+        if not os.path.exists(args.base_dir):
+            print("base directory '%s' does not exist" % args.base_dir)
             parser.print_help()
             sys.exit(1)
-        os.chdir(args.baseDir)
+        os.chdir(args.base_dir)
 
     if not args.in_dir or not os.path.exists(args.in_dir):
         print("input directory '%s' does not exist" % args.in_dir)
@@ -153,12 +149,12 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('baseDir      = ' + str(args.baseDir))
-        print('maxCount     = ' + str(args.max_count))
-        print('dontDoIt     = ' + str(args.dont_do_it))
-        print('inDir        = ' + str(args.in_dir))
-        print('outDir       = ' + str(args.out_dir))
-        print('justShow     = ' + str(args.just_show))
+        print('base_dir     = ' + str(args.base_dir))
+        print('max_count    = ' + str(args.max_count))
+        print('dont_do_it   = ' + str(args.dont_do_it))
+        print('in_dir       = ' + str(args.in_dir))
+        print('out_dir      = ' + str(args.out_dir))
+        print('just_show    = ' + str(args.just_show))
         print('verbose      = ' + str(args.verbose))
         print('writing      = ' + str(args.writing))
 

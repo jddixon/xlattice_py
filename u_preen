@@ -59,13 +59,13 @@ def main():
     desc = 'regularize permissions in a U directory structure'
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-b', '--bDir', default='/var/U',
+    parser.add_argument('-b', '--b_dir', default='/var/U',
                         help="path to U directory to be preened (default=/var/U) ")
 
     parser.add_argument('-g', '--group', default='jdd',
                         help="group (default jdd)")
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
     parser.add_argument('-u', '--user', default='jdd',
@@ -93,9 +93,9 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('bDir         = ' + str(args.b_dir))
+        print('b_dir        = ' + str(args.b_dir))
         print('group        = ' + str(args.group))
-        print('justShow     = ' + str(args.just_show))
+        print('just_show    = ' + str(args.just_show))
         print('user         = ' + str(args.user))
         print('verbose      = ' + str(args.verbose))
 

@@ -2,8 +2,8 @@
 project:xlattice_py
 package:xlattice
 mainlang:py
-version:1.3.7
-versionDate:2016-09-11
+version:1.4.0
+versionDate:2016-10-15
 :?dirs?:
 dir:std:ghpDoc
 dir:std:dist
@@ -57,7 +57,11 @@ py:global:uConsolidate
 py:global:uPreen
 py:global:uStats
 py:global:verifyContentKeys
-py:global:uReStruc
+py:global:u_consolidate
+py:global:u_preen
+py:global:u_re_struc
+py:global:u_stats
+py:global:verify_content_keys
 py:test:test_cft_log_for_py.py
 py:test:test_cft_log_obj.py
 py:test:test_crypto.py

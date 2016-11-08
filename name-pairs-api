@@ -138,10 +138,6 @@ sC                      selfC
 sD                      selfD
 
 stepMajor               step_major
-  a                       aVal
-  b                       bVal
-  c                       cVal
-  d                       dVal
 stepMinor               step_minor
 stepDecimal             step_decimal
 stepMicro               step_micro

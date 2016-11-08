@@ -8,5 +8,6 @@ nosetests \
     --cover-tests \
     --cover-erase \
     --cover-branches \
-    --cover-inclusive  \
+    --cover-inclusive \
+    --cover-package=xlattice \
     test*.py 

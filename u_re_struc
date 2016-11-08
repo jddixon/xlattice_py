@@ -9,15 +9,15 @@ from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collect_stats
-from xlattice.u import UDir, DIR_STRUC_NAMES
+from xlattice.u import UDir
 
 
-def re_struc_u_dir(u_path, newStruc, out_path="", verbose=False):
+def re_struc_u_dir(u_path, new_struc, out_path="", verbose=False):
 
-    # XXX outPath not used
+    # XXX out_path not used
 
     u_dir = UDir.discover(u_path)
-    u_dir.re_struc(newStruc)
+    u_dir.re_struc(new_struc)
 
 
 def main():
@@ -29,16 +29,16 @@ def main():
 
     parser = ArgumentParser(description=desc)
 
-    parser.add_argument('-j', '--justShow', action='store_true',
+    parser.add_argument('-j', '--just_show', action='store_true',
                         help='show options and exit')
 
-    parser.add_argument('-o', '--outPath', type=str,
+    parser.add_argument('-o', '--out_path', type=str,
                         help='optional destination directory')
 
-    parser.add_argument('-s', '--newStrucName', type=str,
+    parser.add_argument('-s', '--new_struc_name', type=str,
                         help="new dirStruc (DIR_FLAT, DIR16x16, or DIR256x256")
 
-    parser.add_argument('-u', '--uPath', type=str,
+    parser.add_argument('-u', '--u_path', type=str,
                         help='path to uDir (no default)')
 
     parser.add_argument('-v', '--verbose', action='store_true',
@@ -58,23 +58,23 @@ def main():
         parser.print_help()
         sys.exit(1)
 
-    if not args.newStrucName or not args.newStrucName in UDir.DIR_STRUC_NAMES:
+    if not args.new_struc_name or not args.new_struc_name in UDir.DIR_STRUC_NAMES:
         print(
             "you must specify a directory structure, one of %s" %
-            DIR_STRUC_NAMES)
+            UDir. DIR_STRUC_NAMES)
         parser.print_help()
         sys.exit(1)
 
     args.u_dir = UDir.discover(args.u_path)
-    args.oldStruc = args.u_dir.dir_struc     # an int
-    args.newStruc = UDir.name_to_dir_struc(args.newStrucName)
-    args.oldStrucName = UDir.dir_struc_to_name(args.oldStruc)
+    args.old_struc = args.u_dir.dir_struc     # an int
+    args.new_struc = UDir.name_to_dir_struc(args.new_struc_name)
+    args.old_struc_name = UDir.dir_struc_to_name(args.old_struc)
 
-    if args.oldStrucName != args.newStrucName:
+    if args.old_struc_name != args.new_struc_name:
         print("restructuring from %s to %s" % (
-            args.oldStrucName, args.newStrucName))
+            args.old_struc_name, args.new_struc_name))
     else:
-        print("retaining %s" % args.oldStrucName)
+        print("retaining %s" % args.old_struc_name)
 
     if args.out_path and os.path.exists(args.out_path):
         print("output directory '%s' already exists" % args.out_path)
@@ -82,16 +82,16 @@ def main():
         sys.exit(1)
 
     if args.verbose or args.just_show:
-        print('justShow     = ' + str(args.just_show))
-        print('uPath        = ' + str(args.u_path))
-        print('outPath      = ' + str(args.out_path))
-        print('old dirStruc = %d, %s' % (args.oldStruc, args.oldStrucName))
-        print('new dirStruc = %d, %s' % (args.newStruc, args.newStrucName))
+        print('just_show    = ' + str(args.just_show))
+        print('u_path       = ' + str(args.u_path))
+        print('out_path     = ' + str(args.out_path))
+        print('old dirStruc = %d, %s' % (args.old_struc, args.old_struc_name))
+        print('new dirStruc = %d, %s' % (args.new_struc, args.new_struc_name))
         print('verbose      = ' + str(args.verbose))
 
     if args.just_show:
         sys.exit(0)
-    re_struc_u_dir(args.u_path, args.newStruc, args.out_path, args.verbose)
+    re_struc_u_dir(args.u_path, args.new_struc, args.out_path, args.verbose)
 
 if __name__ == '__main__':
     main()

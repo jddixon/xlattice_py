@@ -26,11 +26,6 @@ __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
            'file_sha1bin', 'file_sha1hex',
            'file_sha2bin', 'file_sha2hex',
            'file_sha3bin', 'file_sha3hex',
-
-           # SYNONYMS
-           'file_sha1bin', 'file_sha1hex',
-           'file_sha2bin', 'file_sha2hex',
-           'file_sha3bin', 'file_sha3hex',
            ]
 
 # CONSTANTS =========================================================

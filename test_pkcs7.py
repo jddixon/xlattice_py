@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-
 # xlattice_py/testPKCS7.py
 
-import base64
-import hashlib
-import os
+""" test PKCS7 padding """
+
 import time
 import unittest
 
 from rnglib import SimpleRNG
-from xlattice.crypto import *
+from xlattice.crypto import(
+    AES_BLOCK_SIZE,
+    pkcs7_padding, add_pkcs7_padding, strip_pkcs7_padding)
 
 
-class TestPKCS7Padding (unittest.TestCase):
+class TestPKCS7Padding(unittest.TestCase):
+    """ test PKCS7 padding """
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
@@ -24,52 +25,54 @@ class TestPKCS7Padding (unittest.TestCase):
 
     # actual unit tests #############################################
 
-    def testPadding(self):
+    def test_padding(self):
+        """ test PKCS7 padding """
 
         seven = bytearray(7)
-        self.rng.nextBytes(seven)
+        self.rng.next_bytes(seven)
 
         fifteen = bytearray(15)
-        self.rng.nextBytes(fifteen)
+        self.rng.next_bytes(fifteen)
 
         sixteen = bytearray(16)
-        self.rng.nextBytes(sixteen)
+        self.rng.next_bytes(sixteen)
 
         seventeen = bytearray(17)
-        self.rng.nextBytes(seventeen)
+        self.rng.next_bytes(seventeen)
 
-        padding = pkcs7Padding(seven, AES_BLOCK_SIZE)
+        padding = pkcs7_padding(seven, AES_BLOCK_SIZE)
         self.assertEqual(len(padding), AES_BLOCK_SIZE - 7)
         self.assertEqual(padding[0], AES_BLOCK_SIZE - 7)
 
-        padding = pkcs7Padding(fifteen, AES_BLOCK_SIZE)
+        padding = pkcs7_padding(fifteen, AES_BLOCK_SIZE)
         self.assertEqual(len(padding), AES_BLOCK_SIZE - 15)
         self.assertEqual(padding[0], AES_BLOCK_SIZE - 15)
 
-        padding = pkcs7Padding(sixteen, AES_BLOCK_SIZE)
+        padding = pkcs7_padding(sixteen, AES_BLOCK_SIZE)
         self.assertEqual(len(padding), AES_BLOCK_SIZE)
         self.assertEqual(padding[0], 16)
 
-        padding = pkcs7Padding(seventeen, AES_BLOCK_SIZE)
-        expectedLen = 2 * AES_BLOCK_SIZE - 17
-        self.assertEqual(len(padding), expectedLen)
-        self.assertEqual(padding[0], expectedLen)
+        padding = pkcs7_padding(seventeen, AES_BLOCK_SIZE)
+        expected_len = 2 * AES_BLOCK_SIZE - 17
+        self.assertEqual(len(padding), expected_len)
+        self.assertEqual(padding[0], expected_len)
 
-        paddedSeven = addPKCS7Padding(seven, AES_BLOCK_SIZE)
-        unpaddedSeven = stripPKCS7Padding(paddedSeven, AES_BLOCK_SIZE)
-        self.assertEqual(seven, unpaddedSeven)
+        padded_seven = add_pkcs7_padding(seven, AES_BLOCK_SIZE)
+        unpadded_seven = strip_pkcs7_padding(padded_seven, AES_BLOCK_SIZE)
+        self.assertEqual(seven, unpadded_seven)
 
-        paddedFifteen = addPKCS7Padding(fifteen, AES_BLOCK_SIZE)
-        unpaddedFifteen = stripPKCS7Padding(paddedFifteen, AES_BLOCK_SIZE)
-        self.assertEqual(fifteen, unpaddedFifteen)
+        paddd_fifteen = add_pkcs7_padding(fifteen, AES_BLOCK_SIZE)
+        unpaddd_fifteen = strip_pkcs7_padding(paddd_fifteen, AES_BLOCK_SIZE)
+        self.assertEqual(fifteen, unpaddd_fifteen)
 
-        paddedSixteen = addPKCS7Padding(sixteen, AES_BLOCK_SIZE)
-        unpaddedSixteen = stripPKCS7Padding(paddedSixteen, AES_BLOCK_SIZE)
-        self.assertEqual(sixteen, unpaddedSixteen)
+        padded_sixteen = add_pkcs7_padding(sixteen, AES_BLOCK_SIZE)
+        unpadded_sixteen = strip_pkcs7_padding(padded_sixteen, AES_BLOCK_SIZE)
+        self.assertEqual(sixteen, unpadded_sixteen)
 
-        paddedSeventeen = addPKCS7Padding(seventeen, AES_BLOCK_SIZE)
-        unpaddedSeventeen = stripPKCS7Padding(paddedSeventeen, AES_BLOCK_SIZE)
-        self.assertEqual(seventeen, unpaddedSeventeen)
+        padded_seventeen = add_pkcs7_padding(seventeen, AES_BLOCK_SIZE)
+        unpadded_seventeen = strip_pkcs7_padding(
+            padded_seventeen, AES_BLOCK_SIZE)
+        self.assertEqual(seventeen, unpadded_seventeen)
 
 
 if __name__ == '__main__':

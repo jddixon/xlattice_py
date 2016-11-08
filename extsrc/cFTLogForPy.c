@@ -216,22 +216,31 @@ LogForPy_new(PyObject *self, PyObject *args, PyObject *kwdict)
 static PyMethodDef cFTLogForPyMethods[] = {
     // METH_VARARGS means that the arguments are passed as a tuple
     // which will be parsed with PyArg_ParseTuple()
-    {"initCFTLogger",   initCFTLogger,      METH_VARARGS,
+    {"init_cft_logger",   initCFTLogger,      METH_VARARGS,
         "init data structures, start background thread"},
-    {"openCFTLog",      openCFTLog,         METH_VARARGS,
+    {"open_cft_log",      openCFTLog,         METH_VARARGS,
         "open named log file"},
+    {"close_cft_logger",  closeCFTLogger,     METH_VARARGS,
+        "stop background thread, join, close log file"},
     {"log_msg",         log_msg,             METH_VARARGS,
         "write a message to the log"},
-    {"closeCFTLogger",  closeCFTLogger,     METH_VARARGS,
-        "stop background thread, join, close log file"},
 
     /* DEFINED IN THIS FILE, ABOVE --------------------- */
     {"LogForPy", (PyCFunction)LogForPy_new, METH_VARARGS|METH_KEYWORDS, 
         LogForPy_new__doc__},
 
-    /* SYNONYM */
+    /* BEGIN SYNONYMS */
+    /* XXX next two items added 2016-10-18 without necessary edits */
+    {"initCFTLogger",   initCFTLogger,      METH_VARARGS,
+        "init data structures, start background thread"},
+    {"openCFTLog",      openCFTLog,         METH_VARARGS,
+        "open named log file"},
+    {"closeCFTLogger",  closeCFTLogger,     METH_VARARGS,
+        "stop background thread, join, close log file"},
     {"logMsg",          logMsg,             METH_VARARGS,
         "write a message to the log"},
+
+    /* END SYNONYMS */
 
     /* END OF LIST */
     {NULL, NULL, 0, NULL}       /* sentinel = end of this list */

@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
-# testGetExclusions.py
+# test_get_exclusions.py
 
 """ Test the glob/wildcard functions in xlattice/util.py """
 
-import hashlib
-import os
-import re
-import shutil
 import time
 import unittest
 
-from xlattice.util import getExclusions, makeExRE
+from xlattice.util import get_exclusions, make_ex_re
 from rnglib import SimpleRNG
 
 
@@ -23,27 +19,29 @@ class TestGetExclusions(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def doTestForExpectedExclusions(self, exRE):
-        # should always match
-        self.assertIsNotNone(exRE.match('merkle.pyc'))
-        self.assertIsNotNone(exRE.match('.svn'))
-        self.assertIsNotNone(exRE.match('.foo.swp'))          # vi backup file
-        self.assertIsNotNone(exRE.match('junkEverywhere')
-                             )    # begins with 'junk'
-        self.assertIsNotNone(exRE.match('.merkle'))
+    def do_test_expected_exclusions(self, exre):
+        """ Should always match. """
+        self.assertIsNotNone(exre.match('merkle.pyc'))
+        self.assertIsNotNone(exre.match('.svn'))
+        self.assertIsNotNone(exre.match('.foo.swp'))       # vi backup file
+        self.assertIsNotNone(exre.match('junkEverywhere')
+                             )  # begins with 'junk'
+        self.assertIsNotNone(exre.match('.merkle'))
 
-    def doTestForExpectedMatches(self, matchRE, names):
+    def do_test_expected_matches(self, match_re, names):
+        """ Should always match. """
         for name in names:
-            self.assertIsNotNone(matchRE.match(name))
+            self.assertIsNotNone(match_re.match(name))
 
-    def doTestForExpectedMatchFailures(self, matchRE, names):
+    def do_test_expected_match_failures(self, match_re, names):
+        """ Should never match. """
         for name in names:
-            m = matchRE.match(name)
-            if m:
+            m__ = match_re.match(name)
+            if m__:
                 print("WE HAVE A MATCH ON '%s'" % name)
             # self.assertEquals( None, where )
 
-    def doTestGetExclusions(self, projDir):
+    def do_test_get_exclusions(self, proj_dir):
         """
         This test assumes that there is a local .gitignore containing
         at least '.merkle', '.svn*' '*.swp', and 'junk*'
@@ -51,15 +49,16 @@ class TestGetExclusions(unittest.TestCase):
 
         # convert .gitignore's contents to a list of parenthesized
         # regular expressions
-        globs = getExclusions(projDir, '.gitignore')
+        globs = get_exclusions(proj_dir, '.gitignore')
         self.assertIsNotNone(len(globs) > 0)
 
-        exRE = makeExRE(globs)
-        self.assertIsNotNone(exRE is not None)
-        self.doTestForExpectedExclusions(exRE)
+        exre = make_ex_re(globs)
+        self.assertIsNotNone(exre is not None)
+        self.do_test_expected_exclusions(exre)
 
-    def testGetExclusions(self):
-        self.doTestGetExclusions('.')
+    def test_get_exclusions(self):
+        """ Exercise get_exclusions and related functions. """
+        self.do_test_get_exclusions('.')
 
 if __name__ == '__main__':
     unittest.main()
