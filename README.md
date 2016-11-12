@@ -1,5 +1,4 @@
 # xlattice_py
-<h1 class="libTop">xlattice_py</h1>
 
 [XLattice](https://jddixon.github.io/xlattice)
 utilty functions for Python.
@@ -58,7 +57,7 @@ to manage the store is `u_dir`.
       -u USER, --user USER  user (login, default jdd)
       -v, --verbose         be chatty
 
-### u_re_struc
+### u\_re_struc
 
     usage: u_re_struc [-h] [-j] [-o OUT_PATH] [-s NEW_STRUC_NAME] [-u U_PATH] [-v]
 

@@ -1,6 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.6
+    2016-11-11
+        * crude fix to xlattice/crypto.py problems
+        * more PEP 8 and minor bug fixes                            SLOC 5706
 v1.5.5
     2016-11-07
         * update web pages                                          SLOC 5700
@@ -303,7 +307,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+

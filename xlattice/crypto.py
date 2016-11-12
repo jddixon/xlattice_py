@@ -149,8 +149,11 @@ def collect_pem_rsa_public_key(first_line, lines):
     single string.
     """
 
+    # XXX PROBLEM: PyCrypto omits "RSA ", pycryptodome doesn't.
+    #   Including 'RSA ' appears to be correct.
     first_line = first_line.strip()
-    if first_line != '-----BEGIN RSA PUBLIC KEY-----':
+    if first_line != '-----BEGIN RSA PUBLIC KEY-----' and \
+            first_line != '-----BEGIN PUBLIC KEY-----':
         raise RuntimeError('PEM public key cannot begin with %s' % first_line)
     found_last = False
 
@@ -167,7 +170,8 @@ def collect_pem_rsa_public_key(first_line, lines):
         #print("%2d %s" % (ndx, line))
         # END
         ret = ret + [line]
-        if line == '-----END RSA PUBLIC KEY-----':
+        if line == '-----END RSA PUBLIC KEY-----' or  \
+                line == '-----END PUBLIC KEY-----':
             found_last = True
             break
 

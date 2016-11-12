@@ -44,6 +44,7 @@ class TestRSA(unittest.TestCase):
         sk_priv = RSA.generate(1024)     # cheap key for testing
         key_file = os.path.join(node_dir, 'skPriv.pem')
         with open(key_file, 'wb') as file:
+            # written as bytes
             file.write(sk_priv.exportKey('PEM'))
 
         self.assertTrue(os.path.exists(node_dir))
@@ -67,7 +68,8 @@ class TestRSA(unittest.TestCase):
         # write the public key in OpenSSH format
         o_file = os.path.join(node_dir, 'sk.openssh')
         with open(o_file, 'wb') as file:
-            file.write(sk_.exportKey('OpenSSH'))
+            # written as bytes, but is string
+            file.write(sk_.exportKey('OpenSSH').encode('utf-8'))
 
         sk_priv2 = RSA.importKey(der_data)
         sk2 = sk_priv2.publickey()

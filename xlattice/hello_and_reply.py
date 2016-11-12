@@ -1,7 +1,7 @@
 # xlattice_py/xlattice/helloAndReply.py
 
 from Crypto.Cipher import PKCS1_OAEP, AES
-from Crypto.PublicKey import RSA
+# from Crypto.PublicKey import RSA
 from rnglib import SystemRNG
 from xlattice.crypto    import AES_BLOCK_SIZE,\
     add_pkcs7_padding, strip_pkcs7_padding
@@ -85,7 +85,7 @@ def server_decrypt_hello(ciphertext, ck_priv):
     salt1s = msg[3 * AES_BLOCK_SIZE: 3 * AES_BLOCK_SIZE + 8]
     v_offset = 3 * AES_BLOCK_SIZE + 8
     v_bytes = msg[v_offset: v_offset + 4]
-    version =  v_bytes[0]        +\
+    version = v_bytes[0]   +\
         (v_bytes[1] <<  8) +\
         (v_bytes[2] << 16) +\
         (v_bytes[3] << 24)
@@ -131,11 +131,11 @@ def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
     reply = iv2 + key2 + salt2 + salt1 + version2
 
     # add PKCS7 padding
-    paddedReply = add_pkcs7_padding(reply, AES_BLOCK_SIZE)
+    padded_reply = add_pkcs7_padding(reply, AES_BLOCK_SIZE)
 
     # encrypt the reply using iv1, key1, CBC.
     cipher = AES.new(key1, AES.MODE_CBC, iv1)
-    ciphertext = iv1 + cipher.encrypt(paddedReply)
+    ciphertext = iv1 + cipher.encrypt(padded_reply)
 
     return iv2, key2, salt2, ciphertext
 
@@ -151,9 +151,9 @@ def client_decrypt_hello_reply(ciphertext, iv1, key1):
     iv1 = bytes(iv1)
     key1 = bytes(key1)
 
-    iv = ciphertext[0:AES_BLOCK_SIZE]
+    iv_ = ciphertext[0:AES_BLOCK_SIZE]
     # DEBUG - handle this more sensibly!
-    if iv != iv1:
+    if iv_ != iv1:
         print("server reply IV is not what was expected")
     # END
     cipher = AES.new(key1, AES.MODE_CBC, iv1)
