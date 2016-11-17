@@ -77,9 +77,28 @@ to manage the store is `u_dir`.
 
 ### u_stats
 
+A utility for displaying information on content-keyed data storage
+directories.  Typical ouput looks like:
+
+    statistics for /var/app/sharedev/U
+      dirStruc:           DIR256x256
+      usingSHA:          QQQ.USING_SHA1
+
+      subDirectories:            256
+      subSubDirectories:       22659
+      leaf files:              27910
+      odd files:                   1
+      largest leaf file:     8860904
+      unexpected at top:           0
+
+The second line reports the directory structure, the third that the
+content keys are calculated using SHA1.
+
+The command `u_stats -h` returns:
+
     usage: u_stats [-h] [-j] [-o OUT_PATH] [-u U_PATH] [-v]
 
-    display statistical information on u_path
+    display statistical information on content-keyed directory at u_path
 
     optional arguments:
       -h, --help            show this help message and exit

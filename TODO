@@ -1,5 +1,20 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-11-17
+    * replace os.listdir with scandir in xlattice/stats                 * DONE
+        - correct leaf file counts                                      * DONE
+    * u_stats does not handle DIR_FLAT correctly
+        - wrong subdir, subsuddir counts (there aren't any!)
+        - wrong leaf counts (should equal or subsume top level counts)
+    * need testing of collect_stats with DIR16x16 and DIR256x256
+        - verify handling of empty uDir is correct
+        - verify handling of SHA{1,2,3} is correct
+    * make collecting size data optional 
+        - currntly only use is trivial: getting largest file size
+        - collect real stats on file sizes (mean, median, mode, etc)
+        - consider collecting stats on evenness of distribution
+            * files per bucket, etc
+
 2016-11-11
     * after re-installing PyCrypto, found an error in 
         Crypto/PublicKey/RSA.py around line 352; edited to fix but

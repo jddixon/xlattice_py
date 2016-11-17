@@ -12,6 +12,11 @@ from argparse import ArgumentParser
 from xlattice import (__version__, __version_date__, QQQ)
 from xlattice.u import (file_sha1hex, UDir,)
 
+try:
+    from os.scandir import scandir
+except ImportError:
+    from scandir import scandir
+
 ###############################
 # XXX assumes usingSHA == True
 ###############################
@@ -89,15 +94,27 @@ def scan_leaf_dir(path_to_dir, obj):
     # END
     file_count = 0
     odd_count = 0
-    for file in os.listdir(path_to_dir):
+
+    for entry in scandir(path_to_dir):
         # DEBUG
-        # print("      leaf file: %s" % file)
+        #print("      leaf file: %s" % entry.name)
         # END
-        match = SHA1_RE.match(file)
+        if entry.is_symlink():
+            # DEBUG
+            # print("          SYM LINK")
+            # eND
+            continue
+        name = entry.name
+        match = SHA1_RE.match(name)
         if match:
+            # DEBUG
+            #print("      MATCH")
+            # END
             file_count = file_count + 1
-            path_to_file = os.path.join(path_to_dir, file)
-            size = os.stat(path_to_file).st_size
+            size = entry.stat().st_size
+            # DEBUG
+            # print("      SIZE = %9d" % size)
+            # END
             if size < obj.min_leaf_bytes:
                 obj._minLeafBytes = size
             if size > obj.max_leaf_bytes:
@@ -109,6 +126,9 @@ def scan_leaf_dir(path_to_dir, obj):
 
 
 def collect_stats(u_path, out_path, verbose):
+    """
+    Drop-in replacement for collect_stats(), using scandir instead of listdir.
+    """
 
     stats = UStats()        # we will return this
 
@@ -122,8 +142,8 @@ def collect_stats(u_path, out_path, verbose):
     stats._dir_struc = u_dir.dir_struc
 
     # upper-level files / subdirectories
-    top_files = os.listdir(u_path)
-    for top_file in top_files:
+    for top_entry in scandir(u_path):
+        top_file = top_entry.name
 
         # -- upper-level files ----------------------------------------
 
@@ -138,25 +158,27 @@ def collect_stats(u_path, out_path, verbose):
             stats._sub_dir_count += 1
             path_to_sub_dir = os.path.join(u_path, top_file)
             # DEBUG
-            #print("SUBDIR: %s" % pathToSubDir)
+            # print("SUBDIR: %s" % path_to_sub_dir)
             # END
-            mid_files = os.listdir(path_to_sub_dir)
-            for mid_file in mid_files:
+            for mid_entry in scandir(path_to_sub_dir):
+                mid_file = mid_entry.name
                 match2 = HEX2_RE.match(mid_file)
                 if match2:
+
                     stats._sub_sub_dir_count += 1
                     path_to_sub_sub_dir = os.path.join(
                         path_to_sub_dir, mid_file)
                     # DEBUG
-                    #print("  SUBSUBDIR: %s" % path_to_sub_sub_dir)
+                    # print("  SUBSUBDIR: %s" % path_to_sub_sub_dir)
                     # END
-                    for sub_sub_file in os.listdir(path_to_sub_sub_dir):
-                        scan_leaf_dir(path_to_sub_sub_dir, stats)
+                    # XXX WAS MAJOR ERROR
+                    # for sub_sub_file in os.listdir(path_to_sub_sub_dir):
+                    scan_leaf_dir(path_to_sub_sub_dir, stats)
 
                 # -- other upper-level files --------------------------
                 else:
                     path_to_oddity = os.path.join(path_to_sub_dir, mid_file)
-                    # print("unexpected: %s" % pathToOddity)
+                    print("unexpected: %s" % path_to_oddity)
                     stats._odd_count += 1
 
         #-- other upper-level files -----------------------------------

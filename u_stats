@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/uStats
+# ~/dev/py/xlattice_py/u_stats
+
+"""
+Uses xlattice.stats.collect_stats, which uses scandir() instead
+of listdir().
+"""
 
 import os
 import stat
@@ -58,7 +63,7 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    desc = 'display statistical information on u_path'
+    desc = 'display statistical information on content-keyed directory at u_path'
     parser = ArgumentParser(description=desc)
 
     parser.add_argument('-j', '--just_show', action='store_true',
