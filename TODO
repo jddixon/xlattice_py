@@ -1,5 +1,15 @@
 ~/dev/py/xlattice_py/TODO
 
+<<<<<<< HEAD
+=======
+2016-11-18
+    * modify u_stats to report biggest leaf count, path to it           * DONE
+    * test_u_stats.py needs to do some testing !
+        - preferably against xl_test_data
+    * verify_content_keys needs testing
+    * nodeID: the file should still be called that, not 'node_id'       * FIXED
+
+>>>>>>> devel
 2016-11-17
     * replace os.listdir with scandir in xlattice/stats                 * DONE
         - correct leaf file counts                                      * DONE

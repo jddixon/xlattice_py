@@ -6,7 +6,6 @@ import hashlib
 import os
 import shutil
 import sys
-import time
 import unittest
 from xlattice.ftlog import LogMgr
 
@@ -16,7 +15,7 @@ sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 class TestTwoLogs(unittest.TestCase):
 
     def setUp(self):
-        now = time.time()
+        pass
 
     def tearDown(self):
         pass
@@ -32,10 +31,8 @@ class TestTwoLogs(unittest.TestCase):
 
         # -- open ---------------------------------------------------
         def show_log_handle(handle):
-            print("HANDLE: %s as %d writing to %s" % (handle.base_name,
-                                                      handle.lfd,
-                                                      handle.logFile,
-                                                      ))
+            print("HANDLE: %s as %d writing to %s" % (
+                handle.base_name, handle.lfd, handle.logFile,))
         mgr = LogMgr('logs')
         foo_log = mgr.open('foo')
         foo_log.log('oh hello, foo')

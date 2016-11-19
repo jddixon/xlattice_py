@@ -43,6 +43,11 @@ def do_run(options):
     if stats.min_leaf_bytes != sys.maxsize:
         print("  smallest leaf file: %10d" % stats.min_leaf_bytes)
     print("  largest leaf file:  %10d" % stats.max_leaf_bytes)
+<<<<<<< HEAD
+=======
+    print("  biggest leaf count: %10d" % stats.biggest_leaf_count)
+    print("  path to biggest:    %10s" % stats.path_to_biggest_leaf_count)
+>>>>>>> devel
 
     if stats.has_l:
         print("  L present")

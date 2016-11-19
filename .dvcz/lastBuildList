@@ -7,6 +7,7 @@ zPjEShF9rvcNa9XEy1dKpcDz9Szbm2SlxOgM83fDDGtOq4SSCSqndtxrOvXXPB57
 H1mJV/FmerbXRPm5ERJVNIxtLk7Gr2Ce45FVlWyJGMhpfVlKkkk+bRQ02OFfazJI
 GQIDAQAB
 -----END PUBLIC KEY-----
+<<<<<<< HEAD
 xlattice_py v1.5.7
 2016-11-17 22:56:32
 # BEGIN CONTENT #
@@ -26,6 +27,27 @@ xlattice_py
  MANIFEST.in bb466bed4fed4c5b06566e8bf36abb5846f584d2
  README.md 9a1470015a0c6117628134a568572ca270cb05e7
  TODO 1d5da293a748968f6cf3f6dcafefc801a9ecc373
+=======
+xlattice_py v1.5.8
+2016-11-19 00:48:11
+# BEGIN CONTENT #
+xlattice_py
+ .dvcz
+  builds 6343938220f1229db9674ef8e30cdedae9190b3c
+  copyright 304c14d702dff7c6c2c39729ff62aed7203b3427
+  lastBuildList 1736baf5f15091245b0cae1eb871631f5c36e8ee
+  license 5977a55c75bb4612004451a56b0b4c22d9d3311d
+  projCfg c1df28aef74838e54b27d25154a2771bd380bb32
+  projCfg.local 6f331a28e4119fabf5c969c25faf6b6413384282
+  version 879f3936fbf540938dcd8c228d37eef576d58083
+ .gitignore 86e76dc965020518584f7be1e5b312144b94c73d
+ .gitignore.local e104df60264231f9f80f84bca21336441b04250e
+ CHANGES fb0d6dc38b7f7fae51325eb95a9608c6fabe3c13
+ LICENSE-MIT.md ef87ef0aafe2bb3dc3b3ab29651c52e8add097b4
+ MANIFEST.in bb466bed4fed4c5b06566e8bf36abb5846f584d2
+ README.md 9a1470015a0c6117628134a568572ca270cb05e7
+ TODO 790abdeb477a12224332c425db1d0b3e1705ffd1
+>>>>>>> devel
  auto8it 492f276b2834f33de554598641534a07738153c8
  bkp2U b0ce91974308a94f23de944ce91f629ff9d69ec5
  checkCoverage bf2d8d003ad883bf69c137bf1b500c3b7175420c
@@ -103,6 +125,10 @@ xlattice_py
   xlattice_py-1.5.5.tar.gz 7f833c4764ac6656869eb7c2cf3b890b16e50d13
   xlattice_py-1.5.6.tar.gz ae4a60156f4cbdfc8b3a53210b926735669afc7e
   xlattice_py-1.5.7.tar.gz 6715e9f90b29325ef6594f79d60bb4bea30ccc7c
+<<<<<<< HEAD
+=======
+  xlattice_py-1.5.8.tar.gz 031d431d3412400c947996e6d34f0a63b086563e
+>>>>>>> devel
  doPyLint 2516001bb0257781906c547c40dfe48beee2a9f3
  extsrc
   README c8403a804377a5daae614489ffb34894a2c3b9d8
@@ -153,33 +179,44 @@ xlattice_py
  test_get_exclusions.py 233b82df4f642a60875ccd8b96677c734aa1778c
  test_hello_and_reply.py 4b003beddf6eee41fa1dbff878abf8f950ac69ac
  test_lib_ev.py a37f691bb4145c9b8c4afb4fb2ffc6970bece626
- test_log_mgr.py 9072aa95bfd470d1a3758151569918e5940cb052
- test_node.py 000b5360d89845bd8a08f1abcaab9efaa7fc8452
+ test_log_mgr.py 41e427f7e91323f2cf552159d4499c00de25db1d
+ test_node.py 01ef330ed1b00f2700e3f65fe587aa130b547af1
  test_pkcs7.py e034c283a7725f734c0468bcce301672ca6c8ba2
  test_proc_lock.py 43106fd3f66fa9c6ed074a124b7eb3dc6f772b3a
  test_regexes_from_wildcards.py 5e260eb6b8646abc567251256ab708080d98cb07
  test_rsa.py 5dd8b883386c379deebbdbc1289d6375cf64da1c
  test_sha3_256.py 5eaf8f0a58132d9a39138cc91c3c5c94ac137acc
  test_timestamp.py 3d4e2f9d4108fc55915772e910aa675aa8c7e183
- test_two_logs.py f6aeae507d104684cd8cf9dd25c062978ab606b0
+ test_two_logs.py 7ed47691016c3279e8002f8e49f0e224f4574b6b
  test_u.py 3a64efff08bd378819453dbbcfe00de10f527bc0
  test_u_lock.py 017dabca1e8e3b1f7d80a3224a6e9ffeadbbf924
  test_u_re_struc.py f55f4d4ff9342a1fe66494715b22bdabfea192e1
- test_u_stats.py 4b81af0c69d6343f7e447c25310fe1333e918c9c
+ test_u_stats.py 141882bfbfd8080afa598d37cbb14916497f61fb
  u_consolidate 255261ba827f752033a40d87d097def792d8d3dd
- u_preen 9407cbfb8b6c8e6ab73988b1e00203afef7e5ef3
+ u_preen 7473bc34b01b45f6ef0e1da0d946684f9febacf7
  u_re_struc 27000f4ba1b1537788657a72a8b46ccd445451c6
+<<<<<<< HEAD
  u_stats 64bbed57ce53f3a7e55ed8a814496767d452a900
  verify_content_keys 599051182ed9674b7d1ef87047fb9277c5f7dc1a
  xlattice
   __init__.py d21012ca9e01b6c894325cea62b33dae96599d1a
+=======
+ u_stats d91e4282554db7dc163de845f44ec8a5c46576e8
+ verify_content_keys d6269e8db709b89abb8f236ee4463fe2cc981e34
+ xlattice
+  __init__.py 6115d89a227189224014a54e07d21182812553d8
+>>>>>>> devel
   crypto.py b694e08ca59a485b223c8af679a3686c863f1cbd
   ftlog.py e58d0e2363fbc7e4ba04083b655278d4c189446a
   hello_and_reply.py c03fddfce932d1fd0f7aee3ee0f80cd08ffe204e
   lfs.py e67b98db8691cc93c7a3cc33a8eacf1c1503c5e3
   node.py 0a18dc9fa8f60b948c7e677cadbed2090f9bae0e
   proc_lock.py 38f64257d0af490e54004a2f7ca33b5f37b287da
+<<<<<<< HEAD
   stats.py eebe43f9d3585426ca18bc9cf2dd98d470ab4e73
+=======
+  stats.py 10ce4035135f570655badf2b2f3660780f0e4a12
+>>>>>>> devel
   u
    __init__.py 3af107267192f6096f8a446aaae470d2099ce653
    u16.pyXXX 9458f1116eedca53dbac9ee660bc8319bc1b33f5
@@ -189,4 +226,8 @@ xlattice_py
   util.py 01d633c854d2a0f702ed526f944e63dae8fbeb99
 # END CONTENT #
 
+<<<<<<< HEAD
 lhWvG3gR1eRpXvAnjrKktZB/GZfRl3y9b4ss9b6+iq+bmpPs8SOXTA1zevlUSmBXM4yanuoGp5QCSjyHvveThrXRQwq5H2lWoawwkp1Hq5N/0wjuosiZz+GwAbcocpSZpOXhZIgPW+acjom/v3NPVtNdsEnBLzbcW1XygfluVNqH91hmT1R4XIpFSct/OqeACjiTPFe6vw+eVEJRztOXQRDKTdUbHfIn0Tx719y1lyfAAvWBjgGkrVaQezUBiqmeuZnTZJQy2ZSFLKszzZhJu8JpUz5YTNbGL2UsBS7981ePMWk225fC0vjfTzxjKRzosxD3ahK191gM8EEidsTqsw==
+=======
+g6MultVUYwZ5xGcx/4+kkq+hM9FFWybZ6YW01sD1arM2mk5yfDjagOaQKPApFxsVJOkMhra5C0Qzd93NmUBUTzoY00Imd11qJnyZwy97ct2kWKygqC1wjxXu9NQueocWInebeHc/NHCRPn59d9xsOJHsfg2ZhIsfqWd+eULj+KDB02LkVzXTpaL4YeWu4Ku53vgocSZe8DgctN+JcRXPL+mJae2/DfMTkkRpTAm+a13bZb7oKrvzovM11lZK/l/ZMNDQM8hOKPakt/nvoyCOF435xGaqIjdLZ+x4UF/CSgx1xScPK1WZ7hqQduOLjDLcGVED1oeNSJcii2pD/zquAQ==
+>>>>>>> devel

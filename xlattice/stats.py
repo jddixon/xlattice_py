@@ -44,6 +44,11 @@ class UStats:
         self._max_leaf_bytes = 0
 
         self._unexpected_at_top = []
+<<<<<<< HEAD
+=======
+        self._biggest_leaf_count = -1
+        self._path_to_biggest_leaf_count = ''
+>>>>>>> devel
 
     @property
     def dir_struc(self): return self._dir_struc   # an int
@@ -86,6 +91,17 @@ class UStats:
     @property
     def unexpected_at_top(self):
         return self._unexpected_at_top
+<<<<<<< HEAD
+=======
+
+    @property
+    def biggest_leaf_count(self):
+        return self._biggest_leaf_count
+
+    @property
+    def path_to_biggest_leaf_count(self):
+        return self._path_to_biggest_leaf_count
+>>>>>>> devel
 
 
 def scan_leaf_dir(path_to_dir, obj):
@@ -121,6 +137,11 @@ def scan_leaf_dir(path_to_dir, obj):
                 obj._max_leaf_bytes = size
         else:
             odd_count = odd_count + 1
+
+    if file_count > obj._biggest_leaf_count:
+        obj._biggest_leaf_count = file_count
+        obj._path_to_biggest_leaf_count = path_to_dir
+
     obj._leaf_count += file_count
     obj._odd_count += odd_count
 
@@ -186,7 +207,11 @@ def collect_stats(u_path, out_path, verbose):
         else:
             if top_file == 'L':
                 stats._has_l = True
+<<<<<<< HEAD
             elif top_file == 'node_id':
+=======
+            elif top_file == 'nodeID':
+>>>>>>> devel
                 stats._has_node_id = True
             elif top_file in ['in', 'tmp']:
                 # DEBUG
