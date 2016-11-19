@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 
-# ~/dev/py/xlattice_py/uStats
+# ~/dev/py/xlattice_py/u_stats
+
+"""
+Uses xlattice.stats.collect_stats, which uses scandir() instead
+of listdir().
+"""
 
 import os
 import stat
@@ -21,36 +26,38 @@ def do_run(options):
     # XXX options.out_path currently ignored
 
     # returns a UStats object
-    string = collect_stats(u_path, out_path, verbose)
+    stats = collect_stats(u_path, out_path, verbose)
 
     print("statistics for %s" % u_path)
     print(
         "  dirStruc:           %10s" %
         UDir.dir_struc_to_name(
-            string.dir_struc))
-    print("  usingSHA:          %10s" % string.using_sha)
+            stats.dir_struc))
+    print("  usingSHA:          %10s" % stats.using_sha)
     print()
-    print("  subDirectories:     %10d" % string.subdir_count)
-    print("  subSubDirectories:  %10d" % string.sub_subdir_count)
-    print("  leaf files:         %10d" % string.leaf_count)
-    print("  odd files:          %10d" % string.odd_count)
+    print("  subDirectories:     %10d" % stats.subdir_count)
+    print("  subSubDirectories:  %10d" % stats.sub_subdir_count)
+    print("  leaf files:         %10d" % stats.leaf_count)
+    print("  odd files:          %10d" % stats.odd_count)
 
-    if string.min_leaf_bytes != sys.maxsize:
-        print("  smallest leaf file: %10d" % string.min_leaf_bytes)
-    print("  largest leaf file:  %10d" % string.max_leaf_bytes)
+    if stats.min_leaf_bytes != sys.maxsize:
+        print("  smallest leaf file: %10d" % stats.min_leaf_bytes)
+    print("  largest leaf file:  %10d" % stats.max_leaf_bytes)
+    print("  biggest leaf count: %10d" % stats.biggest_leaf_count)
+    print("  path to biggest:    %10s" % stats.path_to_biggest_leaf_count)
 
-    if string.has_l:
+    if stats.has_l:
         print("  L present")
-    if string.has_node_id:
+    if stats.has_node_id:
         print("  nodeID present")
 
     if verbose:
-        if string._unexpectedAtTop:
-            print("\nunexpected at top (%d)" % len(string._unexpectedAtTop))
-            for xxx in string._unexpectedAtTop:
+        if stats.unexpected_at_top:
+            print("\nunexpected at top (%d)" % len(stats.unexpected_at_top))
+            for xxx in stats.unexpected_at_top:
                 print("  %s" % xxx)
     else:
-        print("  unexpected at top:  %10d" % len(string._unexpectedAtTop))
+        print("  unexpected at top:  %10d" % len(stats.unexpected_at_top))
 
 
 def main():
@@ -58,7 +65,7 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    desc = 'display statistical information on u_path'
+    desc = 'display statistical information on content-keyed directory at u_path'
     parser = ArgumentParser(description=desc)
 
     parser.add_argument('-j', '--just_show', action='store_true',

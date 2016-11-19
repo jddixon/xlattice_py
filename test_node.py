@@ -2,8 +2,6 @@
 
 # xlattice_py/testNode.py, copied here from pzog/xlattice
 
-import os
-import sys
 import time
 import unittest
 

@@ -1,6 +1,17 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.8
+    2016-11-18
+        * u_stats reports leafdir with highest count; some PEP 8
+        * replace listdir with scandir in verify_content_keys       SLOC 5727
+v1.5.7
+    2016-11-17
+        * debug, speed up u_stats utility; improve docs             SLOC 5721
+v1.5.6
+    2016-11-11
+        * crude fix to xlattice/crypto.py problems
+        * more PEP 8 and minor bug fixes                            SLOC 5706
 v1.5.5
     2016-11-07
         * update web pages                                          SLOC 5700
@@ -246,6 +257,9 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
 
 
 

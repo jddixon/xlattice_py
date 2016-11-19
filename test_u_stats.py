@@ -3,7 +3,6 @@
 
 """ Exercise statistical functions for content-keyed store. """
 
-import os
 import sys
 import unittest
 from rnglib import SimpleRNG
