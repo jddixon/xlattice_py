@@ -1,7 +1,6 @@
 # xlattice_py/xlattice/ftLog.py
 
 import os
-import sys
 import time
 
 from cFTLogForPy import init_cft_logger, openCFTLog, log_msg, close_cft_logger
@@ -99,6 +98,22 @@ class ActualLog(object):
             # END
             self._lfd = lfd
 
+    @property
+    def base_name(self):
+        return self._base_name
+
+    @property
+    def lfd(self):
+        return self._lfd
+
+    @property
+    def log_file(self):
+        return self._log_file
+
+    @property
+    def mgr(self):
+        return self._mgr
+
     def log(self, msg):
         now = time.localtime()
         date = time.strftime('%Y-%m-%d', now)
@@ -106,7 +121,9 @@ class ActualLog(object):
         text = '%s %s %s\n' % (date, hours, msg)
         # note that this is a tuple
         status = log_msg(self._lfd, text)
+
         # XXX handle possible errors
+        _ = status
 
 #       # DEBUG Python3-style
 #       print ("message is: '%s'",  text)
@@ -135,16 +152,19 @@ class LogMgr(object):
         # share the same directory
         status = init_cft_logger()
 
+        # DEBUG
+        _ = status
+
     def open(self, base_name):
         if base_name in self._log_map:
             raise ValueError('log named %s already exists' % base_name)
-        logHandle = ActualLog(base_name, self)
-        if logHandle:
-            self._log_map[base_name] = logHandle
+        log_handle = ActualLog(base_name, self)
+        if log_handle:
+            self._log_map[base_name] = log_handle
             # DEBUG
-            # print("logHandle for %s is %s" % (baseName, str(logHandle)))
+            # print("log_handle for %s is %s" % (baseName, str(log_handle)))
             # END
-            return logHandle
+            return log_handle
 
     def close(self):
         """closes all log files """

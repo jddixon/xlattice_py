@@ -2,10 +2,14 @@
 
 # ~/dev/py/xlattice_py/uPreen
 
-import os
-import stat
 import sys
 from argparse import ArgumentParser
+import os
+
+try:
+    from os.scandir import scandir
+except ImportError:
+    from scandir import scandir
 
 from xlattice import (__version__, __version_date__)
 
@@ -45,10 +49,8 @@ def do_preen(options):
                 mid_dir = os.path.join(top_dir, mid)
                 if os.path.exists(mid_dir):
                     os.chmod(mid_dir, DIR_PERM)
-                    files = os.listdir(mid_dir)
-                    for file in files:
-                        path_to_leaf = os.path.join(mid_dir, file)
-                        os.chmod(path_to_leaf, FILE_PERM)
+                    for entry in scandir(mid_dir):
+                        os.chmod(entry.path, FILE_PERM)
 
 
 def main():

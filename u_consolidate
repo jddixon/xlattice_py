@@ -2,11 +2,16 @@
 
 # ~/dev/py/xlattice_py/uConsolidate
 
-import os
 import shutil
 import stat
 import sys
 from argparse import ArgumentParser
+import os
+
+try:
+    from os.scandir import scandir
+except ImportError:
+    from scandir import scandir
 
 from xlattice import (__version__, __version_date__)
 from xlattice.u import file_sha1hex
@@ -34,48 +39,49 @@ def do_run(options):
                 continue
             dest_sub_sub_dir = "%s/%02x" % (dest_sub_dir, i)
             os.makedirs(dest_sub_sub_dir, exist_ok=True)
-            files = os.listdir(sub_sub_dir)
-            if files:
-                for file in files:
-                    count = count + 1
-                    path_to_src = os.path.join(sub_sub_dir, file)
-                    key = file_sha1hex(path_to_src)
-                    # what whould be the the normal case
-                    if key == file:
-                        path_to_dest = os.path.join(dest_sub_sub_dir, file)
-                        if dont_do_it:
-                            print("would be moving\n\t%s to \n\t%s" % (
-                                path_to_src, path_to_dest))
-                        else:
-                            # check write permission on source
-                            src_info = os.lstat(path_to_src)
-                            src_mode = src_info[stat.ST_MODE]
-                            if (src_mode & stat.S_IWUSR) == 0:
-                                os.chmod(path_to_src, 0o644)
-                            # check write permission on destination
-                            try:
-                                # doesn't follow links
-                                dest_info = os.lstat(path_to_dest)
-                            except FileNotFoundError:
-                                dest_info = None
-                            if dest_info:
-                                dest_mode = dest_info[stat.ST_MODE]
-                                if not dest_mode & stat.S_IWUSR:
-                                    os.chmod(path_to_dest, 0o644)
-                                    # DEBUG
-                                    print("changed dest perms")
-                                    # END
-                            shutil.move(path_to_src, path_to_dest)
-                            # XXX COULD RESTORE srcMode HERE
-                            if verbose:
-                                print("moved\n\t%s to \n\t%s" % (
-                                    path_to_src, path_to_dest))
+            for entry in scandir(sub_sub_dir):
+                if entry.is_dir():
+                    print("directory found at leaf level! %s" % entry.path)
+                    continue
+                name = entry.name
+                count = count + 1
+                key = file_sha1hex(entry.path)
+                # what whould be the the normal case
+                if key == name:
+                    path_to_dest = os.path.join(dest_sub_sub_dir, name)
+                    if dont_do_it:
+                        print("would be moving\n\t%s to \n\t%s" % (
+                            entry.path, path_to_dest))
                     else:
-                        print("content hash is %s but file name is %s" % (
-                            key, file))
+                        # check write permission on source
+                        src_info = os.lstat(entry.path)
+                        src_mode = src_info[stat.ST_MODE]
+                        if (src_mode & stat.S_IWUSR) == 0:
+                            os.chmod(entry.path, 0o644)
+                        # check write permission on destination
+                        try:
+                            # doesn't follow links
+                            dest_info = os.lstat(path_to_dest)
+                        except FileNotFoundError:
+                            dest_info = None
+                        if dest_info:
+                            dest_mode = dest_info[stat.ST_MODE]
+                            if not dest_mode & stat.S_IWUSR:
+                                os.chmod(path_to_dest, 0o644)
+                                # DEBUG
+                                print("changed dest perms")
+                                # END
+                        shutil.move(entry.path, path_to_dest)
+                        # XXX COULD RESTORE srcMode HERE
+                        if verbose:
+                            print("moved\n\t%s to \n\t%s" % (
+                                entry.path, path_to_dest))
+                else:
+                    print("content hash is %s but file name is %s" % (
+                        key, name))
 
-                    if count >= max_count:
-                        return
+                if count >= max_count:
+                    return
 
 
 def main():
@@ -150,11 +156,11 @@ def main():
 
     if args.verbose or args.just_show:
         print('base_dir     = ' + str(args.base_dir))
-        print('max_count    = ' + str(args.max_count))
         print('dont_do_it   = ' + str(args.dont_do_it))
         print('in_dir       = ' + str(args.in_dir))
-        print('out_dir      = ' + str(args.out_dir))
         print('just_show    = ' + str(args.just_show))
+        print('max_count    = ' + str(args.max_count))
+        print('out_dir      = ' + str(args.out_dir))
         print('verbose      = ' + str(args.verbose))
         print('writing      = ' + str(args.writing))
 

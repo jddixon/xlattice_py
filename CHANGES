@@ -1,13 +1,13 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
-<<<<<<< HEAD
-=======
+v1.5.9
+    2016-11-21
+        * replace listdir with scandir; more PEP 8; bugfixes        SLOC 5787
 v1.5.8
     2016-11-18
         * u_stats reports leafdir with highest count; some PEP 8
         * replace listdir with scandir in verify_content_keys       SLOC 5727
->>>>>>> devel
 v1.5.7
     2016-11-17
         * debug, speed up u_stats utility; improve docs             SLOC 5721
@@ -320,7 +320,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+

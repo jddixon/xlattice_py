@@ -12,8 +12,7 @@ __version__ = re.search(r"__version__\s*=\s*'(.*)'",
 
 MODULE1 = Extension('cFTLogForPy',
                     include_dirs=['/usr/include/python3.4m',
-                                  '/usr/include',
-                                  ],
+                                  '/usr/include', ],
                     libraries=['ev', ],
                     library_dirs=['/usr/local/lib', ],
                     sources=[

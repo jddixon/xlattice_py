@@ -3,10 +3,10 @@
 # ~/dev/py/xlattice_py/verifyContentKeys
 
 import re
-import sys
 import time
 from argparse import ArgumentParser
 
+# pylint: disable=unused-import
 import os
 try:
     from os.scandir import scandir
@@ -59,7 +59,7 @@ def do_sub_dir(args, sub_dir):
             print("not a proper subsubdirectory: '%s'" % entry.path)
 
 
-def doWhatever(args):
+def do_whatever(args):
     args.count = 0
     u_path = args.u_path
     if args.verbose:
@@ -157,7 +157,7 @@ def main():
             if lock.get_lock():
                 if args.verbose:
                     print('have lock on ' + args.u_path)
-                doWhatever(args)
+                do_whatever(args)
             else:
                 print('could not get lock on %s' % args.u_path)
         finally:

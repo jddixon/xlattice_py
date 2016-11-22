@@ -2,9 +2,7 @@
 
 # testProcLock.py
 
-import hashlib
 import os
-import re
 import time
 import unittest
 import sys

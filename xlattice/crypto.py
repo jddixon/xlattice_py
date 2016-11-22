@@ -117,11 +117,13 @@ class SP(object):
             SP.__SPACES__.append(' ' * kkk)
         return SP.__SPACES__[nnn]
 
+    # SYNONYM ---------------------------------------------
     @staticmethod
     def getSpaces(nnn):
         """ SYNONYM """
 
         return SP.get_spaces(nnn)
+    # END SYN ---------------------------------------------
 
 
 def next_nb_line(lines):

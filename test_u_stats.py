@@ -37,6 +37,7 @@ class TestUStats(unittest.TestCase):
         string = UStats()
 
         # XXX STUB XXX
+        _ = string
 
 # subDirCount
 # subSubDirCount

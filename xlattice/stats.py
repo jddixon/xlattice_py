@@ -2,24 +2,16 @@
 
 # ~/dev/py/xlattice_py/xlattice/stats.py
 
-import os
 import re
-import shutil
-import stat
 import sys
-from argparse import ArgumentParser
-
-from xlattice import (__version__, __version_date__, QQQ)
-from xlattice.u import (file_sha1hex, UDir,)
-
+import os
 try:
     from os.scandir import scandir
 except ImportError:
     from scandir import scandir
 
-###############################
-# XXX assumes usingSHA == True
-###############################
+from xlattice import __version__
+from xlattice.u import UDir
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
 HEX2_RE = re.compile(HEX2_PAT)
@@ -34,8 +26,8 @@ class UStats:
         self._dir_struc = UDir.DIR_FLAT
         self._using_sha = False
 
-        self._sub_dir_count = 0
-        self._sub_sub_dir_count = 0
+        self._subdir_count = 0
+        self._sub_subdir_count = 0
         self._leaf_count = 0
         self._odd_count = 0
         self._has_l = False
@@ -44,64 +36,110 @@ class UStats:
         self._max_leaf_bytes = 0
 
         self._unexpected_at_top = []
-<<<<<<< HEAD
-=======
         self._biggest_leaf_count = -1
         self._path_to_biggest_leaf_count = ''
->>>>>>> devel
 
     @property
-    def dir_struc(self): return self._dir_struc   # an int
+    def dir_struc(self):
+        return self._dir_struc   # an int
 
     @property
-    def using_sha(self): return self._using_sha
+    def using_sha(self):
+        return self._using_sha
 
     @property
     def subdir_count(self):
-        return self._sub_dir_count
+        return self._subdir_count
 
     @property
     def sub_subdir_count(self):
-        return self._sub_sub_dir_count
+        return self._sub_subdir_count
+
+    @sub_subdir_count.setter
+    def sub_subdir_count(self, value):
+        # validate
+        self._sub_subdir_count = value
 
     @property
     def leaf_count(self):
         return self._leaf_count
 
+    @leaf_count.setter
+    def leaf_count(self, value):
+        # validate
+        self._leaf_count = value
+
     @property
     def odd_count(self):
         return self._odd_count
+
+    @odd_count.setter
+    def odd_count(self, value):
+        # validate
+        self._odd_count = value
 
     @property
     def has_l(self):
         return self._has_l
 
+    @has_l.setter
+    def has_l(self, b_value):
+        # validate
+        self._has_l = b_value
+
     @property
     def has_node_id(self):
         return self._has_node_id
+
+    @has_node_id.setter
+    def has_node_id(self, b_value):
+        # validate
+        self._has_node_id = b_value
 
     @property
     def min_leaf_bytes(self):
         return self._min_leaf_bytes
 
+    @min_leaf_bytes.setter
+    def min_leaf_bytes(self, value):
+        # validate
+        self._min_leaf_bytes = value
+
     @property
     def max_leaf_bytes(self):
         return self._max_leaf_bytes
 
+    @max_leaf_bytes.setter
+    def max_leaf_bytes(self, value):
+        # validate
+        self._max_leaf_bytes = value
+
     @property
     def unexpected_at_top(self):
         return self._unexpected_at_top
-<<<<<<< HEAD
-=======
+
+    @unexpected_at_top.setter
+    def unexpected_at_top(self, value):
+        # validate
+        self._unexpected_at_top = value
 
     @property
     def biggest_leaf_count(self):
         return self._biggest_leaf_count
 
+    @biggest_leaf_count.setter
+    def biggest_leaf_count(self, value):
+        # validate
+        self._biggest_leaf_count = value
+
     @property
     def path_to_biggest_leaf_count(self):
         return self._path_to_biggest_leaf_count
->>>>>>> devel
+
+    @path_to_biggest_leaf_count.setter
+    def path_to_biggest_leaf_count(self, value):
+        # validate
+        self._path_to_biggest_leaf_count = value
 
 
 def scan_leaf_dir(path_to_dir, obj):
@@ -132,18 +170,18 @@ def scan_leaf_dir(path_to_dir, obj):
             # print("      SIZE = %9d" % size)
             # END
             if size < obj.min_leaf_bytes:
-                obj._minLeafBytes = size
+                obj.minLeafBytes = size
             if size > obj.max_leaf_bytes:
-                obj._max_leaf_bytes = size
+                obj.max_leaf_bytes = size
         else:
             odd_count = odd_count + 1
 
-    if file_count > obj._biggest_leaf_count:
-        obj._biggest_leaf_count = file_count
-        obj._path_to_biggest_leaf_count = path_to_dir
+    if file_count > obj.biggest_leaf_count:
+        obj.biggest_leaf_count = file_count
+        obj.path_to_biggest_leaf_count = path_to_dir
 
-    obj._leaf_count += file_count
-    obj._odd_count += odd_count
+    obj.leaf_count += file_count
+    obj.odd_count += odd_count
 
 
 def collect_stats(u_path, out_path, verbose):
@@ -156,11 +194,12 @@ def collect_stats(u_path, out_path, verbose):
     # XXX outPath IS NOT USED
     if out_path:
         os.makedirs(out_path, exist_ok=True)
+    _ = verbose
     # END NOT USED
 
     u_dir = UDir.discover(u_path)
-    stats._using_sha = u_dir.using_sha
-    stats._dir_struc = u_dir.dir_struc
+    stats.using_sha = u_dir.using_sha
+    stats.dir_struc = u_dir.dir_struc
 
     # upper-level files / subdirectories
     for top_entry in scandir(u_path):
@@ -176,43 +215,39 @@ def collect_stats(u_path, out_path, verbose):
 
             # -- upper-level directories ------------------------------
 
-            stats._sub_dir_count += 1
-            path_to_sub_dir = os.path.join(u_path, top_file)
+            stats._subdir_count += 1
+            path_to_subdir = os.path.join(u_path, top_file)
             # DEBUG
-            # print("SUBDIR: %s" % path_to_sub_dir)
+            # print("SUBDIR: %s" % path_to_subdir)
             # END
-            for mid_entry in scandir(path_to_sub_dir):
+            for mid_entry in scandir(path_to_subdir):
                 mid_file = mid_entry.name
                 match2 = HEX2_RE.match(mid_file)
                 if match2:
 
-                    stats._sub_sub_dir_count += 1
-                    path_to_sub_sub_dir = os.path.join(
-                        path_to_sub_dir, mid_file)
+                    stats._sub_subdir_count += 1
+                    path_to_sub_subdir = os.path.join(
+                        path_to_subdir, mid_file)
                     # DEBUG
-                    # print("  SUBSUBDIR: %s" % path_to_sub_sub_dir)
+                    # print("  SUBSUBDIR: %s" % path_to_sub_subdir)
                     # END
                     # XXX WAS MAJOR ERROR
-                    # for sub_sub_file in os.listdir(path_to_sub_sub_dir):
-                    scan_leaf_dir(path_to_sub_sub_dir, stats)
+                    # for sub_sub_file in os.listdir(path_to_sub_subdir):
+                    scan_leaf_dir(path_to_sub_subdir, stats)
 
                 # -- other upper-level files --------------------------
                 else:
-                    path_to_oddity = os.path.join(path_to_sub_dir, mid_file)
+                    path_to_oddity = os.path.join(path_to_subdir, mid_file)
                     print("unexpected: %s" % path_to_oddity)
-                    stats._odd_count += 1
+                    stats.odd_count += 1
 
         #-- other upper-level files -----------------------------------
 
         else:
             if top_file == 'L':
-                stats._has_l = True
-<<<<<<< HEAD
-            elif top_file == 'node_id':
-=======
+                stats.has_l = True
             elif top_file == 'nodeID':
->>>>>>> devel
-                stats._has_node_id = True
+                stats.has_node_id = True
             elif top_file in ['in', 'tmp']:
                 # DEBUG
                 # print("TOP LEVEL OTHER DIR: %s" % topFile)
@@ -220,7 +255,7 @@ def collect_stats(u_path, out_path, verbose):
                 scan_leaf_dir(path_to_dir, stats)
             else:
                 path_to_oddity = os.path.join(u_path, top_file)
-                stats._unexpected_at_top.append(path_to_oddity)
-                stats._odd_count += 1
+                stats.unexpected_at_top.append(path_to_oddity)
+                stats.odd_count += 1
 
     return stats

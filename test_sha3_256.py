@@ -8,6 +8,7 @@ import hashlib
 from xlattice import SHA3_HEX_NONE, SHA3_BIN_NONE
 
 if sys.version_info < (3, 6):
+    # pylint:disable=unused-import
     import sha3                     # pysha3
 
 

@@ -3,13 +3,16 @@
 import os
 import sys
 import hashlib
-import sha3
 
 from Crypto.PublicKey import RSA as rsa
 #from Crypto.Signature       import PKCS1_PSS    as pkcs1
-from Crypto.Signature import PKCS1_v1_5 as pkcs1
+# from Crypto.Signature import PKCS1_v1_5 as pkcs1
 
-from xlattice import QQQ, check_using_sha, UnrecognizedSHAError
+from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
+
+if sys.version_info < (3, 6):
+    # pylint: disable=unused-import
+    import sha3
 
 
 class AbstractNode(object):
@@ -74,7 +77,7 @@ class Node(AbstractNode):
         self._overlays = []    #
         self._connections = []    # with peers? with clients?
 
-    def createFromKey(self, string):
+    def create_from_key(self, string):
         # XXX STUB: given the serialization of a node, create one
         # despite the name, this should also handle peer lists, etc
         # XXX WE ALSO NEED a serialization function
@@ -95,6 +98,7 @@ class Node(AbstractNode):
 #       # END
 
         # generate the nodeID from the public key
+        # pylint: disable=redefined-variable-type
         if using_sha == QQQ.USING_SHA1:
             sha = hashlib.sha1()
         elif using_sha == QQQ.USING_SHA2:

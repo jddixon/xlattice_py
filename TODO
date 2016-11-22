@@ -1,7 +1,17 @@
 ~/dev/py/xlattice_py/TODO
 
-<<<<<<< HEAD
-=======
+2016-11-21
+    * u_consolidate needs to be modified to handle all storage
+        strategies (FLAT, 16x16, 256x256) and all supported 
+        SHA types
+    * it should then be tested against xl_test_data
+        - these tests should verify that xl_test_data is read-only
+    * u_preen needs
+        - docstrings
+        - testing
+            * this should involve xl_test_data
+    * drop synonyms, test more carefully, step -m
+
 2016-11-18
     * modify u_stats to report biggest leaf count, path to it           * DONE
     * test_u_stats.py needs to do some testing !
@@ -9,7 +19,6 @@
     * verify_content_keys needs testing
     * nodeID: the file should still be called that, not 'node_id'       * FIXED
 
->>>>>>> devel
 2016-11-17
     * replace os.listdir with scandir in xlattice/stats                 * DONE
         - correct leaf file counts                                      * DONE

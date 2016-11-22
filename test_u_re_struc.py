@@ -89,7 +89,7 @@ class TestReStruc(unittest.TestCase):
         # Verify that the signature datum (SHAx_HEX_NONE) is present
         # in the file system.  How this is stored depends upon old_struc;
         # what value is stored depends upon using_sha.
-        old_sig = UDir.dir_struc_sig(u_path, old_struc, using_sha)
+        old_sig = u_dir.dir_struc_sig(u_path, old_struc, using_sha)
         self.assertTrue(os.path.exists(old_sig))
 
         values, hex_hashes = self.make_values(using_sha, 32, 32, 128)
@@ -108,7 +108,7 @@ class TestReStruc(unittest.TestCase):
         # restructure the directory
         u_dir.re_struc(new_struc)
 
-        new_sig = UDir.dir_struc_sig(u_path, new_struc, using_sha)
+        new_sig = u_dir.dir_struc_sig(u_path, new_struc, using_sha)
         self.assertTrue(os.path.exists(new_sig))
         self.assertFalse(os.path.exists(old_sig))
 
