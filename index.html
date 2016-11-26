@@ -25,6 +25,39 @@ utilty functions for Python.</p>
 <li><strong>util.py</strong>, which contains functions for dealing with XLattice <code>DecimalVersion</code> and <code>Timestamp</code> classes</li>
 </ul>
 
+<h2>SHA3</h2>
+
+<p>At the time of writing, using pip or pip3 installs pysha3-03, which is
+incorrect: the hash values produced do not match NIST test vectors.
+It appears that the only way to get the current version of
+pysha3 is to get it from githup:</p>
+
+<pre><code># in some appropriate directory:
+mkdir tiran tiran/pysha3
+cd tiran
+git clone https://github.com/tiran/pysha3
+</code></pre>
+
+<p>and then</p>
+
+<pre><code>cd pysha3
+python setup.py build install
+</code></pre>
+
+<p>In your code you then write</p>
+
+<pre><code>import sys
+import hashlib
+#
+if sys.version_info &lt; (3, 6):
+    import sha3
+...
+sha = hashlib.sha3_256()
+</code></pre>
+
+<p>This problem will go away with Python 3.6, which will bundle in the
+pysha3 code.</p>
+
 <h2>Command Line Utilities</h2>
 
 <p>At this time all of these are intended for use in managing the
