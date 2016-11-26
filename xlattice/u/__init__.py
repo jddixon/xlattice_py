@@ -10,7 +10,7 @@ import hashlib
 import os
 
 try:
-    from os.scandir import scandir
+    from os import scandir
 except ImportError:
     from scandir import scandir
 

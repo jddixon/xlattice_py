@@ -69,7 +69,7 @@ class TestRSA(unittest.TestCase):
         with open(o_file, 'wb') as file:
             # written as bytes, but is string
             # XXX POSSIBLE ValueError, which doesn't get decoded like this
-            file.write(sk_.exportKey('OpenSSH').encode('utf-8'))
+            file.write(sk_.exportKey('OpenSSH'))
 
         sk_priv2 = RSA.importKey(der_data)
         sk2 = sk_priv2.publickey()

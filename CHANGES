@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.10
+    2016-11-24
+        * fixes for py3.5.2; pysha3 working correctly               SLOC 5787
 v1.5.9
     2016-11-21
         * replace listdir with scandir; more PEP 8; bugfixes        SLOC 5787

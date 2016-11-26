@@ -12,6 +12,36 @@ These are collected in the `xlattice` subdirectory:
 * **u.py**, XLattice system for storing data by content key
 * **util.py**, which contains functions for dealing with XLattice `DecimalVersion` and `Timestamp` classes
 
+## SHA3
+
+At the time of writing, using pip or pip3 installs pysha3-03, which is
+incorrect: the hash values produced do not match NIST test vectors.
+It appears that the only way to get the current version of
+pysha3 is to get it from githup:
+
+    # in some appropriate directory:
+    mkdir tiran tiran/pysha3
+    cd tiran
+    git clone https://github.com/tiran/pysha3
+
+and then
+
+    cd pysha3
+    python setup.py build install
+
+In your code you then write
+
+    import sys
+    import hashlib
+    #
+    if sys.version_info < (3, 6):
+        import sha3
+    ...
+    sha = hashlib.sha3_256()
+
+This problem will go away with Python 3.6, which will bundle in the
+pysha3 code.
+
 ## Command Line Utilities
 
 At this time all of these are intended for use in managing the
