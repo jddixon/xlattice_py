@@ -3,12 +3,11 @@
 # ~/dev/py/xlattice_py/uReStruc
 
 import os
-import stat
 import sys
 from argparse import ArgumentParser
 
 from xlattice import (__version__, __version_date__)
-from xlattice.stats import collect_stats
+# from xlattice.stats import collect_stats
 from xlattice.u import UDir
 
 
@@ -25,7 +24,7 @@ def main():
     # program defaults ----------------------------------------------
 
     # parse the command line ----------------------------------------
-    desc = 'modify directory structure for uDir; this is a low-level operation which does not alter L'
+    desc = 'modify directory structure for uDir; low-level op, does not alter L'
 
     parser = ArgumentParser(description=desc)
 

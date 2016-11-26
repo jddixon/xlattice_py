@@ -1,5 +1,4 @@
 # xlattice_py
-<h1 class="libTop">xlattice_py</h1>
 
 [XLattice](https://jddixon.github.io/xlattice)
 utilty functions for Python.
@@ -12,6 +11,36 @@ These are collected in the `xlattice` subdirectory:
 * **ui.py**, simple functions for handle Y/N questions on the command line and assessing password strength
 * **u.py**, XLattice system for storing data by content key
 * **util.py**, which contains functions for dealing with XLattice `DecimalVersion` and `Timestamp` classes
+
+## SHA3
+
+At the time of writing, using pip or pip3 installs pysha3-03, which is
+incorrect: the hash values produced do not match NIST test vectors.
+It appears that the only way to get the current version of
+pysha3 is to get it from githup:
+
+    # in some appropriate directory:
+    mkdir tiran tiran/pysha3
+    cd tiran
+    git clone https://github.com/tiran/pysha3
+
+and then
+
+    cd pysha3
+    python setup.py build install
+
+In your code you then write
+
+    import sys
+    import hashlib
+    #
+    if sys.version_info < (3, 6):
+        import sha3
+    ...
+    sha = hashlib.sha3_256()
+
+This problem will go away with Python 3.6, which will bundle in the
+pysha3 code.
 
 ## Command Line Utilities
 
@@ -58,7 +87,7 @@ to manage the store is `u_dir`.
       -u USER, --user USER  user (login, default jdd)
       -v, --verbose         be chatty
 
-### u_re_struc
+### u\_re_struc
 
     usage: u_re_struc [-h] [-j] [-o OUT_PATH] [-s NEW_STRUC_NAME] [-u U_PATH] [-v]
 
@@ -78,9 +107,28 @@ to manage the store is `u_dir`.
 
 ### u_stats
 
+A utility for displaying information on content-keyed data storage
+directories.  Typical ouput looks like:
+
+    statistics for /var/app/sharedev/U
+      dirStruc:           DIR256x256
+      usingSHA:          QQQ.USING_SHA1
+
+      subDirectories:            256
+      subSubDirectories:       22659
+      leaf files:              27910
+      odd files:                   1
+      largest leaf file:     8860904
+      unexpected at top:           0
+
+The second line reports the directory structure, the third that the
+content keys are calculated using SHA1.
+
+The command `u_stats -h` returns:
+
     usage: u_stats [-h] [-j] [-o OUT_PATH] [-u U_PATH] [-v]
 
-    display statistical information on u_path
+    display statistical information on content-keyed directory at u_path
 
     optional arguments:
       -h, --help            show this help message and exit

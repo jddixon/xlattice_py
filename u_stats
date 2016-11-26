@@ -8,11 +8,10 @@ of listdir().
 """
 
 import os
-import stat
 import sys
 from argparse import ArgumentParser
 
-from xlattice import (__version__, __version_date__, QQQ)
+from xlattice import (__version__, __version_date__)
 from xlattice.stats import collect_stats
 from xlattice.u import UDir
 

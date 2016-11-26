@@ -1,6 +1,6 @@
 # xlattice_py/xlattice/lfs
 
-import errno
+# import errno
 import os
 
 __all__ = ['mkdir_p', 'touch', ]

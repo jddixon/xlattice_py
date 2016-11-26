@@ -2,18 +2,20 @@
 
 # xlattice_py/testNode.py, copied here from pzog/xlattice
 
+import sys
 import time
 import unittest
-
 import hashlib
-import sha3     # must follow hashlib import
 
 from Crypto.PublicKey import RSA as rsa
 # from Crypto.Signature import PKCS1_v1_5 as pkcs1
-
 from xlattice import QQQ, UnrecognizedSHAError
 from xlattice.node import Node
 from rnglib import SimpleRNG
+
+if sys.version_info < (3, 6):
+    # pylint: disable=unused-import
+    import sha3     # must follow hashlib, which it monkey-patches
 
 RNG = SimpleRNG(time.time)
 

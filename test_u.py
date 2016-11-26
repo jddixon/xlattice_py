@@ -172,7 +172,7 @@ class TestU(unittest.TestCase):
         elif using_sha == QQQ.USING_SHA3:
             d_key = file_sha3hex(d_path)
         (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
-        u_path = u_dir.get_path_for_key(u_key)              # XXX unused
+        # u_path = u_dir.get_path_for_key(u_key)              # XXX unused
         self.assertEqual(d_len, u_len)
         self.assertEqual(d_len, u_dir.file_len(u_key))
 

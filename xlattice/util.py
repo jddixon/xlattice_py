@@ -28,7 +28,7 @@ class DecimalVersion(object):
         if aIn is None:
             aIn = 0
         a_val = int(aIn)
-        if a_val < 0 or 255 < a_val:
+        if a_val < 0 or a_val > 255:
             raise RuntimeError(
                 "version number part a '%d' out of range" %
                 a_val)
@@ -36,22 +36,22 @@ class DecimalVersion(object):
             b_val = 0
         else:
             b_val = int(bIn)
-            if b_val < 0 or 255 < b_val:
+            if b_val < 0 or b_val > 255:
                 raise RuntimeError("version part b '%d' out of range" % b_val)
         if cIn is None:
             c_val = 0
         else:
             c_val = int(cIn)
-            if c_val < 0 or 255 < c_val:
+            if c_val < 0 or c_val > 255:
                 raise RuntimeError("version part c '%d' out of range" % c_val)
         if dIn is None:
             d_val = 0
         else:
             d_val = int(dIn)
-            if d_val < 0 or 255 < d_val:
+            if d_val < 0 or d_val > 255:
                 raise RuntimeError("version part d '%d' out of range" % d_val)
 
-        self._value = (0xff & a_val)         | ((0xff & b_val) << 8)  |\
+        self._value = (0xff & a_val) | ((0xff & b_val) << 8)  | \
             ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
     def get_a(self):
@@ -86,7 +86,7 @@ class DecimalVersion(object):
 
         if not isinstance(other, DecimalVersion):
             return False
-        return self._value == other._value
+        return self._value == other.value
 
     def __lt__(self, other):
         self_a = self.get_a()
@@ -96,8 +96,8 @@ class DecimalVersion(object):
         if self_a > other_a:
             return False
 
-        self_b = self.get_c()
-        other_b = other.get_c()
+        self_b = self.get_b()
+        other_b = other.get_b()
         if self_b < other_b:
             return True
         if self_b > other_b:
@@ -115,16 +115,6 @@ class DecimalVersion(object):
         if self_d < other_d:
             return True
         return False
-
-        if self.get_a() < other.get_a():
-            return False
-        if self.get_b() < other.get_b():
-            return False
-        if self.get_c() < other.get_c():
-            return False
-        if self.get_d() <= other.get_d():
-            return False
-        return True
 
     def __le__(self, other):
         self_a = self.get_a()
@@ -153,15 +143,6 @@ class DecimalVersion(object):
         if self_d <= other_d:
             return True
         return False
-        if self.get_a() < other.get_a():
-            return False
-        if self.get_b() < other.get_b():
-            return False
-        if self.get_c() < other.get_c():
-            return False
-        if self.get_d() < other.get_d():
-            return False
-        return True
 
     def __gt__(self, other):
         self_a = self.get_a()
@@ -171,8 +152,8 @@ class DecimalVersion(object):
         if self_a < other_a:
             return False
 
-        self_b = self.get_c()
-        other_b = other.get_c()
+        self_b = self.get_b()
+        other_b = other.get_b()
         if self_b > other_b:
             return True
         if self_b < other_b:

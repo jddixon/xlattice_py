@@ -3,7 +3,6 @@
 # xlattice_py/test_rsa.py; moved here from buildList
 
 import base64
-import hashlib
 import os
 import time
 import unittest
@@ -12,7 +11,7 @@ from Crypto.Hash import SHA    # presumably 1
 from Crypto.Signature import PKCS1_PSS
 
 from rnglib import SimpleRNG
-from xlattice.crypto import next_nb_line, collect_pem_rsa_public_key
+from xlattice.crypto import collect_pem_rsa_public_key
 
 
 class TestRSA(unittest.TestCase):
@@ -44,6 +43,7 @@ class TestRSA(unittest.TestCase):
         sk_priv = RSA.generate(1024)     # cheap key for testing
         key_file = os.path.join(node_dir, 'skPriv.pem')
         with open(key_file, 'wb') as file:
+            # written as bytes
             file.write(sk_priv.exportKey('PEM'))
 
         self.assertTrue(os.path.exists(node_dir))
@@ -67,6 +67,8 @@ class TestRSA(unittest.TestCase):
         # write the public key in OpenSSH format
         o_file = os.path.join(node_dir, 'sk.openssh')
         with open(o_file, 'wb') as file:
+            # written as bytes, but is string
+            # XXX POSSIBLE ValueError, which doesn't get decoded like this
             file.write(sk_.exportKey('OpenSSH'))
 
         sk_priv2 = RSA.importKey(der_data)
@@ -76,6 +78,7 @@ class TestRSA(unittest.TestCase):
         self.assertEqual(sk_.exportKey('DER'), sk2.exportKey('DER'))
 
         pem_form_of_ck = sk_.exportKey('PEM')
+        # XXX POSSIBLE ValueError, which doesn't get decoded like this
         pem_str = pem_form_of_ck.decode('utf-8')
 
         # TEST PEM DESERIALIZATION FROM STRINGS ---------------------

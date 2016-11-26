@@ -4,7 +4,8 @@ import os
 import re
 import subprocess
 import sys
-import time
+
+# XXX Need to clean up C files to get this to work:
 from cFTLogForPy import (
     init_cft_logger,
     openCFTLog,
@@ -33,8 +34,7 @@ class ProcLock(object):
         # Otherwise we will overwrite the PID file.
         if os.path.exists(self._pid_file):
             pid_running = ProcLock.read_one_line_file(self._pid_file)
-            whether = ProcLock.is_process_running(pid_running)
-            if(whether):
+            if ProcLock.is_process_running(pid_running):
                 sys.exit()
         if not os.path.exists(pid_dir):
             os.makedirs(pid_dir)         # the run directory is created
@@ -56,18 +56,18 @@ class ProcLock(object):
     def is_process_running(pid):
         pid_str = str(pid)
         ret = False
-        pat = re.compile('^(\w+)\s+(\d+)')
+        pat = re.compile(r'^(\w+)\s+(\d+)')
         ppp = subprocess.Popen([PS, 'waux'], stdout=subprocess.PIPE)
         if ppp:
-            while (True):
+            while True:
                 # XXX
                 line = ppp.stdout.read().decode('utf-8')
-                if (line == ''):
+                if line == '':
                     break
                 match = pat.match(line)
-                if (match):
+                if match:
                     pid = match.group(2)
-                    if(pid == pid_str):
+                    if pid == pid_str:
                         ret = True
                         break
             ppp.stdout.close()
@@ -88,9 +88,9 @@ class ProcLock(object):
             return data.decode('utf-8').strip()
 
     @staticmethod
-    def readOneLineFileIf(file_name, default):
+    def read_one_line_file_if(file_name, default):
         ret = default
-        if (os.path.exists(file_name)):
+        if os.path.exists(file_name):
             ret = ProcLock.read_one_line_file(file_name)
         return ret
 

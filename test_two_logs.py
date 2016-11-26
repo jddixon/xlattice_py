@@ -2,7 +2,6 @@
 
 # testTwoLogs.py
 
-import hashlib
 import os
 import shutil
 import sys
@@ -32,15 +31,15 @@ class TestTwoLogs(unittest.TestCase):
         # -- open ---------------------------------------------------
         def show_log_handle(handle):
             print("HANDLE: %s as %d writing to %s" % (
-                handle.base_name, handle.lfd, handle.logFile,))
+                handle.base_name, handle.lfd, handle.log_file,))
         mgr = LogMgr('logs')
         foo_log = mgr.open('foo')
         foo_log.log('oh hello, foo')
-        # showLogHandle(fooLog)                       # DEBUG
+        show_log_handle(foo_log)                       # DEBUG
 
         bar_log = mgr.open('bar')
         bar_log.log('oh hello, bar')
-        # showLogHandle(barLog)                       # DEBUG
+        # showLogHandle(bar_log)                       # DEBUG
 
         # print("TEST_TWO: closing")
         sys.stdout.flush()
