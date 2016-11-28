@@ -3,6 +3,7 @@
 import os
 import time
 
+# pylint: disable=no-name-in-module
 from cFTLogForPy import init_cft_logger, openCFTLog, log_msg, close_cft_logger
 
 

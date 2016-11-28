@@ -1,6 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.11
+    2016-11-28
+        * fix ProcLock and test; fix test_sha3_256 and lib
+        * fix test_cft_log_for_py.py                                SLOC 5851
 v1.5.10
     2016-11-24
         * fixes for py3.5.2; pysha3 working correctly               SLOC 5787
@@ -263,6 +267,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

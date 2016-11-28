@@ -12,7 +12,7 @@ import xlattice
 from rnglib import SimpleRNG
 from cFTLogForPy import (
     # pylint: disable=no-name-in-module
-    init_cft_logger, openCFTLog, log_msg, close_cft_logger)
+    init_cft_logger, open_cft_log, log_msg, close_cft_logger)
 
 
 sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
@@ -51,11 +51,11 @@ class TestCFTLogForPy(unittest.TestCase):
 
         log_file = self.unique_file_name()
         status = init_cft_logger()
-        status = openCFTLog(log_file)
+        status = open_cft_log(log_file)
         self.assertEqual(0, status)
         time.sleep(0.2)
         if status:
-            print("openCFTLog failed, status is %d" % status)
+            print("open_cft_log failed, status is %d" % status)
         else:
             time.sleep(0.2)
             status = close_cft_logger()
@@ -72,7 +72,7 @@ class TestCFTLogForPy(unittest.TestCase):
         def open_log(self):
             """ Open the dummy logger. """
             init_cft_logger()
-            return openCFTLog(self.log_file)
+            return open_cft_log(self.log_file)
 
         def close_log(self):
             """ Close the dummy logger. """
@@ -96,9 +96,9 @@ class TestCFTLogForPy(unittest.TestCase):
 
         log_file = self.unique_file_name()
         init_cft_logger()
-        log_ndx = openCFTLog(log_file)
+        log_ndx = open_cft_log(log_file)
         if log_ndx:
-            print("openCFTLogger failed, log_ndx is %d" % log_ndx)
+            print("open_cft_logger failed, log_ndx is %d" % log_ndx)
         else:
             log_msg(log_ndx, "now is the winter of our discontent\n")
             log_msg(log_ndx, "made glorious summer by this son of York\n")

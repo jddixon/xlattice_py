@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # xlattice_py/testHelloAndReply.py
+
+""" Test handling of hello-and-reply sequence. """
 
 import os
 import time
@@ -21,6 +22,7 @@ TEST_DIR = 'tmp'
 
 
 class TestRSA_OAEP(unittest.TestCase):
+    """ Test handling of hello-and-reply sequence. """
 
     def setUp(self):
         now = time.time()
@@ -32,6 +34,9 @@ class TestRSA_OAEP(unittest.TestCase):
         pass
 
     def test_encrypt_decrypt(self):
+        """
+        Test encryption and decryption of the hello-and-reply message sequence.
+        """
 
         # set up private RSA key, get its public part
         # generate a 2K bit private key

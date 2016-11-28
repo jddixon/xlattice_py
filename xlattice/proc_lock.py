@@ -1,44 +1,57 @@
 # xlattice_py/xlattice/procLock.py
 
+""" Simplistic lock on program name. """
+
 import os
 import re
 import subprocess
 import sys
 
-# XXX Need to clean up C files to get this to work:
-from cFTLogForPy import (
-    init_cft_logger,
-    openCFTLog,
-    log_msg,
-    close_cft_logger)
-
-__all__ = ['ProcLock', ]
-
-# CONSTANTS #########################################################
+__all__ = ['ProcLock', 'ProcLockError']
 
 PS = '/bin/ps'
 SH = '/bin/sh'
 
-# -------------------------------------------------------------------
+
+class ProcLockError(RuntimeError):
+    pass
 
 
 class ProcLock(object):
+    """
+    Simplistic lock on program name.
+
+    Normal use:
+
+        try:
+            mgr = ProcLock(PGM_NAME)
+            # invoke program body
+            # ...
+            mgr.unlock()
+        except ProcLockError:
+            print("can't get lock on %s" % PGM_NAME)
+            sys.exit(1)
+
+    More elaborate handler can wait a few seconds and try again,
+    perhaps for some number of iterations.
+
+    """
 
     def __init__(self, pgm_name, pid_dir='/tmp/run'):
         self._pid = os.getpid()
         self._pgm_name = pgm_name
         self._pid_file = os.path.join(pid_dir, pgm_name + '.pid')
 
+        # XXX RACE CONDITION
         # If the pid file exists, extract the process ID.  If that
         # pid is running, we are done, there is nothing else to do.
         # Otherwise we will overwrite the PID file.
         if os.path.exists(self._pid_file):
-            pid_running = ProcLock.read_one_line_file(self._pid_file)
+            pid_running = ProcLock._read_one_line_file(self._pid_file)
             if ProcLock.is_process_running(pid_running):
-                sys.exit()
-        if not os.path.exists(pid_dir):
-            os.makedirs(pid_dir)         # the run directory is created
-        ProcLock.writeOneLineFile(self._pid_file, str(self._pid))
+                raise ProcLockError("can't get lock on %s" % self._pgm_name)
+        os.makedirs(pid_dir, exist_ok=True)  # the run directory is created
+        ProcLock._write_one_line_file(self._pid_file, str(self._pid))
 
     @property
     def pid(self):
@@ -54,24 +67,10 @@ class ProcLock(object):
 
     @staticmethod
     def is_process_running(pid):
-        pid_str = str(pid)
-        ret = False
-        pat = re.compile(r'^(\w+)\s+(\d+)')
-        ppp = subprocess.Popen([PS, 'waux'], stdout=subprocess.PIPE)
-        if ppp:
-            while True:
-                # XXX
-                line = ppp.stdout.read().decode('utf-8')
-                if line == '':
-                    break
-                match = pat.match(line)
-                if match:
-                    pid = match.group(2)
-                    if pid == pid_str:
-                        ret = True
-                        break
-            ppp.stdout.close()
-        return ret
+        """
+        Return whether process whose PID in string form is pid is running.
+        """
+        return os.path.exists("/proc/%s" % pid)
 
     def remove_pid_file(self):
         if os.path.exists(self._pid_file):
@@ -82,20 +81,20 @@ class ProcLock(object):
 
     # UTILITY FUNCTIONS
     @staticmethod
-    def read_one_line_file(name):
+    def _read_one_line_file(name):
         with open(name, "rb") as file:
             data = file.read()
             return data.decode('utf-8').strip()
 
     @staticmethod
-    def read_one_line_file_if(file_name, default):
+    def _read_one_line_file_if(file_name, default):
         ret = default
         if os.path.exists(file_name):
-            ret = ProcLock.read_one_line_file(file_name)
+            ret = ProcLock._read_one_line_file(file_name)
         return ret
 
     # possible EXCEPTIONS are ignored
     @staticmethod
-    def writeOneLineFile(file_name, value):
+    def _write_one_line_file(file_name, value):
         with open(file_name, 'wb') as file:
             file.write(value.encode('utf-8'))

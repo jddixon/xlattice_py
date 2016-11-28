@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import binascii
+""" Test functionality of 256-bit SHA3 hash. """
+
 import sys
 import unittest
 import hashlib
@@ -13,17 +14,13 @@ if sys.version_info < (3, 6):
 
 
 class TestSHA3_256(unittest.TestCase):
+    """ Test functionality of 256-bit SHA3 hash. """
 
     SHA3_NAME = "sha3_256"
     DIGEST_SIZE = 32    # bytes
     BLOCK_SIZE = 136   # bytes (so 1088 bits, not 1600)
-    HEX_VECTORS = [
-        ('', 'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'),
-
-        # GET MORE FROM NIST DOCS
-
-    ]
     U2H_VECTORS = [
+        ('', 'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'),
         ('abc',
          '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
         # GET MORE FROM NIST DOCS
@@ -31,11 +28,11 @@ class TestSHA3_256(unittest.TestCase):
     ]
 
     def test_constructor(self):
-        """ verify that behavior of pysha3 is as expected """
+        """ Verify that behavior of pysha3 is as expected """
 
         sha = hashlib.sha3_256()
 
-        # verify it has the right properties ...
+        # Verify it has the right properties ...
         self.assertEqual(sha.name, self.SHA3_NAME)
         self.assertEqual(sha.digest_size, self.DIGEST_SIZE)
         self.assertEqual(len(sha.digest()), self.DIGEST_SIZE)
@@ -60,26 +57,20 @@ class TestSHA3_256(unittest.TestCase):
         self.assertRaises(TypeError, sha.update, "abcdef")
 
     def test_constants(self):
+        """ Verify that the value of SHA3_{BIN,HEX}_NONE is as expected. """
         sha = hashlib.sha3_256()
         sha.update(b'')
         self.assertEqual(sha.hexdigest(), SHA3_HEX_NONE)
         self.assertEqual(sha.digest(), SHA3_BIN_NONE)
 
-    def test_hex_vectors(self):
-        for hex_in, expected_hex_out in self.HEX_VECTORS:
-            self.do_test_hex_in_out(hex_in, expected_hex_out)
-
     def test_unicode_to_hex_vectors(self):
+        """ Verify that the test vectors in U2H_VECTORS compute correctly."""
         for uni_in, expected_hex_out in self.U2H_VECTORS:
-            # pylint: diable=no-member
-            hex_in = uni_in.encode('utf-8').hex()
-            # worked under py3.4.2:
-            # hex_in = (binascii.hexlify(uni_in.encode('utf-8'))).decode('ascii')
-            self.do_test_hex_in_out(hex_in, expected_hex_out)
+            bin_in = uni_in.encode('utf-8')     # .hex()
+            self.do_test_bin_in_out(bin_in, expected_hex_out)
 
-    def do_test_hex_in_out(self, hex_in, expected_hex_out):
+    def do_test_bin_in_out(self, bin_in, expected_hex_out):
         expected_hex_out = expected_hex_out.lower()
-        bin_in = bytes.fromhex(hex_in)
         expected_bin_out = bytes.fromhex(expected_hex_out)
         self.assertEqual(len(expected_bin_out), self.DIGEST_SIZE)
 
