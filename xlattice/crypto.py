@@ -4,8 +4,7 @@ __all__ = ['AES_BLOCK_SIZE',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
            'next_nb_line', 'collect_pem_rsa_public_key',
            # Classes
-           'SP',
-           ]
+           'SP', ]
 
 # EXPORTED CONSTANTS
 

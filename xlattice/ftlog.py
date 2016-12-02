@@ -7,9 +7,7 @@ import time
 from cFTLogForPy import init_cft_logger, openCFTLog, log_msg, close_cft_logger
 
 
-__all__ = ['LogEntry',
-           'ActualLog', 'LogMgr',
-           ]
+__all__ = ['LogEntry', 'ActualLog', 'LogMgr', ]
 
 # The first line of a chained log is a LogEntry pointing back to
 # the previous chunk of the log; its key is the content key of that

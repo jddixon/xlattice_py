@@ -25,7 +25,7 @@ class TestProcLock(unittest.TestCase):
         try:
             my_pid = os.getpid()
             mgr = ProcLock('foo')
-            self.assertEqual('foo', mgr.pgm_name)
+            self.assertEqual('/tmp/run/foo', mgr.full_path_to_name)
             self.assertEqual(my_pid, mgr.pid)
             self.assertEqual('/tmp/run/foo.pid', mgr.lock_file_name)
             self.assertTrue(os.path.exists(mgr.lock_file_name))
@@ -56,7 +56,7 @@ class TestProcLock(unittest.TestCase):
             my_pid = os.getpid()
             mgr = ProcLock('foo')
 
-            self.assertEqual('foo', mgr.pgm_name)
+            self.assertEqual('/tmp/run/foo', mgr.full_path_to_name)
             self.assertEqual(my_pid, mgr.pid)
             self.assertEqual('/tmp/run/foo.pid', mgr.lock_file_name)
             self.assertTrue(os.path.exists(mgr.lock_file_name))
@@ -69,6 +69,28 @@ class TestProcLock(unittest.TestCase):
         finally:
             mgr.unlock()
         self.assertFalse(os.path.exists(mgr.lock_file_name))
+
+    def do_double_lock(self, a_path, b_path):
+        """ Verify that overlapped locking of the two strings works. """
+
+        pid = os.getpid()
+        a_mgr = ProcLock(a_path)
+        b_mgr = ProcLock(b_path)
+        a_mgr.unlock()
+        b_mgr.unlock()
+
+    def test_distinct_paths(self):
+        """ Test non-overlapping relative paths. """
+        self.do_double_lock('a/b/c', 'd/e/f')
+
+    def test_shared_paths(self):
+        """ Test overlapping relative paths. """
+        self.do_double_lock('a/b/c', 'a/b/c/d/e/f')
+
+    def test_absolute_paths(self):
+        """ Test both types of absolute paths. """
+        self.do_double_lock('/p/q/r', '/s/t/u')     # distinct
+        self.do_double_lock('/u/v', '/u/v/w/x')     # shared
 
 if __name__ == '__main__':
     unittest.main()

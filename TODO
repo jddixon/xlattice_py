@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-12-02
+    * ProcLock should work on paths, not just file names                * DONE
+    * getting many warnings in build regarding evLoop.c
+
 2016-11-28
     * ProcLock needs example of use with fixed number of retries
     * ProcLock needs better testing                                     * DONE

@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.12
+    2016-12-02
+        * ProcLock works on POSIX paths                             SLOC 5878
 v1.5.11
     2016-11-28
         * fix ProcLock and test; fix test_sha3_256 and lib
@@ -267,6 +270,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

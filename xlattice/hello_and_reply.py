@@ -7,8 +7,7 @@ from xlattice.crypto    import AES_BLOCK_SIZE,\
     add_pkcs7_padding, strip_pkcs7_padding
 
 __all__ = ['client_encrypt_hello', 'server_decrypt_hello',
-           'server_encrypt_hello_reply', 'client_decrypt_hello_reply',
-           ]
+           'server_encrypt_hello_reply', 'client_decrypt_hello_reply', ]
 
 AES_BLOCK_SIZE = 16
 

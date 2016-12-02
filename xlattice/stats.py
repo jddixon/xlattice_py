@@ -228,11 +228,6 @@ def collect_stats(u_path, out_path, verbose):
                     stats._sub_subdir_count += 1
                     path_to_sub_subdir = os.path.join(
                         path_to_subdir, mid_file)
-                    # DEBUG
-                    # print("  SUBSUBDIR: %s" % path_to_sub_subdir)
-                    # END
-                    # XXX WAS MAJOR ERROR
-                    # for sub_sub_file in os.listdir(path_to_sub_subdir):
                     scan_leaf_dir(path_to_sub_subdir, stats)
 
                 # -- other upper-level files --------------------------

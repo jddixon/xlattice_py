@@ -72,8 +72,7 @@ class TestCLogObj(unittest.TestCase):
         messages = ["now is the winter of our discontent\n",
                     "made glorious summer by this son of York\n",
                     "and all the clouds that lowered upon our house\n",
-                    "... and so forth and so on\n",
-                    ]
+                    "... and so forth and so on\n", ]
         log_file = self.unique_file_name()
         # this 3-line stanza needs to be shortened
         _ = init_cft_logger()
