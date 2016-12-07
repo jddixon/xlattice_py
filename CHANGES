@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.13
+    2016-12-06
+        * fix fix_using(); simplify scripts using dump_options      SLOC 5870
 v1.5.12
     2016-12-02
         * ProcLock works on POSIX paths                             SLOC 5878
@@ -334,3 +337,7 @@ v0.0.0
 
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> devel

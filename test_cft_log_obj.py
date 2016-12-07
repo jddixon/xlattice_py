@@ -10,6 +10,7 @@ import unittest
 
 import xlattice
 
+# pylint: disable=no-name-in-module
 import cFTLogForPy
 # pylint: disable=no-name-in-module
 from cFTLogForPy import (

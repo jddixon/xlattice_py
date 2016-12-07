@@ -27,8 +27,8 @@ __all__ = ['__version__', '__version_date__',
            'parse_using_sha', 'fix_using_sha', 'check_u_path', 'show_using_sha',
            ]
 
-__version__ = '1.5.12'
-__version_date__ = '2016-12-02'
+__version__ = '1.5.13'
+__version_date__ = '2016-12-06'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -119,7 +119,12 @@ def parse_using_sha(parser):
 
 
 def fix_using_sha(args):
-    """ assigns a value to args.using_sha """
+    """
+    Creates and assigns a value to args.using_sha.
+
+    That value is determined by examining the three options
+    using_sha{1,2,3}; these are then removed from the set of options.
+    """
     args.using_sha = None
     # pylint:disable=redefined-variable-type
     if args.using_sha1:
@@ -128,6 +133,9 @@ def fix_using_sha(args):
         args.using_sha = QQQ.USING_SHA2
     elif args.using_sha3:
         args.using_sha = QQQ.USING_SHA3
+    args.__delattr__('using_sha1')
+    args.__delattr__('using_sha2')
+    args.__delattr__('using_sha3')
 
 
 def check_u_path(parser, args, must_exist=False, mode=0o755):

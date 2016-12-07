@@ -11,6 +11,7 @@ import os
 import sys
 from argparse import ArgumentParser
 
+from optionz import dump_options
 from xlattice import (__version__, __version_date__)
 from xlattice.stats import collect_stats
 from xlattice.u import UDir
@@ -103,10 +104,7 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('just_show    = ' + str(args.just_show))
-        print('out_path     = ' + str(args.out_path))
-        print('u_path       = ' + str(args.u_path))
-        print('verbose      = ' + str(args.verbose))
+        print(dump_options(args))
 
     if args.just_show:
         sys.exit(0)
