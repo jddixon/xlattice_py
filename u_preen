@@ -11,6 +11,7 @@ try:
 except ImportError:
     from scandir import scandir
 
+from optionz import dump_options
 from xlattice import (__version__, __version_date__)
 
 FILE_PERM = 0o644
@@ -95,11 +96,7 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('b_dir        = ' + str(args.b_dir))
-        print('group        = ' + str(args.group))
-        print('just_show    = ' + str(args.just_show))
-        print('user         = ' + str(args.user))
-        print('verbose      = ' + str(args.verbose))
+        print(dump_options(args))
 
     if args.just_show:
         sys.exit(0)

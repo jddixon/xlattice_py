@@ -1,5 +1,17 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-12-06
+    * sort out camel-cased names in cFTLogForPy
+
+2016-12-02
+    * ProcLock should work on paths, not just file names                * DONE
+    * getting many warnings in build regarding evLoop.c
+    * add many SHA3 test vectors
+
+2016-11-28
+    * ProcLock needs example of use with fixed number of retries
+    * ProcLock needs better testing                                     * DONE
+
 2016-11-21
     * u_consolidate needs to be modified to handle all storage
         strategies (FLAT, 16x16, 256x256) and all supported 

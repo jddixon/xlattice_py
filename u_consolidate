@@ -13,6 +13,7 @@ try:
 except ImportError:
     from scandir import scandir
 
+from optionz import dump_options
 from xlattice import (__version__, __version_date__)
 from xlattice.u import file_sha1hex
 
@@ -155,14 +156,7 @@ def main():
         print("%s %s" % (app_name, __version_date__))
 
     if args.verbose or args.just_show:
-        print('base_dir     = ' + str(args.base_dir))
-        print('dont_do_it   = ' + str(args.dont_do_it))
-        print('in_dir       = ' + str(args.in_dir))
-        print('just_show    = ' + str(args.just_show))
-        print('max_count    = ' + str(args.max_count))
-        print('out_dir      = ' + str(args.out_dir))
-        print('verbose      = ' + str(args.verbose))
-        print('writing      = ' + str(args.writing))
+        print(dump_options(args))
 
     if args.just_show:
         sys.exit(0)

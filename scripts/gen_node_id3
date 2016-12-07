@@ -86,7 +86,7 @@ for o, aVal in opts:
         sub_dir = aVal
 
     elif o in ('-v', '--verbose'):
-        showVersion = True
+        show_version = True
         verbose = True
     elif o in ('-u', '--uDir'):
         u_dir = aVal
