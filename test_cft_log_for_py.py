@@ -10,8 +10,8 @@ import unittest
 
 import xlattice
 from rnglib import SimpleRNG
+# pylint: disable=no-name-in-module
 from cFTLogForPy import (
-    # pylint: disable=no-name-in-module
     init_cft_logger, open_cft_log, log_msg, close_cft_logger)
 
 

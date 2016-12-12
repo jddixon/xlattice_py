@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # xlattice_py/testLogMgr.py
+
+""" Test log manager functioning. """
 
 import os
 import shutil
@@ -12,6 +13,7 @@ sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
 class TestLogMgr(unittest.TestCase):
+    """ Test log manager functioning. """
 
     def setUp(self):
         pass
@@ -19,10 +21,8 @@ class TestLogMgr(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # utility functions #############################################
-
-    # actual unit tests #############################################
     def test_just_open_and_close(self):
+        """ Test simply opening and then closing a log. """
         if os.path.exists('./logs'):
             shutil.rmtree('./logs')
         mgr = LogMgr('logs')
@@ -42,6 +42,8 @@ class TestLogMgr(unittest.TestCase):
             self.assertEqual(0, len(contents))
 
     def test_with_single_message(self):
+        """ Test opening a log, logging a single message, and closing. """
+
         if os.path.exists('./logs'):
             shutil.rmtree('./logs')
         mgr = LogMgr('logs')
@@ -58,7 +60,9 @@ class TestLogMgr(unittest.TestCase):
         contents = contents.strip()
         self.assertTrue(contents.endswith('oh hello'))    # GEEP
 
-    def test_more_essages(self):
+    def test_more_messages(self):
+        """ Test opening a log, logging several messages, and closing. """
+
         if os.path.exists('./logs'):
             shutil.rmtree('./logs')
         mgr = LogMgr('logs')
@@ -78,8 +82,13 @@ class TestLogMgr(unittest.TestCase):
         self.assertEqual(msg, contents)          # END
 
     def test_messages_with_sleeps(self):
-        # The presence of a time.sleep() _anywhere_ in the method used
-        # to cause a segfault
+        """
+        Open a log, log some messages with some intervening sleeps, and
+        closing.
+
+        The presence of a time.sleep() _anywhere_ in the method used
+        to cause a segfault.
+        """
         if os.path.exists('./logs'):
             shutil.rmtree('./logs')
         mgr = LogMgr('logs')

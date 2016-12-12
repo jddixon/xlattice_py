@@ -70,6 +70,11 @@ class TestSHA3_256(unittest.TestCase):
             self.do_test_bin_in_out(bin_in, expected_hex_out)
 
     def do_test_bin_in_out(self, bin_in, expected_hex_out):
+        """
+        Verify that the binary input value hashes to the expected
+        hex output value.
+        """
+
         expected_hex_out = expected_hex_out.lower()
         expected_bin_out = bytes.fromhex(expected_hex_out)
         self.assertEqual(len(expected_bin_out), self.DIGEST_SIZE)

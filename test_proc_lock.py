@@ -6,7 +6,7 @@
 import os
 import unittest
 import sys
-from rnglib import SimpleRNG
+# from rnglib import SimpleRNG
 from xlattice.proc_lock import ProcLock, ProcLockError
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
@@ -73,7 +73,7 @@ class TestProcLock(unittest.TestCase):
     def do_double_lock(self, a_path, b_path):
         """ Verify that overlapped locking of the two strings works. """
 
-        pid = os.getpid()
+        # pid = os.getpid()
         a_mgr = ProcLock(a_path)
         b_mgr = ProcLock(b_path)
         a_mgr.unlock()

@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.14
+    2016-12-11
+        * more pylinting, minor bugfixes                            SLOC 5248
 v1.5.13
     2016-12-06
         * fix fix_using(); simplify scripts using dump_options      SLOC 5870
@@ -337,7 +340,5 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+
