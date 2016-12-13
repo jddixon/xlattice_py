@@ -6,7 +6,7 @@ then
   
   autopep8 -air xlattice 
   autopep8 -air xlattice/u 
-  autopep8 -air u_consolidate u_preen u_stats verify_content_keys *.py
+  autopep8 -air gen_node_id u_consolidate u_preen u_stats verify_content_keys *.py
   echo "not styling extsrc/ subdir"
   echo "not styling logs/ subdir"
   echo "not styling scripts/ subdir"

@@ -1,57 +1,13 @@
 ~/dev/py/xlattice_py/TODO
 
-2016-12-06
-    * sort out camel-cased names in cFTLogForPy
-
-2016-12-02
-    * ProcLock should work on paths, not just file names                * DONE
-    * getting many warnings in build regarding evLoop.c
-    * add many SHA3 test vectors
-
-2016-11-28
-    * ProcLock needs example of use with fixed number of retries
-    * ProcLock needs better testing                                     * DONE
-
-2016-11-21
-    * u_consolidate needs to be modified to handle all storage
-        strategies (FLAT, 16x16, 256x256) and all supported 
-        SHA types
-    * it should then be tested against xl_test_data
-        - these tests should verify that xl_test_data is read-only
-    * u_preen needs
-        - docstrings
-        - testing
-            * this should involve xl_test_data
-    * drop synonyms, test more carefully, step -m
-
-2016-11-18
-    * modify u_stats to report biggest leaf count, path to it           * DONE
-    * test_u_stats.py needs to do some testing !
-        - preferably against xl_test_data
-    * verify_content_keys needs testing
-    * nodeID: the file should still be called that, not 'node_id'       * FIXED
-
-2016-11-17
-    * replace os.listdir with scandir in xlattice/stats                 * DONE
-        - correct leaf file counts                                      * DONE
-    * u_stats does not handle DIR_FLAT correctly
-        - wrong subdir, subsuddir counts (there aren't any!)
-        - wrong leaf counts (should equal or subsume top level counts)
-    * need testing of collect_stats with DIR16x16 and DIR256x256
-        - verify handling of empty uDir is correct
-        - verify handling of SHA{1,2,3} is correct
-    * make collecting size data optional 
-        - currntly only use is trivial: getting largest file size
-        - collect real stats on file sizes (mean, median, mode, etc)
-        - consider collecting stats on evenness of distribution
-            * files per bucket, etc
-
-2016-11-11
-    * after re-installing PyCrypto, found an error in 
-        Crypto/PublicKey/RSA.py around line 352; edited to fix but
-        XXX must fix or replace PyCrypto
-    * reconcile: test.all succeeds but pylint shows errors
-    * more PEP 8 necessary
+2016-12-13
+    * add code handling SHA{2,3} to gen_node_id
+    * rearrange code to collect option collecting into get_args()
+        - and various checks into check_args()
+    * consider adding eg time-now to hash
+    * move the executive code into the xlattice library
+    * write test for library function
+    * pylint it
 
 2016-11-10, edited from -09
     * pyCrypto has not been supported since 2012.  cryptodome is        * DONE 
@@ -72,7 +28,7 @@
         uitlities
 
 2016-10-24
-    * rewrite gen_node_id{1,3} as conventional scripts using argparse
+    * rewrite gen_node_id{1,3} as conventional scripts using argparse   * DONE
 
 2016-10-22
     * import of sha3 should be conditional: sys.version_info < (3, 6)
@@ -92,6 +48,65 @@
     * verifyContentKeys needs some attention
 
 2016-09-15, edited from -06-03, edited from -02
+    * the class UDir
+        - the constructor should create L, 
+        - should also create tmp/ and in/ if these to not exist         * DONE
+        - class need to run alongside the existing packages until
+            class implementation is complete
+    * then modify using projects to use UDir:
+        - buildList
+        - cljutil
+        - bindex
+        - magicsack     # modified to use u16
+        - upax
+    * document all of this
+    * the separate packages uFlat, u16, and u256 should be dropped      * DONE
+        when UDir is stable and all users converted                     * DONE
+
+2016-09-09
+    * verifyContentKeys does not handle SHA3
+        - and otherwise not checked
+
+2016-07-24
+    * get rid of extra subdirs left by uReStruc                         * DONE
+2016-07-20
+    * DIR_FLAT etc should be a class attribute                          * DONE
+
+2016-07-19
+    * part of testUStats.py is stubbed; implement it
+    * modify uStats to display discovered dirStruc and usingSHA1        * DONE
+    * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
+        as the signature for usingSHA1?  
+
+2016-07-19, edit from -18
+    * write uReStruc, a tool to restructure a uDir directory to         * DONE
+        a different dirStruc                                            * DONE
+        - particular interest is in moving DIR_FLAT files into          * DONE
+            DIR256x256 subdirectories                                   * DONE
+        - pay attention to None files (used to discover whether         * DONE
+            usingSHA1)                                                  * DONE
+        - files that are in the right place should be left there        * DONE
+
+2016-07-17
+    * implement UDir.delete(key), where key is a hex value, returning   * DONE
+        False if not present, True otherwise                            * DONE
+    * test uDir.delete()
+
+    * elaborate testing of UStats, getting code for building random
+        directory tree from ../nlhtree_py/testDropFromU.py
+
+2016-07-15
+    * add UStats object with fields                                     * DONE
+        - initially subDirCount, subSubDirCount, leafCount, oddCount,   * DONE
+            bool hasL, bool hasNodeID                                   * DONE
+        - then add minCount (init MAXINT, maxCount (init 0)             * DONE
+
+2016-06-14
+    * testU contains many debug comments, needs to be cleaned up
+
+2016-06-03
+    * testSHA3_256.py gets an import error                              * FIXED
+
     * the class UDir
         - the constructor should create L, 
         - should also create tmp/ and in/ if these to not exist         * DONE
@@ -192,65 +207,6 @@
     * eventually need 2-phase lock (lock A,B,C, unlock C,B,A)
         - and a lock daemon
 
-2016-04-06
-    * testProcLock.py should wrap call to ProcLockMgr in try/finally    * DONE
-
-2016-04-04
-    * integrate in LogMgr or drop testTwoLogs.py                        * ADDED
-
-2016-04-03
-    * get rid of warning messages from building extsrc/
-    * complete conversion from Python 2.7 to Python 3
-    
-2016-04-02
-    * URGENTLY need testing for cFTLogForPy                             * DONE
-    * document cFTLogForPy in {README,index}.py
-
-2016-03-28
-    * get SHA3 bits working or just drop (moved here from pzog)
-    * add test to test.all when if and when it works 
-
-2015-12-02
-    * DecimalVersion should have properties a, b, c, d replacing
-        getA(), getB(), etc
-
-2015-11-23
-    * by default, print version numbers in three parts, so that
-        for example 1 becomes 1.0.0 and 1.2 is printed as 1.2.0
-    * so continue to parse eg 1 and 1.0 and 1.0.0 identically, but
-        always convert to string as 1.0.0
-
-2015-09-24
-    * urgently need API docs
-
-2015-06-10
-    * move __SPACES__ and getSpaces from nlhTree to xlattice.crypto     * DONE
-        to avoid import loops                                           * DONE
-    * write a test                                                      * DONE
-
-    * write test of nextNBLine()
-    * write test of collectPEMRSAPublicKey()                            * DONE
-    * write collectPEMRSAPrivateKey()
-        - and test
-
-2015-06-02
-    * needs some documentation, however skimpy
-
-2015-05-22
-    * make testRSA.py less talkative                                    * DONE
-2015-05-21
-    * fileSHA1/2 disambigurated as fileSHA{1,2}{Bin,Hex}                * DONE
-2015-05-18
-    * mkdir_p needs testing
-2015-05-17
-    * git push appears to have failed, but with no meaningful error     * FIXED
-        message.  xlattice_py on github has myData/ myU1/ myU2/         * FIXED
-        trash, which it shouldn't.  URGENT need to reconcile what       * FIXED
-        we have here and what is on github                              * FIXED
-2015-05-15
-    * need myData, myU1, myU2 in .gitignore.local                       * DONE
-    * add DecimalVersion.step{Major,Minor,Decimal,Micro}                * DONE
-        - and test                                                      * DONE
     * need tests for xlattice/u                                         * DONE
 2015-05-14
     * myData/ myU1/ myU2 need to be added to .gitignore,
