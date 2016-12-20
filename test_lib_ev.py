@@ -62,6 +62,7 @@ class TestLibev(unittest.TestCase):
     def setup_async_logging(self):
         """ Set up async loggig for a test. """
 
+        os.makedirs('tmp', exist_ok=True, mode=0o755)
         # pylint: disable=no-member
         self.loop = pyev.default_loop()
         self.log_name = 'tmp/log%05x' % self.rng.next_int32(1024 * 1024)

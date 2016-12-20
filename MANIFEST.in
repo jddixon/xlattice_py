@@ -4,7 +4,7 @@ include openssl*
 include auto8it countem installit makeMoreNodeIDs
 include CHANGES MANIFEST.in README* TODO 
 include test*.py 
-include verifyContentKeys scripts/* makeMoreNodeIDs
+include gen_node_id u_consolidate u_preen u_re_struc verify_content_keys 
 
 recursive-include extsrc/  *
 recursive-include ghpDocs *

@@ -1,6 +1,14 @@
 ~/dev/py/xlattice_py/CHANGES
 
-
+v1.5.16
+    2016-12-19
+        * add -{1,2,3] options to gen_node_id                       SLOC 4951
+v1.5.15
+    2016-12-13
+        * consolidate get_node_id{1,3} into gen_node_id             SLOC 4939
+v1.5.14
+    2016-12-11
+        * more pylinting, minor bugfixes                            SLOC 5248
 v1.5.13
     2016-12-06
         * fix fix_using(); simplify scripts using dump_options      SLOC 5870
@@ -337,7 +345,7 @@ v0.0.0
 
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> devel
+
+
+

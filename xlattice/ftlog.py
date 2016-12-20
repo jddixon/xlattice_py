@@ -1,10 +1,13 @@
 # xlattice_py/xlattice/ftLog.py
 
+""" Fault-tolerant log classes and methods. """
+
 import os
 import time
 
 # pylint: disable=no-name-in-module
-from cFTLogForPy import init_cft_logger, openCFTLog, log_msg, close_cft_logger
+from cFTLogForPy import(
+    init_cft_logger, open_cft_log, log_msg, close_cft_logger)
 
 
 __all__ = ['LogEntry', 'ActualLog', 'LogMgr', ]
@@ -17,9 +20,10 @@ __all__ = ['LogEntry', 'ActualLog', 'LogMgr', ]
 
 
 class LogEntry(object):
+    """ A fault-tolerant log entry. """
 
     def __init__(self,
-                 tstamp,              # integer timestamp, either 32 or 64 bits
+                 tstamp,         # integer timestamp, either 32 or 64 bits
                  key,            # content key, 20 or 32 bytes
                  owner,          # nodeID, 20 or 32 bytes
                  length,         # uint32 length of content, octets
@@ -35,29 +39,42 @@ class LogEntry(object):
 
     @property
     def tstamp(self):
+        """ Return the time at which the logged event occurred. """
         return self._tstamp
 
     @property
     def key(self):
+        """ Return the content key, the SHA1 hash, of the file concerned. """
         return self._key
 
     @property
     def owner(self):
+        """
+        Return the 40- or 64-hex sequence identifying who is doing the
+        logging.
+        """
         return self._owner
 
     @property
     def length(self):
+        """ Return the length of the file. """
         return self._length
 
     @property
     def src(self):
+        """
+        Return the 40- or 64-hex sequence identifying the user responsible
+        for the file.
+        """
         return self._src
 
     @property
     def path(self):
+        """ Return the relative POSIX path to the file, including its name."""
         return self._path
 
     def __eq__(self, other):
+        """ Whether this log entry equals another. """
         if not isinstance(other, LogEntry):
             return False
         return self._tstamp == other.tstamp and\
@@ -70,7 +87,7 @@ class LogEntry(object):
 
 # -------------------------------------------------------------------
 class ActualLog(object):
-    """ maintains information about each open log """
+    """ Maintains information about each open log """
 
     def __init__(self, base_name, mgr):
         """
@@ -88,7 +105,7 @@ class ActualLog(object):
         # DEBUG
         #print("trying to open log with path '%s'" % self.nameCopy)
         # END
-        lfd = openCFTLog(self.name_copy)
+        lfd = open_cft_log(self.name_copy)
         if lfd < 0:
             raise RuntimeError("ERROR: initCFTLogger returns %d", lfd)
         else:
@@ -99,21 +116,26 @@ class ActualLog(object):
 
     @property
     def base_name(self):
+        """ Return the file name, excluding any path information. """
         return self._base_name
 
     @property
     def lfd(self):
+        """ Return the file handle if the directory is open. """
         return self._lfd
 
     @property
     def log_file(self):
+        """ Return the path to the log file, including the file name. """
         return self._log_file
 
     @property
     def mgr(self):
+        """ Return the manager responsible for the log. """
         return self._mgr
 
     def log(self, msg):
+        """ Log a message. """
         now = time.localtime()
         date = time.strftime('%Y-%m-%d', now)
         hours = time.strftime('%H:%M:%S', now)
@@ -131,15 +153,14 @@ class ActualLog(object):
 
     @property
     def log_file_name(self):
+        """ Return a copy of the log file's name. """
         return self.name_copy
 
 
 class LogMgr(object):
+    """ Log manager. """
 
     def __init__(self, log_dir='logs'):
-        """
-        This is a MAJOR CHANGE in the interface.
-        """
 
         # __slots__ = { }
 
@@ -155,6 +176,8 @@ class LogMgr(object):
         _ = status
 
     def open(self, base_name):
+        """ Open the log, possibly creating it. """
+
         if base_name in self._log_map:
             raise ValueError('log named %s already exists' % base_name)
         log_handle = ActualLog(base_name, self)
@@ -166,11 +189,12 @@ class LogMgr(object):
             return log_handle
 
     def close(self):
-        """closes all log files """
+        """ Closes all log files. """
         self._log_map = {}
         # print("BRANCHING TO closeClogger()") ; sys.stdout.flush();
         return close_cft_logger(None)
 
     @property
     def log_dir(self):
+        """ Return a path to the log directory. """
         return self._log_dir

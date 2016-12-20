@@ -32,10 +32,9 @@ dir:local:logs
 
 # from setup.py
 
-bash:global:scripts/genNodeID1
-bash:global:scripts/genNodeID3
-
-py:global:uConsolidate
-py:global:uPreen
-py:global:uStats
-py:global:verifyContentKeys
+py:global:gen_node_id
+py:global:u_consolidate
+py:global:u_preen
+py:global:u_re_struc
+py:global:u_stats
+py:global:verify_content_keys
