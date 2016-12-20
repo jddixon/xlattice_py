@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-12-19
+    * get rid of debug messages in xlattice/u/__init__.py
+        (search on DO NOT REMOVE THIS CASUALLY)
+
 2016-12-13
     * add code handling SHA{2,3} to gen_node_id
     * rearrange code to collect option collecting into get_args()

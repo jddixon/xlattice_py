@@ -3,9 +3,6 @@
 """ Simplistic lock on program name. """
 
 import os
-import re
-import subprocess
-import sys
 
 __all__ = ['ProcLock', 'ProcLockError']
 
@@ -73,14 +70,17 @@ class ProcLock(object):
 
     @property
     def pid(self):
+        """ Return the PID, a 16-bit integer. """
         return self._pid
 
     @property
     def full_path_to_name(self):
+        """ Return the absolute path to the PID file. """
         return self._full_path_to_name
 
     @property
     def lock_file_name(self):
+        """ Return the name of the PID file. """
         return self._pid_file
 
     @staticmethod
@@ -91,15 +91,18 @@ class ProcLock(object):
         return os.path.exists("/proc/%s" % pid)
 
     def remove_pid_file(self):
+        """ If a PID file exists, remove it. """
         if os.path.exists(self._pid_file):
             os.remove(self._pid_file)
 
     def unlock(self):
+        """ Unlock by removing the PID file. """
         self.remove_pid_file()
 
     # UTILITY FUNCTIONS
     @staticmethod
     def _read_one_line_file(name):
+        """ Read test from a one-line file. """
         with open(name, "rb") as file:
             data = file.read()
             return data.decode('utf-8').strip()

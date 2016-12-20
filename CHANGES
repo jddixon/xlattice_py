@@ -1,6 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
-
+v1.5.16
+    2016-12-19
+        * add -{1,2,3] options to gen_node_id                       SLOC 4951
 v1.5.15
     2016-12-13
         * consolidate get_node_id{1,3} into gen_node_id             SLOC 4939
@@ -279,6 +281,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
