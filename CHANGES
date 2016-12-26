@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.5.17
+    2016-12-26
+        * add __eq__ to xlattice.u.UDir
+        * comment out part of test_rsa.py, bug in pycrypto          SLOC 4954
 v1.5.16
     2016-12-19
         * add -{1,2,3] options to gen_node_id                       SLOC 4951
@@ -281,6 +285,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

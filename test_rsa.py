@@ -65,11 +65,17 @@ class TestRSA(unittest.TestCase):
             file.write(sk_.exportKey('PEM'))
 
         # write the public key in OpenSSH format
-        o_file = os.path.join(node_dir, 'sk.openssh')
-        with open(o_file, 'wb') as file:
-            # written as bytes, but is string
-            # XXX POSSIBLE ValueError, which doesn't get decoded like this
-            file.write(sk_.exportKey('OpenSSH'))
+#       # XXX THIS FAILS
+#       o_file = os.path.join(node_dir, 'sk.openssh')
+#       with open(o_file, 'w') as file:
+#           # XXX POSSIBLE ValueError, which doesn't get decoded like this
+#           # DEBUG ---------------------------------------
+#           print('TYPE sk_: ', type(sk_))
+#           # NEXT LINE gets "can't concat bytes to str"
+#           stuff = sk_.exportKey('OpenSSH')
+#           print("TYPE STUFF: ", type(stuff))
+#           # END -----------------------------------------
+#           file.write(sk_.exportKey('OpenSSH'))
 
         sk_priv2 = RSA.importKey(der_data)
         sk2 = sk_priv2.publickey()
