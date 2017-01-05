@@ -24,27 +24,27 @@ __all__ = ['__version__', '__version_date__',
            # END SYN ------------------------------------------------
 
            'check_using_sha',
-           'parse_using_sha', 'fix_using_sha', 'check_u_path', 'show_using_sha',
-           ]
+           'parse_using_sha', 'fix_using_sha', 'show_using_sha',
+           'check_u_path', ]
 
-__version__ = '1.5.16'
-__version_date__ = '2016-12-19'
+__version__ = '1.5.18'
+__version_date__ = '2017-01-04'
 
 
 # This is the SHA1 of an empty string (or file)
-#  ....x....1....x....2....x....3....x....4
+#                ....x....1....x....2....x....3....x....4
 SHA1_HEX_NONE = 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
 
 # The same value base64
 SHA1_B64_NONE = '2jmj7l5rSw0yVb/vlWAYkK/YBwk='
 
 # The SHA2(56) of an empty string or file
-#  ....x....1....x....2....x....3....x....4....x....5....x....6....
+#    ....x....1....x....2....x....3....x....4....x....5....x....6....
 SHA2_HEX_NONE =\
     'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 
 # The SHA3(256) of an empty string or file
-#  ....x....1....x....2....x....3....x....4....x....5....x....6....
+#    ....x....1....x....2....x....3....x....4....x....5....x....6....
 SHA3_HEX_NONE =\
     'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'
 

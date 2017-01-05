@@ -1,5 +1,12 @@
 ~/dev/py/xlattice_py/TODO
 
+2016-12-29
+    * rename all RuntimeErrors in xlattice/crypto.py XLCryptoError      * DONE
+
+2016-12-26
+    * DIR_FLAT etc should be an enumeration (IntEnum); then use
+        .name to retrieve string form of names
+
 2016-12-19
     * get rid of debug messages in xlattice/u/__init__.py
         (search on DO NOT REMOVE THIS CASUALLY)

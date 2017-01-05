@@ -347,7 +347,10 @@ class UDir(object):
 
         os.makedirs(self._u_path, mode=mode, exist_ok=True)
 
-        # simplistic aids to discovery
+        # simplistic aids to discovery: we write the appropriate kind
+        # of hex NONE into the directory.  The value is determined by
+        # using_sha.  The level at which it is written is determined
+        # by dir_struc.
 
         if using_sha == QQQ.USING_SHA1:
             path_to_sig = self.get_path_for_key(SHA1_HEX_NONE)
@@ -377,6 +380,13 @@ class UDir(object):
     @property
     def using_sha(self):
         return self._using_sha
+
+    def __eq__(self, other):
+        """ Return whether two UDirs are equal. """
+        return isinstance(other, UDir) and \
+            self._u_path == other.u_path and \
+            self._dir_struc == other.dir_struc and \
+            self._using_sha == other.using_sha
 
     @classmethod
     def discover(cls, u_path, dir_struc=DIR_FLAT,

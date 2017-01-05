@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # xlattice_py/test_rsa.py; moved here from buildList
+
+""" Test RSA crypto routines.  """
 
 import base64
 import os
@@ -11,10 +12,11 @@ from Crypto.Hash import SHA    # presumably 1
 from Crypto.Signature import PKCS1_PSS
 
 from rnglib import SimpleRNG
-from xlattice.crypto import collect_pem_rsa_public_key
+from xlattice.crypto import XLCryptoError, collect_pem_rsa_public_key
 
 
 class TestRSA(unittest.TestCase):
+    """ Test RSA crypto routines.  """
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
@@ -22,7 +24,7 @@ class TestRSA(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_rsa(self):
+    def test_rsa_serialization(self):
 
         tmp_dir = 'tmp'
         if not os.path.exists(tmp_dir):
@@ -64,12 +66,18 @@ class TestRSA(unittest.TestCase):
         with open(sk_file, 'wb') as file:
             file.write(sk_.exportKey('PEM'))
 
-        # write the public key in OpenSSH format
-        o_file = os.path.join(node_dir, 'sk.openssh')
-        with open(o_file, 'wb') as file:
-            # written as bytes, but is string
-            # XXX POSSIBLE ValueError, which doesn't get decoded like this
-            file.write(sk_.exportKey('OpenSSH'))
+#       # write the public key in OpenSSH format
+#       # XXX THIS FAILS - bug in pycrypto ("can't concat", below)
+#       o_file = os.path.join(node_dir, 'sk.openssh')
+#       with open(o_file, 'w') as file:
+#           # XXX POSSIBLE ValueError, which doesn't get decoded like this
+#           # DEBUG ---------------------------------------
+#           print('TYPE sk_: ', type(sk_))
+#           # NEXT LINE gets "can't concat bytes to str"
+#           stuff = sk_.exportKey('OpenSSH')
+#           print("TYPE STUFF: ", type(stuff))
+#           # END -----------------------------------------
+#           file.write(sk_.exportKey('OpenSSH'))
 
         sk_priv2 = RSA.importKey(der_data)
         sk2 = sk_priv2.publickey()
@@ -77,11 +85,14 @@ class TestRSA(unittest.TestCase):
         # verify that public key parts are identical
         self.assertEqual(sk_.exportKey('DER'), sk2.exportKey('DER'))
 
-        pem_form_of_ck = sk_.exportKey('PEM')
-        # XXX POSSIBLE ValueError, which doesn't get decoded like this
-        pem_str = pem_form_of_ck.decode('utf-8')
-
         # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
+
+        try:
+            # pylint seems confused, complains ValueError has no decode member
+            # pylint: disable=no-member
+            pem_str = sk_.exportKey('PEM').decode('utf-8')
+        except ValueError as exc:
+            raise XLCryptoError(exc)
 
         # depth == 0 test (where depth is number of leading spaces)
         strings = pem_str.split('\n')
@@ -105,7 +116,12 @@ class TestRSA(unittest.TestCase):
         self.assertEqual(len(rest), 1)
         self.assertEqual(rest[0], 'this is a line of junk')
 
-        # TEST DIG SIG ----------------------------------------------
+    def test_dig_sig(self):
+        """ Test digital signatures. """
+
+        sk_priv = RSA.generate(1024)     # cheap key for testing
+        # get the public part of the key
+        sk_ = sk_priv.publickey()
 
         count = 64 + self.rng.next_int16(192)
         data = self.rng.some_bytes(count)
