@@ -4,14 +4,14 @@ __all__ = ['AES_BLOCK_SIZE',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
            'next_nb_line', 'collect_pem_rsa_public_key',
            # Classes
-           'SP', ]
+           'XLCryptoError', 'SP', ]
 
 # EXPORTED CONSTANTS
 
 AES_BLOCK_SIZE = 16
 
 
-class CryptoException(Exception):
+class XLCryptoError(RuntimeError):
     pass
 
 # SYNONYMS used while refactoring dependent classes =================
@@ -49,7 +49,7 @@ def collectPEMRSAPublicKey(first_line, lines):
 def pkcs7_padding(data, block_size):
     block_size = int(block_size)
     if block_size < 1:
-        raise CryptoException("impossible block size")
+        raise XLCryptoError("impossible block size")
     if not data:
         length = 0
     else:
@@ -68,7 +68,7 @@ def pkcs7_padding(data, block_size):
 
 def add_pkcs7_padding(data, block_size):
     if block_size <= 1:
-        raise CryptoException("impossible block size")
+        raise XLCryptoError("impossible block size")
     else:
         padding = pkcs7_padding(data, block_size)
         if not data:
@@ -84,18 +84,18 @@ def add_pkcs7_padding(data, block_size):
 
 def strip_pkcs7_padding(data, block_size):
     if block_size <= 1:
-        raise CryptoException("impossible block size")
+        raise XLCryptoError("impossible block size")
     elif not data:
-        raise CryptoException("cannot strip padding from empty data")
+        raise XLCryptoError("cannot strip padding from empty data")
     len_data = len(data)
     if len_data < block_size:
-        raise CryptoException("data too short to have any padding")
+        raise XLCryptoError("data too short to have any padding")
     else:
         # examine the very last byte: it must be padding and must
         # contain the number of padding bytes added
         len_padding = data[len_data - 1]
         if len_padding < 1 or len_data < len_padding:
-            raise CryptoException("incorrect PKCS7 padding")
+            raise XLCryptoError("incorrect PKCS7 padding")
         else:
             out = data[:len_data - len_padding]
     return out
@@ -138,8 +138,8 @@ def next_nb_line(lines):
             line = line.strip()
             if line != '':
                 return line, lines
-        raise RuntimeError("exhausted list of strings")
-    raise RuntimeError("arg to nextNBLine cannot be None")
+        raise XLCryptoError("exhausted list of strings")
+    raise XLCryptoError("arg to nextNBLine cannot be None")
 
 
 def collect_pem_rsa_public_key(first_line, lines):
@@ -155,7 +155,7 @@ def collect_pem_rsa_public_key(first_line, lines):
     first_line = first_line.strip()
     if first_line != '-----BEGIN RSA PUBLIC KEY-----' and \
             first_line != '-----BEGIN PUBLIC KEY-----':
-        raise RuntimeError('PEM public key cannot begin with %s' % first_line)
+        raise XLCryptoError('PEM public key cannot begin with %s' % first_line)
     found_last = False
 
     # DEBUG
@@ -177,5 +177,5 @@ def collect_pem_rsa_public_key(first_line, lines):
             break
 
     if not found_last:
-        raise RuntimeError("didn't find closing line of PEM serialization")
+        raise XLCryptoError("didn't find closing line of PEM serialization")
     return '\n'.join(ret), lines

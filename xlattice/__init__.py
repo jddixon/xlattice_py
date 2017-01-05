@@ -24,11 +24,11 @@ __all__ = ['__version__', '__version_date__',
            # END SYN ------------------------------------------------
 
            'check_using_sha',
-           'parse_using_sha', 'fix_using_sha', 'check_u_path', 'show_using_sha',
-           ]
+           'parse_using_sha', 'fix_using_sha', 'show_using_sha',
+           'check_u_path', ]
 
-__version__ = '1.5.17'
-__version_date__ = '2016-12-26'
+__version__ = '1.5.18'
+__version_date__ = '2017-01-04'
 
 
 # This is the SHA1 of an empty string (or file)

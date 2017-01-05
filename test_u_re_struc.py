@@ -56,6 +56,7 @@ class TestReStruc(unittest.TestCase):
             elif using_sha == QQQ.USING_SHA2:
                 sha = hashlib.sha256()
             elif using_sha == QQQ.USING_SHA3:
+                # pylint: disable=no-member
                 sha = hashlib.sha3_256()
             sha.update(v__)
             h__ = sha.hexdigest()
