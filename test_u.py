@@ -201,6 +201,7 @@ class TestU(unittest.TestCase):
         elif using_sha == QQQ.USING_SHA2:
             digest = hashlib.sha256()
         elif using_sha == QQQ.USING_SHA3:
+            # pylint: disable=no-member
             digest = hashlib.sha3_256()
         digest.update(data)
         d_key = digest.hexdigest()

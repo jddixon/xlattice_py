@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-01-05
+    * extend test_pyca_cryptography.py to test RSA encrytion
+        - possibly import code from test_hello_and_reply
+
 2016-12-29
     * rename all RuntimeErrors in xlattice/crypto.py XLCryptoError      * DONE
 
@@ -21,7 +25,7 @@
     * pylint it
 
 2016-11-10, edited from -09
-    * pyCrypto has not been supported since 2012.  cryptodome is        * DONE 
+    * pyCrypto has not been supported since 2012.  cryptodome is        * DONE
         drop-in replacement.  sudo pip3 install cryptodome.             * DONE
         - THIS WAS A MISTAKE: it is *not* a drop-in replacement.        * YEP
         - uninstall pycryptodome                                        * DONE
@@ -51,7 +55,7 @@
 
 2016-10-09
     * continue pylinting at xlattice/util and test_get_exclusions
-    * checkCoverage is incorrectly configured - checks pycrypt, 
+    * checkCoverage is incorrectly configured - checks pycrypt,
         rnglib, etc
 
 2016-09-15
@@ -60,7 +64,7 @@
 
 2016-09-15, edited from -06-03, edited from -02
     * the class UDir
-        - the constructor should create L, 
+        - the constructor should create L,
         - should also create tmp/ and in/ if these to not exist         * DONE
         - class need to run alongside the existing packages until
             class implementation is complete
@@ -87,7 +91,7 @@
     * part of testUStats.py is stubbed; implement it
     * modify uStats to display discovered dirStruc and usingSHA1        * DONE
     * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
-        as the signature for usingSHA1?  
+        as the signature for usingSHA1?
 
 2016-07-19, edit from -18
     * write uReStruc, a tool to restructure a uDir directory to         * DONE
@@ -119,7 +123,7 @@
     * testSHA3_256.py gets an import error                              * FIXED
 
     * the class UDir
-        - the constructor should create L, 
+        - the constructor should create L,
         - should also create tmp/ and in/ if these to not exist         * DONE
         - class need to run alongside the existing packages until
             class implementation is complete
@@ -146,7 +150,7 @@
     * part of testUStats.py is stubbed; implement it
     * modify uStats to display discovered dirStruc and usingSHA1        * DONE
     * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
-        as the signature for usingSHA1?  
+        as the signature for usingSHA1?
 
 2016-07-19, edit from -18
     * write uReStruc, a tool to restructure a uDir directory to         * DONE
@@ -178,7 +182,7 @@
     * testSHA3_256.py gets an import error                              * FIXED
 
 2016-06-03, edited from -02, edited from -05-11
-    * access to the RNG object in xlattice.u.UDir should be 
+    * access to the RNG object in xlattice.u.UDir should be
         synchronized
 
 2016-05-10 (edited from 04-17)
@@ -209,9 +213,9 @@
     * uConsolidate needs -V/--version option
 
 2016-04-07 (edited from -06)
-    * ProcLock should be more 'atomic': 
+    * ProcLock should be more 'atomic':
         - write lock file under a different name
-        - then rename it to proper name (shortens race period); 
+        - then rename it to proper name (shortens race period);
         - could read it after creation to confirm PID is as expected
             * raise exception if it fails
         - similary rename it before deleting it
@@ -240,7 +244,7 @@ FROM ~/dev/py/u/TODO ================================================
 2015-03-19
     * if eg myU2/tmp does not exist, the library must create it         * DONE
 
-2012-07-28 
+2012-07-28
     * FIX: testU256x256.py fails (because testU/tmp does not exist?)    * DONE
 
 2012-07-02
@@ -248,21 +252,21 @@ FROM ~/dev/py/u/TODO ================================================
 
 2012-06-02
     * BUG found when attempting to run upaxUpdateNodeID on test:
-        copyAndPut invokes put which attempts to rename a temporary 
-        file into /var/Upax; this yields an 'invalid cross-device link' 
-        error 
+        copyAndPut invokes put which attempts to rename a temporary
+        file into /var/Upax; this yields an 'invalid cross-device link'
+        error
         -- FIXED?
 
     * BUG observed but hasn't caused an error yet: u.put expects input
         file to be in the same file system.
 
-    * lock directory /tmp/u must be world-writeable; the current 
-        implementation creates world-writeable leaf directories but 
+    * lock directory /tmp/u must be world-writeable; the current
+        implementation creates world-writeable leaf directories but
         intermediate directories may not be such
 
 2012-05-30
-    * consider adding keyless copyAndPut(), put(), and putData(); these 
+    * consider adding keyless copyAndPut(), put(), and putData(); these
         would have names like putKeyless(), would have no content key
         parameter, but would still return the content key
 
-    * Compare code from xlshadow 
+    * Compare code from xlshadow

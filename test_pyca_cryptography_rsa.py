@@ -16,20 +16,13 @@ import time
 import unittest
 import warnings
 
-# BEING REPLACED
-from Crypto.PublicKey import RSA
-from Crypto.Hash import SHA    # presumably 1
-from Crypto.Signature import PKCS1_PSS
-# END BEING REPLACED
+from cryptography.hazmat.backends import default_backend
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.hashes import SHA256
 
 from rnglib import SimpleRNG
-from xlattice.crypto import XLCryptoError, collect_pem_rsa_public_key
-
-# NEW LIBRARY
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization
-# END
 
 
 class TestRSA(unittest.TestCase):
@@ -65,7 +58,7 @@ class TestRSA(unittest.TestCase):
         # END
         os.mkdir(node_dir, mode=0o755)
 
-        # TEST SERIALIZATIon, DESERIALIZATION OF KEYS ---------------
+        # RSA PRIVATE KEY GENERATION -----------------------------
 
         sk_priv = rsa.generate_private_key(
             public_exponent=65537,
@@ -74,6 +67,8 @@ class TestRSA(unittest.TestCase):
         sk_ = sk_priv.public_key()
 
         self.assertEqual(sk_priv.key_size, 1024)
+
+        # PEM FORMAT RSA PRIVATE KEY ROUND-TRIPPED ------------------
 
         pem = sk_priv.private_bytes(
             encoding=serialization.Encoding.PEM,
@@ -92,116 +87,168 @@ class TestRSA(unittest.TestCase):
                 password=None,
                 backend=default_backend())
 
+        # NUMBERS AND KEY EQUALITY ----------------------------------
+
         # get the public part of the key
         sk2_ = sk2_priv.public_key()
 
-        # JUST PLAYING
-        _ = sk_priv.private_numbers()
-        # _ = sk_.private_numbers()   # no such attribute
+        # __eq__() for public part of RSA keys -------------
 
         # FAILS because __eq__()  has not been defined
-        self.assertEqual(sk2_, sk_)
+        # self.assertEqual(sk2_, sk_)
 
-        # =================================================
-        # XXX OLD CODE FOLLOWS
-        # =================================================
+        def check_equal_rsa_pub_key(sk2_, sk_):
+            """  __eq__ functionalitiy for RSA public keys. """
+            pub_n = sk_.public_numbers()
+            pub_n2 = sk2_.public_numbers()
 
-#        # transform key into DER (binary) format
-#        sk_priv_der_file = os.path.join(node_dir, 'skPriv.der')
-#        der_data = sk_priv.exportKey('DER')
-#        with open(sk_priv_der_file, 'wb') as file:
-#            file.write(der_data)
-#
-#        # write the public key in PEM format
-#        sk_file = os.path.join(node_dir, 'sk.pem')
-#        with open(sk_file, 'wb') as file:
-#            file.write(sk_.exportKey('PEM'))
-#
-# write the public key in OpenSSH format
-# XXX THIS FAILS - bug in pycrypto ("can't concat", below)
-##       o_file = os.path.join(node_dir, 'sk.openssh')
-# with open(o_file, 'w') as file:
-# XXX POSSIBLE ValueError, which doesn't get decoded like this
-# DEBUG ---------------------------------------
-##           print('TYPE sk_: ', type(sk_))
-# NEXT LINE gets "can't concat bytes to str"
-##           stuff = sk_.exportKey('OpenSSH')
-##           print("TYPE STUFF: ", type(stuff))
-# END -----------------------------------------
-# file.write(sk_.exportKey('OpenSSH'))
-#
-#        sk_priv2 = RSA.importKey(der_data)
-#        sk2 = sk_priv2.publickey()
-#
-#        # verify that public key parts are identical
-#        self.assertEqual(sk_.exportKey('DER'), sk2.exportKey('DER'))
-#
-#        # TEST PEM DESERIALIZATION FROM STRINGS ---------------------
-#
-#        try:
-#            # pylint seems confused, complains ValueError has no decode member
-#            # pylint: disable=no-member
-#            pem_str = sk_.exportKey('PEM').decode('utf-8')
-#        except ValueError as exc:
-#            raise XLCryptoError(exc)
-#
-#        # depth == 0 test (where depth is number of leading spaces)
-#        strings = pem_str.split('\n')
-#        string = strings[0]
-#        strings = strings[1:]
-#        pem_pk, rest = collect_pem_rsa_public_key(string, strings)
-#        self.assertEqual(pem_pk, pem_str)
-#
-#        # depth > 0 test
-#        strings = pem_str.split('\n')
-#        tt_ = []
-#        depth = 1 + self.rng.next_int16(10)   # so from 1 to 10 inclusive
-#        indent = ' ' * depth
-#        for line in strings:
-#            tt_.append(indent + line)
-#        tt_.append('this is a line of junk')
-#        string = tt_[0][depth:]
-#        tt_ = tt_[1:]
-#        pem_pk, rest = collect_pem_rsa_public_key(string, tt_)
-#        self.assertEqual(pem_pk, pem_str)
-#        self.assertEqual(len(rest), 1)
-#        self.assertEqual(rest[0], 'this is a line of junk')
+            self.assertEqual(pub_n2.e, pub_n.e)
+            self.assertEqual(pub_n2.n, pub_n.n)
+
+        check_equal_rsa_pub_key(sk2_, sk_)
+
+        def check_equal_rsa_priv_key(sk2_priv, sk_priv):
+            """  __eq__ functionalitiy for RSA private keys. """
+            pri_n = sk_priv.private_numbers()
+            pri_n2 = sk2_priv.private_numbers()
+
+            # the library guarantees this: p is the larger factor
+            self.assertTrue(pri_n.p > pri_n.q)
+
+            self.assertTrue(
+                pri_n2.p == pri_n.p and
+                pri_n2.q == pri_n.q and
+                pri_n2.d == pri_n.d and
+                pri_n2.dmp1 == pri_n.dmp1 and
+                pri_n2.dmq1 == pri_n.dmq1 and
+                pri_n2.iqmp == pri_n.iqmp)
+
+        check_equal_rsa_priv_key(sk2_priv, sk_priv)
+
+        # DER DE/SERIALIZATION ROUND-TRIPPED ------------------------
+
+        der = sk_priv.private_bytes(
+            encoding=serialization.Encoding.DER,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption())
+
+        der_key_file = os.path.join(node_dir, 'skPriv.der')
+        with open(der_key_file, 'wb') as file:
+            # written as bytes
+            file.write(der)
+
+        self.assertTrue(os.path.exists(der_key_file))
+        with open(der_key_file, 'rb') as file:
+            sk3_priv = serialization.load_der_private_key(
+                file.read(),
+                password=None,
+                backend=default_backend())
+
+        check_equal_rsa_priv_key(sk3_priv, sk_priv)
+
+        # OpenSSH PUBLIC KEY DE/SERIALIZATION ROUND-TRIPPED ---------
+
+        ssh_bytes = sk_.public_bytes(
+            encoding=serialization.Encoding.OpenSSH,
+            format=serialization.PublicFormat.OpenSSH)
+
+        ssh_key_file = os.path.join(node_dir, 'sk.ssh')
+        with open(ssh_key_file, 'wb') as file:
+            # written as bytes
+            file.write(ssh_bytes)
+
+        self.assertTrue(os.path.exists(ssh_key_file))
+        with open(ssh_key_file, 'rb') as file:
+            sk4_ = serialization.load_ssh_public_key(
+                file.read(),
+                backend=default_backend())
+
+        check_equal_rsa_pub_key(sk4_, sk_)  # GEEP 175
+
+        # PEM FORMAT RSA PUBLIC KEY ROUND-TRIPPED -------------------
+
+        pem = sk_.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.PKCS1)
+
+        key_file = os.path.join(node_dir, 'sk.pem')
+        with open(key_file, 'wb') as file:
+            # written as bytes
+            file.write(pem)
+
+        self.assertTrue(os.path.exists(key_file))
+        with open(key_file, 'rb') as file:
+            sk5_ = serialization.load_pem_public_key(
+                file.read(),
+                backend=default_backend())                  # GEEP 193
+
+        check_equal_rsa_pub_key(sk5_, sk_)
 
     def test_dig_sig(self):
         """ Test digital signatures. """
 
-        sk_priv = RSA.generate(1024)     # cheap key for testing
-        # get the public part of the key
-        sk_ = sk_priv.publickey()
+        sk_priv = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=1024,  # cheap key for testing
+            backend=default_backend())
+        sk_ = sk_priv.public_key()
+
+        print("WARNING: cannot use hashlib's sha code")
+        print("WARNING: pyca cryptography does not support sha3/keccak")
+
+        signer = sk_priv.signer(
+            padding.PSS(
+                mgf=padding.MGF1(SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH),
+            SHA256())
 
         count = 64 + self.rng.next_int16(192)
-        data = self.rng.some_bytes(count)
-        self.assertTrue(sk_priv.can_sign())
-        # self.assertFalse(sk, can_sign())  # no such method
+        data = bytes(self.rng.some_bytes(count))
 
-        sha = SHA.new()
-        sha.update(data)
-        signer = PKCS1_PSS.new(sk_priv)
-        signature = signer.sign(sha)     # guess at interface ;-)
+        signer.update(data)
+        signature = signer.finalize()
 
         b64sig = base64.b64encode(signature).decode('utf-8')
         # DEBUG
-        #print("DIG SIG:\n%s" % b64sig)
+        # print("DIG SIG:\n%s" % b64sig)
         # END
         sig2 = base64.b64decode(b64sig)
         self.assertEqual(sig2, signature)
 
-        sha = SHA.new()
-        sha.update(data)
-        verifier = PKCS1_PSS.new(sk_)
-        self.assertTrue(verifier.verify(sha, signature))
+        verifier = sk_.verifier(
+            signature,
+            padding.PSS(
+                mgf=padding.MGF1(SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH),
+            SHA256())
+        verifier.update(data)
+
+        try:
+            verifier.verify()
+            # digital signature verification succeeded
+        except InvalidSignature:
+            self.fail("dig sig verification unexpectedly failed")
 
         # twiddle a random byte in data array to make verification fail
-        sha_2 = SHA.new()
+        data2 = bytearray(data)
         which = self.rng.next_int16(count)
-        data[which] = 0xff & ~data[which]
-        sha_2.update(data)
-        self.assertFalse(verifier.verify(sha_2, signature))
+        data2[which] = 0xff & ~data2[which]
+        data3 = bytes(data2)
+
+        verifier = sk_.verifier(
+            signature,                          # same digital signature
+            padding.PSS(
+                mgf=padding.MGF1(SHA256()),
+                salt_length=padding.PSS.MAX_LENGTH),
+            SHA256())
+        verifier.update(data3)
+
+        try:
+            verifier.verify()
+            self.fail("expected verification of modified message to fail")
+
+        except InvalidSignature:
+            pass    # digital signature verification failed
 
 if __name__ == '__main__':
     unittest.main()
