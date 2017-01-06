@@ -7,25 +7,25 @@ Giaje1YAJPNVBt3dlOA5lhBp4GpSYBskJ9UR2Zyt3lgAGK3dEwxYETLMh9VWEV8i
 k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
-xlattice_py v1.5.18
-2017-01-05 02:43:21
+xlattice_py v1.5.19
+2017-01-06 00:35:33
 # BEGIN CONTENT #
 xlattice_py
  .dvcz
-  builds b92b7f6b37c1af10a7488f2ce9043182c20a4218
+  builds 3da49f1e78a09411eb342a2b1f2e9d474582f7df
   copyright 304c14d702dff7c6c2c39729ff62aed7203b3427
-  lastBuildList 0ee46f7796b434b23b1aaa71c501ebe03704f327
+  lastBuildList 0ed2ebbb48e7a4ac8c4d3cff2ecf0d0dc7112ad1
   license 5977a55c75bb4612004451a56b0b4c22d9d3311d
   projCfg c1df28aef74838e54b27d25154a2771bd380bb32
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  version 66947c82c84fba112c710e21bcb0ee80e6adfdd6
+  version 5689d1186e219aa4669385bc87b2a53aaeaa29b2
  .gitignore 86e76dc965020518584f7be1e5b312144b94c73d
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 47b0c0a5b5ca152471a5229ab809a71e92be9223
+ CHANGES e644b527a4d2751a7ff13e484b7fff0dd05be5fe
  LICENSE-MIT.md ef87ef0aafe2bb3dc3b3ab29651c52e8add097b4
  MANIFEST.in 55a54754c28d20fac93769d8615b9fa5027df683
  README.md e61a95e35b1996e1e537097137e4173f1eee38ad
- TODO f7dd7d31865025861edaed00096816bb2de1c054
+ TODO bfd6b2c950ed67e76e3bbcb1c3fe81b85943c8de
  auto8it 492f276b2834f33de554598641534a07738153c8
  bkp2U b0ce91974308a94f23de944ce91f629ff9d69ec5
  checkCoverage bf2d8d003ad883bf69c137bf1b500c3b7175420c
@@ -106,6 +106,7 @@ xlattice_py
   xlattice_py-1.5.16.tar.gz 3311f3f1890e0d0f76fd7621dcd24d0e6a0012d5
   xlattice_py-1.5.17.tar.gz 815a4ce187c5eecc985dff41200a26ac43dcbfcc
   xlattice_py-1.5.18.tar.gz 1a734e402a2ce14664117aa878bce1806616b3cc
+  xlattice_py-1.5.19.tar.gz a7cb2f235e67189093ea4e61218df54d8dac7a53
   xlattice_py-1.5.2.tar.gz 63014ce7e16fe884ab6744dc119119203457ef4e
   xlattice_py-1.5.3.tar.gz 541f36b6ed6e7c7f2b470804f7b47ad0594d7b1f
   xlattice_py-1.5.4.tar.gz 00797aba54a9ca2b2b809810600af95c776b3fc1
@@ -204,13 +205,13 @@ xlattice_py
  test_node.py 0fc3ac0178950e46ac4e13dd9d19da6a03121552
  test_pkcs7.py e034c283a7725f734c0468bcce301672ca6c8ba2
  test_proc_lock.py 68bd3a7070d305bfda357d640795149c757bf1fd
- test_pyca_cryptography_rsa.py 393eff17f3205f347aa818a84a8dfb54bdea62bf
+ test_pyca_cryptography_rsa.py 437739594f2ad438dc9038379b0387b1ce45af51
  test_regexes_from_wildcards.py 5e260eb6b8646abc567251256ab708080d98cb07
  test_rsa.py 98e7b4ad31756ed258df953c7081c5a7bc0662a7
  test_sha3_256.py 83593055b16e522824fed37156bb7f69ac0230c8
  test_timestamp.py 3d4e2f9d4108fc55915772e910aa675aa8c7e183
  test_two_logs.py c4feaa8c5446ec9893ecb53a307427c7695aab20
- test_u.py c9d018d46d2091c152e4d853bbb5d3c81bbff97b
+ test_u.py be346f657c4165d5e9a3b318abcffe9234017b55
  test_u_lock.py 017dabca1e8e3b1f7d80a3224a6e9ffeadbbf924
  test_u_re_struc.py 971cf47a895c01e120a9f0e9f3bde665edbda3ca
  test_u_stats.py bb7d1072a194957e90aeb7a2ada01f5bece77166
@@ -220,7 +221,7 @@ xlattice_py
  u_stats 42c337900bd06e5050b0fd4f90c2c133a27c8eb5
  verify_content_keys 665c8c2ff559c2e022c999fddddeba786e0605b4
  xlattice
-  __init__.py bb9c4404569b21b660609ba9fe4c0b160dd78290
+  __init__.py 1d44a7835415f08fd02b0078bd7bc983c25e6917
   crypto.py 96bc688a6487033d829ece6b542a05fc8b88a633
   ftlog.py 77a11840a342c8406eded28835373ec0132675e5
   hello_and_reply.py efc5fe9a123f1db8d8745dcc2ae870a21c4094b6
@@ -229,9 +230,9 @@ xlattice_py
   proc_lock.py 73593e416dda95cb48e1eefca029fafd8e587f95
   stats.py 7a35fdf840b85fde0775d5a63395a6f7056f94cf
   u
-   __init__.py 9d33d031daafd93459440e489d8b28bcda7b2142
+   __init__.py c1cb02428624139b046058d302c8f3d25e352d60
   ui.py 7d1cc843c12c3b55634edae80d16100c90812299
   util.py 03cb1ef46806b3eb088155b10f157a283981f32a
 # END CONTENT #
 
-VkBi5WdlAbJMOpXCHdwp5o+pQj1G0VI/j2TQ3yEPq6mQ9T/WJD4zvlXKPFuGhiFRGSruC4gNmW3FZ38ndQUZxI1+mAIphpFhErFRQovh7Nuzavo28k2oRf9MPth4dVst7u2XlI3eFvROqY3XdM7cPhem1lF7dOxK5zEqPZjs/ChEyAFMeckr4E5o3Cl50+O3gRkQ7/0e+6RioJEmQKlY/iPJgq3UO7Ai/9HK4qRI6uo3pKD936o+aUpuCAWeyx81Gfp0Gr2U9NeePIfd8rFr6iGbB8MdjlFIiKlXDzB11SGod2zl7g5FGuYzueH+TuCrY1DIMG4dyjOOy1TIn7EJ+w==
+kRyep8eSk72DX1KMvCETTcS7SC06JpwPGQFiLMGdQF3r3vRL1mroSZ2ElZ+w+QwekKX6XBjlxqppzAta73NHGs9DvSuNqbeunbq5Y2iPZS5fsMCNlFrbM7SFJojjHqAv/ofOt4LDag6ri4k2u5NY004txLqghkGoyYyGt3x/zLwBuyb1tTfl8ZA8b+n0N9vmWeVOchCBCi2vNM7W1sT+GvvtZGiai/qDjrnR0oMqmB5TQhrDZ7z76P6QAtlv40fgxUCd8giIe2QEPmSRcI9YI3lu8MEiv8iqXcLc9LKtE5MQDi4z7vSSkPDDL/DMpwGKHu/LFM9v7oQIKJvA4lXZ8w==

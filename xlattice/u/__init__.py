@@ -28,17 +28,16 @@ __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
            'UDir', 'ULock',
            'XLUError',
 
-           # functions
-           'file_sha1bin', 'file_sha1hex',
-           'file_sha2bin', 'file_sha2hex',
-           'file_sha3bin', 'file_sha3hex',
-
            # SYNONYMS
            'fileSHA1Bin', 'fileSHA1Hex',
            'fileSHA2Bin', 'fileSHA2Hex',
            'fileSHA3Bin', 'fileSHA3Hex',
            # END SYN
-           ]
+
+           # functions
+           'file_sha1bin', 'file_sha1hex',
+           'file_sha2bin', 'file_sha2hex',
+           'file_sha3bin', 'file_sha3hex', ]
 
 # CONSTANTS =========================================================
 

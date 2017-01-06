@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.5.19
+    2017-01-05
+        * complete test_pyca_cryptography.py                        SLOC 5133
 v1.5.18
     2017-01-04
         * introduce test_pyca_cryptography.py                       SLOC 5055
@@ -288,6 +291,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
