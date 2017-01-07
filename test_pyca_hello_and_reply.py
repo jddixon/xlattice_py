@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
-# xlattice_py/testHelloAndReply.py
+# xlattice_py/test_pyca_hello_and_reply.py
 
 """ Test handling of hello-and-reply sequence. """
 
 import os
 import time
 import unittest
-# from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import RSA
-import rnglib
 
-import xlattice.hello_and_reply as hr
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+#from cryptography.hazmat.primitives.hashes import SHA256
+
+import rnglib
+from xlattice.crypto import AES_BLOCK_BYTES
+import xlattice.pyca_hello_and_reply as hr
 from xlattice.util import DecimalVersion, parse_decimal_version
 from xlattice import SHA1_BIN_LEN
 
 KEY_BITS = 2048
-KEY_BYTES = KEY_BITS // 8
+KEY_BYTES = KEY_BITS / 8
 MAX_MSG = KEY_BYTES - 1 - 2 * SHA1_BIN_LEN  # one more than max value
 
 TEST_DIR = 'tmp'
@@ -40,11 +44,13 @@ class TestRSA_OAEP(unittest.TestCase):
 
         # set up private RSA key, get its public part
         # generate a 2K bit private key
-        ck_priv = RSA.generate(KEY_BITS)
-        # self.assertEqual(ckPriv.size(), KEY_BITS) # fails, may be a little
-        # less
-        ck_ = ck_priv.publickey()
-        self.assertEqual(ck_.has_private(), False)
+        ck_priv = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=KEY_BITS,  # cheap key for testing
+            backend=default_backend())
+        ck_ = ck_priv.public_key()
+
+        self.assertEqual(ck_priv.key_size, KEY_BITS)
 
         # prepare DecimalVersion object, get its value, an int
         www = self.rng.next_int16(256)
@@ -62,8 +68,8 @@ class TestRSA_OAEP(unittest.TestCase):
         encrypted_hello, iv1, key1, salt1 = hr.client_encrypt_hello(
             version, ck_)
         self.assertEqual(len(encrypted_hello), KEY_BITS / 8)
-        self.assertEqual(len(iv1), hr.AES_BLOCK_SIZE)
-        self.assertEqual(len(key1), 2 * hr.AES_BLOCK_SIZE)
+        self.assertEqual(len(iv1), AES_BLOCK_BYTES)
+        self.assertEqual(len(key1), 2 * AES_BLOCK_BYTES)
         self.assertEqual(len(salt1), 8)
 
         # SERVER DECRYPTS HELLO -------------------------------------

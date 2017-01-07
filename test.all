@@ -15,7 +15,9 @@ then
   ./test_node.py
   ./test_pkcs7.py
   ./test_proc_lock.py
-  ./test_pyca_cryptography_rsa.py
+  ./test_pyca_hello_and_reply.py
+  ./test_pyca_pkcs7.py
+  ./test_pyca_rsa.py
   ./test_regexes_from_wildcards.py
   ./test_rsa.py
   ./test_sha3_256.py
