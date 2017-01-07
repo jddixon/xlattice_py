@@ -1,6 +1,6 @@
 # xlattice_py/xlattice/crypto.py
 
-__all__ = ['AES_BLOCK_SIZE',
+__all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
            'next_nb_line', 'collect_pem_rsa_public_key',
            # Classes
@@ -8,7 +8,9 @@ __all__ = ['AES_BLOCK_SIZE',
 
 # EXPORTED CONSTANTS
 
-AES_BLOCK_SIZE = 16
+AES_BLOCK_SIZE = 16         # consider me DEPRECATED
+AES_BLOCK_BITS = 128
+AES_BLOCK_BYTES = 16
 
 
 class XLCryptoError(RuntimeError):

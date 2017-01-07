@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# xlattice_py/test_rsa.py; moved here from buildList
+# xlattice_py/test_pyca_rsa.py
 
 """
 Test RSA crypto routines.
