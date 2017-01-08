@@ -1,4 +1,4 @@
-# ~/dev/py/xlattice_py/xlattice/node.py
+# ~/dev/py/xlattice_py/xlattice/pyca_node.py
 
 ########################################
 # BEING HACKED TO USED pyca/cryptography
@@ -6,17 +6,13 @@
 
 import os
 import sys
-import hashlib
 
-from Crypto.PublicKey import RSA as rsa
-#from Crypto.Signature       import PKCS1_PSS    as pkcs1
-# from Crypto.Signature import PKCS1_v1_5 as pkcs1
+# from Crypto.PublicKey import RSA as rsa
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes, serialization
 
 from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
-
-if sys.version_info < (3, 6):
-    # pylint: disable=unused-import
-    import sha3
 
 
 class AbstractNode(object):
@@ -35,11 +31,11 @@ class AbstractNode(object):
                 # we have called checkUsingSHA(): one of these cases must apply
                 # pylint:disable=redefined-variable-type
                 if using_sha == QQQ.USING_SHA1:
-                    sha = hashlib.sha1()
+                    sha_ = hashes.SHA1
                 elif using_sha == QQQ.USING_SHA2:
-                    sha = hashlib.sha256()
-                elif using_sha == QQQ.USING_SHA3:
-                    sha = hashlib.sha3_256
+                    sha_ = hashes.SHA256
+                sha = hashes.Hash(sha_(), backend=default.backend())
+                # ----------------> XXXXXXXX
                 sha.update(pub_key.exportKey())
                 node_id = sha.digest()    # a binary value
             else:
@@ -66,7 +62,11 @@ class Node(AbstractNode):
         # making this the default value doesn't work: it always
         # generates the same key
         if priv_key is None:
-            priv_key = rsa.generate(2048, os.urandom)
+            # XXX SHOULD BE CREATING TWO PRIVATE KEYS
+            priv_key = rsa.generate_private_key(
+                public_exponent=65537,
+                key_size=2048,  # cheap key for testing
+                backend=default_backend())
         node_id, pub_key = Node.get_id_and_pub_key_for_node(
             using_sha, self, priv_key)
         AbstractNode.__init__(self, using_sha, pub_key, node_id)
@@ -92,7 +92,10 @@ class Node(AbstractNode):
 
         check_using_sha(using_sha)
         (node_id, pub_key) = (None, None)
-        pub_key = rsa_priv_key.publickey()
+        pub_key = rsa_priv_key.public_key()
+        pem_pub_key = pub_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.PKCS1)
 
 #       # DEBUG
 #       print "GET_ID: private key is %s" % str(rsaPrivateKey.__class__)
@@ -104,14 +107,12 @@ class Node(AbstractNode):
         # generate the nodeID from the public key
         # pylint: disable=redefined-variable-type
         if using_sha == QQQ.USING_SHA1:
-            sha = hashlib.sha1()
+            sha_ = hashes.SHA1
         elif using_sha == QQQ.USING_SHA2:
-            sha = hashlib.sha256()
-        elif using_sha == QQQ.USING_SHA3:
-            sha = hashlib.sha3_256()
-
-        sha.update(pub_key.exportKey())
-        node_id = sha.digest()
+            sha_ = hashes.SHA256
+        sha = hashes.Hash(sha_(), backend=default_backend())
+        sha.update(pem_pub_key)
+        node_id = sha.finalize()
         return (node_id,                 # nodeID = 160/256 bit BINARY value
                 pub_key)                 # from private key
 
@@ -121,13 +122,13 @@ class Node(AbstractNode):
 
     # these work with
     def sign(self, msg):
-        sha = hashlib.sha1()
+        sha = hashes.Hash(SHA1(), backend=default_backend())
         sha.update(bytes(msg))
         d_val = sha.digest()
         return self._private_key.sign(d_val, msg)
 
     def verify(self, msg, signature):
-        sha = hashlib.sha1()
+        sha = hashes.Hash(SHA1(), backend=default_backend())
         sha.update(bytes(msg))
         d_val = sha.digest()
         return self._pub_key.verify(d_val, signature)

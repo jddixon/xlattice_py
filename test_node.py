@@ -8,7 +8,6 @@ import unittest
 import hashlib
 
 from Crypto.PublicKey import RSA as rsa
-# from Crypto.Signature import PKCS1_v1_5 as pkcs1
 from xlattice import QQQ, UnrecognizedSHAError
 from xlattice.node import Node
 from rnglib import SimpleRNG

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# dev/py/xlattice_py/testCrypto.py
+# dev/py/xlattice_py/test_crypto.py
 
 """ Test "crypto" functionality (line of spaces cache) for xlattic_py. """
 
