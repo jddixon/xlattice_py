@@ -7,7 +7,7 @@ Test RSA crypto routines.
 This module specifically exercise github.com/pyca/cryptography.  The
 python XLattice packages currently use pycrypto.  Should testing
 confirm that this is appropriate, we will be replacing pycrypto with
-cryptography throughout.
+pyca cryptography throughout.
 """
 
 import base64
@@ -19,10 +19,9 @@ import warnings
 from cryptography.hazmat.backends import default_backend
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.hashes import SHA256
-
+from cryptography.hazmat.primitives import hashes, serialization
 from rnglib import SimpleRNG
+from xlattice import QQQ
 
 
 class TestRSA(unittest.TestCase):
@@ -185,24 +184,33 @@ class TestRSA(unittest.TestCase):
         check_equal_rsa_pub_key(sk5_, sk_)
 
     def test_dig_sig(self):
-        """ Test digital signatures. """
+        """ Test digital signatures using a range of hash types. """
 
+        for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
+            self.do_test_dig_sig(using)
+
+    def do_test_dig_sig(self, using_sha):
+
+        if using_sha == QQQ.USING_SHA1:
+            sha = hashes.SHA1
+        elif using_sha == QQQ.USING_SHA2:
+            sha = hashes.SHA256
         sk_priv = rsa.generate_private_key(
             public_exponent=65537,
             key_size=1024,  # cheap key for testing
             backend=default_backend())
         sk_ = sk_priv.public_key()
 
-        print("WARNING: cannot use hashlib's sha code")
+        print("WARNING: cannot use hashlib's sha code with pyca cryptography")
         print("WARNING: pyca cryptography does not support sha3/keccak")
 
         signer = sk_priv.signer(
             padding.PSS(
-                mgf=padding.MGF1(SHA256()),
+                mgf=padding.MGF1(sha()),
                 salt_length=padding.PSS.MAX_LENGTH),
-            SHA256())
+            sha())
 
-        count = 64 + self.rng.next_int16(192)
+        count = 64 + self.rng.next_int16(192)       # [64..256)
         data = bytes(self.rng.some_bytes(count))
 
         signer.update(data)
@@ -218,9 +226,9 @@ class TestRSA(unittest.TestCase):
         verifier = sk_.verifier(
             signature,
             padding.PSS(
-                mgf=padding.MGF1(SHA256()),
+                mgf=padding.MGF1(sha()),
                 salt_length=padding.PSS.MAX_LENGTH),
-            SHA256())
+            sha())
         verifier.update(data)
 
         try:
@@ -238,9 +246,9 @@ class TestRSA(unittest.TestCase):
         verifier = sk_.verifier(
             signature,                          # same digital signature
             padding.PSS(
-                mgf=padding.MGF1(SHA256()),
+                mgf=padding.MGF1(sha()),
                 salt_length=padding.PSS.MAX_LENGTH),
-            SHA256())
+            sha())
         verifier.update(data3)
 
         try:

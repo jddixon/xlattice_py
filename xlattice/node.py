@@ -6,20 +6,25 @@
 
 import os
 import sys
-import hashlib
 
-from Crypto.PublicKey import RSA as rsa
-#from Crypto.Signature       import PKCS1_PSS    as pkcs1
-# from Crypto.Signature import PKCS1_v1_5 as pkcs1
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import serialization
 
 from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
 
-if sys.version_info < (3, 6):
-    # pylint: disable=unused-import
-    import sha3
-
 
 class AbstractNode(object):
+
+    # DEBUG
+    @staticmethod
+    def dump_hex(title, hex_bytes):
+        print("%s: " % title, end='')
+        for val in hex_bytes:
+            print("%02x " % val, end='')
+        print()
+    # END
 
     def __init__(self, using_sha=False, pub_key=None, node_id=None):
 
@@ -42,6 +47,10 @@ class AbstractNode(object):
                     sha = hashlib.sha3_256
                 sha.update(pub_key.exportKey())
                 node_id = sha.digest()    # a binary value
+
+                # DEBUG
+
+                # END
             else:
                 raise ValueError('cannot calculate nodeID without pubKey')
 
