@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.5.21
+    2017-01-07
+        * introduce xlattice/pyca_node.py, test_pyca_node.py        SLOC 5546
 v1.5.20
     2017-01-06
         * test_pyca_pkcs7.py, xlattice/pyca_hello_and_reply.py
@@ -296,6 +299,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

@@ -1,8 +1,29 @@
 ~/dev/py/xlattice_py/TODO
 
-2017-01-05
-    * extend test_pyca_cryptography.py to test RSA encrytion
-        - possibly import code from test_hello_and_reply
+2017-01-07
+    * consider using blake2 as alternative hash
+
+2017-01-06
+    * need performance figures 
+        - hashlib/sha* vs pyca/cryptography sha*
+
+    * create pyca versions of test_node.py,
+        xlattice/node.py
+    * add deprecation warnings 
+            import warnings
+            warnings.warn('deprecated', DeprecationWarning)
+        - test_hello_and_reply.py
+        - xlattice/hello_and_reply.py
+        - test_node.py
+        - xlattice/node.py
+        - test_pkcs7.py
+        - xlattice/pkcs7.py
+        - test_rsa.py
+
+2017-01-06, edited from -05
+    * extend test_pyca_cryptography.py to test RSA encrytion            * DONE
+        - create test_pyca_hello_and_reply,                             * DONE
+            xlattice/pyca_hello_and_reply.py                            * DONE
 
 2016-12-29
     * rename all RuntimeErrors in xlattice/crypto.py XLCryptoError      * DONE
