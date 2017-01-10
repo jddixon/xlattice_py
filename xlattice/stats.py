@@ -10,7 +10,7 @@ try:
 except ImportError:
     from scandir import scandir
 
-from xlattice import __version__
+from xlattice import __version__, check_using_sha
 from xlattice.u import UDir
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
@@ -43,9 +43,19 @@ class UStats:
     def dir_struc(self):
         return self._dir_struc   # an int
 
+    @dir_struc.setter
+    def dir_struc(self, value):
+        # XXX NEED SOME CHECKS
+        self._dir_struc = value
+
     @property
     def using_sha(self):
         return self._using_sha
+
+    @using_sha.setter
+    def using_sha(self, value):
+        check_using_sha(value)          # exits if bad !
+        self._using_sha = value
 
     @property
     def subdir_count(self):

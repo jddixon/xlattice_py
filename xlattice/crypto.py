@@ -1,5 +1,7 @@
 # xlattice_py/xlattice/crypto.py
 
+import warnings
+
 __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
            'next_nb_line', 'collect_pem_rsa_public_key',
@@ -21,26 +23,32 @@ class XLCryptoError(RuntimeError):
 
 def pkcs7Padding(data, block_size):
     """ SYNONYM """
+    warnings.warn("synonym", DeprecationWarning)
+
     return pkcs7_padding(data, block_size)
 
 
 def addPKCS7Padding(data, block_size):
     """ SYNONYM """
+    warnings.warn("synonym", DeprecationWarning)
     return add_pkcs7_padding(data, block_size)
 
 
 def stripPKCS7Padding(data, block_size):
     """ SYNONYM """
+    warnings.warn("synonym", DeprecationWarning)
     return strip_pkcs7_padding(data, block_size)
 
 
 def nextNBLine(strings):
     """ SYNONYM """
+    warnings.warn("synonym", DeprecationWarning)
     return next_nb_line(strings)
 
 
 def collectPEMRSAPublicKey(first_line, lines):
     """ SYNONYM """
+    warnings.warn("synonym", DeprecationWarning)
     return collect_pem_rsa_public_key(first_line, lines)
 
 # END SYN

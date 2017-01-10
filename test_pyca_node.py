@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
-
 # xlattice_py/test_pyca_node.py
 
-########################################
-# BEING HACKED TO USED pyca/cryptography
-########################################
+""" Test Python3 version of the XLattice Node. """
 
-import sys
+import base64           # tentatively :-)
 import time
 import unittest
 
+from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
 
@@ -25,7 +22,7 @@ RNG = SimpleRNG(time.time)
 class TestNode(unittest.TestCase):
     """
     Tests an XLattice-style Node, including its sign() and verify()
-    functions, using SHA1, SHA2(56), and SHA3[-256]
+    functions, using SHA1 and SHA2(56)
     """
 
     def setUp(self):
@@ -35,9 +32,12 @@ class TestNode(unittest.TestCase):
         pass
 
     def check_node(self, node, using_sha):
+        """
+        Verify that the sk_ public key can be used for signing.
+        """
         assert node is not None
 
-        pub = node.pub_key
+        sk_ = node.sk_
         id_ = node.node_id
         # pylint:disable=redefined-variable-type
         if using_sha == QQQ.USING_SHA1:
@@ -49,25 +49,38 @@ class TestNode(unittest.TestCase):
         else:
             raise UnrecognizedSHAError("%d" % using_sha)
 
-        pem_pub = pub.public_bytes(
+        pem_sk = sk_.public_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.PKCS1)
-        sha.update(pem_pub)
-        expected_id = sha.finalize()
-        self.assertEqual(expected_id, id_)
+        sha.update(pem_sk)
+        calculated_id = sha.finalize()
+        self.assertEqual(id_, calculated_id)
 
         # make a random array of bytes
         count = 16 + RNG.next_int16(256)
-        msg = bytearray(count)
-        RNG.next_bytes(msg)
+        msg_ = bytearray(count)
+        RNG.next_bytes(msg_)
+        msg = bytes(msg_)
 
         # sign it and verify that it verifies
         sig = node.sign(msg)
-        self.assertTrue(node.verify(msg, sig))
+
+        try:
+            node.verify(msg, sig)
+            # success if we get here
+        except InvalidSignature:
+            self.fail("unexpected InvalidSignature")
 
         # flip some bits and verify that it doesn't verify with the same sig
-        msg[0] = msg[0] ^ 0x36
-        self.assertFalse(node.verify(msg, sig))
+        msg_ = bytearray(msg)
+        msg_[0] = msg_[0] ^ 0x36
+        msg2 = bytes(msg_)
+        try:
+            node.verify(msg2, sig)
+            self.fail("verification should have failed")
+        except InvalidSignature:
+            # success
+            pass
 
     # ===============================================================
 
@@ -91,35 +104,7 @@ class TestNode(unittest.TestCase):
 
     # ===============================================================
 
-#   def do_test_with_openssl_key(self, using_sha):
-
-#       # import an openSSL-generated 2048-bit key (this becomes a
-#       # string constant in this program)
-#       with open('openssl2k.pem', 'r') as file:
-#           pem_key = file.read()
-#       key = rsa.importKey(pem_key)
-#       assert key is not None
-#       self.assertTrue(key.has_private())
-#       nnn = Node(using_sha, key)
-#       self.check_node(nnn, using_sha)
-
-#       pem_pub = key.public_key.public_bytes(
-#           encoding=serialization.Encoding.PEM,
-#           format=serialization.PublicFormat.PKCS1)
-
-#       self.assertEqual(key.public_key().exportKey(),
-#                        nnn.pub_key.exportKey())
-
-#       # -----------------------------------------------------------
-#       # CLEAN THIS UP: node.key and node.pubKey should return
-#       # stringified objects, but node._privateKey and _pubKey should
-#       # be binary
-#       # -----------------------------------------------------------
-
-#   def test_with_open_ssl_key(self):
-#       # SHA3 is dropped
-#       for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
-#           self.do_test_with_openssl_key(using)
+    # DROPPED OpenSSL-related tests.
 
 if __name__ == '__main__':
     unittest.main()
