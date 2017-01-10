@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-
 # xlattice_py/test_pyca_node.py
 
-########################################
-# BEING HACKED TO USED pyca/cryptography
-########################################
+""" Test Python3 version of the XLattice Node. """
 
-import sys
+import base64           # tentatively :-)
 import time
 import unittest
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
 
@@ -26,7 +22,7 @@ RNG = SimpleRNG(time.time)
 class TestNode(unittest.TestCase):
     """
     Tests an XLattice-style Node, including its sign() and verify()
-    functions, using SHA1, SHA2(56), and SHA3[-256]
+    functions, using SHA1 and SHA2(56)
     """
 
     def setUp(self):
@@ -37,7 +33,7 @@ class TestNode(unittest.TestCase):
 
     def check_node(self, node, using_sha):
         """
-        Verify that the ck_ public key can be used for signing.
+        Verify that the sk_ public key can be used for signing.
         """
         assert node is not None
 
@@ -58,12 +54,6 @@ class TestNode(unittest.TestCase):
             format=serialization.PublicFormat.PKCS1)
         sha.update(pem_sk)
         calculated_id = sha.finalize()
-
-        # DEBUG
-        #Node.dump_hex('CHK SHA%d ID_' % using_sha, id_)
-        #Node.dump_hex('CHK SHA%d CALC ID' % using_sha, calculated_id)
-        # END
-
         self.assertEqual(id_, calculated_id)
 
         # make a random array of bytes
@@ -74,6 +64,7 @@ class TestNode(unittest.TestCase):
 
         # sign it and verify that it verifies
         sig = node.sign(msg)
+
         try:
             node.verify(msg, sig)
             # success if we get here
@@ -86,7 +77,7 @@ class TestNode(unittest.TestCase):
         msg2 = bytes(msg_)
         try:
             node.verify(msg2, sig)
-            fail("verification should have failed")
+            self.fail("verification should have failed")
         except InvalidSignature:
             # success
             pass
@@ -113,35 +104,7 @@ class TestNode(unittest.TestCase):
 
     # ===============================================================
 
-#   def do_test_with_openssl_key(self, using_sha):
-
-#       # import an openSSL-generated 2048-bit key (this becomes a
-#       # string constant in this program)
-#       with open('openssl2k.pem', 'r') as file:
-#           pem_key = file.read()
-#       key = rsa.importKey(pem_key)
-#       assert key is not None
-#       self.assertTrue(key.has_private())
-#       nnn = Node(using_sha, key)
-#       self.check_node(nnn, using_sha)
-
-#       pem_pub = key.public_key.public_bytes(
-#           encoding=serialization.Encoding.PEM,
-#           format=serialization.PublicFormat.PKCS1)
-
-#       self.assertEqual(key.public_key().exportKey(),
-#                        nnn.pub_key.exportKey())
-
-#       # -----------------------------------------------------------
-#       # CLEAN THIS UP: node.key and node.pubKey should return
-#       # stringified objects, but node._privateKey and _pubKey should
-#       # be binary
-#       # -----------------------------------------------------------
-
-#   def test_with_open_ssl_key(self):
-#       # SHA3 is dropped
-#       for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
-#           self.do_test_with_openssl_key(using)
+    # DROPPED OpenSSL-related tests.
 
 if __name__ == '__main__':
     unittest.main()

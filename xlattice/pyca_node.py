@@ -1,8 +1,6 @@
 # ~/dev/py/xlattice_py/xlattice/pyca_node.py
 
-########################################
-# BEING HACKED TO USED pyca/cryptography
-########################################
+""" Functions implementing the XLattice Node. """
 
 import base64
 import os
@@ -16,6 +14,7 @@ from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
 
 
 class AbstractNode(object):
+    """ The XLattice Peer / BaseNode. """
 
     #   # DEBUG
     #   @staticmethod
@@ -38,7 +37,7 @@ class AbstractNode(object):
                     sha_ = hashes.SHA1
                 elif using_sha == QQQ.USING_SHA2:
                     sha_ = hashes.SHA256
-                sha = hashes.Hash(sha_(), backend=default.backend())
+                sha = hashes.Hash(sha_(), backend=default_backend())
                 pem = sk_.public_bytes(
                     encoding=serialization.Encoding.PEM,
                     format=serialization.PublicFormat.PKCS1)
@@ -57,11 +56,18 @@ class AbstractNode(object):
 
     @property
     def node_id(self):
+        """ Return the NodeID, a 20- or 32-byte value unique to this node."""
         return self._node_id
 
     @property
     def sk_(self):
+        """ Return the RSA ate key used for signing. """
         return self._sk
+
+    @property
+    def ck_(self):
+        """ Return the RSA ate key used for encrytiion. """
+        return self._ck
 
 
 class Node(AbstractNode):
@@ -120,6 +126,16 @@ class Node(AbstractNode):
         self._overlays = []    #
         self._connections = []    # with peers? with clients?
 
+    @property
+    def sk_priv(self):
+        """ Return the RSA private key used for signing. """
+        return self._sk_priv
+
+    @property
+    def ck_priv(self):
+        """ Return the RSA private key used for encrytiion. """
+        return self._ck_priv
+
     def create_from_key(self, string):
         # XXX STUB: given the serialization of a node, create one
         # despite the name, this should also handle peer lists, etc
@@ -151,11 +167,8 @@ class Node(AbstractNode):
         return (node_id,         # nodeID = 160/256 bit BINARY value
                 sk_, ck_)        # public keys, from private keys
 
-    @property
-    def key(self):
-        return self._private_key
-
     def sign(self, msg):
+        """ Sign a message using the secret RSA key used for signing. """
         if self._using_sha == QQQ.USING_SHA1:
             sha_ = hashes.SHA1
         elif self._using_sha == QQQ.USING_SHA2:

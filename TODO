@@ -1,10 +1,25 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-01-09
+    * add deprecation warnings on all synonyms
+            import warnings
+            warnings.warn('deprecated', DeprecationWarning)
+        - xlattice/crypo.py                                             * DONE
+        - xlattice/__init__.py                                          * DONE
+        - xlattice/util.py                                              * DONE
+    * synonyms should be dropped on second step of minor version number
+        - first step  1.6
+        - second step 1.7
+    * UStats.dir_struc(self, value) needs checks on value
+        - it should be an enumeration, Udir.DirStruc
+        - widely used, so needs careful replacement plan
+
 2017-01-08
     * there is confusion over the handling of digital signatures:
         - test_pyca_rsa.py assumes that they will be base-64 encoded
         - test_pyca_node.py and xlattice/pyca_node do not use
             base64 encoding
+
 2017-01-07
     * consider using blake2 as alternative hash
 
@@ -12,8 +27,8 @@
     * need performance figures 
         - hashlib/sha* vs pyca/cryptography sha*
 
-    * create pyca versions of test_node.py,
-        xlattice/node.py
+    * create pyca versions of test_node.py,                             * DONE
+        xlattice/node.py                                                * DONE
     * add deprecation warnings 
             import warnings
             warnings.warn('deprecated', DeprecationWarning)

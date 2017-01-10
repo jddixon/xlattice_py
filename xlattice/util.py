@@ -5,12 +5,15 @@ import fnmatch
 import os
 import re
 import time
+import warnings
 
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'timestamp',
 
            'parse_decimal_version', 'parse_timestamp', 'timestamp_now',
-           'get_exclusions', 'make_ex_re', 'make_match_re', 'regexes_from_wildcards',
+           'get_exclusions', 'make_ex_re', 'make_match_re',
+           'regexes_from_wildcards',
+
            # SYNONYMS, restored
            'parseDecimalVersion', 'parseTimestamp', 'timestampNow',
            'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
@@ -219,7 +222,7 @@ class DecimalVersion(object):
         a_val = self.get_a()
         a_val += 1
         if a_val > 255:
-            raise RuntimeError("stepMajor() takes it out of range")
+            raise RuntimeError("step_major() takes it out of range")
         else:
             self.value = DecimalVersion(a_val)
 
@@ -268,34 +271,42 @@ class DecimalVersion(object):
     # SYNONYMS ------------------------------------------------------
     def getA(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         return self.get_a()
 
     def getB(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         return self.get_b()
 
     def getC(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         return self.get_c()
 
     def getD(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         return self.get_d()
 
     def stepMajor(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         self.step_major()
 
     def stepMinor(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         self.step_minor()
 
     def stepDecimal(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         self.step_decimal()
 
     def stepMicro(self):
         """ SYNONYM """
+        warnings.warn('synonym', DeprecationWarning)
         self.step_micro()
     # END SYNONYMS --------------------------------------------------
 
@@ -434,36 +445,43 @@ def regexes_from_wildcards(strings):
 
 def parseDecimalVersion(string):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return parse_decimal_version(string)
 
 
 def parseTimestamp(string):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return parse_timestamp(string)
 
 
 def timestampNow():
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return timestamp_now()
 
 
 def getExclusions(proj_dir, excl_file='.gitignore'):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return get_exclusions(proj_dir, excl_file)
 
 
 def makeExRE(globs):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return make_ex_re(globs)
 
 
 def makeMatchRE(match_list):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return make_match_re(match_list)
 
 
 def regexesFromWildcards(strings):
     """ SYNONUM """
+    warnings.warn('synonym', DeprecationWarning)
     return regexes_from_wildcards(strings)
 
 # END SYNONYMS ------------------------------------------------------

@@ -214,14 +214,13 @@ class TestRSA(unittest.TestCase):
         data = bytes(self.rng.some_bytes(count))
 
         signer.update(data)
-        signature = signer.finalize()
+        signature = signer.finalize()               # a binary value; bytes
 
-        b64sig = base64.b64encode(signature).decode('utf-8')
-        # DEBUG
-        # print("DIG SIG:\n%s" % b64sig)
-        # END
-        sig2 = base64.b64decode(b64sig)
+        # BEGIN interlude: conversion to/from base64, w/ 76-byte lines
+        b64sig = base64.encodebytes(signature).decode('utf-8')
+        sig2 = base64.decodebytes(b64sig.encode('utf-8'))
         self.assertEqual(sig2, signature)
+        # END interlude ---------------------------------------------
 
         verifier = sk_.verifier(
             signature,

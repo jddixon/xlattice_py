@@ -5,6 +5,7 @@
 import binascii
 import os
 import sys
+import warnings
 from enum import IntEnum
 
 __all__ = ['__version__', '__version_date__',
@@ -27,8 +28,8 @@ __all__ = ['__version__', '__version_date__',
            'parse_using_sha', 'fix_using_sha', 'show_using_sha',
            'check_u_path', ]
 
-__version__ = '1.5.22'
-__version_date__ = '2017-01-08'
+__version__ = '1.6.0'
+__version_date__ = '2017-01-09'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -67,23 +68,28 @@ SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 
 
 class Q(IntEnum):
+    """ SHA hash types in use.  """
     USING_SHA1 = 1
     USING_SHA2 = 2
     USING_SHA3 = 3
+    warnings.warn('synonym', DeprecationWarning)
 # END DEPRECATED ------------------------------------------
 
 
 class QQQ(IntEnum):
+    """ SHA hash types in use.  """
     USING_SHA1 = 1
     USING_SHA2 = 2
     USING_SHA3 = 3
 
 
 class UnrecognizedSHAError(RuntimeError):
+    """ Raised if a hash type is not in QQQ's standard list. """
     pass
 
 
 def check_using_sha(using=None):
+    """ Exit with an error message if this hash type is not supported. """
     if using is None:
         print("you must select -1, -2, or -3 for the sha type")
         sys.exit(1)
@@ -101,7 +107,7 @@ def check_using_sha(using=None):
 
 
 def parse_using_sha(parser):
-
+    """ Standard arguments selecting supported hash types. """
     parser.add_argument('-1', '--using_sha1', action='store_true',
                         help='using the 160-bit SHA1 hash')
 
@@ -164,17 +170,17 @@ def check_u_path(parser, args, must_exist=False, mode=0o755):
 
 
 def show_using_sha(args):
+    """ Print out option values relating to SHA type, etc. """
     print('u_path               = ' + str(args.u_path))
     print('using_sha            = ' + str(args.using_sha))
     print('verbose              = ' + str(args.verbose))
 
 # SYNONYM -----------------------------------------------------------
-#
-#
 
 
 def checkUsingSHA(using):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return check_using_sha(using)
 #
 #
@@ -182,6 +188,7 @@ def checkUsingSHA(using):
 
 def checkUPath(parser, args, must_exist=False, mode=0o755):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return check_u_path(parser, args, must_exist, mode)
 #
 #
@@ -189,6 +196,7 @@ def checkUPath(parser, args, must_exist=False, mode=0o755):
 
 def fixUsingSHA(args):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return fix_using_sha(args)
 #
 #
@@ -196,6 +204,7 @@ def fixUsingSHA(args):
 
 def parseUsingSHA(parser):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return parse_using_sha(parser)
 #
 #
@@ -203,6 +212,7 @@ def parseUsingSHA(parser):
 
 def showUsingSHA(args):
     """ SYNONYM """
+    warnings.warn('synonym', DeprecationWarning)
     return show_using_sha(args)
 #
 # END SYN -----------------------------------------------------------
