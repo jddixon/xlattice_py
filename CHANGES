@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.6.2
+    2017-01-11
+        * more synonyms handled; introduce HashTypes class          SLOC 5774
 v1.6.1
     2017-01-10
         * introduce DirStruc enumeration                            SLOC 5715
@@ -308,6 +311,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

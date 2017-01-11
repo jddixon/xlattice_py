@@ -1,7 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
-2017-01-10
-    * replace QQQ.USING_SHAx with an enumeration (IntEnum)
+2017-01-11
+    EDITED FROM -10:
+    * rename QQQ.USING_SHAx with an enumeration HashTypes (SHAx)
     EDITED from -01-09:
     * replace xlattice.u.UDir.{DIR_FLAT,DIR16x16,DIR256x256} with       * DONE
         an enumeration UDir.DirStruc (an IntEnum)                       * DONE
@@ -18,7 +19,7 @@
         - xlattice/util.py                                              * DONE
     * synonyms should be dropped on second step of minor version number
         - first step  1.6                                               * SEEN
-        - second step 1.7
+        - second step 1.7 => drop synonyms
 
 2017-01-08
     * there is confusion over the handling of digital signatures:
