@@ -7,9 +7,11 @@ import hashlib
 import os
 import time
 import unittest
+from enum import IntEnum
 
 from xlattice import QQQ
-from xlattice.u import (UDir, file_sha1hex, file_sha2hex, file_sha3hex)
+from xlattice.u import (DirStruc, UDir,
+                        file_sha1hex, file_sha2hex, file_sha3hex)
 
 from rnglib import SimpleRNG
 
@@ -33,16 +35,6 @@ class TestU(unittest.TestCase):
     def tearDown(self):
         # probably should clear DATA_PATH and U_PATH directories
         pass
-
-    # actual unit tests =============================================
-
-    # XXX Never invoked; needs UDir parameter
-#   def map_test(self):
-#       """ Confirm that our map is working. """
-#       for name in UDir.DIR_STRUC_NAMES:
-#           xxx = name_to_dir_struc(name)
-#           name2 = dir_struc_to_name(xxx)
-#           self.assertEqual(name, name2)
 
     def do_discovery_test(self, dir_struc, using_sha):
         """ Verify that discovery of directory structure works. """
@@ -70,7 +62,7 @@ class TestU(unittest.TestCase):
     def test_discovery(self):
         """ Verify that discovery of directory structure works. """
 
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3]:
                 self.do_discovery_test(dir_struc, using)
 
@@ -114,7 +106,7 @@ class TestU(unittest.TestCase):
 
     def test_copy_and_put(self):
         """ Check copying a directory structure into a content-keyed store."""
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_copy_and_put(dir_struc, using)
 
@@ -145,7 +137,7 @@ class TestU(unittest.TestCase):
 
     def test_exists(self):
         """ Run existence tests over all combinations. """
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3]:
                 self.do_test_exists(dir_struc, using)
 
@@ -178,7 +170,7 @@ class TestU(unittest.TestCase):
 
     def test_file_len(self):
         """ Test file_len() for all structures and hash types. """
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_file_len(dir_struc, using)
 
@@ -215,7 +207,7 @@ class TestU(unittest.TestCase):
 
     def test_file_sha(self):
         """ Verify content keys match file names for combinations. """
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_file_sha(dir_struc, using)
 
@@ -241,11 +233,11 @@ class TestU(unittest.TestCase):
 
         # XXX implementation-dependent tests
         #
-        if dir_struc == u_dir.DIR_FLAT:
+        if dir_struc == DirStruc.DIR_FLAT:
             expected_path = os.path.join(U_PATH, u_key)
-        elif dir_struc == u_dir.DIR16x16:
+        elif dir_struc == DirStruc.DIR16x16:
             expected_path = "%s/%s/%s/%s" % (U_PATH, u_key[0], u_key[1], u_key)
-        elif dir_struc == u_dir.DIR256x256:
+        elif dir_struc == DirStruc.DIR256x256:
             expected_path = "%s/%s/%s/%s" % (U_PATH,
                                              u_key[0:2], u_key[2:4], u_key)
         else:
@@ -253,13 +245,8 @@ class TestU(unittest.TestCase):
 
         # DEBUG
         if expected_path != u_path:
-            if dir_struc == u_dir.DIR_FLAT:
-                print("u_dir.DIR_FLAT")
-            if dir_struc == u_dir.DIR16x16:
-                print("u_dir.DIR16x16")
-            if dir_struc == u_dir.DIR256x256:
-                print("u_dir.DIR256x256")
-            print("u_path:       %s" % u_path)
+            print("dir_struc:   %s" % dir_struc.name)
+            print("u_path:      %s" % u_path)
             print("expected:    %s" % expected_path)
         # END
 
@@ -268,7 +255,7 @@ class TestU(unittest.TestCase):
     def test_get_path_for_key(self):
         """ Verify path correct for content for all combinations. """
 
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_get_path_for_key(dir_struc, using)
 
@@ -311,7 +298,7 @@ class TestU(unittest.TestCase):
     def test_put(self):
         """ Verify len,hash correct on file puts for all combinations. """
 
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_put(dir_struc, using)
 
@@ -346,7 +333,7 @@ class TestU(unittest.TestCase):
     def test_put_data(self):
         """ Verify len,hash correct on data puts for all combinations. """
 
-        for dir_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for dir_struc in DirStruc:
             for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, QQQ.USING_SHA3, ]:
                 self.do_test_put_data(dir_struc, using)
 

@@ -28,8 +28,8 @@ __all__ = ['__version__', '__version_date__',
            'parse_using_sha', 'fix_using_sha', 'show_using_sha',
            'check_u_path', ]
 
-__version__ = '1.6.0'
-__version_date__ = '2017-01-09'
+__version__ = '1.6.1'
+__version_date__ = '2017-01-10'
 
 
 # This is the SHA1 of an empty string (or file)

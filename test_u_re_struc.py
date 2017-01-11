@@ -10,7 +10,7 @@ import unittest
 
 from rnglib import SimpleRNG
 from xlattice import QQQ, check_using_sha
-from xlattice.u import UDir  # ,SHA1_HEX_NONE, SHA2_HEX_NONE, SHA3_HEX_NONE
+from xlattice.u import UDir, DirStruc
 
 
 class TestReStruc(unittest.TestCase):
@@ -122,8 +122,8 @@ class TestReStruc(unittest.TestCase):
 
     def test_re_struc(self):
         """ Test all combinations of dir structure and hash type. """
-        for old_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
-            for new_struc in [UDir.DIR_FLAT, UDir.DIR16x16, UDir.DIR256x256]:
+        for old_struc in DirStruc:
+            for new_struc in DirStruc:
                 if old_struc != new_struc:
                     for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
                         self.do_test_re_struc(old_struc, new_struc, using)

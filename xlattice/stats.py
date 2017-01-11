@@ -11,7 +11,7 @@ except ImportError:
     from scandir import scandir
 
 from xlattice import __version__, check_using_sha
-from xlattice.u import UDir
+from xlattice.u import DirStruc, UDir
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
 HEX2_RE = re.compile(HEX2_PAT)
@@ -23,7 +23,7 @@ SHA1_RE = re.compile(SHA1_PAT)
 class UStats:
 
     def __init__(self):
-        self._dir_struc = UDir.DIR_FLAT
+        self._dir_struc = DirStruc.DIR_FLAT
         self._using_sha = False
 
         self._subdir_count = 0
