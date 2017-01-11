@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.6.1
+    2017-01-10
+        * introduce DirStruc enumeration                            SLOC 5715
 v1.6.0
     2017-01-09
         * deprecate synonyms; fix property bugs in u_stats          SLOC 5676
@@ -305,6 +308,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

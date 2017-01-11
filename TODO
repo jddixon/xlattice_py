@@ -1,5 +1,14 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-01-10
+    * replace QQQ.USING_SHAx with an enumeration (IntEnum)
+    EDITED from -01-09:
+    * replace xlattice.u.UDir.{DIR_FLAT,DIR16x16,DIR256x256} with       * DONE
+        an enumeration UDir.DirStruc (an IntEnum)                       * DONE
+        - widely used, so needs careful replacement plan
+    * UStats.dir_struc(self, value) needs checks on value               * DONE
+        - this could be dir_struc in [d.value for d in DirStruc]        * DONE
+
 2017-01-09
     * add deprecation warnings on all synonyms
             import warnings
@@ -8,11 +17,8 @@
         - xlattice/__init__.py                                          * DONE
         - xlattice/util.py                                              * DONE
     * synonyms should be dropped on second step of minor version number
-        - first step  1.6
+        - first step  1.6                                               * SEEN
         - second step 1.7
-    * UStats.dir_struc(self, value) needs checks on value
-        - it should be an enumeration, Udir.DirStruc
-        - widely used, so needs careful replacement plan
 
 2017-01-08
     * there is confusion over the handling of digital signatures:
@@ -49,8 +55,8 @@
     * rename all RuntimeErrors in xlattice/crypto.py XLCryptoError      * DONE
 
 2016-12-26
-    * DIR_FLAT etc should be an enumeration (IntEnum); then use
-        .name to retrieve string form of names
+    * DIR_FLAT etc should be an enumeration (IntEnum); then use         * DONE
+        .name to retrieve string form of names                          * DONE
 
 2016-12-19
     * get rid of debug messages in xlattice/u/__init__.py
