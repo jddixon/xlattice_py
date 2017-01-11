@@ -15,8 +15,10 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_B64_NONE',
            'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
-           'Q',         # DEPRECATED
-           'QQQ', 'UnrecognizedSHAError',
+           # DEPRECATED
+           'Q', 'QQQ', 'UnrecognizedSHAError',
+           # END DEPRECATED
+           'HashTypes', 'UnrecognizedHashTypeError',
 
            # SYNONYMS -----------------------------------------------
            'checkUsingSHA',
@@ -24,12 +26,16 @@ __all__ = ['__version__', '__version_date__',
            'parseUsingSHA', 'fixUsingSHA', 'checkUPath', 'showUsingSHA',
            # END SYN ------------------------------------------------
 
+           # BEING RENAMED ------------------------------------------
            'check_using_sha',
+           # END BEING RENAMED --------------------------------------
+           'check_hashtype',
+
            'parse_using_sha', 'fix_using_sha', 'show_using_sha',
            'check_u_path', ]
 
-__version__ = '1.6.1'
-__version_date__ = '2017-01-10'
+__version__ = '1.6.2'
+__version_date__ = '2017-01-11'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -68,38 +74,83 @@ SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 
 
 class Q(IntEnum):
-    """ SHA hash types in use.  """
+    """
+    SHA hash types in use.
+
+    Deprecated: name lengthened to QQQ, then replaced by HashTypes class.
+    """
     USING_SHA1 = 1
     USING_SHA2 = 2
     USING_SHA3 = 3
-    warnings.warn('synonym', DeprecationWarning)
-# END DEPRECATED ------------------------------------------
+    warnings.warn('Q synonym', DeprecationWarning)
 
 
 class QQQ(IntEnum):
-    """ SHA hash types in use.  """
+    """
+    SHA hash types in use.
+
+    Deprecated: replaced by HashTypes class.
+    """
     USING_SHA1 = 1
     USING_SHA2 = 2
     USING_SHA3 = 3
+    warnings.warn('QQQ synonym', DeprecationWarning)
 
 
 class UnrecognizedSHAError(RuntimeError):
     """ Raised if a hash type is not in QQQ's standard list. """
+    warnings.warn('UnrecognizedSHAError synonym', DeprecationWarning)
     pass
 
 
 def check_using_sha(using=None):
-    """ Exit with an error message if this hash type is not supported. """
+    """
+    Exit with an error message if this hash type is not supported.
+
+    `using` is the value of a member of the QQQ enumeration.
+    """
+
+    print('%s :: check_using_sha' % sys.argv[0], file=sys.stderr)
+    warnings.warn('check_using_sha synonym', DeprecationWarning)
     if using is None:
         print("you must select -1, -2, or -3 for the sha type")
         sys.exit(1)
 
-    if not using in [
-            QQQ.USING_SHA1,
-            QQQ.USING_SHA2,
-            QQQ.USING_SHA3, ]:
+    if not using in [_.value for _ in QQQ]:
         raise UnrecognizedSHAError('%s' % using)
 
+# END DEPRECATED ------------------------------------------
+
+
+class HashTypes(IntEnum):
+    """ Hash types in use.  """
+    SHA1 = 1
+    SHA2 = 2
+    SHA3 = 3
+
+    def valid(val):
+        """ Return whether val is a supported hashtype. """
+        return val in [_.value for _ in HashTypes]
+
+
+class UnrecognizedHashTypeError(RuntimeError):
+    """ Raised if a hash type is not in QQQ's standard list. """
+    pass
+
+
+def check_hashtype(hashtype=None):
+    """
+    Raise if this hash type is not supported.
+
+    Here hashtype is an integer; we check that it is in range.
+    """
+
+    if hashtype is None:
+        print("you must select -1, -2, or -3 for the hash type")
+        sys.exit(1)
+
+    if HashTypes.valid(hashtype):
+        raise UnrecognizedHashTypeError('%s' % hashtype)
 
 # -- argParse related -----------------------------------------------
 
@@ -180,7 +231,7 @@ def show_using_sha(args):
 
 def checkUsingSHA(using):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('checkUsingSHA synonym', DeprecationWarning)
     return check_using_sha(using)
 #
 #
@@ -188,7 +239,7 @@ def checkUsingSHA(using):
 
 def checkUPath(parser, args, must_exist=False, mode=0o755):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('checkUPath synonym', DeprecationWarning)
     return check_u_path(parser, args, must_exist, mode)
 #
 #
@@ -196,7 +247,7 @@ def checkUPath(parser, args, must_exist=False, mode=0o755):
 
 def fixUsingSHA(args):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fixUsingSHA synonym', DeprecationWarning)
     return fix_using_sha(args)
 #
 #
@@ -204,7 +255,7 @@ def fixUsingSHA(args):
 
 def parseUsingSHA(parser):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('parseUsingSHA synonym', DeprecationWarning)
     return parse_using_sha(parser)
 #
 #
@@ -212,7 +263,7 @@ def parseUsingSHA(parser):
 
 def showUsingSHA(args):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('showUsingSHA synonym', DeprecationWarning)
     return show_using_sha(args)
 #
 # END SYN -----------------------------------------------------------

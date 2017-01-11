@@ -83,37 +83,37 @@ RNG = rnglib.SimpleRNG(time.time())
 
 def fileSHA1Bin(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA1Bin synonym', DeprecationWarning)
     return file_sha1bin(path)
 
 
 def fileSHA1Hex(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA1Hex synonym', DeprecationWarning)
     return file_sha1hex(path)
 
 
 def fileSHA2Bin(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA2Bin synonym', DeprecationWarning)
     return file_sha2bin(path)
 
 
 def fileSHA2Hex(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA2Hex synonym', DeprecationWarning)
     return file_sha2hex(path)
 
 
 def fileSHA3Bin(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA3Bin synonym', DeprecationWarning)
     return file_sha3bin(path)
 
 
 def fileSHA3Hex(path):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('fileSHA3Hex synonym', DeprecationWarning)
     return file_sha3hex(path)
 
 # END SYN
@@ -274,26 +274,26 @@ class ULock(object):
     # SYNONYMS ******************************************************
     def getLock(self, verbose=False):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('getLock synonym', DeprecationWarning)
         return self.get_lock(verbose)
 
     @property
     def lockDir(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('lockDir synonym', DeprecationWarning)
         return self.lock_dir()
 
     @property
     def lockFile(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('lockFile synonym', DeprecationWarning)
         return self.lock_file()
 
     releaseLock = release_lock
 
     def releaseLock(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('releaseLock synonym', DeprecationWarning)
         self.release_lock()
 
     # END SYN *******************************************************
@@ -834,32 +834,63 @@ class UDir(object):
         # remove old directories
 
     # SYNONYMS ------------------------------------------------------
-    copyAndPut = copy_and_put
-    dirStrucSig = dir_struc_sig
-    dirStrucToName = dir_struc_to_name
-    fileLen = file_len
-    getData = get_data
-    getPathForKey = get_path_for_key
-    nameToDirStruc = name_to_dir_struc
-    putData = put_data
-    reStruc = re_struc
+
+    def copyAndPut(self, path, key):
+        """ SYNONYM """
+        warnings.warn('copyAndPut synonym', DeprecationWarning)
+        return self.copy_and_put(path, key)
+
+    def dirStrucSig(self, u_path, dir_struc, using_sha):
+        """ SYNONYM """
+        warnings.warn('dirStrucSig synonym', DeprecationWarning)
+        return self.dir_struc_sig(u_path, dir_struc, using_sha)
+
+    def dirStrucToName(cls, nnn):
+        """ SYNONYM """
+        warnings.warn('dirStrucToName synonym', DeprecationWarning)
+        return self.dir_struc_to_name(nnn)
+
+    def getData(self, key):
+        """ SYNONYM """
+        warnings.warn('getData synonym', DeprecationWarning)
+        return self.get_data(key)
+
+    def getPathForKey(self, key):
+        """ SYNONYM """
+        warnings.warn('getPathForKey synonym', DeprecationWarning)
+        return self.get_path_for_key(key)
+
+    def nameToDirStruc(cls, name):
+        """ SYNONYM """
+        warnings.warn('nameToDirStruc synonym', DeprecationWarning)
+        return cls._name_to_dir_struc[name]
+
+    def putData(self, data, key):
+        """ SYNONYM """
+        warnings.warn('putDatda synonym', DeprecationWarning)
+        return self.put_data(data, key)
+
+    def reStruc(self, new_struc):
+        """ SYNONYM """
+        warnings.warn('reStruc synonym', DeprecationWarning)
+        return self.re_struc(new_struc)
 
     @property
     def dirStruc(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('dirStruc synonym', DeprecationWarning)
         return self._dir_struc
 
     @property
     def uPath(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('uPath synonym', DeprecationWarning)
         return self._u_path
 
     @property
     def usingSHA(self):
         """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
+        warnings.warn('usingSHA synonym', DeprecationWarning)
         return self._using_sha
 
     # END SYN -------------------------------------------------------
