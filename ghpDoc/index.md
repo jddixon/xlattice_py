@@ -112,7 +112,7 @@ directories.  Typical ouput looks like:
 
     statistics for /var/app/sharedev/U
       dirStruc:           DIR256x256
-      usingSHA:          QQQ.USING_SHA1
+      hashtype:          HashTypes.USING_SHA1
 
       subDirectories:            256
       subSubDirectories:       22659

@@ -3,9 +3,9 @@
 if [ ! -z "${DEV_BASE// }" ]
 then
   cd $DEV_BASE/py/xlattice_py
-  
-  rm -rf build/* myData/* myU1/* myU2/* tmp/* 
-  
+
+  rm -rf build/* myData/* myU1/* myU2/* tmp/*
+
   pySloc -L py gen_node_id u_consolidate u_preen u_re_struc u_stats verify_content_keys  -X cover -X htmlcov -X dist -v $@
 else
   echo "DEV_BASE is not defined"

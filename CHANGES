@@ -1,6 +1,12 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.6.3
+    2107-01-13
+        * completed switch QQQ->HashTypes, using_sha->hashtype
+        * all rnglib call use PEP8 function/method names            SLOC 5811
+    2017-01-11
+        * all modified to use HashTypes                             SLOC 5811
 v1.6.2
     2017-01-11
         * more synonyms handled; introduce HashTypes class          SLOC 5774
@@ -311,6 +317,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

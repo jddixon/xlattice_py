@@ -10,7 +10,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes, serialization
 
-from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
+from xlattice import HashTypes, check_hashtype  # , UnrecognizedSHAError
 
 
 class AbstractNode(object):
@@ -25,17 +25,17 @@ class AbstractNode(object):
     #       print()
     #   # END
 
-    def __init__(self, using_sha=QQQ.USING_SHA2,
+    def __init__(self, hash_types=HashTypes.SHA2,
                  sk_=None, ck_=None, node_id=None):
 
-        check_using_sha(using_sha)
-        self._using_sha = using_sha
+        check_hashtype(hash_types)
+        self._hash_types = hash_types
         if node_id is None:
             # we arbitrarily use sk_ to calculate the unique node ID
             if sk_:
-                if using_sha == QQQ.USING_SHA1:
+                if hash_types == HashTypes.SHA1:
                     sha_ = hashes.SHA1
-                elif using_sha == QQQ.USING_SHA2:
+                elif hash_types == HashTypes.SHA2:
                     sha_ = hashes.SHA256
                 sha = hashes.Hash(sha_(), backend=default_backend())
                 pem = sk_.public_bytes(
@@ -44,7 +44,7 @@ class AbstractNode(object):
                 sha.update(pem)
                 node_id = sha.finalize()    # a binary value
                 # DEBUG
-                #AbstractNode.dump_hex("SHA%d Abs Calc ID" % using_sha, node_id)
+                #AbstractNode.dump_hex("SHA%d Abs Calc ID" % hash_types, node_id)
                 # END
             else:
                 raise ValueError(
@@ -76,7 +76,7 @@ class Node(AbstractNode):
     encryption/decryption.
     """
 
-    def __init__(self, using_sha=QQQ.USING_SHA2,
+    def __init__(self, hash_types=HashTypes.SHA2,
                  key_bits=2048, sk_priv=None, ck_priv=None):
         """
         Create a node with two RSA keys with the indicated number
@@ -113,8 +113,8 @@ class Node(AbstractNode):
                 backend=default_backend())
 
         node_id, sk_, ck_ = Node.get_id_and_pub_keys_for_node(
-            using_sha, sk_priv, ck_priv)
-        AbstractNode.__init__(self, using_sha, sk_, ck_, node_id)
+            hash_types, sk_priv, ck_priv)
+        AbstractNode.__init__(self, hash_types, sk_, ck_, node_id)
 
         self._sk_priv = sk_priv
         self._ck_priv = ck_priv
@@ -143,9 +143,9 @@ class Node(AbstractNode):
         pass
 
     @staticmethod
-    def get_id_and_pub_keys_for_node(using_sha, sk_priv, ck_priv):
+    def get_id_and_pub_keys_for_node(hash_types, sk_priv, ck_priv):
         """ Calculate the nodeID from the ck_ public key. """
-        check_using_sha(using_sha)
+        check_hashtype(hash_types)
         (node_id, ck_) = (None, None)
         sk_ = sk_priv.public_key()
         ck_ = ck_priv.public_key()
@@ -154,24 +154,24 @@ class Node(AbstractNode):
             format=serialization.PublicFormat.PKCS1)
 
         # pylint: disable=redefined-variable-type
-        if using_sha == QQQ.USING_SHA1:
+        if hash_types == HashTypes.SHA1:
             sha_ = hashes.SHA1
-        elif using_sha == QQQ.USING_SHA2:
+        elif hash_types == HashTypes.SHA2:
             sha_ = hashes.SHA256
         sha = hashes.Hash(sha_(), backend=default_backend())
         sha.update(pem_ck)
         node_id = sha.finalize()
         # DEBUG
-        # Node.dump_hex("Get SHA%d Node" % using_sha, node_id)
+        # Node.dump_hex("Get SHA%d Node" % hash_types, node_id)
         # END
         return (node_id,         # nodeID = 160/256 bit BINARY value
                 sk_, ck_)        # public keys, from private keys
 
     def sign(self, msg):
         """ Sign a message using the secret RSA key used for signing. """
-        if self._using_sha == QQQ.USING_SHA1:
+        if self._hash_types == HashTypes.SHA1:
             sha_ = hashes.SHA1
-        elif self._using_sha == QQQ.USING_SHA2:
+        elif self._hash_types == HashTypes.SHA2:
             sha_ = hashes.SHA256
 
         signer = self._sk_priv.signer(
@@ -190,9 +190,9 @@ class Node(AbstractNode):
         Check the digital signature against the message, possibly
         raising InvalidSigature.
         """
-        if self._using_sha == QQQ.USING_SHA1:
+        if self._hash_types == HashTypes.SHA1:
             sha_ = hashes.SHA1
-        elif self._using_sha == QQQ.USING_SHA2:
+        elif self._hash_types == HashTypes.SHA2:
             sha_ = hashes.SHA256
         verifier = self._sk.verifier(
             signature,
@@ -207,5 +207,5 @@ class Node(AbstractNode):
 class Peer(AbstractNode):
     """ a Peer is a Node seen from the outside """
 
-    def __init__(self, using_sha=False, node_id=None, pub_key=None):
-        AbstractNode.__init__(self, using_sha, node_id, pub_key)
+    def __init__(self, hash_types=False, node_id=None, pub_key=None):
+        AbstractNode.__init__(self, hash_types, node_id, pub_key)

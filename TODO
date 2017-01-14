@@ -2,7 +2,7 @@
 
 2017-01-11
     EDITED FROM -10:
-    * rename QQQ.USING_SHAx with an enumeration HashTypes (SHAx)
+    * rename QQQ.USING_SHAx with an enumeration HashTypes (SHAx)        * DONE
     EDITED from -01-09:
     * replace xlattice.u.UDir.{DIR_FLAT,DIR16x16,DIR256x256} with       * DONE
         an enumeration UDir.DirStruc (an IntEnum)                       * DONE
@@ -10,10 +10,14 @@
     * UStats.dir_struc(self, value) needs checks on value               * DONE
         - this could be dir_struc in [d.value for d in DirStruc]        * DONE
 
+    * verify_content_keys ignores -j                                    * FALSE
+    * all utilities need testing
+    * need to search for QQQ in xlattice_py                             * DONE
+
 2017-01-09
-    * add deprecation warnings on all synonyms
-            import warnings
-            warnings.warn('deprecated', DeprecationWarning)
+    * add deprecation warnings on all synonyms                          * DONE
+            import warnings                                             * DONE
+            warnings.warn('deprecated', DeprecationWarning)             * DONE
         - xlattice/crypo.py                                             * DONE
         - xlattice/__init__.py                                          * DONE
         - xlattice/util.py                                              * DONE

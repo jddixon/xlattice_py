@@ -12,7 +12,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
 
-from xlattice import QQQ, UnrecognizedSHAError
+from xlattice import HashTypes, UnrecognizedSHAError
 from xlattice.pyca_node import Node
 from rnglib import SimpleRNG
 
@@ -31,7 +31,7 @@ class TestNode(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def check_node(self, node, using_sha):
+    def check_node(self, node, hashtype):
         """
         Verify that the sk_ public key can be used for signing.
         """
@@ -40,14 +40,14 @@ class TestNode(unittest.TestCase):
         sk_ = node.sk_
         id_ = node.node_id
         # pylint:disable=redefined-variable-type
-        if using_sha == QQQ.USING_SHA1:
+        if hashtype == HashTypes.SHA1:
             self.assertEqual(20, len(id_))
             sha = hashes.Hash(hashes.SHA1(), backend=default_backend())
-        elif using_sha == QQQ.USING_SHA2:
+        elif hashtype == HashTypes.SHA2:
             self.assertEqual(32, len(id_))
             sha = hashes.Hash(hashes.SHA256(), backend=default_backend())
         else:
-            raise UnrecognizedSHAError("%d" % using_sha)
+            raise UnrecognizedSHAError("%d" % hashtype)
 
         pem_sk = sk_.public_bytes(
             encoding=serialization.Encoding.PEM,
@@ -84,13 +84,13 @@ class TestNode(unittest.TestCase):
 
     # ===============================================================
 
-    def do_test_generate_rsa_key(self, using_sha):
+    def do_test_generate_rsa_key(self, hashtype):
         """
         Create a Node with the hash type specified; constructor creates
         the RSA key.
         """
-        nnn = Node(using_sha)          # no RSA key provided, so creates one
-        self.check_node(nnn, using_sha)
+        nnn = Node(hashtype)          # no RSA key provided, so creates one
+        self.check_node(nnn, hashtype)
 
     def test_generated_rsa_key(self):
         """
@@ -99,8 +99,8 @@ class TestNode(unittest.TestCase):
 
         SHA3 has been dropped.
         """
-        for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
-            self.do_test_generate_rsa_key(using)
+        for hashtype in [HashTypes.SHA1, HashTypes.SHA2]:
+            self.do_test_generate_rsa_key(hashtype)
 
     # ===============================================================
 

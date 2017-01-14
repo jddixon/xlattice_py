@@ -9,10 +9,8 @@ import sys
 import hashlib
 
 from Crypto.PublicKey import RSA as rsa
-#from Crypto.Signature       import PKCS1_PSS    as pkcs1
-# from Crypto.Signature import PKCS1_v1_5 as pkcs1
 
-from xlattice import QQQ, check_using_sha  # , UnrecognizedSHAError
+from xlattice import HashTypes, check_hashtype  # , UnrecognizedSHAError
 
 if sys.version_info < (3, 6):
     # pylint: disable=unused-import
@@ -21,10 +19,10 @@ if sys.version_info < (3, 6):
 
 class AbstractNode(object):
 
-    def __init__(self, using_sha=False, pub_key=None, node_id=None):
+    def __init__(self, hashtype=HashTypes.SHA2, pub_key=None, node_id=None):
 
-        check_using_sha(using_sha)
-        self._using_sha = using_sha
+        check_hashtype(hashtype)
+        self._hashtype = hashtype
         if node_id is None:
             if pub_key:
                 # DEBUG
@@ -34,11 +32,11 @@ class AbstractNode(object):
 
                 # we have called checkUsingSHA(): one of these cases must apply
                 # pylint:disable=redefined-variable-type
-                if using_sha == QQQ.USING_SHA1:
+                if hashtype == HashTypes.SHA1:
                     sha = hashlib.sha1()
-                elif using_sha == QQQ.USING_SHA2:
+                elif hashtype == HashTypes.SHA2:
                     sha = hashlib.sha256()
-                elif using_sha == QQQ.USING_SHA3:
+                elif hashtype == HashTypes.SHA3:
                     sha = hashlib.sha3_256
                 sha.update(pub_key.exportKey())
                 node_id = sha.digest()    # a binary value
@@ -61,15 +59,15 @@ class Node(AbstractNode):
     """
     """
 
-    def __init__(self, using_sha=QQQ.USING_SHA2, priv_key=None):
+    def __init__(self, hashtype=HashTypes.SHA2, priv_key=None):
 
         # making this the default value doesn't work: it always
         # generates the same key
         if priv_key is None:
             priv_key = rsa.generate(2048, os.urandom)
         node_id, pub_key = Node.get_id_and_pub_key_for_node(
-            using_sha, self, priv_key)
-        AbstractNode.__init__(self, using_sha, pub_key, node_id)
+            hashtype, self, priv_key)
+        AbstractNode.__init__(self, hashtype, pub_key, node_id)
 
         if not priv_key:
             raise ValueError('INTERNAL ERROR: undefined private key')
@@ -88,9 +86,9 @@ class Node(AbstractNode):
         pass
 
     @staticmethod
-    def get_id_and_pub_key_for_node(using_sha, node, rsa_priv_key):
+    def get_id_and_pub_key_for_node(hashtype, node, rsa_priv_key):
 
-        check_using_sha(using_sha)
+        check_hashtype(hashtype)
         (node_id, pub_key) = (None, None)
         pub_key = rsa_priv_key.publickey()
 
@@ -103,11 +101,11 @@ class Node(AbstractNode):
 
         # generate the nodeID from the public key
         # pylint: disable=redefined-variable-type
-        if using_sha == QQQ.USING_SHA1:
+        if hashtype == HashTypes.SHA1:
             sha = hashlib.sha1()
-        elif using_sha == QQQ.USING_SHA2:
+        elif hashtype == HashTypes.SHA2:
             sha = hashlib.sha256()
-        elif using_sha == QQQ.USING_SHA3:
+        elif hashtype == HashTypes.SHA3:
             sha = hashlib.sha3_256()
 
         sha.update(pub_key.exportKey())
@@ -136,5 +134,5 @@ class Node(AbstractNode):
 class Peer(AbstractNode):
     """ a Peer is a Node seen from the outside """
 
-    def __init__(self, using_sha=False, node_id=None, pub_key=None):
-        AbstractNode.__init__(self, using_sha, node_id, pub_key)
+    def __init__(self, hashtype=HashTypes.SHA2, node_id=None, pub_key=None):
+        AbstractNode.__init__(self, hashtype, node_id, pub_key)
