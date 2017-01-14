@@ -43,11 +43,11 @@ def client_encrypt_hello(version, ck_):
     rng = SystemRNG()
 
     iv1 = bytearray(AES_BLOCK_SIZE)
-    rng.nextBytes(iv1)
+    rng.next_bytes(iv1)
     key1 = bytearray(2 * AES_BLOCK_SIZE)
-    rng.nextBytes(key1)
+    rng.next_bytes(key1)
     salt1 = bytearray(8)
-    rng.nextBytes(salt1)
+    rng.next_bytes(salt1)
     # little-endiant version1
     version1 = bytearray(4)
     version1[0] = version & 0xff
@@ -110,17 +110,17 @@ def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
     rng = SystemRNG()
 
     iv2 = bytearray(AES_BLOCK_SIZE)
-    rng.nextBytes(iv2)
+    rng.next_bytes(iv2)
     # pylint: disable=redefined-variable-type
     iv2 = bytes(iv2)
 
     key2 = bytearray(2 * AES_BLOCK_SIZE)
-    rng.nextBytes(key2)
+    rng.next_bytes(key2)
     # pylint: disable=redefined-variable-type
     key2 = bytes(key2)
 
     salt2 = bytearray(8)
-    rng.nextBytes(salt2)
+    rng.next_bytes(salt2)
 
     # little-endiant version1
     version2 = bytearray(4)

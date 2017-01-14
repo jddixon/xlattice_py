@@ -17,7 +17,7 @@ except ImportError:
     from scandir import scandir
 
 import rnglib
-from xlattice import QQQ, check_using_sha
+from xlattice import HashTypes, check_hashtype
 
 if sys.version_info < (3, 6):
     import sha3         # monkey-patches hashlib
@@ -356,13 +356,13 @@ class UDir(object):
         return cls._dir_struc_to_name[nnn]
     # END BEING REPLACED ********************************************
 
-    def dir_struc_sig(self, u_path, dir_struc, using_sha):
+    def dir_struc_sig(self, u_path, dir_struc, hashtype):
         """ signatures differentiating different types of directories """
-        if using_sha == QQQ.USING_SHA1:
+        if hashtype == HashTypes.SHA1:
             none = SHA1_HEX_NONE
-        elif using_sha == QQQ.USING_SHA2:
+        elif hashtype == HashTypes.SHA2:
             none = SHA2_HEX_NONE
-        elif using_sha == QQQ.USING_SHA3:
+        elif hashtype == HashTypes.SHA3:
             none = SHA3_HEX_NONE
         if dir_struc == DirStruc.DIR_FLAT:
             sig = os.path.join(u_path, none)
@@ -380,27 +380,27 @@ class UDir(object):
         return sig
 
     def __init__(self, u_path, dir_struc=DIR_FLAT,
-                 using_sha=QQQ.USING_SHA2, mode=0o755):
+                 hashtype=HashTypes.SHA2, mode=0o755):
 
         self._u_path = u_path
         self._dir_struc = dir_struc
-        self._using_sha = using_sha
+        self._hashtype = hashtype
 
         os.makedirs(self._u_path, mode=mode, exist_ok=True)
 
         # simplistic aids to discovery: we write the appropriate kind
         # of hex NONE into the directory.  The value is determined by
-        # using_sha.  The level at which it is written is determined
+        # hashtype.  The level at which it is written is determined
         # by dir_struc.
 
-        if using_sha == QQQ.USING_SHA1:
+        if hashtype == HashTypes.SHA1:
             path_to_sig = self.get_path_for_key(SHA1_HEX_NONE)
-        elif using_sha == QQQ.USING_SHA2:
+        elif hashtype == HashTypes.SHA2:
             path_to_sig = self.get_path_for_key(SHA2_HEX_NONE)
-        elif using_sha == QQQ.USING_SHA3:
+        elif hashtype == HashTypes.SHA3:
             path_to_sig = self.get_path_for_key(SHA3_HEX_NONE)
         else:
-            raise XLUError('unexpected QQQ.USING_SHAx value %d' % using_sha)
+            raise XLUError('unexpected HashTypes.SHAx value %d' % hashtype)
         sig_base = os.path.dirname(path_to_sig)
         os.makedirs(sig_base, exist_ok=True)
         open(path_to_sig, 'a').close()                # touch
@@ -419,19 +419,19 @@ class UDir(object):
         return self._u_path
 
     @property
-    def using_sha(self):
-        return self._using_sha
+    def hashtype(self):
+        return self._hashtype
 
     def __eq__(self, other):
         """ Return whether two UDirs are equal. """
         return isinstance(other, UDir) and \
             self._u_path == other.u_path and \
             self._dir_struc == other.dir_struc and \
-            self._using_sha == other.using_sha
+            self._hashtype == other.hashtype
 
     @classmethod
     def discover(cls, u_path, dir_struc=DIR_FLAT,
-                 using_sha=QQQ.USING_SHA2, mode=0o755):
+                 hashtype=HashTypes.SHA2, mode=0o755):
         """
         If there is a directory at the expected path, return an
         appropriate tree with the directory structure found.  Otherwise
@@ -440,13 +440,13 @@ class UDir(object):
 
         When a directory tree is created we write NONE into the tree
         as an aid to discovery.  If this is SHA1_HEX_NONE, for example,
-        we discover that using_sha is True.  If NONE is in the top
+        we discover that hashtype is True.  If NONE is in the top
         directory, the directory structure is DIR_FLAT.  If its first
         byte is in the top directory, dir_struc is DIR16x16.  If its
         first two bytes are there, it is DIR256x256.
         """
 
-        check_using_sha(using_sha)
+        check_hashtype(hashtype)
         if os.path.exists(u_path):
             found = False
 
@@ -456,21 +456,21 @@ class UDir(object):
                 if os.path.exists(flat_sha1_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
-                    using_sha = QQQ.USING_SHA1
+                    hashtype = HashTypes.SHA1
             if not found:
                 flat_sha2_path = os.path.join(u_path, SHA2_HEX_NONE)
                 if os.path.exists(flat_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
                     # pylint: disable=redefined-variable-type
-                    using_sha = QQQ.USING_SHA2
+                    hashtype = HashTypes.SHA2
             if not found:
                 flat_sha3_path = os.path.join(u_path, SHA3_HEX_NONE)
                 if os.path.exists(flat_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
                     # pylint: disable=redefined-variable-type
-                    using_sha = QQQ.USING_SHA3
+                    hashtype = HashTypes.SHA3
 
             # check for 16x16 directory structure -------------------
             if not found:
@@ -481,7 +481,7 @@ class UDir(object):
                 if os.path.exists(dir16_sha1_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
-                    using_sha = QQQ.USING_SHA1
+                    hashtype = HashTypes.SHA1
             if not found:
                 dir16_sha2_path = os.path.join(u_path,
                                                os.path.join(SHA2_HEX_NONE[0],
@@ -490,7 +490,7 @@ class UDir(object):
                 if os.path.exists(dir16_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
-                    using_sha = QQQ.USING_SHA2
+                    hashtype = HashTypes.SHA2
             if not found:
                 dir16_sha3_path = os.path.join(u_path,
                                                os.path.join(SHA3_HEX_NONE[0],
@@ -499,7 +499,7 @@ class UDir(object):
                 if os.path.exists(dir16_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
-                    using_sha = QQQ.USING_SHA3
+                    hashtype = HashTypes.SHA3
 
             # check for 256x256 directory structure -----------------
             if not found:
@@ -510,7 +510,7 @@ class UDir(object):
                 if os.path.exists(dir256_sha1_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
-                    using_sha = QQQ.USING_SHA1
+                    hashtype = HashTypes.SHA1
             if not found:
                 dir256_sha2_path = os.path.join(u_path,
                                                 os.path.join(SHA2_HEX_NONE[0:2],
@@ -519,7 +519,7 @@ class UDir(object):
                 if os.path.exists(dir256_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
-                    using_sha = QQQ.USING_SHA2
+                    hashtype = HashTypes.SHA2
             if not found:
                 dir256_sha3_path = os.path.join(u_path,
                                                 os.path.join(SHA3_HEX_NONE[0:2],
@@ -528,10 +528,10 @@ class UDir(object):
                 if os.path.exists(dir256_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
-                    using_sha = QQQ.USING_SHA3
+                    hashtype = HashTypes.SHA3
 
         # if uDir does not already exist, this creates it
-        obj = cls(u_path, dir_struc, using_sha, mode)
+        obj = cls(u_path, dir_struc, hashtype, mode)
         return obj
 
     def copy_and_put(self, path, key):
@@ -545,9 +545,9 @@ class UDir(object):
         actual_length = os.stat(path).st_size
 
         # RACE CONDITION
-        tmp_file_name = os.path.join(self._tmp_dir, RNG.nextFileName(16))
+        tmp_file_name = os.path.join(self._tmp_dir, RNG.next_file_name(16))
         while os.path.exists(tmp_file_name):
-            tmp_file_name = os.path.join(self._tmp_dir, RNG.nextFileName(16))
+            tmp_file_name = os.path.join(self._tmp_dir, RNG.next_file_name(16))
 
         shutil.copyfile(path, tmp_file_name)
         length, hash_ = self.put(tmp_file_name, key)
@@ -604,21 +604,21 @@ class UDir(object):
 
         key_len = len(key)
         err_msg = ''
-        if self._using_sha == QQQ.USING_SHA1 and key_len != SHA1_HEX_LEN:
+        if self._hashtype == HashTypes.SHA1 and key_len != SHA1_HEX_LEN:
             err_msg = "UDir.put: expected key length 40, actual %d" % key_len
-        elif self._using_sha == QQQ.USING_SHA2 and key_len != SHA2_HEX_LEN:
+        elif self._hashtype == HashTypes.SHA2 and key_len != SHA2_HEX_LEN:
             err_msg = "UDir.put: expected key length 64, actual %d" % key_len
-        elif self._using_sha == QQQ.USING_SHA3 and key_len != SHA3_HEX_LEN:
+        elif self._hashtype == HashTypes.SHA3 and key_len != SHA3_HEX_LEN:
             err_msg = "UDir.put: expected key length 64, actual %d" % key_len
         # XXX BAD USING OR LEN NOT ALLOWED FOR
         if err_msg:
             raise XLUError(err_msg)
 
-        if self._using_sha == QQQ.USING_SHA1:
+        if self._hashtype == HashTypes.SHA1:
             sha = file_sha1hex(in_file)
-        elif self._using_sha == QQQ.USING_SHA2:
+        elif self._hashtype == HashTypes.SHA2:
             sha = file_sha2hex(in_file)
-        elif self._using_sha == QQQ.USING_SHA3:
+        elif self._hashtype == HashTypes.SHA3:
             sha = file_sha3hex(in_file)
         # XXX BAD USING OR LEN NOT ALLOWED FOR
         length = os.stat(in_file).st_size
@@ -649,11 +649,11 @@ class UDir(object):
 
     def put_data(self, data, key):
         # pylint:disable=redefined-variable-type
-        if self._using_sha == QQQ.USING_SHA1:
+        if self._hashtype == HashTypes.SHA1:
             sha = hashlib.sha1()
-        elif self._using_sha == QQQ.USING_SHA2:
+        elif self._hashtype == HashTypes.SHA2:
             sha = hashlib.sha256()
-        elif self._using_sha == QQQ.USING_SHA3:
+        elif self._hashtype == HashTypes.SHA3:
             sha = hashlib.sha3_256()
         sha.update(data)
         sha = sha.hexdigest()
@@ -737,8 +737,8 @@ class UDir(object):
         old_sig = self.dir_struc_sig(
             u_path=self._u_path,
             dir_struc=self._dir_struc,
-            using_sha=self._using_sha)
-        new_sig = self.dir_struc_sig(self._u_path, new_struc, self._using_sha)
+            hashtype=self._hashtype)
+        new_sig = self.dir_struc_sig(self._u_path, new_struc, self._hashtype)
 
         # fix signature
         if new_sig != old_sig:
@@ -769,10 +769,10 @@ class UDir(object):
                 if entry.is_dir():
                     continue
                 key = entry.name
-                if self._using_sha == QQQ.USING_SHA1:
+                if self._hashtype == HashTypes.SHA1:
                     match = self.HEX_FILE_NAME_1_RE.match(key)
-                elif self._using_sha == QQQ.USING_SHA2 or \
-                        self._using_sha == QQQ.USING_SHA3:
+                elif self._hashtype == HashTypes.SHA2 or \
+                        self._hashtype == HashTypes.SHA3:
                     match = self.HEX_FILE_NAME_2_RE.match(key)
                 if match:
                     # DEBUG
@@ -814,10 +814,10 @@ class UDir(object):
                                 if entry.is_dir():
                                     continue
                                 key = entry.name
-                                if self._using_sha == QQQ.USING_SHA1:
+                                if self._hashtype == HashTypes.SHA1:
                                     match = self.HEX_FILE_NAME_1_RE.match(key)
-                                elif self._using_sha == QQQ.USING_SHA2 or \
-                                        self._using_sha == QQQ.USING_SHA3:
+                                elif self._hashtype == HashTypes.SHA2 or \
+                                        self._hashtype == HashTypes.SHA3:
                                     match = self.HEX_FILE_NAME_2_RE.match(key)
                                 if match:
                                     # DEBUG
@@ -840,10 +840,10 @@ class UDir(object):
         warnings.warn('copyAndPut synonym', DeprecationWarning)
         return self.copy_and_put(path, key)
 
-    def dirStrucSig(self, u_path, dir_struc, using_sha):
+    def dirStrucSig(self, u_path, dir_struc, hashtype):
         """ SYNONYM """
         warnings.warn('dirStrucSig synonym', DeprecationWarning)
-        return self.dir_struc_sig(u_path, dir_struc, using_sha)
+        return self.dir_struc_sig(u_path, dir_struc, hashtype)
 
     def dirStrucToName(cls, nnn):
         """ SYNONYM """
@@ -891,6 +891,6 @@ class UDir(object):
     def usingSHA(self):
         """ SYNONYM """
         warnings.warn('usingSHA synonym', DeprecationWarning)
-        return self._using_sha
+        return self._hashtype
 
     # END SYN -------------------------------------------------------

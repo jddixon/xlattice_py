@@ -33,7 +33,7 @@ def do_run(options):
         "  dirStruc:           %10s" %
         UDir.dir_struc_to_name(
             stats.dir_struc))
-    print("  usingSHA:          %10s" % stats.using_sha)
+    print("  usingSHA:          %10s" % stats.hashtype)
     print()
     print("  subDirectories:     %10d" % stats.subdir_count)
     print("  subSubDirectories:  %10d" % stats.sub_subdir_count)

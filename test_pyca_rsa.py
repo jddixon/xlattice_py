@@ -21,7 +21,7 @@ from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import hashes, serialization
 from rnglib import SimpleRNG
-from xlattice import QQQ
+from xlattice import HashTypes
 
 
 class TestRSA(unittest.TestCase):
@@ -186,14 +186,14 @@ class TestRSA(unittest.TestCase):
     def test_dig_sig(self):
         """ Test digital signatures using a range of hash types. """
 
-        for using in [QQQ.USING_SHA1, QQQ.USING_SHA2, ]:
+        for using in [HashTypes.SHA1, HashTypes.SHA2, ]:
             self.do_test_dig_sig(using)
 
-    def do_test_dig_sig(self, using_sha):
+    def do_test_dig_sig(self, hashtype):
 
-        if using_sha == QQQ.USING_SHA1:
+        if hashtype == HashTypes.SHA1:
             sha = hashes.SHA1
-        elif using_sha == QQQ.USING_SHA2:
+        elif hashtype == HashTypes.SHA2:
             sha = hashes.SHA256
         sk_priv = rsa.generate_private_key(
             public_exponent=65537,
