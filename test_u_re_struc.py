@@ -117,8 +117,8 @@ class TestReStruc(unittest.TestCase):
             self.assertTrue(u_dir.exists(hex_hashes[nnn]))
 
         # XXX STUB: veriy any useless directories have been removed
-        #   for example: if going from u_dir.DIR256x256 to UDir.DIR_FLAT,
-        #   directoris like 00 and 00/00 should have been removed
+        #   for example: if going from DirStruc.DIR256x256 to DirStruc.DIR_FLAT,
+        #   directories like 00 and 00/00 should have been removed
 
     def test_re_struc(self):
         """ Test all combinations of dir structure and hash type. """

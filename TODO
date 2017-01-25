@@ -1,5 +1,14 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-01-18 
+    * UDir.dir_struc is an int, should be a member of DirStruc
+        - this condition detected in dvcz; may be a bug there
+
+2017-01-17
+    * UDir.DIR_FLAT etc should be deprecated
+        - use xlattice.u.DirStruc.DIR_FLAT etc instead
+        - phase out UDir.DIR_FLAT etc by xlattice 1.7
+
 2017-01-11
     EDITED FROM -10:
     * rename QQQ.USING_SHAx with an enumeration HashTypes (SHAx)        * DONE

@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
-
+v1.6.4
+    2017-01-24
+        * correct use of os.path.join in various places
+        * correct typos in the utilities                            SLOC 5811
 v1.6.3
     2107-01-13
         * completed switch QQQ->HashTypes, using_sha->hashtype
@@ -317,6 +320,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
