@@ -54,7 +54,7 @@ class TestU(unittest.TestCase):
         # DEBUG
         if u2_.hashtype != hashtype:
             print("do_discovery_test:")
-            print("  dir_struc: %s" % UDir.DIR_STRUC_NAMES[dir_struc])
+            print("  dir_struc: %s" % dir_struc.name)
             print("  hashtype: %s" % hashtype)
         # END
         self.assertEqual(u2_.hashtype, hashtype)

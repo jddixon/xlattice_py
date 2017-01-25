@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 from optionz import dump_options
 from xlattice import (__version__, __version_date__)
 # from xlattice.stats import collect_stats
-from xlattice.u import UDir
+from xlattice.u import UDir, DirStruc
 
 
 def re_struc_u_dir(u_path, new_struc, out_path="", verbose=False):
@@ -22,7 +22,7 @@ def re_struc_u_dir(u_path, new_struc, out_path="", verbose=False):
 
 def main():
 
-    # program defaults ----------------------------------------------
+    dir_struc_names = [_.name for _ in DirStruc]
 
     # parse the command line ----------------------------------------
     desc = 'modify directory structure for uDir; low-level op, does not alter L'
@@ -36,7 +36,7 @@ def main():
                         help='optional destination directory')
 
     parser.add_argument('-s', '--new_struc_name', type=str,
-                        help="new dirStruc (DIR_FLAT, DIR16x16, or DIR256x256")
+                        help="new dirStruc, one of %s" % dir_struc_names)
 
     parser.add_argument('-u', '--u_path', type=str,
                         help='path to uDir (no default)')
@@ -54,14 +54,14 @@ def main():
     # fixups and sanity checks --------------------------------------
 
     if not args.u_path or not os.path.exists(args.u_path):
-        print("input directory '%s' does not exist" % args.u_path)
+        print("uDir directory '%s' does not exist" % args.u_path)
         parser.print_help()
         sys.exit(1)
 
-    if not args.new_struc_name or not args.new_struc_name in UDir.DIR_STRUC_NAMES:
+    if not args.new_struc_name or not args.new_struc_name in dir_struc_names:
         print(
             "you must specify a directory structure, one of %s" %
-            UDir. DIR_STRUC_NAMES)
+            dir_struc_names)
         parser.print_help()
         sys.exit(1)
 

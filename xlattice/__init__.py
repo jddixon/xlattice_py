@@ -31,12 +31,12 @@ __all__ = ['__version__', '__version_date__',
            'parse_using_sha', 'fix_using_sha', 'show_using_sha',
            # END BEING RENAMED --------------------------------------
            'check_hashtype',
-           'parse_hash_type_etc', 'fix_hashtype', 'show_hashtype_etc',
+           'parse_hashtype_etc', 'fix_hashtype', 'show_hashtype_etc',
 
            'check_u_path', ]
 
-__version__ = '1.6.3'
-__version_date__ = '2017-01-11'
+__version__ = '1.6.4'
+__version_date__ = '2017-01-24'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -216,13 +216,13 @@ def parse_hashtype_etc(parser):
     """
     Standard arguments selecting supported hash types plus -u and -v.
     """
-    parser.add_argument('-1', '--using_sha1', action='store_true',
+    parser.add_argument('-1', '--hashtype1', action='store_true',
                         help='using the 160-bit SHA1 hash')
 
-    parser.add_argument('-2', '--using_sha2', action='store_true',
+    parser.add_argument('-2', '--hashtype2', action='store_true',
                         help='using the 256-bit SHA2 (SHA256) hash')
 
-    parser.add_argument('-3', '--using_sha3', action='store_true',
+    parser.add_argument('-3', '--hashtype3', action='store_true',
                         help='using the 256-bit SHA3 (Keccak-256) hash')
 
     parser.add_argument('-u', '--u_path',
@@ -234,22 +234,22 @@ def parse_hashtype_etc(parser):
 
 def fix_hashtype(args):
     """
-    Creates and assigns a value to args.using_sha.
+    Creates and assigns a value to args.hashtype.
 
     That value is determined by examining the three options
-    using_sha{1,2,3}; these are then removed from the set of options.
+    hashtype{1,2,3}; these are then removed from the set of options.
     """
     args.hashtype = None
     # pylint:disable=redefined-variable-type
-    if args.using_sha1:
+    if args.hashtype1:
         args.hashtype = HashTypes.SHA1
-    elif args.using_sha2:
+    elif args.hashtype2:
         args.hashtype = HashTypes.SHA2
-    elif args.using_sha3:
+    elif args.hashtype3:
         args.hashtype = HashTypes.SHA3
-    args.__delattr__('using_sha1')
-    args.__delattr__('using_sha2')
-    args.__delattr__('using_sha3')
+    args.__delattr__('hashtype1')
+    args.__delattr__('hashtype2')
+    args.__delattr__('hashtype3')
 
 
 def show_hashtype_etc(args):

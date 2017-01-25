@@ -117,11 +117,10 @@ def main():
 
     args.pgm_name_and_version = pgm_name_and_version
     args.timestamp = timestamp
-    if args.hashtype:
-        print("DEBUG: using SHA1 *** ")
+    if args.hashtype == HashTypes.SHA1:
         args.file_name_regex = re.compile(FILE_NAME_PAT1)
     else:
-        # USING_SHA2 and USING_SHA3
+        # SHA2 or SHA3
         args.file_name_regex = re.compile(FILE_NAME_PAT256)
 
     # -- sanity checks ----------------------------------------------

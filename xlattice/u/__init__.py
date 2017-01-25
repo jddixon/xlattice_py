@@ -342,6 +342,7 @@ class UDir(object):
     @classmethod
     def name_to_dir_struc(cls, string):
         """ map a string into an integer"""
+        warnings.warn('dir_struc_to_name', DeprecationWarning)
         return cls._name_to_dir_struc[string]
 
     _dir_struc_to_name = {
@@ -353,6 +354,7 @@ class UDir(object):
     @classmethod
     def dir_struc_to_name(cls, nnn):
         """ map an integer into a string """
+        warnings.warn('dir_struc_to_name', DeprecationWarning)
         return cls._dir_struc_to_name[nnn]
     # END BEING REPLACED ********************************************
 
@@ -367,19 +369,15 @@ class UDir(object):
         if dir_struc == DirStruc.DIR_FLAT:
             sig = os.path.join(u_path, none)
         elif dir_struc == DirStruc.DIR16x16:
-            sig = os.path.join(u_path,
-                               os.path.join(none[0],
-                                            os.path.join(none[1], none)))
+            sig = os.path.join(u_path, none[0], none[1], none)
         elif dir_struc == DirStruc.DIR256x256:
-            sig = os.path.join(u_path,
-                               os.path.join(none[0:2],
-                                            os.path.join(none[2:4], none)))
+            sig = os.path.join(u_path, none[0:2], none[2:4], none)
         else:
             raise XLUError('invalid dir_struc %d' % dir_struc)
 
         return sig
 
-    def __init__(self, u_path, dir_struc=DIR_FLAT,
+    def __init__(self, u_path, dir_struc=DirStruc.DIR_FLAT,
                  hashtype=HashTypes.SHA2, mode=0o755):
 
         self._u_path = u_path
@@ -412,6 +410,7 @@ class UDir(object):
 
     @property
     def dir_struc(self):
+        """ Returns DirStruc member. """
         return self._dir_struc
 
     @property
@@ -430,7 +429,7 @@ class UDir(object):
             self._hashtype == other.hashtype
 
     @classmethod
-    def discover(cls, u_path, dir_struc=DIR_FLAT,
+    def discover(cls, u_path, dir_struc=DirStruc.DIR_FLAT,
                  hashtype=HashTypes.SHA2, mode=0o755):
         """
         If there is a directory at the expected path, return an
@@ -475,27 +474,27 @@ class UDir(object):
             # check for 16x16 directory structure -------------------
             if not found:
                 dir16_sha1_path = os.path.join(u_path,
-                                               os.path.join(SHA1_HEX_NONE[0],
-                                                            os.path.join(SHA1_HEX_NONE[1],
-                                                                         SHA1_HEX_NONE)))
+                                               SHA1_HEX_NONE[0],
+                                               SHA1_HEX_NONE[1],
+                                               SHA1_HEX_NONE)
                 if os.path.exists(dir16_sha1_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
                     hashtype = HashTypes.SHA1
             if not found:
                 dir16_sha2_path = os.path.join(u_path,
-                                               os.path.join(SHA2_HEX_NONE[0],
-                                                            os.path.join(SHA2_HEX_NONE[1],
-                                                                         SHA2_HEX_NONE)))
+                                               SHA2_HEX_NONE[0],
+                                               SHA2_HEX_NONE[1],
+                                               SHA2_HEX_NONE)
                 if os.path.exists(dir16_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
                     hashtype = HashTypes.SHA2
             if not found:
                 dir16_sha3_path = os.path.join(u_path,
-                                               os.path.join(SHA3_HEX_NONE[0],
-                                                            os.path.join(SHA3_HEX_NONE[1],
-                                                                         SHA3_HEX_NONE)))
+                                               SHA3_HEX_NONE[0],
+                                               SHA3_HEX_NONE[1],
+                                               SHA3_HEX_NONE)
                 if os.path.exists(dir16_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR16x16
@@ -504,27 +503,27 @@ class UDir(object):
             # check for 256x256 directory structure -----------------
             if not found:
                 dir256_sha1_path = os.path.join(u_path,
-                                                os.path.join(SHA1_HEX_NONE[0:2],
-                                                             os.path.join(SHA1_HEX_NONE[2:4],
-                                                                          SHA1_HEX_NONE)))
+                                                SHA1_HEX_NONE[0:2],
+                                                SHA1_HEX_NONE[2:4],
+                                                SHA1_HEX_NONE)
                 if os.path.exists(dir256_sha1_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
                     hashtype = HashTypes.SHA1
             if not found:
                 dir256_sha2_path = os.path.join(u_path,
-                                                os.path.join(SHA2_HEX_NONE[0:2],
-                                                             os.path.join(SHA2_HEX_NONE[2:4],
-                                                                          SHA2_HEX_NONE)))
+                                                SHA2_HEX_NONE[0:2],
+                                                SHA2_HEX_NONE[2:4],
+                                                SHA2_HEX_NONE)
                 if os.path.exists(dir256_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
                     hashtype = HashTypes.SHA2
             if not found:
                 dir256_sha3_path = os.path.join(u_path,
-                                                os.path.join(SHA3_HEX_NONE[0:2],
-                                                             os.path.join(SHA3_HEX_NONE[2:4],
-                                                                          SHA3_HEX_NONE)))
+                                                SHA3_HEX_NONE[0:2],
+                                                SHA3_HEX_NONE[2:4],
+                                                SHA3_HEX_NONE)
                 if os.path.exists(dir256_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR256x256
