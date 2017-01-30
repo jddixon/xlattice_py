@@ -32,6 +32,7 @@ class TestNode(unittest.TestCase):
         pass
 
     def check_node(self, node, hashtype):
+        """ Test functionality of Node with specific hash type. """
         assert node is not None
 
         pub = node.pub_key
@@ -68,15 +69,22 @@ class TestNode(unittest.TestCase):
 
     # ---------------------------------------------------------------
     def do_test_generate_rsa_key(self, hashtype):
+        """
+        Test Node instantiation with supported hash types.
+
+        RSA key is not supplied and so must be generated.
+        """
         nnn = Node(hashtype)          # no RSA key provided, so creates one
         self.check_node(nnn, hashtype)
 
     def test_generated_rsa_key(self):
+        """ Test RSA key generation with supported hash types. """
         for hashtype in HashTypes:
             self.do_test_generate_rsa_key(hashtype)
 
     # ---------------------------------------------------------------
     def do_test_with_openssl_key(self, hashtype):
+        """ Test openSSL key with specific hash type. """
 
         # import an openSSL-generated 2048-bit key (this becomes a
         # string constant in this program)
@@ -99,6 +107,7 @@ class TestNode(unittest.TestCase):
         # -----------------------------------------------------------
 
     def test_with_open_ssl_key(self):
+        """ Test openSSL key with supported hash types. """
         for hashtype in HashTypes:
             self.do_test_with_openssl_key(hashtype)
 

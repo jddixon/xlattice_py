@@ -25,14 +25,15 @@ class TestTwoLogs(unittest.TestCase):
 
     def test_with_single_message(self):
 
-        if os.path.exists('./logs'):
-            shutil.rmtree('./logs')
+        path_to_logs = os.path.join('tmp', 'logs')
+        if os.path.exists(path_to_logs):
+            shutil.rmtree(path_to_logs)
 
         # -- open ---------------------------------------------------
         def show_log_handle(handle):
             print("HANDLE: %s as %d writing to %s" % (
                 handle.base_name, handle.lfd, handle.log_file,))
-        mgr = LogMgr('logs')
+        mgr = LogMgr(path_to_logs)
         foo_log = mgr.open('foo')
         foo_log.log('oh hello, foo')
         show_log_handle(foo_log)                       # DEBUG
@@ -48,7 +49,7 @@ class TestTwoLogs(unittest.TestCase):
         mgr.close()
 
         # -- test our expectations ----------------------------------
-        expected_log_file = 'logs/foo.log'
+        expected_log_file = os.path.join(path_to_logs, 'foo.log')
         self.assertEqual(expected_log_file, foo_log.log_file_name)
         self.assertTrue(os.path.exists(expected_log_file))
         with open(expected_log_file, 'r') as file:
@@ -57,7 +58,7 @@ class TestTwoLogs(unittest.TestCase):
         self.assertTrue(contents.endswith('oh hello, foo'))  # END FOO
 
         if bar_log:
-            expected_log_file = 'logs/bar.log'
+            expected_log_file = os.path.join(path_to_logs, 'bar.log')
             self.assertEqual(expected_log_file, bar_log.log_file_name)
             self.assertTrue(os.path.exists(expected_log_file))
             with open(expected_log_file, 'r') as file:
