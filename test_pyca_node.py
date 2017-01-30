@@ -3,7 +3,6 @@
 
 """ Test Python3 version of the XLattice Node. """
 
-import base64           # tentatively :-)
 import time
 import unittest
 

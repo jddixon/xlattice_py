@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.6.5
+    2017-01-29
+        * add name to nameless deprecation warnings
+        * other minor bug fixes                                     SLOC 5821
 v1.6.4
     2017-01-24
         * correct use of os.path.join in various places
@@ -320,6 +324,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

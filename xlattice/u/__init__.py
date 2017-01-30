@@ -8,8 +8,8 @@ import shutil
 import sys
 import time
 import hashlib
-import os
 import warnings
+import os
 
 try:
     from os import scandir
@@ -281,15 +281,13 @@ class ULock(object):
     def lockDir(self):
         """ SYNONYM """
         warnings.warn('lockDir synonym', DeprecationWarning)
-        return self.lock_dir()
+        return self.lock_dir
 
     @property
     def lockFile(self):
         """ SYNONYM """
         warnings.warn('lockFile synonym', DeprecationWarning)
         return self.lock_file()
-
-    releaseLock = release_lock
 
     def releaseLock(self):
         """ SYNONYM """
@@ -844,10 +842,11 @@ class UDir(object):
         warnings.warn('dirStrucSig synonym', DeprecationWarning)
         return self.dir_struc_sig(u_path, dir_struc, hashtype)
 
+    @classmethod
     def dirStrucToName(cls, nnn):
         """ SYNONYM """
         warnings.warn('dirStrucToName synonym', DeprecationWarning)
-        return self.dir_struc_to_name(nnn)
+        return cls.dir_struc_to_name(nnn)
 
     def getData(self, key):
         """ SYNONYM """
@@ -859,6 +858,7 @@ class UDir(object):
         warnings.warn('getPathForKey synonym', DeprecationWarning)
         return self.get_path_for_key(key)
 
+    @classmethod
     def nameToDirStruc(cls, name):
         """ SYNONYM """
         warnings.warn('nameToDirStruc synonym', DeprecationWarning)
