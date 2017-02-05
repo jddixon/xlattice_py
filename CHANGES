@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.6.6
+    2017-02-05
+        * committed                                                 SLOC 5821
+    2017-01-29
+        * more nameless deprecation warnings in xlattice/util.py    SLOC 5821
 v1.6.5
     2017-01-29
         * add name to nameless deprecation warnings
@@ -324,6 +329,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

@@ -35,7 +35,7 @@ __all__ = ['__version__', '__version_date__',
 
            'check_u_path', ]
 
-__version__ = '1.6.5'
+__version__ = '1.6.6'
 __version_date__ = '2017-01-29'
 
 

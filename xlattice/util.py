@@ -366,7 +366,7 @@ def timestamp(nnn):       # sec from epoch
 def timestamp_now():
     """
     Get the current time, truncate it by omiting microseconds, and
-    return a string in the shorter format.
+    return a string in the shorter format, `CCYY-MM-DD HH:MM:SS`.
     """
     tstamp = time.gmtime()
     return time.strftime(TIMESTAMP_FORMAT, tstamp)
@@ -445,43 +445,43 @@ def regexes_from_wildcards(strings):
 
 def parseDecimalVersion(string):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('parseDecimalVersion: synonym', DeprecationWarning)
     return parse_decimal_version(string)
 
 
 def parseTimestamp(string):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('parseTimestamp: synonym', DeprecationWarning)
     return parse_timestamp(string)
 
 
 def timestampNow():
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('timestampNow: synonym', DeprecationWarning)
     return timestamp_now()
 
 
 def getExclusions(proj_dir, excl_file='.gitignore'):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('getExclusions: synonym', DeprecationWarning)
     return get_exclusions(proj_dir, excl_file)
 
 
 def makeExRE(globs):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('makeExRE: synonym', DeprecationWarning)
     return make_ex_re(globs)
 
 
 def makeMatchRE(match_list):
     """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('makeMatchRE: synonym', DeprecationWarning)
     return make_match_re(match_list)
 
 
 def regexesFromWildcards(strings):
     """ SYNONUM """
-    warnings.warn('synonym', DeprecationWarning)
+    warnings.warn('regexesFromWildcards: synonym', DeprecationWarning)
     return regexes_from_wildcards(strings)
 
 # END SYNONYMS ------------------------------------------------------
