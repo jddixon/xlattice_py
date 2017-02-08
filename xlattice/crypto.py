@@ -1,6 +1,7 @@
 # xlattice_py/xlattice/crypto.py
-
 import warnings
+
+""" Crypto functions for XLattice: currently relaced to AES block cipher. """
 
 __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
@@ -10,7 +11,9 @@ __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
 
 # EXPORTED CONSTANTS
 
+# DROP ON REACHING v1.7 *********************************************
 AES_BLOCK_SIZE = 16         # consider me DEPRECATED
+
 AES_BLOCK_BITS = 128
 AES_BLOCK_BYTES = 16
 
@@ -19,6 +22,7 @@ class XLCryptoError(RuntimeError):
     pass
 
 # SYNONYMS used while refactoring dependent classes =================
+# DROP ON REACHING v1.7 *********************************************
 
 
 def pkcs7Padding(data, block_size):
@@ -127,6 +131,7 @@ class SP(object):
         return SP.__SPACES__[nnn]
 
     # SYNONYM ---------------------------------------------
+    # DROP ON REACHING v1.7 *****************************************
     @staticmethod
     def getSpaces(nnn):
         """ SYNONYM """

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-
 # testTwoLogs.py
+
+""" Test concurrent use of more than one log. """
 
 import os
 import shutil
@@ -12,6 +13,7 @@ sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
 
 class TestTwoLogs(unittest.TestCase):
+    """ Test concurrent use of more than one log. """
 
     def setUp(self):
         pass
@@ -24,6 +26,7 @@ class TestTwoLogs(unittest.TestCase):
     # actual unit tests #############################################
 
     def test_with_single_message(self):
+        """ Log a single message, close log, verify correct state. """
 
         path_to_logs = os.path.join('tmp', 'logs')
         if os.path.exists(path_to_logs):
@@ -31,6 +34,7 @@ class TestTwoLogs(unittest.TestCase):
 
         # -- open ---------------------------------------------------
         def show_log_handle(handle):
+            """ Dump the log handle for testing. """
             print("HANDLE: %s as %d writing to %s" % (
                 handle.base_name, handle.lfd, handle.log_file,))
         mgr = LogMgr(path_to_logs)

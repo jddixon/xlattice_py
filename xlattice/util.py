@@ -1,5 +1,7 @@
 # xlattice_py/xlattice/util.py
 
+""" Utilities for python XLattice library. """
+
 import calendar
 import fnmatch
 import os
@@ -24,6 +26,7 @@ __all__ = ['TIMESTAMP_FORMAT',
 
 
 class DecimalVersion(object):
+    """ Standard decimal versioning for XLattice. """
 
     # __slots__ = ['_value',]
 
@@ -58,23 +61,29 @@ class DecimalVersion(object):
             ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
     def get_a(self):
+        """ Return the first byte of the decimal version. """
         return self._value & 0xff
 
     def get_b(self):
+        """ Return the second byte of the decimal version. """
         return (self._value >> 8) & 0xff
 
     def get_c(self):
+        """ Return the third byte of the decimal version. """
         return (self._value >> 16) & 0xff
 
     def get_d(self):
+        """ Return the fourth byte of the decimal version. """
         return (self._value >> 24) & 0xff
 
     @property
     def value(self):
+        """ Return the value of the decimal version as a single int. """
         return self._value
 
     @value.setter
     def value(self, val):
+        """ Set the value of a decimal version; this is a single int. """
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
@@ -86,12 +95,13 @@ class DecimalVersion(object):
                 val))
 
     def __eq__(self, other):
-
+        """ Return whether two decimal versions are the same. """
         if not isinstance(other, DecimalVersion):
             return False
         return self._value == other.value
 
     def __lt__(self, other):
+        """ Return whether this decimal version is less than another. """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a < other_a:
@@ -120,6 +130,9 @@ class DecimalVersion(object):
         return False
 
     def __le__(self, other):
+        """
+        Return whether this decimal version is less than or equal to another.
+        """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a < other_a:
@@ -148,6 +161,7 @@ class DecimalVersion(object):
         return False
 
     def __gt__(self, other):
+        """ Return whether this decimal version is greater than another. """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a > other_a:
@@ -176,6 +190,9 @@ class DecimalVersion(object):
         return False
 
     def __ge__(self, other):
+        """
+        Return whether this decimal version is greater than or equal to another.
+        """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a > other_a:
@@ -204,6 +221,7 @@ class DecimalVersion(object):
         return False
 
     def __str__(self):
+        """ Return the decimal version as a string . """
         a_val = self.get_a()
         b_val = self.get_b()
         c_val = self.get_c()
@@ -269,6 +287,7 @@ class DecimalVersion(object):
             self.value = DecimalVersion(a_val, b_val, c_val, d_val)
 
     # SYNONYMS ------------------------------------------------------
+    # DROP ON REACHING v1.7 *****************************************
     def getA(self):
         """ SYNONYM """
         warnings.warn('synonym', DeprecationWarning)
@@ -441,6 +460,7 @@ def regexes_from_wildcards(strings):
     return regexes
 
 # SYNONYMS ----------------------------------------------------------
+# DROP ON REACHING v1.7 *********************************************
 
 
 def parseDecimalVersion(string):

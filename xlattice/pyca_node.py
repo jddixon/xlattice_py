@@ -3,8 +3,6 @@
 """ Functions implementing the XLattice Node. """
 
 import base64
-import os
-import sys
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
@@ -31,7 +29,7 @@ class AbstractNode(object):
         check_hashtype(hash_types)
         self._hash_types = hash_types
         if node_id is None:
-            # we arbitrarily use sk_ to calculate the unique node ID
+            # we arbitrarily use sk_ to calculate a unique node ID
             if sk_:
                 if hash_types == HashTypes.SHA1:
                     sha_ = hashes.SHA1
@@ -50,7 +48,7 @@ class AbstractNode(object):
                 raise ValueError(
                     'cannot calculate nodeID without public key sk_')
 
-                self._node_id = node_id
+            self._node_id = node_id
         self._sk = sk_
         self._ck = ck_
 
@@ -112,7 +110,7 @@ class Node(AbstractNode):
                 key_size=key_bits,
                 backend=default_backend())
 
-        node_id, sk_, ck_ = Node.get_id_and_pub_keys_for_node(
+        node_id, sk_, ck_ = Node.calc_id_and_pub_keys_for_node(
             hash_types, sk_priv, ck_priv)
         AbstractNode.__init__(self, hash_types, sk_, ck_, node_id)
 
@@ -143,7 +141,7 @@ class Node(AbstractNode):
         pass
 
     @staticmethod
-    def get_id_and_pub_keys_for_node(hash_types, sk_priv, ck_priv):
+    def calc_id_and_pub_keys_for_node(hash_types, sk_priv, ck_priv):
         """ Calculate the nodeID from the ck_ public key. """
         check_hashtype(hash_types)
         (node_id, ck_) = (None, None)

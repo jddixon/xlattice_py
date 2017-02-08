@@ -1,8 +1,17 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-02-07
+    * deprecate xlattice.lfs.mkdir_p
+    * need to search for all uses
+    * remove code using this call by v1.7
+    * xlattice/*node.py: Node should inherit from abc
+    * pycrypto version of {Abstract,}Node needs TWO RSA public keys            
+    * cryptography version of {Abstract,}Node should be identical 
+        except for parts relating to RSA
+
 2017-01-18 
-    * UDir.dir_struc is an int, should be a member of DirStruc
-        - this condition detected in dvcz; may be a bug there
+    * UDir.dir_struc is an int, should be a member of DirStruc          * FIXED
+        - this condition detected in dvcz; may be a bug there           * FIXED
 
 2017-01-17
     * UDir.DIR_FLAT etc should be deprecated

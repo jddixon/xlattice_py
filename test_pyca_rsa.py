@@ -190,6 +190,7 @@ class TestRSA(unittest.TestCase):
             self.do_test_dig_sig(using)
 
     def do_test_dig_sig(self, hashtype):
+        """" Verify calculation of digital signature using speciic hash type. """
 
         if hashtype == HashTypes.SHA1:
             sha = hashes.SHA1

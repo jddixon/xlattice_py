@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# xlattice_py/testNode.py, copied here from pzog/xlattice
+""" xlattice_py/testNode.py, copied here from pzog/xlattice. """
 
 import sys
 import time

@@ -15,18 +15,23 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_B64_NONE',
            'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
+
            # DEPRECATED
+           # DROP ON REACHING v1.7 **********************************
            'Q', 'QQQ', 'UnrecognizedSHAError',
            # END DEPRECATED
+
            'HashTypes', 'UnrecognizedHashTypeError',
 
            # SYNONYMS -----------------------------------------------
+           # DROP ON REACHING v1.7 **********************************
            'checkUsingSHA',
            #  argparse-related: -1,-2,-3 become args.using_sha
            'parseUsingSHA', 'fixUsingSHA', 'checkUPath', 'showUsingSHA',
            # END SYN ------------------------------------------------
 
            # BEING RENAMED, SO DEPRECATED ---------------------------
+           # DROP ON REACHING v1.7 **********************************
            'check_using_sha',
            'parse_using_sha', 'fix_using_sha', 'show_using_sha',
            # END BEING RENAMED --------------------------------------
@@ -35,8 +40,8 @@ __all__ = ['__version__', '__version_date__',
 
            'check_u_path', ]
 
-__version__ = '1.6.6'
-__version_date__ = '2017-01-29'
+__version__ = '1.6.7'
+__version_date__ = '2017-02-07'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -71,7 +76,8 @@ SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 
-# DEPRECATED ----------------------------------------------
+# DEPRECATED --------------------------------------------------------
+# DROP ON REACHING v1.7 *********************************************
 
 
 class Q(IntEnum):
@@ -125,6 +131,7 @@ class UnrecognizedHashTypeError(RuntimeError):
 
 
 # DEPRECATED ========================================================
+# DROP ON REACHING v1.7 *********************************************
 
 def check_using_sha(using=None):
     """
@@ -287,7 +294,7 @@ def check_u_path(parser, args, must_exist=False, mode=0o755):
 
 
 # SYNONYM -----------------------------------------------------------
-
+# DROP ON REACHING v1.7 *********************************************
 
 def checkUsingSHA(using):
     """ SYNONYM """

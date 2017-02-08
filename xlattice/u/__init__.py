@@ -31,6 +31,7 @@ __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
            'XLUError',
 
            # SYNONYMS
+           # DROP ON REACHING v1.7 *********************************
            'fileSHA1Bin', 'fileSHA1Hex',
            'fileSHA2Bin', 'fileSHA2Hex',
            'fileSHA3Bin', 'fileSHA3Hex',
@@ -79,6 +80,7 @@ SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 RNG = rnglib.SimpleRNG(time.time())
 
 # == SYNONYMS =======================================================
+# DROP ON REACHING v1.7 *********************************************
 
 
 def fileSHA1Bin(path):
@@ -272,6 +274,7 @@ class ULock(object):
             os.remove(self.lock_file)
 
     # SYNONYMS ******************************************************
+    # DROP ON REACHING v1.7 *****************************************
     def getLock(self, verbose=False):
         """ SYNONYM """
         warnings.warn('getLock synonym', DeprecationWarning)
@@ -310,6 +313,7 @@ class DirStruc(IntEnum):
 class UDir(object):
 
     # BEING REPLACED BY DirStruc ************************************
+    # DROP ON REACHING v1.7 *****************************************
     DIR_FLAT = 0
     DIR16x16 = 1
     DIR256x256 = 2
@@ -331,6 +335,7 @@ class UDir(object):
     HEX_DIR_NAME_256_RE = re.compile(HEX_DIR_NAME_256_PAT)
 
     # BEING REPLACED BY DirStruc ************************************
+    # DROP ON REACHING v1.7 *****************************************
     _name_to_dir_struc = {
         'DIR_FLAT': DIR_FLAT,
         'DIR16x16': DIR16x16,
@@ -354,6 +359,7 @@ class UDir(object):
         """ map an integer into a string """
         warnings.warn('dir_struc_to_name', DeprecationWarning)
         return cls._dir_struc_to_name[nnn]
+
     # END BEING REPLACED ********************************************
 
     def dir_struc_sig(self, u_path, dir_struc, hashtype):
@@ -830,7 +836,8 @@ class UDir(object):
 
         # remove old directories
 
-    # SYNONYMS ------------------------------------------------------
+    # SYNONYMS ---------------------    -----------------------------
+    # DROP ON REACHING v1.7.0 ***************************************
 
     def copyAndPut(self, path, key):
         """ SYNONYM """

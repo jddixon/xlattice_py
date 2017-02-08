@@ -1,8 +1,6 @@
 # ~/dev/py/xlattice_py/xlattice/node.py
 
-########################################
-# BEING HACKED TO USED pyca/cryptography
-########################################
+""" XLattice Node functionality using pycrypto for RSA functions. """
 
 import os
 import sys
@@ -18,6 +16,7 @@ if sys.version_info < (3, 6):
 
 
 class AbstractNode(object):
+    """ Parent class for Node-like things using pycrypto RSA. """
 
     def __init__(self, hashtype=HashTypes.SHA2, pub_key=None, node_id=None):
 
@@ -48,15 +47,18 @@ class AbstractNode(object):
 
     @property
     def node_id(self):
+        """ Return the 160- or 256-bit node ID. """
         return self._node_id
 
     @property
     def pub_key(self):
+        """ Return the public part of the Node's RSA key. """
         return self._pub_key
 
 
 class Node(AbstractNode):
     """
+    The cryptographic identity of an XLattice Node: its nodeID and RSA keys.
     """
 
     def __init__(self, hashtype=HashTypes.SHA2, priv_key=None):
@@ -65,8 +67,8 @@ class Node(AbstractNode):
         # generates the same key
         if priv_key is None:
             priv_key = rsa.generate(2048, os.urandom)
-        node_id, pub_key = Node.get_id_and_pub_key_for_node(
-            hashtype, self, priv_key)
+        node_id, pub_key = Node.calc_id_and_pub_key_for_node(
+            hashtype, priv_key)
         AbstractNode.__init__(self, hashtype, pub_key, node_id)
 
         if not priv_key:
@@ -80,14 +82,19 @@ class Node(AbstractNode):
         self._connections = []    # with peers? with clients?
 
     def create_from_key(self, string):
-        # XXX STUB: given the serialization of a node, create one
-        # despite the name, this should also handle peer lists, etc
-        # XXX WE ALSO NEED a serialization function
+        """
+        Given the serialization of a node, create one.
+
+
+        Despite the name, this should also handle peer lists, etc.
+
+        XXX WE ALSO NEED a serialization function
+        """
         pass
 
     @staticmethod
-    def get_id_and_pub_key_for_node(hashtype, node, rsa_priv_key):
-
+    def calc_id_and_pub_key_for_node(hashtype, rsa_priv_key):
+        """ Calculate a NodeID and public key, given an RSA private key. """
         check_hashtype(hashtype)
         (node_id, pub_key) = (None, None)
         pub_key = rsa_priv_key.publickey()
@@ -115,16 +122,19 @@ class Node(AbstractNode):
 
     @property
     def key(self):
+        """ Return this node's RSA private key. """
         return self._private_key
 
     # these work with
     def sign(self, msg):
+        """ Sign a message using this node's private key. """
         sha = hashlib.sha1()
         sha.update(bytes(msg))
         d_val = sha.digest()
         return self._private_key.sign(d_val, msg)
 
     def verify(self, msg, signature):
+        """ Verify the digital signature using this node's private key. """
         sha = hashlib.sha1()
         sha.update(bytes(msg))
         d_val = sha.digest()
