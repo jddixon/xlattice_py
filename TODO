@@ -1,10 +1,15 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-02-11
+    * xlattice/node.py hack: move __init__()s from abstract classes
+        to concrete implementations
+    * write test_node.py, add to test.all
+
 2017-02-07
-    * deprecate xlattice.lfs.mkdir_p
-    * need to search for all uses
-    * remove code using this call by v1.7
-    * xlattice/*node.py: Node should inherit from abc
+    * deprecate xlattice.lfs.mkdir_p                                    * DONE
+    * need to search for all uses                                       * FIXED
+    * remove code using this call by v1.7                               * DONE
+    * xlattice/*node.py: AbstractNode should inherit from abc
     * pycrypto version of {Abstract,}Node needs TWO RSA public keys            
     * cryptography version of {Abstract,}Node should be identical 
         except for parts relating to RSA

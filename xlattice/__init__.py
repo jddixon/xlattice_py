@@ -40,8 +40,8 @@ __all__ = ['__version__', '__version_date__',
 
            'check_u_path', ]
 
-__version__ = '1.6.7'
-__version_date__ = '2017-02-07'
+__version__ = '1.7.0'
+__version_date__ = '2017-02-11'
 
 
 # This is the SHA1 of an empty string (or file)

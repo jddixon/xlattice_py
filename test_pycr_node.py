@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-""" xlattice_py/testNode.py, copied here from pzog/xlattice. """
+"""
+xlattice_py/test_pycr_node.py, copied here from pzog/xlattice.
+"""
 
 import sys
 import time
@@ -9,7 +11,7 @@ import hashlib
 
 from Crypto.PublicKey import RSA as rsa
 from xlattice import HashTypes, UnrecognizedSHAError
-from xlattice.node import Node
+from xlattice.pycr_node import Node
 from rnglib import SimpleRNG
 
 if sys.version_info < (3, 6):
