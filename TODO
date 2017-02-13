@@ -1,9 +1,10 @@
 ~/dev/py/xlattice_py/TODO
 
-2017-02-11
-    * xlattice/node.py hack: move __init__()s from abstract classes
-        to concrete implementations
-    * write test_node.py, add to test.all
+2017-02-12, edited from -11
+    * xlattice/node.py hack: drop __init__()s from abstract classes
+    * PyCrNode subclasses BaseNode [or AbstactNode]
+    * PyCaNode subclasses BaseNode [or AbstactNode]
+    * DEFER: split this stuff off as xlnode_py
 
 2017-02-07
     * deprecate xlattice.lfs.mkdir_p                                    * DONE
