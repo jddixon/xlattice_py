@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.2
+    2017-02-13
+        * ad Connector, EndPoint, Transport abstractions            SLOC 6336
 v1.7.1
     2017-02-12
         * add Acceptor, Address, Connection absractions             SLOC 6221
@@ -338,6 +341,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
