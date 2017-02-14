@@ -25,25 +25,25 @@ the new Connection need not be in the same Overlay as the Acceptor.
 from abc import ABCMeta, abstractmethod
 
 
-class Acceptor(ABCMeta):
+class Acceptor(metaclass=ABCMeta):
     """ Basic functionality of the XLattice Acceptor. """
 
     @abstractmethod
-    def accept(cls):            # -> Conneaction    # throws IOException
+    def accept(self):            # -> Conneaction    # throws IOException
         """ Establish a Connection on the Acceptor. """
         pass
 
     @abstractmethod
-    def close(cls):                                 # throws IOException
+    def close(self):                                 # throws IOException
         """ Close the Acceptor, an irrevocable step. """
         pass
 
     @abstractmethod
-    def is_closed(cls):         # -> bool
+    def is_closed(self):         # -> bool
         """ Return whether the Acceptor is closed. """
         pass
 
     @abstractmethod
-    def get_endpoint(cls):      # -> EndPoint
+    def get_endpoint(self):      # -> EndPoint
         """ Return the EndPoint associated with the Acceptor. """
         pass

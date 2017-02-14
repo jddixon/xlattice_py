@@ -9,20 +9,20 @@ Address includes the IP address and the port number.
 from abc import ABCMeta, abstractmethod
 
 
-class EndPoint(ABCMeta):
+class EndPoint(metaclass=ABCMeta):
     """ An XLattice EndPoint: the near or far end of a Connection. """
 
     @abstractmethod
-    def get_address(cls):       # -> Address
+    def get_address(self):       # -> Address
         """ Return the address associated with the EndPoint. """
         pass
 
     @abstractmethod
-    def get_transport(cls):     # -> Transport
+    def get_transport(self):     # -> Transport
         """ Return the Transport associated with the EndPoint. """
         pass
 
     @abstractmethod
-    def __str__(cls):           # -> str
+    def __str__(self):           # -> str
         """ Return the EndPoint in string form. """
         pass

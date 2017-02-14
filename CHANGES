@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.3
+    2017-02-14
+        * add rough Context class                                   SLOC 6471
 v1.7.2
     2017-02-13
         * ad Connector, EndPoint, Transport abstractions            SLOC 6336
@@ -341,6 +344,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

@@ -11,11 +11,11 @@ for establishing Connections with Peers, neighboring nodes.
 from abc import ABCMeta, abstractmethod
 
 
-class Connector(ABCMeta):
+class Connector(metaclass=ABCMeta):
     """ Used to establish a Connetion with another Node-like entity. """
 
     @abstractmethod
-    def connect(cls, near_end, blocking):            # raises IOException
+    def connect(self, near_end, blocking):            # raises IOException
         """
         Establish a Connection with another entity using the transport
         and address in the EndPoint.
@@ -26,7 +26,7 @@ class Connector(ABCMeta):
         """
         pass
 
-    def get_far_end(cls):       # -> EndPoint
+    def get_far_end(self):       # -> EndPoint
         """
         Return the Acceptor EndPoint that this Connector is used to
         establish connections to

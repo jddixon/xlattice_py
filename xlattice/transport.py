@@ -20,7 +20,7 @@ Dichotomies are: blocking versus non-blocking, reliable vs unreliable.
 from abc import ABCMeta, abstractmethod
 
 
-class Transport(ABCMeta):
+class Transport(metaclass=ABCMeta):
     """
     The XLattice Transport absraction.
 
@@ -29,7 +29,7 @@ class Transport(ABCMeta):
     """
 
     @abstractmethod
-    def get_acceptor(cls):          # -> Acceptor
+    def get_acceptor(self):          # -> Acceptor
         """
         Create an Acceptor with the local address specified.  The
         Acceptor listens for attempts to establish connections on
@@ -48,7 +48,7 @@ class Transport(ABCMeta):
         pass
 
     @abstractmethod
-    def get_connection(cls, near, far, blocking):  # -> Connection, raises IOException
+    def get_connection(self, near, far, blocking):  # -> Connection, raises IOException
         """
         Return a Connection between Addresses near and far; this may or may
         not blocking.
@@ -58,7 +58,7 @@ class Transport(ABCMeta):
         pass
 
     @abstractmethod
-    def get_onnector(cls, far, blocking):   # -> Connector, raises IOError
+    def get_connector(self, far, blocking):   # -> Connector, raises IOError
         """
         Get a Connector for use in setting up connections to a
         remote host.  The Connector itself may be blocking or non-blocking
@@ -72,6 +72,6 @@ class Transport(ABCMeta):
         pass
 
     @abstractmethod
-    def name(cls):     # -> str
+    def name(self):     # -> str
         """ Return a name for this transport protocol, useful in debugging. """
         pass

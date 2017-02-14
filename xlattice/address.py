@@ -12,20 +12,20 @@ used.  An EndPoint has one and only one Address.
 from abc import ABCMeta, abstractmethod
 
 
-class Address(ABCMeta):
+class Address(metaclass=ABCMeta):
     """ XLattice's Address abstraction. """
 
     @abstractmethod
-    def __eq__(cls, other):         # -> bool
+    def __eq__(self, other):         # -> bool
         """ Whether this Address equals another. """
         return False
 
     @abstractmethod
-    def hashcode(cls):              # -> int
+    def hashcode(self):              # -> int
         """ Return a reasonably distributed hash for the Address. """
         return 0
 
     @abstractmethod
-    def __str__(cls):               # -> str
+    def __str__(self):               # -> str
         """ Return a string representation of the Address. """
         pass

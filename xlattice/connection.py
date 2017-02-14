@@ -53,7 +53,7 @@ from abc import ABCMeta, abstractmethod
 from enum import IntEnum
 
 
-class Connection(ABCMeta):
+class Connection(metaclass=ABCMeta):
     """ An XLattice Connection between two EndPoints. """
 
     class State(IntEnum):
@@ -71,7 +71,7 @@ class Connection(ABCMeta):
         DISCONNECTED = 500
 
     @abstractmethod
-    def get_state(cls):             # -> Connection.State
+    def get_state(self):             # -> Connection.State
         """
         Return the current state index.  In the current implementation,
         this is not necessarily reliable, but the actual state index
@@ -80,7 +80,7 @@ class Connection(ABCMeta):
         pass
 
     @abstractmethod
-    def bind_near_end(cls, endp):  # endp an EndPoint     # raises IOException
+    def bind_near_end(self, endp):  # endp an EndPoint     # raises IOException
         """
         Set the near EndPoint of a connection.  If either the
         near or far EndPoint has already been set, this will
@@ -93,7 +93,7 @@ class Connection(ABCMeta):
         pass
 
     @abstractmethod
-    def bind_far_end(cls, endp):  # endp an EndPoint     # raises IOException
+    def bind_far_end(self, endp):  # endp an EndPoint     # raises IOException
         """
         Set the far EndPoint of a connection.  If the near end
         point has NOT been set or if the far EndPoint has already
@@ -111,7 +111,7 @@ class Connection(ABCMeta):
         pass
 
     @abstractmethod
-    def close(cls):                          # raises IOException
+    def close(self):                          # raises IOException
         """
         Bring the connection to the DISCONNECTED state.
 
@@ -120,7 +120,7 @@ class Connection(ABCMeta):
         pass
 
     @abstractmethod
-    def is_closed(cls):         # -> bool
+    def is_closed(self):         # -> bool
         """
         This should be considered deprecated.  Test on whether the
         state is DISCONNECTED instead.
@@ -131,18 +131,18 @@ class Connection(ABCMeta):
 
     # END POINTS ///////////////////////////////////////////////////
     @abstractmethod
-    def get_near_end(cls):      # -> EndPoint
+    def get_near_end(self):      # -> EndPoint
         """ Return the near EndPoint of the Connection. """
         pass
 
     @abstractmethod
-    def get_far_end(cls):       # -> EndPoint
+    def get_far_end(self):       # -> EndPoint
         """ Return the far EndPoint of the Connection. """
         pass
 
     # I/O //////////////////////////////////////////////////////////
     @abstractmethod
-    def is_blocking(cls):       # -> bool
+    def is_blocking(self):       # -> bool
         """ Return whether the Connection is blocking. """
         pass
 
@@ -153,24 +153,24 @@ class Connection(ABCMeta):
 
     # blocking
     @abstractmethod
-    def get_input_stream(cls):  # -> InputStream    # raises IOException
+    def get_input_stream(self):  # -> InputStream    # raises IOException
         """ Return the InputStream associated with the Connection. """
         pass
 
     @abstractmethod
-    def get_output_stream(cls):  # -> OutputStream   # raises IOException
+    def get_output_stream(self):  # -> OutputStream   # raises IOException
         """ Return the OutputStream associated with the Connection. """
         pass
 
     # ENCRYPTION ///////////////////////////////////////////////////
 
     @abstractmethod
-    def is_encrypted(cls):     # -> bool
+    def is_encrypted(self):     # -> bool
         """ Return whether the connection is encrypted. """
         pass
 
     @abstractmethod
-    def negotiate(cls, my_key, his_key):
+    def negotiate(self, my_key, his_key):
         """
         (Re)negotiate the secret used to encrypt traffic over the
         connection.
@@ -180,11 +180,11 @@ class Connection(ABCMeta):
         pass
 
     @abstractmethod
-    def __eq__(cls, other):             # -> bool
+    def __eq__(self, other):             # -> bool
         """ Return whether this Connection and the other are equal. """
         return False
 
     @abstractmethod
-    def hashcode(cls):              # -> int
+    def hashcode(self):              # -> int
         """ Return a smoothly-distributed hashcode for the Connection. """
         pass
