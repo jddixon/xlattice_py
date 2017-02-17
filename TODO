@@ -1,5 +1,9 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-02-17
+    * in test_context.py about L 65: chaining in ctx99 = ctx2.parent
+        has unexpected results
+
 2017-02-12, edited from -11
     * xlattice/node.py hack: drop __init__()s from abstract classes
     * PyCrNode subclasses BaseNode [or AbstactNode]
