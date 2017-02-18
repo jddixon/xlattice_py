@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-02-18
+    * locking for Context must be implemented
+    * comment out deprecated synonyms                                   * DONE
+    * actually delete these blocks of code
+
 2017-02-17
     * in test_context.py about L 65: chaining in ctx99 = ctx2.parent
         has unexpected results

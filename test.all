@@ -6,6 +6,7 @@ then
   
   ./test_cft_log_for_py.py
   ./test_cft_log_obj.py
+  ./test_context.py
   ./test_crypto.py
   ./test_decimal_version.py
   ./test_get_exclusions.py
@@ -16,9 +17,9 @@ then
   ./test_proc_lock.py
   ./test_pyca_hello_and_reply.py
   ./test_pyca_node.py
-  ./test_pycr_node.py
   ./test_pyca_pkcs7.py
   ./test_pyca_rsa.py
+  ./test_pycr_node.py
   ./test_regexes_from_wildcards.py
   ./test_rsa.py
   ./test_sha3_256.py

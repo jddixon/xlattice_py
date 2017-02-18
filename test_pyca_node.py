@@ -11,7 +11,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives import serialization
 
-from xlattice import HashTypes, UnrecognizedSHAError
+from xlattice import HashTypes, UnrecognizedHashTypeError
 from xlattice.pyca_node import Node
 from rnglib import SimpleRNG
 
@@ -46,7 +46,7 @@ class TestNode(unittest.TestCase):
             self.assertEqual(32, len(id_))
             sha = hashes.Hash(hashes.SHA256(), backend=default_backend())
         else:
-            raise UnrecognizedSHAError("%d" % hashtype)
+            raise UnrecognizedHashTypeError("%d" % hashtype)
 
         pem_sk = sk_.public_bytes(
             encoding=serialization.Encoding.PEM,

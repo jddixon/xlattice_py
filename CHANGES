@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.7
+    2017-02-18
+        * comment out deprecated code                               SLOC 6513
 v1.7.6
     2017-02-17
         * add Context; test_context.py succeeds                     SLOC 6782
@@ -353,6 +356,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
