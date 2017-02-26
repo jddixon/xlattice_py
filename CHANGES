@@ -1,5 +1,40 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.8
+    2017-02-25
+        * drop previously commented out deprecated code             SLOC 6915
+v1.7.7
+    2017-02-18
+        * comment out deprecated code                               SLOC 6513
+v1.7.6
+    2017-02-17
+        * add Context; test_context.py succeeds                     SLOC 6782
+v1.7.5
+    2017-02-16
+        * add Overlay, PublicKey, SigVerifier                       SLOC 6629
+v1.7.4
+    2017-02-15
+        * add DigSigner, Protocol, Key, Secret                      SLOC 6510
+v1.7.3
+    2017-02-14
+        * add rough Context class                                   SLOC 6471
+v1.7.2
+    2017-02-13
+        * ad Connector, EndPoint, Transport abstractions            SLOC 6336
+v1.7.1
+    2017-02-12
+        * add Acceptor, Address, Connection absractions             SLOC 6221
+v1.7.0
+    2017-02-11
+        * start implementation of BaseNode                          SLOC 6005
+v1.6.7
+    2017-02-07
+        * pylinting; minor bug fixes                                SLOC 5878
+v1.6.6
+    2017-02-05
+        * committed                                                 SLOC 5821
+    2017-01-29
+        * more nameless deprecation warnings in xlattice/util.py    SLOC 5821
 v1.6.5
     2017-01-29
         * add name to nameless deprecation warnings
@@ -324,6 +359,17 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
+
+
+
+
+
+
+
+
+
 
 
 

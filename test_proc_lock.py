@@ -22,6 +22,8 @@ class TestProcLock(unittest.TestCase):
         pass
 
     def test_should_fail(self):
+        """ Verify that things that should fail do fail. """
+
         try:
             my_pid = os.getpid()
             mgr = ProcLock('foo')

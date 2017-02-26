@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # 'apt-get install python-dev' may be necessary to get .core
 
 """ Set up distutils for xlattice_py. """

@@ -21,6 +21,7 @@ SHA1_RE = re.compile(SHA1_PAT)
 
 
 class UStats:
+    """ Statistics for a content-keyed directory organized as a UDir. """
 
     def __init__(self):
         self._dir_struc = DirStruc.DIR_FLAT
@@ -41,6 +42,7 @@ class UStats:
 
     @property
     def dir_struc(self):
+        """ Return the directory structure as a DirStruc. """
         return self._dir_struc   # an int
 
     @dir_struc.setter
@@ -50,6 +52,7 @@ class UStats:
 
     @property
     def hashtype(self):
+        """ Return the type of hash used to calculate content keys. """
         return self._hashtype
 
     @hashtype.setter
@@ -59,10 +62,12 @@ class UStats:
 
     @property
     def subdir_count(self):
+        """ Return the subdirectory count. """
         return self._subdir_count
 
     @property
     def sub_subdir_count(self):
+        """ Return the sub-subdirectory count. """
         return self._sub_subdir_count
 
     @sub_subdir_count.setter
@@ -81,6 +86,7 @@ class UStats:
 
     @property
     def odd_count(self):
+        """ Return the count of odd files. """
         return self._odd_count
 
     @odd_count.setter
@@ -90,6 +96,7 @@ class UStats:
 
     @property
     def has_l(self):
+        """ Return whether there is an L file in the root directory. """
         return self._has_l
 
     @has_l.setter
@@ -99,6 +106,7 @@ class UStats:
 
     @property
     def has_node_id(self):
+        """ Return whether there is a nodeID file in the root directsory. """
         return self._has_node_id
 
     @has_node_id.setter
@@ -108,6 +116,7 @@ class UStats:
 
     @property
     def min_leaf_bytes(self):
+        """ Return the number of bytes in the smallest leaf node. """
         return self._min_leaf_bytes
 
     @min_leaf_bytes.setter
@@ -117,6 +126,7 @@ class UStats:
 
     @property
     def max_leaf_bytes(self):
+        """ Return the number of bytes in the largest leaf node. """
         return self._max_leaf_bytes
 
     @max_leaf_bytes.setter
@@ -126,6 +136,7 @@ class UStats:
 
     @property
     def unexpected_at_top(self):
+        """ Return the number of unexpected files in the top directory. """
         return self._unexpected_at_top
 
     @unexpected_at_top.setter
@@ -153,6 +164,8 @@ class UStats:
 
 
 def scan_leaf_dir(path_to_dir, obj):
+    """ Collect stats from leaf directory. """
+
     # DEBUG
     # #print("    scanning leaf directory %s" % pathToDir)
     # END

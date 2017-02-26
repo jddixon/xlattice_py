@@ -1,5 +1,7 @@
 # xlattice_py/xlattice/util.py
 
+""" Utilities for python XLattice library. """
+
 import calendar
 import fnmatch
 import os
@@ -12,18 +14,13 @@ __all__ = ['TIMESTAMP_FORMAT',
 
            'parse_decimal_version', 'parse_timestamp', 'timestamp_now',
            'get_exclusions', 'make_ex_re', 'make_match_re',
-           'regexes_from_wildcards',
-
-           # SYNONYMS, restored
-           'parseDecimalVersion', 'parseTimestamp', 'timestampNow',
-           'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
-           # END SYN
-           ]
+           'regexes_from_wildcards', ]
 
 # DECIMAL VERSION ---------------------------------------------------
 
 
 class DecimalVersion(object):
+    """ Standard decimal versioning for XLattice. """
 
     # __slots__ = ['_value',]
 
@@ -58,23 +55,29 @@ class DecimalVersion(object):
             ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
     def get_a(self):
+        """ Return the first byte of the decimal version. """
         return self._value & 0xff
 
     def get_b(self):
+        """ Return the second byte of the decimal version. """
         return (self._value >> 8) & 0xff
 
     def get_c(self):
+        """ Return the third byte of the decimal version. """
         return (self._value >> 16) & 0xff
 
     def get_d(self):
+        """ Return the fourth byte of the decimal version. """
         return (self._value >> 24) & 0xff
 
     @property
     def value(self):
+        """ Return the value of the decimal version as a single int. """
         return self._value
 
     @value.setter
     def value(self, val):
+        """ Set the value of a decimal version; this is a single int. """
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
@@ -86,12 +89,13 @@ class DecimalVersion(object):
                 val))
 
     def __eq__(self, other):
-
+        """ Return whether two decimal versions are the same. """
         if not isinstance(other, DecimalVersion):
             return False
         return self._value == other.value
 
     def __lt__(self, other):
+        """ Return whether this decimal version is less than another. """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a < other_a:
@@ -120,6 +124,9 @@ class DecimalVersion(object):
         return False
 
     def __le__(self, other):
+        """
+        Return whether this decimal version is less than or equal to another.
+        """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a < other_a:
@@ -148,6 +155,7 @@ class DecimalVersion(object):
         return False
 
     def __gt__(self, other):
+        """ Return whether this decimal version is greater than another. """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a > other_a:
@@ -176,6 +184,9 @@ class DecimalVersion(object):
         return False
 
     def __ge__(self, other):
+        """
+        Return whether this decimal version is greater than or equal to another.
+        """
         self_a = self.get_a()
         other_a = other.get_a()
         if self_a > other_a:
@@ -204,6 +215,7 @@ class DecimalVersion(object):
         return False
 
     def __str__(self):
+        """ Return the decimal version as a string . """
         a_val = self.get_a()
         b_val = self.get_b()
         c_val = self.get_c()
@@ -268,48 +280,6 @@ class DecimalVersion(object):
         else:
             self.value = DecimalVersion(a_val, b_val, c_val, d_val)
 
-    # SYNONYMS ------------------------------------------------------
-    def getA(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        return self.get_a()
-
-    def getB(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        return self.get_b()
-
-    def getC(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        return self.get_c()
-
-    def getD(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        return self.get_d()
-
-    def stepMajor(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        self.step_major()
-
-    def stepMinor(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        self.step_minor()
-
-    def stepDecimal(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        self.step_decimal()
-
-    def stepMicro(self):
-        """ SYNONYM """
-        warnings.warn('synonym', DeprecationWarning)
-        self.step_micro()
-    # END SYNONYMS --------------------------------------------------
-
 
 def parse_decimal_version(string):
     """
@@ -366,7 +336,7 @@ def timestamp(nnn):       # sec from epoch
 def timestamp_now():
     """
     Get the current time, truncate it by omiting microseconds, and
-    return a string in the shorter format.
+    return a string in the shorter format, `CCYY-MM-DD HH:MM:SS`.
     """
     tstamp = time.gmtime()
     return time.strftime(TIMESTAMP_FORMAT, tstamp)
@@ -439,49 +409,3 @@ def regexes_from_wildcards(strings):
         regexes.append('a^')      # matches nothing
 
     return regexes
-
-# SYNONYMS ----------------------------------------------------------
-
-
-def parseDecimalVersion(string):
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return parse_decimal_version(string)
-
-
-def parseTimestamp(string):
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return parse_timestamp(string)
-
-
-def timestampNow():
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return timestamp_now()
-
-
-def getExclusions(proj_dir, excl_file='.gitignore'):
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return get_exclusions(proj_dir, excl_file)
-
-
-def makeExRE(globs):
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return make_ex_re(globs)
-
-
-def makeMatchRE(match_list):
-    """ SYNONYM """
-    warnings.warn('synonym', DeprecationWarning)
-    return make_match_re(match_list)
-
-
-def regexesFromWildcards(strings):
-    """ SYNONUM """
-    warnings.warn('synonym', DeprecationWarning)
-    return regexes_from_wildcards(strings)
-
-# END SYNONYMS ------------------------------------------------------

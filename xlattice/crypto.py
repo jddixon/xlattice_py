@@ -1,6 +1,7 @@
 # xlattice_py/xlattice/crypto.py
-
 import warnings
+
+""" Crypto functions for XLattice: currently relaced to AES block cipher. """
 
 __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
@@ -10,48 +11,15 @@ __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
 
 # EXPORTED CONSTANTS
 
+# DROP ON REACHING v1.7 *********************************************
 AES_BLOCK_SIZE = 16         # consider me DEPRECATED
+
 AES_BLOCK_BITS = 128
 AES_BLOCK_BYTES = 16
 
 
 class XLCryptoError(RuntimeError):
     pass
-
-# SYNONYMS used while refactoring dependent classes =================
-
-
-def pkcs7Padding(data, block_size):
-    """ SYNONYM """
-    warnings.warn("pkcs7Padding", DeprecationWarning)
-
-    return pkcs7_padding(data, block_size)
-
-
-def addPKCS7Padding(data, block_size):
-    """ SYNONYM """
-    warnings.warn("addPKCS7Padding", DeprecationWarning)
-    return add_pkcs7_padding(data, block_size)
-
-
-def stripPKCS7Padding(data, block_size):
-    """ SYNONYM """
-    warnings.warn("stripPKCS7Padding", DeprecationWarning)
-    return strip_pkcs7_padding(data, block_size)
-
-
-def nextNBLine(strings):
-    """ SYNONYM """
-    warnings.warn("nextNBLine", DeprecationWarning)
-    return next_nb_line(strings)
-
-
-def collectPEMRSAPublicKey(first_line, lines):
-    """ SYNONYM """
-    warnings.warn("collectPEMRSAPublicKey", DeprecationWarning)
-    return collect_pem_rsa_public_key(first_line, lines)
-
-# END SYN
 
 # PKSC7 PADDING =====================================================
 
@@ -125,14 +93,6 @@ class SP(object):
             kkk = kkk + 1
             SP.__SPACES__.append(' ' * kkk)
         return SP.__SPACES__[nnn]
-
-    # SYNONYM ---------------------------------------------
-    @staticmethod
-    def getSpaces(nnn):
-        """ SYNONYM """
-
-        return SP.get_spaces(nnn)
-    # END SYN ---------------------------------------------
 
 
 def next_nb_line(lines):

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-# xlattice_py/testNode.py, copied here from pzog/xlattice
+"""
+xlattice_py/test_pycr_node.py, copied here from pzog/xlattice.
+"""
 
 import sys
 import time
@@ -8,8 +10,8 @@ import unittest
 import hashlib
 
 from Crypto.PublicKey import RSA as rsa
-from xlattice import HashTypes, UnrecognizedSHAError
-from xlattice.node import Node
+from xlattice import HashTypes, UnrecognizedHashTypeError
+from xlattice.pycr_node import Node
 from rnglib import SimpleRNG
 
 if sys.version_info < (3, 6):
@@ -48,7 +50,7 @@ class TestNode(unittest.TestCase):
             self.assertEqual(32, len(id_))
             sha = hashlib.sha3_256()
         else:
-            raise UnrecognizedSHAError("%d" % hashtype)
+            raise UnrecognizedHashTypeError("%d" % hashtype)
 
         sha.update(pub.exportKey())
         expected_id = sha.digest()

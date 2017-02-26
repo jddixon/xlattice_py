@@ -124,12 +124,6 @@ static PyMethodDef LogForPy_methods[] = {
     {"ndx",     (PyCFunction)LogForPy_getNdx,   
                 METH_NOARGS,    LogForPy_getNdx__doc__},
 
-    /* SYNONYMS jdd 2016-10-09 */
-    {"log_file", (PyCFunction)LogForPy_getPathToLog, 
-                METH_NOARGS,    LogForPy_getPathToLog__doc__},
-    {"log_msg",  (PyCFunction)LogForPy_logMsg,   
-                METH_VARARGS,   LogForPy_logMsg__doc__},
-
     /* END OF LIST: */
     {NULL,        NULL}         /* sentinel */
 };
@@ -216,11 +210,11 @@ LogForPy_new(PyObject *self, PyObject *args, PyObject *kwdict)
 static PyMethodDef cFTLogForPyMethods[] = {
     // METH_VARARGS means that the arguments are passed as a tuple
     // which will be parsed with PyArg_ParseTuple()
-    {"init_cft_logger",   initCFTLogger,      METH_VARARGS,
+    {"init_cft_logger",   init_cft_logger,      METH_VARARGS,
         "init data structures, start background thread"},
-    {"open_cft_log",      openCFTLog,         METH_VARARGS,
+    {"open_cft_log",      open_cft_log,         METH_VARARGS,
         "open named log file"},
-    {"close_cft_logger",  closeCFTLogger,     METH_VARARGS,
+    {"close_cft_logger",  close_cft_logger,     METH_VARARGS,
         "stop background thread, join, close log file"},
     {"log_msg",         log_msg,             METH_VARARGS,
         "write a message to the log"},
@@ -228,19 +222,6 @@ static PyMethodDef cFTLogForPyMethods[] = {
     /* DEFINED IN THIS FILE, ABOVE --------------------- */
     {"LogForPy", (PyCFunction)LogForPy_new, METH_VARARGS|METH_KEYWORDS, 
         LogForPy_new__doc__},
-
-    /* BEGIN SYNONYMS */
-    /* XXX next two items added 2016-10-18 without necessary edits */
-    {"initCFTLogger",   initCFTLogger,      METH_VARARGS,
-        "init data structures, start background thread"},
-    {"openCFTLog",      openCFTLog,         METH_VARARGS,
-        "open named log file"},
-    {"closeCFTLogger",  closeCFTLogger,     METH_VARARGS,
-        "stop background thread, join, close log file"},
-    {"logMsg",          logMsg,             METH_VARARGS,
-        "write a message to the log"},
-
-    /* END SYNONYMS */
 
     /* END OF LIST */
     {NULL, NULL, 0, NULL}       /* sentinel = end of this list */

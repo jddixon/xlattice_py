@@ -15,28 +15,19 @@ __all__ = ['__version__', '__version_date__',
            'SHA1_B64_NONE',
            'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
            'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
-           # DEPRECATED
-           'Q', 'QQQ', 'UnrecognizedSHAError',
-           # END DEPRECATED
+
            'HashTypes', 'UnrecognizedHashTypeError',
 
-           # SYNONYMS -----------------------------------------------
-           'checkUsingSHA',
-           #  argparse-related: -1,-2,-3 become args.using_sha
-           'parseUsingSHA', 'fixUsingSHA', 'checkUPath', 'showUsingSHA',
-           # END SYN ------------------------------------------------
-
-           # BEING RENAMED, SO DEPRECATED ---------------------------
-           'check_using_sha',
-           'parse_using_sha', 'fix_using_sha', 'show_using_sha',
-           # END BEING RENAMED --------------------------------------
            'check_hashtype',
            'parse_hashtype_etc', 'fix_hashtype', 'show_hashtype_etc',
 
-           'check_u_path', ]
+           'check_u_path',
 
-__version__ = '1.6.5'
-__version_date__ = '2017-01-29'
+           # XLATTICE ABSTRACTIONS
+           'Context', 'ContextError', ]
+
+__version__ = '1.7.8'
+__version_date__ = '2017-02-25'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -71,41 +62,6 @@ SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 
-# DEPRECATED ----------------------------------------------
-
-
-class Q(IntEnum):
-    """
-    SHA hash types in use.
-
-    Deprecated: name lengthened to QQQ, then replaced by HashTypes class.
-    """
-    USING_SHA1 = 1
-    USING_SHA2 = 2
-    USING_SHA3 = 3
-    warnings.warn('Q synonym', DeprecationWarning)
-
-
-class QQQ(IntEnum):
-    """
-    SHA hash types in use.
-
-    Deprecated: replaced by HashTypes class.
-    """
-    USING_SHA1 = 1
-    USING_SHA2 = 2
-    USING_SHA3 = 3
-    warnings.warn('QQQ synonym', DeprecationWarning)
-
-
-class UnrecognizedSHAError(RuntimeError):
-    """ Raised if a hash type is not in QQQ's standard list. """
-    warnings.warn('UnrecognizedSHAError synonym', DeprecationWarning)
-    pass
-
-
-# END DEPRECATED ------------------------------------------
-
 
 class HashTypes(IntEnum):
     """ Hash types in use.  """
@@ -122,79 +78,6 @@ class UnrecognizedHashTypeError(RuntimeError):
 # -- argParse related -----------------------------------------------
 
 # handle -1, -2, -3, -u/--u_path,  -v/--verbose
-
-
-# DEPRECATED ========================================================
-
-def check_using_sha(using=None):
-    """
-    Exit with an error message if this hash type is not supported.
-
-    `using` is the value of a member of the HashTypes enumeration.
-    """
-
-    print('%s :: check_using_sha' % sys.argv[0], file=sys.stderr)
-    warnings.warn('check_using_sha synonym', DeprecationWarning)
-    if using is None:
-        print("you must select -1, -2, or -3 for the sha type")
-        sys.exit(1)
-
-    if not using in [_.value for _ in QQQ]:
-        raise UnrecognizedSHAError('%s' % using)
-
-
-def parse_using_sha(parser):
-    """ Standard arguments selecting supported hash types. """
-
-    warnings.warn('parse_using_sha', DeprecationWarning)
-    parser.add_argument('-1', '--using_sha1', action='store_true',
-                        help='using the 160-bit SHA1 hash')
-
-    parser.add_argument('-2', '--using_sha2', action='store_true',
-                        help='using the 256-bit SHA2 (SHA256) hash')
-
-    parser.add_argument('-3', '--using_sha3', action='store_true',
-                        help='using the 256-bit SHA3 (Keccak-256) hash')
-
-    parser.add_argument('-u', '--u_path',
-                        help='path to uDir')
-
-    parser.add_argument('-v', '--verbose', action='store_true',
-                        help='be chatty')
-
-
-def fix_using_sha(args):
-    """
-    Creates and assigns a value to args.using_sha.
-
-    That value is determined by examining the three options
-    using_sha{1,2,3}; these are then removed from the set of options.
-    """
-    warnings.warn('fix_usin_sha', DeprecationWarning)
-    args.using_sha = None
-    # pylint:disable=redefined-variable-type
-    if args.using_sha1:
-        args.using_sha = QQQ.USING_SHA1
-    elif args.using_sha2:
-        args.using_sha = QQQ.USING_SHA2
-    elif args.using_sha3:
-        args.using_sha = QQQ.USING_SHA3
-    args.__delattr__('using_sha1')
-    args.__delattr__('using_sha2')
-    args.__delattr__('using_sha3')
-
-
-def show_using_sha(args):
-    """ Print out option values relating to SHA type, etc. """
-
-    warnings.warn('show_using_sha', DeprecationWarning)
-    print('u_path               = ' + str(args.u_path))
-    print('using_sha            = ' + str(args.using_sha))
-    print('verbose              = ' + str(args.verbose))
-
-# END DEPRECATED ====================================================
-
-# NEW HASH_TYPES CODE ========================================================
 
 
 def check_hashtype(hashtype=None):
@@ -258,8 +141,6 @@ def show_hashtype_etc(args):
     print('u_path               = ' + str(args.u_path))
     print('verbose              = ' + str(args.verbose))
 
-# END NEW HASH_TYPES CODE ===========================================
-
 
 def check_u_path(parser, args, must_exist=False, mode=0o755):
     """
@@ -286,44 +167,123 @@ def check_u_path(parser, args, must_exist=False, mode=0o755):
                 "u_path directory %s is not a directory" % args.u_path)
 
 
-# SYNONYM -----------------------------------------------------------
+# ABSTRACTIONS ======================================================
+
+"""
+The XLattice Context.
+
+"""
 
 
-def checkUsingSHA(using):
-    """ SYNONYM """
-    warnings.warn('checkUsingSHA synonym', DeprecationWarning)
-    return check_using_sha(using)
-#
-#
+class ContextError(RuntimeError):
+    """ Handles Context-related exceptions. """
+
+# Any reason to make this ABCMeta ?
 
 
-def checkUPath(parser, args, must_exist=False, mode=0o755):
-    """ SYNONYM """
-    warnings.warn('checkUPath synonym', DeprecationWarning)
-    return check_u_path(parser, args, must_exist, mode)
-#
-#
+class Context(dict):
+    """
+    The XLattice context.
 
+    A naming context consisting of a possibly nested set of name-to-object
+    bindings.  If there is a parent context and a key cannot be resolved
+    in this context, an attempt will be made to resolve it in the parent,
+    recursively.
 
-def fixUsingSHA(args):
-    """ SYNONYM """
-    warnings.warn('fixUsingSHA synonym', DeprecationWarning)
-    return fix_using_sha(args)
-#
-#
+    Names added to the context must not be None.
 
+    This implementation is intended to be thread-safe.
+    """
 
-def parseUsingSHA(parser):
-    """ SYNONYM """
-    warnings.warn('parseUsingSHA synonym', DeprecationWarning)
-    return parse_using_sha(parser)
-#
-#
+    def __init__(self, parent=None):
+        """ Create a Context, optionally with a parent. """
+        super().__init__()
+        self._parent = parent
 
+    def synchronize(self):
+        """
+        TBD magic.
 
-def showUsingSHA(args):
-    """ SYNONYM """
-    warnings.warn('showUsingSHA synonym', DeprecationWarning)
-    return show_using_sha(args)
-#
-# END SYN -----------------------------------------------------------
+        This makes no sense as it is set out.
+        """
+
+    def bind(self, name, obj):        # -> Context
+        """
+        Bind a name to an Object at this Context level.  Neither name
+        nor object may be None.
+
+        If this context has a parent, the binding at this level will
+        mask any bindings in the parent and above.
+
+        @param name the name being bound
+        @param o    the Object it is bound to
+        @raises ContextError if either is None.
+        """
+
+        if name is None or obj is None:
+            raise ContextError("name or object is None")
+        self.synchronize()      # XXX needs to sync block
+        self[name] = obj
+        return self
+
+    def lookup(self, name):          # -> object
+        """
+        Looks up a name recursively.  If the name is bound at this level,
+        the object it is bound to is returned.  Otherwise, if there is
+        a parent Context, the value returned by a lookup in the parent
+        Context is returned.  If there is no parent and no match, returns
+        None.
+
+        @param name the name we are attempting to match
+        @return     the value the name is bound to at this or a higher level
+                    or None if there is no such value
+        """
+        if name is None:
+            raise ContextError("name cannot be None")
+        obj = None
+        self.synchronize()
+        if name in self:
+            obj = self[name]
+        elif self._parent is not None:
+            obj = self._parent.lookup(name)
+        return obj
+
+    def unbind(self, name):        # -> None
+        """
+        Remove a binding from the Context.  If there is no such binding,
+        silently ignore the request.  Any binding at a higher level, in
+        the parent Context or above, is unaffected by this operation.
+
+        @param name Name to be unbound.
+        """
+        self.synchronize()
+        # XXX Need to sync on block
+        if name is None:
+            raise ContextError("name is None")
+        # XXX will raise if not in dict
+        del self[name]
+
+    def size(self):                 # -> int
+        """ Return the number of bindings at this level. """
+        self.synchronize()          # XXX need to sync on block
+        return len(self)
+
+    @property
+    def parent(self):
+        """
+        Return a reference to the parent Context or None if there is none.
+        """
+        return self._parent
+
+    @parent.setter
+    def parent(self, new_parent):
+        """
+        Change the parent Context. This method returns a reference to
+        this instance, to allow method calls to be chained.
+
+        @param  new_parent New parent Context, possibly None.
+        Return a reference to the current Context
+        """
+
+        self._parent = new_parent
+        return self

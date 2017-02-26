@@ -18,6 +18,8 @@ class TestUStats(unittest.TestCase):
         self.rng = SimpleRNG()
 
     def test_defaults(self):
+        """ Verify that defaults are as expected. """
+
         results = UStats()
 
         self.assertEqual(results.dir_struc, DirStruc.DIR_FLAT)
@@ -35,6 +37,7 @@ class TestUStats(unittest.TestCase):
         self.assertEqual(len(results.unexpected_at_top), 0)
 
     def test_properties(self):
+        """ Verify that a UStats instance has expected properties. """
         results = UStats()
 
         # XXX STUB XXX

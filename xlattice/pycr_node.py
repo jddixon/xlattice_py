@@ -1,16 +1,17 @@
-# ~/dev/py/xlattice_py/xlattice/node.py
+# ~/dev/py/xlattice_py/xlattice/pycr_node.py
 
 """
-XLattice Node core functionality.
+XLattice Node functionality using pycrypto for RSA functions.
 
-This code will only be used temporarily, while AbstractNode, BaseNode, etc
-are being sorted out.
+This code will only be used temporarily, while AbstractNode is being
+sorted out.
 """
 
-from abc import ABCMeta
 import os
 import sys
 import hashlib
+
+from Crypto.PublicKey import RSA as rsa
 
 from xlattice import HashTypes, check_hashtype  # , UnrecognizedSHAError
 
@@ -19,18 +20,23 @@ if sys.version_info < (3, 6):
     import sha3
 
 
-class BaseNode(ABCMeta):
+class PyCrNode(object):
     """
-    Parent class for Node-like things.
+    Parent class for Node-like things using pycrypto RSA.
+
+    The class formerly known as AbstractNode.
     """
 
-    def __init__(self, hashtype=HashTypes.SHA2, sk_pub=None, ck_pub=None,
-                 node_id=None):
+    def __init__(self, hashtype=HashTypes.SHA2, pub_key=None, node_id=None):
 
         check_hashtype(hashtype)
         self._hashtype = hashtype
         if node_id is None:
-            if ck_pub:
+            if pub_key:
+                # DEBUG
+                print("PyCrNode: public key is %s" % str(pub_key))
+                print("              class is %s" % pub_key.__class__)
+                # END
 
                 # we have called checkUsingSHA(): one of these cases must apply
                 # pylint:disable=redefined-variable-type
@@ -40,14 +46,13 @@ class BaseNode(ABCMeta):
                     sha = hashlib.sha256()
                 elif hashtype == HashTypes.SHA3:
                     sha = hashlib.sha3_256
-                sha.update(ck_pub.exportKey())
+                sha.update(pub_key.exportKey())
                 node_id = sha.digest()    # a binary value
             else:
                 raise ValueError('cannot calculate nodeID without pubKey')
 
         self._node_id = node_id
-        self._sk_pub = sk_pub
-        self._ck_pub = ck_pub
+        self._pub_key = pub_key
 
     @property
     def node_id(self):
@@ -55,34 +60,30 @@ class BaseNode(ABCMeta):
         return self._node_id
 
     @property
-    def sk_pub(self):
-        """ Return the public part of the Node's RSA key for signing. """
-        return self._sk_pub
-
-    @property
-    def ck_pub(self):
-        """ Return the public part of the Node's RSA key for encryption. """
-        return self._ck_pub
+    def pub_key(self):
+        """ Return the public part of the Node's RSA key. """
+        return self._pub_key
 
 
-class Node(BaseNode):
+class Node(PyCrNode):
     """
-    The cryptographic identity of an XLattice Node: its nodeID and RSA keys.
+    The cryptographic identity of an pycrypto-based XLattice Node: its
+    nodeID and RSA keys.
     """
 
-    def __init__(self, hashtype=HashTypes.SHA2, sk_priv=None, ck_priv=None):
+    def __init__(self, hashtype=HashTypes.SHA2, priv_key=None):
 
         # making this the default value doesn't work: it always
         # generates the same key
-        if sk_priv is None:
-            sk_priv = rsa.generate(2048, os.urandom)
-        node_id, ck_pub = Node.calc_id_and_ck_pub_for_node(
-            hashtype, sk_priv)
-        BaseNode.__init__(self, hashtype, ck_pub, node_id)
+        if priv_key is None:
+            priv_key = rsa.generate(2048, os.urandom)
+        node_id, pub_key = Node.calc_id_and_pub_key_for_node(
+            hashtype, priv_key)
+        PyCrNode.__init__(self, hashtype, pub_key, node_id)
 
-        if not sk_priv:
+        if not priv_key:
             raise ValueError('INTERNAL ERROR: undefined private key')
-        self._sk_priv = sk_priv
+        self._private_key = priv_key
 
         # each of these needs some sort of map or maps, or we will have to do
         # a linear search
@@ -102,11 +103,11 @@ class Node(BaseNode):
         pass
 
     @staticmethod
-    def calc_id_and_ck_pub_for_node(hashtype, rsa_sk_priv):
+    def calc_id_and_pub_key_for_node(hashtype, rsa_priv_key):
         """ Calculate a NodeID and public key, given an RSA private key. """
         check_hashtype(hashtype)
-        (node_id, ck_pub) = (None, None)
-        ck_pub = rsa_sk_priv.publickey()
+        (node_id, pub_key) = (None, None)
+        pub_key = rsa_priv_key.publickey()
 
 #       # DEBUG
 #       print "GET_ID: private key is %s" % str(rsaPrivateKey.__class__)
@@ -124,20 +125,15 @@ class Node(BaseNode):
         elif hashtype == HashTypes.SHA3:
             sha = hashlib.sha3_256()
 
-        sha.update(ck_pub.exportKey())
+        sha.update(pub_key.exportKey())
         node_id = sha.digest()
         return (node_id,                 # nodeID = 160/256 bit BINARY value
-                ck_pub)                 # from private key
+                pub_key)                 # from private key
 
     @property
-    def skey(self):
-        """ Return this node's RSA private key for signing. """
-        return self._sk_priv
-
-    @property
-    def ckey(self):
-        """ Return this node's RSA private key for encryption. """
-        return self._sk_priv
+    def key(self):
+        """ Return this node's RSA private key. """
+        return self._private_key
 
     # these work with
     def sign(self, msg):
@@ -145,19 +141,18 @@ class Node(BaseNode):
         sha = hashlib.sha1()
         sha.update(bytes(msg))
         d_val = sha.digest()
-        return self._sk_priv.sign(d_val, msg)
+        return self._private_key.sign(d_val, msg)
 
     def verify(self, msg, signature):
         """ Verify the digital signature using this node's private key. """
         sha = hashlib.sha1()
         sha.update(bytes(msg))
         d_val = sha.digest()
-        return self._ck_pub.verify(d_val, signature)
+        return self._pub_key.verify(d_val, signature)
 
 
-class Peer(BaseNode):
+class Peer(PyCrNode):
     """ a Peer is a Node seen from the outside """
 
-    def __init__(self, hashtype=HashTypes.SHA2, node_id=None,
-                 ck_pub=None, sk_pub=None):
-        BaseNode.__init__(self, hashtype, node_id, sk_pub, ck_pub)
+    def __init__(self, hashtype=HashTypes.SHA2, node_id=None, pub_key=None):
+        PyCrNode.__init__(self, hashtype, node_id, pub_key)
