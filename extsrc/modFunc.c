@@ -156,11 +156,6 @@ PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
  * may cause unpredictable behavior.
  */
 
-/* SYNONYM */
-PyObject* logMsg(PyObject* self, PyObject* args) {
-    return log_msg(self, args);
-}
-
 PyObject* log_msg(PyObject* self, PyObject* args) {
     int     ndx;
     const   char* msg;

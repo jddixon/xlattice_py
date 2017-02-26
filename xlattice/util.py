@@ -14,13 +14,7 @@ __all__ = ['TIMESTAMP_FORMAT',
 
            'parse_decimal_version', 'parse_timestamp', 'timestamp_now',
            'get_exclusions', 'make_ex_re', 'make_match_re',
-           'regexes_from_wildcards',
-
-           # SYNONYMS, restored
-           #'parseDecimalVersion', 'parseTimestamp', 'timestampNow',
-           #'getExclusions', 'makeExRE', 'makeMatchRE', 'regexesFromWildcards',
-           # END SYN
-           ]
+           'regexes_from_wildcards', ]
 
 # DECIMAL VERSION ---------------------------------------------------
 
@@ -286,49 +280,6 @@ class DecimalVersion(object):
         else:
             self.value = DecimalVersion(a_val, b_val, c_val, d_val)
 
-#    # SYNONYMS ------------------------------------------------------
-#    # DROP ON REACHING v1.7 *****************************************
-#    def getA(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        return self.get_a()
-#
-#    def getB(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        return self.get_b()
-#
-#    def getC(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        return self.get_c()
-#
-#    def getD(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        return self.get_d()
-#
-#    def stepMajor(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        self.step_major()
-#
-#    def stepMinor(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        self.step_minor()
-#
-#    def stepDecimal(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        self.step_decimal()
-#
-#    def stepMicro(self):
-#        """ SYNONYM """
-#        warnings.warn('synonym', DeprecationWarning)
-#        self.step_micro()
-#    # END SYNONYMS --------------------------------------------------
-
 
 def parse_decimal_version(string):
     """
@@ -458,50 +409,3 @@ def regexes_from_wildcards(strings):
         regexes.append('a^')      # matches nothing
 
     return regexes
-
-# SYNONYMS ----------------------------------------------------------
-# DROP ON REACHING v1.7 *********************************************
-#
-#
-# def parseDecimalVersion(string):
-#    """ SYNONYM """
-#    warnings.warn('parseDecimalVersion: synonym', DeprecationWarning)
-#    return parse_decimal_version(string)
-#
-#
-# def parseTimestamp(string):
-#    """ SYNONYM """
-#    warnings.warn('parseTimestamp: synonym', DeprecationWarning)
-#    return parse_timestamp(string)
-#
-#
-# def timestampNow():
-#    """ SYNONYM """
-#    warnings.warn('timestampNow: synonym', DeprecationWarning)
-#    return timestamp_now()
-#
-#
-# def getExclusions(proj_dir, excl_file='.gitignore'):
-#    """ SYNONYM """
-#    warnings.warn('getExclusions: synonym', DeprecationWarning)
-#    return get_exclusions(proj_dir, excl_file)
-#
-#
-# def makeExRE(globs):
-#    """ SYNONYM """
-#    warnings.warn('makeExRE: synonym', DeprecationWarning)
-#    return make_ex_re(globs)
-#
-#
-# def makeMatchRE(match_list):
-#    """ SYNONYM """
-#    warnings.warn('makeMatchRE: synonym', DeprecationWarning)
-#    return make_match_re(match_list)
-#
-#
-# def regexesFromWildcards(strings):
-#    """ SYNONUM """
-#    warnings.warn('regexesFromWildcards: synonym', DeprecationWarning)
-#    return regexes_from_wildcards(strings)
-#
-# END SYNONYMS ------------------------------------------------------

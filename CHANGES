@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.8
+    2017-02-25
+        * drop previously commented out deprecated code             SLOC 6915
 v1.7.7
     2017-02-18
         * comment out deprecated code                               SLOC 6513
@@ -356,6 +359,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

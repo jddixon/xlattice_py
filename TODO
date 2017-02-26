@@ -3,7 +3,7 @@
 2017-02-18
     * locking for Context must be implemented
     * comment out deprecated synonyms                                   * DONE
-    * actually delete these blocks of code
+    * actually delete these blocks of code                              * DONE
 
 2017-02-17
     * in test_context.py about L 65: chaining in ctx99 = ctx2.parent

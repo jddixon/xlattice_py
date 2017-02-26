@@ -30,13 +30,6 @@ __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
            'UDir', 'ULock',
            'XLUError',
 
-           #           # SYNONYMS
-           #           # DROP ON REACHING v1.7 ********************************
-           #           'fileSHA1Bin', 'fileSHA1Hex',
-           #           'fileSHA2Bin', 'fileSHA2Hex',
-           #           'fileSHA3Bin', 'fileSHA3Hex',
-           #           # END SYN
-
            # functions
            'file_sha1bin', 'file_sha1hex',
            'file_sha2bin', 'file_sha2hex',
@@ -79,49 +72,8 @@ SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 # The next line needs to be synchronized
 RNG = rnglib.SimpleRNG(time.time())
 
-# == SYNONYMS =======================================================
-# DROP ON REACHING v1.7 *********************************************
-#
-#
-# def fileSHA1Bin(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA1Bin synonym', DeprecationWarning)
-#    return file_sha1bin(path)
-#
-#
-# def fileSHA1Hex(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA1Hex synonym', DeprecationWarning)
-#    return file_sha1hex(path)
-#
-#
-# def fileSHA2Bin(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA2Bin synonym', DeprecationWarning)
-#    return file_sha2bin(path)
-#
-#
-# def fileSHA2Hex(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA2Hex synonym', DeprecationWarning)
-#    return file_sha2hex(path)
-#
-#
-# def fileSHA3Bin(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA3Bin synonym', DeprecationWarning)
-#    return file_sha3bin(path)
-#
-#
-# def fileSHA3Hex(path):
-#    """ SYNONYM """
-#    warnings.warn('fileSHA3Hex synonym', DeprecationWarning)
-#    return file_sha3hex(path)
-#
-# END SYN
 
 # - fileSHA1 --------------------------------------------------------
-
 
 def file_sha1bin(path):
     if path is None or not os.path.exists(path):
@@ -272,32 +224,6 @@ class ULock(object):
     def release_lock(self):
         if os.path.exists(self.lock_file):
             os.remove(self.lock_file)
-
-#    # SYNONYMS ******************************************************
-#    # DROP ON REACHING v1.7 *****************************************
-#    def getLock(self, verbose=False):
-#        """ SYNONYM """
-#        warnings.warn('getLock synonym', DeprecationWarning)
-#        return self.get_lock(verbose)
-#
-#    @property
-#    def lockDir(self):
-#        """ SYNONYM """
-#        warnings.warn('lockDir synonym', DeprecationWarning)
-#        return self.lock_dir
-#
-#    @property
-#    def lockFile(self):
-#        """ SYNONYM """
-#        warnings.warn('lockFile synonym', DeprecationWarning)
-#        return self.lock_file()
-#
-#    def releaseLock(self):
-#        """ SYNONYM """
-#        warnings.warn('releaseLock synonym', DeprecationWarning)
-#        self.release_lock()
-#
-#    # END SYN *******************************************************
 
 
 class DirStruc(IntEnum):
@@ -835,68 +761,3 @@ class UDir(object):
                         os.rmdir(path_to_mid)
 
         # remove old directories
-
-#    # SYNONYMS ---------------------    -----------------------------
-#    # DROP ON REACHING v1.7.0 ***************************************
-#
-#    def copyAndPut(self, path, key):
-#        """ SYNONYM """
-#        warnings.warn('copyAndPut synonym', DeprecationWarning)
-#        return self.copy_and_put(path, key)
-#
-#    def dirStrucSig(self, u_path, dir_struc, hashtype):
-#        """ SYNONYM """
-#        warnings.warn('dirStrucSig synonym', DeprecationWarning)
-#        return self.dir_struc_sig(u_path, dir_struc, hashtype)
-#
-#    @classmethod
-#    def dirStrucToName(cls, nnn):
-#        """ SYNONYM """
-#        warnings.warn('dirStrucToName synonym', DeprecationWarning)
-#        return cls.dir_struc_to_name(nnn)
-#
-#    def getData(self, key):
-#        """ SYNONYM """
-#        warnings.warn('getData synonym', DeprecationWarning)
-#        return self.get_data(key)
-#
-#    def getPathForKey(self, key):
-#        """ SYNONYM """
-#        warnings.warn('getPathForKey synonym', DeprecationWarning)
-#        return self.get_path_for_key(key)
-#
-#    @classmethod
-#    def nameToDirStruc(cls, name):
-#        """ SYNONYM """
-#        warnings.warn('nameToDirStruc synonym', DeprecationWarning)
-#        return cls._name_to_dir_struc[name]
-#
-#    def putData(self, data, key):
-#        """ SYNONYM """
-#        warnings.warn('putDatda synonym', DeprecationWarning)
-#        return self.put_data(data, key)
-#
-#    def reStruc(self, new_struc):
-#        """ SYNONYM """
-#        warnings.warn('reStruc synonym', DeprecationWarning)
-#        return self.re_struc(new_struc)
-#
-#    @property
-#    def dirStruc(self):
-#        """ SYNONYM """
-#        warnings.warn('dirStruc synonym', DeprecationWarning)
-#        return self._dir_struc
-#
-#    @property
-#    def uPath(self):
-#        """ SYNONYM """
-#        warnings.warn('uPath synonym', DeprecationWarning)
-#        return self._u_path
-#
-#    @property
-#    def usingSHA(self):
-#        """ SYNONYM """
-#        warnings.warn('usingSHA synonym', DeprecationWarning)
-#        return self._hashtype
-#
-#    # END SYN -------------------------------------------------------

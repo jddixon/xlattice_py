@@ -21,42 +21,6 @@ AES_BLOCK_BYTES = 16
 class XLCryptoError(RuntimeError):
     pass
 
-# SYNONYMS used while refactoring dependent classes =================
-# DROP ON REACHING v1.7 *********************************************
-#
-#
-# def pkcs7Padding(data, block_size):
-#    """ SYNONYM """
-#    warnings.warn("pkcs7Padding", DeprecationWarning)
-#
-#    return pkcs7_padding(data, block_size)
-#
-#
-# def addPKCS7Padding(data, block_size):
-#    """ SYNONYM """
-#    warnings.warn("addPKCS7Padding", DeprecationWarning)
-#    return add_pkcs7_padding(data, block_size)
-#
-#
-# def stripPKCS7Padding(data, block_size):
-#    """ SYNONYM """
-#    warnings.warn("stripPKCS7Padding", DeprecationWarning)
-#    return strip_pkcs7_padding(data, block_size)
-#
-#
-# def nextNBLine(strings):
-#    """ SYNONYM """
-#    warnings.warn("nextNBLine", DeprecationWarning)
-#    return next_nb_line(strings)
-#
-#
-# def collectPEMRSAPublicKey(first_line, lines):
-#    """ SYNONYM """
-#    warnings.warn("collectPEMRSAPublicKey", DeprecationWarning)
-#    return collect_pem_rsa_public_key(first_line, lines)
-#
-# END SYN
-
 # PKSC7 PADDING =====================================================
 
 
@@ -129,15 +93,6 @@ class SP(object):
             kkk = kkk + 1
             SP.__SPACES__.append(' ' * kkk)
         return SP.__SPACES__[nnn]
-
-#    # SYNONYM ---------------------------------------------
-#    # DROP ON REACHING v1.7 *****************************************
-#    @staticmethod
-#    def getSpaces(nnn):
-#        """ SYNONYM """
-#
-#        return SP.get_spaces(nnn)
-#    # END SYN ---------------------------------------------
 
 
 def next_nb_line(lines):
