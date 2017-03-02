@@ -46,7 +46,7 @@ LogForPy_init(LogForPyObject *self, PyObject *args) {
     char* pathToLog;
     if (!PyArg_ParseTuple(args, "s", &pathToLog))
         return NULL;
-    int objNdx = _openCFTLog(pathToLog);
+    int objNdx = _open_cft_log(pathToLog);
     if (objNdx < 0) {
         Py_RETURN_NONE;
     }
@@ -73,7 +73,7 @@ static PyObject *
 LogForPy_getNdx(LogForPyObject* self) {
     return PyLong_FromLong(self->objNdx);
 }
-/* logFile ----------------------------------------------------------- */
+/* log_file ---------------------------------------------------------- */
 PyDoc_STRVAR(LogForPy_getPathToLog__doc__,       "Get path to log file.");
 
 static PyObject *
@@ -96,7 +96,7 @@ LogForPy_getPathToLog(LogForPyObject* self) {
 }
 
 
-/* logMsg -------------------------------------------------------- */
+/* log_msg -------------------------------------------------------- */
 PyDoc_STRVAR(LogForPy_logMsg__doc__,       "Write a log message.");
 
 static PyObject* 
@@ -107,7 +107,7 @@ LogForPy_logMsg(LogForPyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "s", &msg))
         return NULL;
     if (msg)
-        _logMsg(ndx, msg);
+        _log_msg(ndx, msg);
     Py_RETURN_NONE;
 }
 
@@ -117,9 +117,9 @@ static PyMethodDef LogForPy_methods[] = {
                 METH_VARARGS,   LogForPy_init__doc__},
     {"count",   (PyCFunction)LogForPy_getCount, 
                 METH_NOARGS,    LogForPy_getCount__doc__},
-    {"logFile", (PyCFunction)LogForPy_getPathToLog, 
+    {"log_file", (PyCFunction)LogForPy_getPathToLog, 
                 METH_NOARGS,    LogForPy_getPathToLog__doc__},
-    {"logMsg",  (PyCFunction)LogForPy_logMsg,   
+    {"log_msg",  (PyCFunction)LogForPy_logMsg,   
                 METH_VARARGS,   LogForPy_logMsg__doc__},
     {"ndx",     (PyCFunction)LogForPy_getNdx,   
                 METH_NOARGS,    LogForPy_getNdx__doc__},

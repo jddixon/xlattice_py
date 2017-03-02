@@ -135,12 +135,12 @@ class TestCFTLogForPy(unittest.TestCase):
                     log_ndx, "padding ljlkjk;ljlj;k;lklj;j;kjkljklj %04x\n" %
                     (n__ + 384))
             # print "BLOCK 3 WRITTEN";    sys.stdout.flush()
-            # closeCFTLogger(None)
+            # close_cft_logger(None)
 
-            # print "BRANCHING TO closeCFTLogger"; sys.stdout.flush()   # NOT
+            # print "BRANCHING TO close_cft_logger"; sys.stdout.flush()   # NOT
             # :1SEEN
             close_cft_logger()
-            # print "closeCFTLogger returns %s" % str(junk);
+            # print "close_cft_logger returns %s" % str(junk);
             # sys.stdout.flush()
 
             time.sleep(0.2)     # NOTE_AT_END

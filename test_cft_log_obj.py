@@ -14,7 +14,7 @@ import xlattice
 import cFTLogForPy
 # pylint: disable=no-name-in-module
 from cFTLogForPy import (
-    # openCFTLog, logMsg not imported
+    # open_cft_log, log_msg not imported
     init_cft_logger, close_cft_logger)
 
 from rnglib import SimpleRNG
@@ -63,8 +63,6 @@ class TestCLogObj(unittest.TestCase):
         obj.init(log_file)
         self.assertEqual(0, obj.ndx())
         self.assertEqual(0, obj.count())
-        # try SYNONYM first
-        self.assertEqual(log_file, obj.logFile())
         self.assertEqual(log_file, obj.log_file())
 
     def test_count(self):
@@ -79,8 +77,6 @@ class TestCLogObj(unittest.TestCase):
         _ = init_cft_logger()
         obj = cFTLogForPy.LogForPy()  # pylint: disable=no-member
         obj.init(log_file)
-        # try SYNONYM first
-        self.assertEqual(log_file, obj.logFile())        # must follow init()
         self.assertEqual(log_file, obj.log_file())       # must follow init()
 
         log_ndx = obj.ndx()
@@ -97,7 +93,7 @@ class TestCLogObj(unittest.TestCase):
 
         # XXX OLD MODULE-LEVEL FUNC
         status = close_cft_logger(log_ndx)
-        # print("closeCFTLogger returns %s" % str(status))
+        # print("close_cft_logger returns %s" % str(status))
         self.assertEqual(status, 0)
 
 if __name__ == '__main__':
