@@ -111,8 +111,8 @@ PyObject* close_cft_logger(PyObject* self, PyObject* args);
 PyObject* log_msg(PyObject* self, PyObject* args);
 
 // WRAPPED FUNCTIONS //////////////////////////////////////
-int  _openCFTLog(const char* pathToLog);
-void _logMsg(const int ndx, const char* msg);
+int  _open_cft_log(const char* pathToLog);
+void _log_msg(const int ndx, const char* msg);
 
 
 #endif /* _C_FT_LOG_FOR_PY_H_ */

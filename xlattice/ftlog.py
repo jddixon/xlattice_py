@@ -107,10 +107,10 @@ class ActualLog(object):
         # END
         lfd = open_cft_log(self.name_copy)
         if lfd < 0:
-            raise RuntimeError("ERROR: initCFTLogger returns %d", lfd)
+            raise RuntimeError("ERROR: init_cft_logger returns %d", lfd)
         else:
             # DEBUG
-            # print("opened %s successfully with lfd %d" % (self._logFile, lfd))
+            # print("opened %s successfully with lfd %d" % (self._log_file, lfd))
             # END
             self._lfd = lfd
 

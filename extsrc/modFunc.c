@@ -2,7 +2,7 @@
 
 #include "cFTLogForPy.h"
 
-PyObject* initCFTLogger(PyObject* self, PyObject* args) {
+PyObject* init_cft_logger(PyObject* self, PyObject* args) {
     // INIT GLOBALS
     logNdx              = -1;           // 0-based current index
     secondThreadStarted = false;        // XXX SHOULD NOT NEED THIS
@@ -23,7 +23,7 @@ PyObject* initCFTLogger(PyObject* self, PyObject* args) {
  *
  * NOTE that the name begins with an underscore (_).
  */
-int _openCFTLog(const char* pathToLog) {
+int _open_cft_log(const char* pathToLog) {
     int status = 0;
     logNdx++;                               // USED in openLogFile
     int fd = openLogFile(pathToLog);
@@ -44,15 +44,15 @@ int _openCFTLog(const char* pathToLog) {
         return logNdx;
     }
 }
-PyObject* openCFTLog(PyObject* self, PyObject* args) {
+PyObject* open_cft_log(PyObject* self, PyObject* args) {
     char* pathToLog;
     if (!PyArg_ParseTuple(args, "s", &pathToLog))
         return NULL;
-    int status = _openCFTLog(pathToLog);
+    int status = _open_cft_log(pathToLog);
     return Py_BuildValue("i", status);
 }
 
-PyObject* closeCFTLogger(PyObject* self, PyObject* args) {
+PyObject* close_cft_logger(PyObject* self, PyObject* args) {
 
     // we'll just ignore any arguments
     int status = 0;
@@ -164,14 +164,14 @@ PyObject* log_msg(PyObject* self, PyObject* args) {
     if (!PyArg_ParseTuple(args, "is", &ndx, &msg))
         return NULL;
     if (msg)
-        _logMsg(ndx, msg);
+        _log_msg(ndx, msg);
     Py_RETURN_NONE;
 }
 /**
  * Low-level write a log message function.  ndx is an index into the
  * logDescs descriptor table.  msg is a null-terminated C string.
  */
-void _logMsg(const int ndx, const char* msg) {
+void _log_msg(const int ndx, const char* msg) {
     // XXX should make sure that ndx value is sensible
     int len = strlen(msg);
 
