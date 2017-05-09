@@ -152,5 +152,6 @@ class TestRSA(unittest.TestCase):
         sha_2.update(data)
         self.assertFalse(verifier.verify(sha_2, signature))
 
+
 if __name__ == '__main__':
     unittest.main()

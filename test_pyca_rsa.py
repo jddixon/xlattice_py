@@ -258,5 +258,6 @@ class TestRSA(unittest.TestCase):
         except InvalidSignature:
             pass    # digital signature verification failed
 
+
 if __name__ == '__main__':
     unittest.main()

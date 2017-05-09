@@ -67,5 +67,6 @@ class TestContext(unittest.TestCase):
         self.assertIsNone(ctx2.parent)
         self.assertIsNone(ctx2.lookup("wombat"))  # broke chain of contexts
 
+
 if __name__ == "__main__":
     unittest.main()

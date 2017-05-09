@@ -40,6 +40,7 @@ def timer_cb(watcher, revents):
     print("timer.loop.iteration: {0}".format(watcher.loop.iteration))
     print("timer.loop.now(): {0}".format(watcher.loop.now()))
 
+
 TICK = 0.051
 LIFETIME = 1.720
 
@@ -97,6 +98,7 @@ class TestLibev(unittest.TestCase):
         t01 = time.time()
         delta_t = 1.0 * (t01 - t00)
         self.assertTrue(delta_t >= LIFETIME and delta_t < LIFETIME + 0.005)
+
 
 if __name__ == '__main__':
     unittest.main()

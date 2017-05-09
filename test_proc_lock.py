@@ -94,5 +94,6 @@ class TestProcLock(unittest.TestCase):
         self.do_double_lock('/p/q/r', '/s/t/u')     # distinct
         self.do_double_lock('/u/v', '/u/v/w/x')     # shared
 
+
 if __name__ == '__main__':
     unittest.main()

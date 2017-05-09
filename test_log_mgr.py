@@ -114,5 +114,6 @@ class TestLogMgr(unittest.TestCase):
             contents = file.read()
         self.assertEqual(msg, contents)      # FOOFOO
 
+
 if __name__ == '__main__':
     unittest.main()

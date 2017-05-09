@@ -70,5 +70,6 @@ class TestTwoLogs(unittest.TestCase):
             contents = contents.strip()
             self.assertTrue(contents.endswith('oh hello, bar'))  # END BAR
 
+
 if __name__ == '__main__':
     unittest.main()

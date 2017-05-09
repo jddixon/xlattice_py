@@ -59,5 +59,6 @@ class TestGetExclusions(unittest.TestCase):
         """ Exercise get_exclusions and related functions. """
         self.do_test_get_exclusions('.')
 
+
 if __name__ == '__main__':
     unittest.main()

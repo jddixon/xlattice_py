@@ -88,5 +88,6 @@ def main():
         sys.exit(0)
     re_struc_u_dir(args.u_path, args.new_struc, args.out_path, args.verbose)
 
+
 if __name__ == '__main__':
     main()

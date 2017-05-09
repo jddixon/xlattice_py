@@ -113,5 +113,6 @@ class TestNode(unittest.TestCase):
         for hashtype in HashTypes:
             self.do_test_with_openssl_key(hashtype)
 
+
 if __name__ == '__main__':
     unittest.main()

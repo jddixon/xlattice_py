@@ -70,5 +70,6 @@ class TestPKCS7Padding(unittest.TestCase):
         self.do_test_padding(32)
         self.do_test_padding(33)
 
+
 if __name__ == '__main__':
     unittest.main()

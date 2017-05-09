@@ -76,5 +76,6 @@ class TestULock(unittest.TestCase):
         self.assertTrue(lock2.get_lock())
         lock2.release_lock()
 
+
 if __name__ == '__main__':
     unittest.main()
