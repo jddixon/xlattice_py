@@ -302,5 +302,6 @@ class TestDecimalVErsion(unittest.TestCase):
         y__ = DecimalVersion(1, 2, 4, 5)
         self.assertTrue(x__ >= y__)
 
+
 if __name__ == '__main__':
     unittest.main()

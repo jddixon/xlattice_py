@@ -128,5 +128,6 @@ class TestReStruc(unittest.TestCase):
                     for using in [HashTypes.SHA1, HashTypes.SHA2, ]:
                         self.do_test_re_struc(old_struc, new_struc, using)
 
+
 if __name__ == '__main__':
     unittest.main()

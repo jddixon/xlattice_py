@@ -99,5 +99,6 @@ class TestRegexesFromWildcards(unittest.TestCase):
         self.do_test_expected_match_failures(
             match_re, ['junk.gz', 'foolish.tar'])
 
+
 if __name__ == '__main__':
     unittest.main()

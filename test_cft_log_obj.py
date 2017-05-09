@@ -96,5 +96,6 @@ class TestCLogObj(unittest.TestCase):
         # print("close_cft_logger returns %s" % str(status))
         self.assertEqual(status, 0)
 
+
 if __name__ == '__main__':
     unittest.main()

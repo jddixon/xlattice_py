@@ -50,5 +50,6 @@ class TestTimestamp(unittest.TestCase):
         now2 = parse_timestamp(now_as_str)
         self.assertTrue(now2 - gmt_now <= 1)
 
+
 if __name__ == '__main__':
     unittest.main()

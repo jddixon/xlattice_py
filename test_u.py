@@ -337,5 +337,6 @@ class TestU(unittest.TestCase):
             for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
                 self.do_test_put_data(dir_struc, using)
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -90,5 +90,6 @@ class TestRSA_OAEP(unittest.TestCase):
         self.assertEqual(salt1x, salt1)
         _ = version2                        # unused
 
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-04-15
+    * need u_diff which by default assumes leaf hashes are correct
+
 2017-02-18
     * locking for Context must be implemented
     * comment out deprecated synonyms                                   * DONE

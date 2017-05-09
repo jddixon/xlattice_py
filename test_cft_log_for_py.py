@@ -145,5 +145,6 @@ class TestCFTLogForPy(unittest.TestCase):
 
             time.sleep(0.2)     # NOTE_AT_END
 
+
 if __name__ == '__main__':
     unittest.main()

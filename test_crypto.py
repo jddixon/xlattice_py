@@ -24,5 +24,6 @@ class TestCrypto(unittest.TestCase):
             for ch_ in spaces:
                 self.assertEqual(ch_, ' ')
 
+
 if __name__ == '__main__':
     unittest.main()

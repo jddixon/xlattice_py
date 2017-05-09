@@ -51,7 +51,7 @@ class DecimalVersion(object):
             if d_val < 0 or d_val > 255:
                 raise RuntimeError("version part d '%d' out of range" % d_val)
 
-        self._value = (0xff & a_val) | ((0xff & b_val) << 8)  | \
+        self._value = (0xff & a_val) | ((0xff & b_val) << 8) | \
             ((0xff & c_val) << 16) | ((0xff & d_val) << 24)
 
     def get_a(self):
@@ -310,6 +310,7 @@ def parse_decimal_version(string):
 # Note that in the Go code timestamp is an int64, whereas here it
 # is a string.
 # Note also that these functions will misbehave from 2038 or so.
+
 
 # %T is shorthand for %H:%M:%S
 TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"

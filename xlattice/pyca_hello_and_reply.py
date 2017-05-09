@@ -109,8 +109,8 @@ def server_decrypt_hello(ciphertext, ck_priv):
     salt1s = msg[3 * AES_BLOCK_BYTES: 3 * AES_BLOCK_BYTES + 8]
     v_offset = 3 * AES_BLOCK_BYTES + 8
     v_bytes = msg[v_offset: v_offset + 4]
-    version = v_bytes[0]   +\
-        (v_bytes[1] <<  8) +\
+    version = v_bytes[0] +\
+        (v_bytes[1] << 8) +\
         (v_bytes[2] << 16) +\
         (v_bytes[3] << 24)
     return iv1s, key1s, salt1s, version
@@ -201,8 +201,8 @@ def client_decrypt_hello_reply(ciphertext, iv1, key1):
     salt2 = unpadded[3 * AES_BLOCK_BYTES: 3 * AES_BLOCK_BYTES + 8]
     salt1 = unpadded[3 * AES_BLOCK_BYTES + 8: 3 * AES_BLOCK_BYTES + 16]
     v_bytes = unpadded[3 * AES_BLOCK_BYTES + 16: 3 * AES_BLOCK_BYTES + 20]
-    version2 = v_bytes[0]         |\
-        (v_bytes[1] <<  8) |\
+    version2 = v_bytes[0] |\
+        (v_bytes[1] << 8) |\
         (v_bytes[2] << 16) |\
         (v_bytes[3] << 24)
 
