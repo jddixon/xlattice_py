@@ -11,7 +11,7 @@
 <div class="content">
 <h1 class="libTop">xlattice_py</h1>
 
-<p><a href="https://jddixon.github.io/xlattice">XLattice</a><br />
+<p><a href="https://jddixon.github.io/xlattice">XLattice</a>
 utilty functions for Python.</p>
 <p>These are collected in the <code>xlattice</code> subdirectory:</p>
 <ul>
@@ -23,9 +23,9 @@ utilty functions for Python.</p>
 <li><strong>util.py</strong>, which contains functions for dealing with XLattice <code>DecimalVersion</code> and <code>Timestamp</code> classes</li>
 </ul>
 <h2>SHA3</h2>
-<p>At the time of writing, using pip or pip3 installs pysha3-03, which is<br />
-incorrect: the hash values produced do not match NIST test vectors.<br />
-It appears that the only way to get the current version of<br />
+<p>At the time of writing, using pip or pip3 installs pysha3-03, which is
+incorrect: the hash values produced do not match NIST test vectors.
+It appears that the only way to get the current version of
 pysha3 is to get it from githup:</p>
 <pre><code># in some appropriate directory:
 mkdir tiran tiran/pysha3
@@ -45,12 +45,12 @@ if sys.version_info &lt; (3, 6):
 ...
 sha = hashlib.sha3_256()
 </code></pre>
-<p>This problem will go away with Python 3.6, which will bundle in the<br />
+<p>This problem will go away with Python 3.6, which will bundle in the
 pysha3 code.</p>
 <h2>Command Line Utilities</h2>
-<p>At this time all of these are intended for use in managing the<br />
-content-keyed data store.  Conventioally this is in a directory called<br />
-<code>U/</code> or <code>uDir/</code>.  The path to the store is <code>u_path</code> and the object used<br />
+<p>At this time all of these are intended for use in managing the
+content-keyed data store.  Conventioally this is in a directory called
+<code>U/</code> or <code>uDir/</code>.  The path to the store is <code>u_path</code> and the object used
 to manage the store is <code>u_dir</code>.</p>
 <h3>u_consolidate</h3>
 <pre><code>usage: u_consolidate [-h] [-b BASE_DIR] [-i IN_DIR] [-j] [-n MAX_COUNT]
@@ -106,7 +106,7 @@ optional arguments:
   -v, --verbose         be chatty
 </code></pre>
 <h3>u_stats</h3>
-<p>A utility for displaying information on content-keyed data storage<br />
+<p>A utility for displaying information on content-keyed data storage
 directories.  Typical ouput looks like:</p>
 <pre><code>statistics for /var/app/sharedev/U
   dirStruc:           DIR256x256
@@ -119,7 +119,7 @@ directories.  Typical ouput looks like:</p>
   largest leaf file:     8860904
   unexpected at top:           0
 </code></pre>
-<p>The second line reports the directory structure, the third that the<br />
+<p>The second line reports the directory structure, the third that the
 content keys are calculated using SHA1.</p>
 <p>The command <code>u_stats -h</code> returns:</p>
 <pre><code>usage: u_stats [-h] [-j] [-o OUT_PATH] [-u U_PATH] [-v]
@@ -153,11 +153,11 @@ optional arguments:
   -v, --verbose         be chatty
 </code></pre>
 <h2>Project Status</h2>
-<p>An incomplete implementation of the Python code necessary to support<br />
+<p>An incomplete implementation of the Python code necessary to support
 <a href="https://jddixon.github.io/xlreg_py">xlreg_py</a>.</p>
-<p>xlreg_py is a library enabling applications to easily use an<br />
-<a href="https://jddixon/github.io/xlReg_go">xlReg</a> server<br />
-to set up communications between ad-hoc clusters of application servers<br />
+<p>xlreg_py is a library enabling applications to easily use an
+<a href="https://jddixon/github.io/xlReg_go">xlReg</a> server
+to set up communications between ad-hoc clusters of application servers
 incorporating XLattice nodes.</p>
 <h2>Licensing</h2>
 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />The material on this github.io website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
