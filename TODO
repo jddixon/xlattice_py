@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
+2017-05-26
+    * u_re_struc about L 71: invalid attr dir_struc_to_name
+
 2017-04-15
     * need u_diff which by default assumes leaf hashes are correct
 

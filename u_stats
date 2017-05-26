@@ -30,9 +30,7 @@ def do_run(options):
 
     print("statistics for %s" % u_path)
     print(
-        "  dirStruc:           %10s" %
-        UDir.dir_struc_to_name(
-            stats.dir_struc))
+        "  dirStruc:           %10s" % stats.dir_struc.name)
     print("  usingSHA:          %10s" % stats.hashtype)
     print()
     print("  subDirectories:     %10d" % stats.subdir_count)
