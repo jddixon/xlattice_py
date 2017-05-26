@@ -238,16 +238,6 @@ class DirStruc(IntEnum):
 
 class UDir(object):
 
-    #   # BEING REPLACED BY DirStruc ************************************
-    #   # DROP ON REACHING v1.7 *****************************************
-    #   DIR_FLAT = 0
-    #   DIR16x16 = 1
-    #   DIR256x256 = 2
-    #   DIR_STRUC_MAX = 3
-
-    #   DIR_STRUC_NAMES = ['DIR_FLAT', 'DIR16x16', 'DIR256x256', ]
-    #   # END BEING REPLACED ********************************************
-
     HEX_FILE_NAME_1_PAT = r'^[0-9a-fA-F]{40}$'
     HEX_FILE_NAME_2_PAT = r'^[0-9a-fA-F]{64}$'
 
@@ -259,34 +249,6 @@ class UDir(object):
 
     HEX_DIR_NAME_16_RE = re.compile(HEX_DIR_NAME_16_PAT)
     HEX_DIR_NAME_256_RE = re.compile(HEX_DIR_NAME_256_PAT)
-
-#   # BEING REPLACED BY DirStruc ************************************
-#   # DROP ON REACHING v1.7 *****************************************
-#   _name_to_dir_struc = {
-#       'DIR_FLAT': DIR_FLAT,
-#       'DIR16x16': DIR16x16,
-#       'DIR256x256': DIR256x256,
-#   }
-
-#   @classmethod
-#   def name_to_dir_struc(cls, string):
-#       """ map a string into an integer"""
-#       warnings.warn('dir_struc_to_name', DeprecationWarning)
-#       return cls._name_to_dir_struc[string]
-
-#   _dir_struc_to_name = {
-#       DIR_FLAT: 'DIR_FLAT',
-#       DIR16x16: 'DIR16x16',
-#       DIR256x256: 'DIR256x256',
-#   }
-
-#   @classmethod
-#   def dir_struc_to_name(cls, nnn):
-#       """ map an integer into a string """
-#       warnings.warn('dir_struc_to_name', DeprecationWarning)
-#       return cls._dir_struc_to_name[nnn]
-
-#   # END BEING REPLACED ********************************************
 
     def dir_struc_sig(self, u_path, dir_struc, hashtype):
         """ signatures differentiating different types of directories """
