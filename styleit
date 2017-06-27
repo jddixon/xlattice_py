@@ -4,10 +4,7 @@ if [ ! -z "${DEV_BASE// }" ]
 then
   cd $DEV_BASE/py/xlattice_py
   
-  autopep8 -ai -r xlattice 
-  autopep8 -air xlattice/u 
-  autopep8 -ai gen_node_id u_consolidate u_preen u_re_struc u_stats verify_content_keys *.py
-  echo "not styling extsrc/ subdir"
+  autopep8 -air src/ tests/
   echo "not styling logs/ subdir"
   echo "not styling scripts/ subdir"
   echo "not styling sha-3bytetestvectors/ subdir"
