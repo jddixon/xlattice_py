@@ -1,15 +1,11 @@
 # see http://docs.python.org/distutils/sourcedist.html
 
-include openssl*
-include auto8it countem installit makeMoreNodeIDs
+include countem installit makeMoreNodeIDs styleit
 include CHANGES MANIFEST.in README* TODO 
-include test*.py 
-include gen_node_id u_consolidate u_preen u_re_struc verify_content_keys 
+include setup.py 
 
-recursive-include extsrc/  *
+recursive-include src/ tests/ scripts/
 recursive-include ghpDocs *
-recursive-include scripts/  *
-recursive-include xlattice/ *.py
 
 global-exclude xxmodule*EXAMPLE
 global-exclude junk* .*.swp *.pyc

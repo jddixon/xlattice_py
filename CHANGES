@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.12
+    2017-06-27
+        * restructure for pytest                                    SLOC 7268
 v1.7.11
     2017-05-26
         * correct invalid attr in u_stats, drop dead code           SLOC 7297
@@ -368,6 +371,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

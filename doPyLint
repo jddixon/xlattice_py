@@ -1,3 +1,1 @@
-pylint setup.py test*.py xlattice                               \
-    gen_node_id \
-    u_consolidate u_preen u_re_struc u_stats verify_content_keys  
+pylint setup.py src/ tests/
