@@ -90,7 +90,7 @@ class TestNode(unittest.TestCase):
 
         # import an openSSL-generated 2048-bit key (this becomes a
         # string constant in this program)
-        with open('openssl2k.pem', 'r') as file:
+        with open('tests/openssl2k.pem', 'r') as file:
             pem_key = file.read()
         key = rsa.importKey(pem_key)
         assert key is not None

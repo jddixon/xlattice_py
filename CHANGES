@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.13
+    2017-07-25
+        * rewrite MANIFEST.in, setup.py; edit cfg files             SLOC 7156
 v1.7.12
     2017-06-27
         * restructure for pytest                                    SLOC 7268
@@ -371,6 +374,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
