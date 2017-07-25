@@ -6,7 +6,7 @@ then
   
   rm -rf build/* myData/* myU1/* myU2/* tmp/* 
   
-  pySloc -L py src/* tests/*  -X cover -X htmlcov -X dist -v $@
+  pySloc -L py  -X cover -X htmlcov -X dist -v $@ src/xlattice src/xlattice.u src/gen_node_id src/u_consolidate src/u_preen src/u_re_struc src/u_stats src/verify_content_keys tests/test_cft_log_for_py.py tests/test_cft_log_obj.py tests/test_context.py tests/test_crypto.py tests/test_decimal_version.py tests/test_get_exclusions.py tests/test_hello_and_reply.py tests/test_lib_ev.py tests/test_log_mgr.py tests/test_pkcs7.py tests/test_proc_lock.py tests/test_pyca_hello_and_reply.py tests/test_pyca_node.py tests/test_pyca_pkcs7.py tests/test_pyca_rsa.py tests/test_pycr_node.py tests/test_regexes_from_wildcards.py tests/test_rsa.py tests/test_sha3_256.py tests/test_timestamp.py tests/test_two_logs.py tests/test_u.py tests/test_u_lock.py tests/test_u_re_struc.py tests/test_u_stats.py setup.py
 else
   echo "DEV_BASE is not defined"
 fi

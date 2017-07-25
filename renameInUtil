@@ -1,7 +1,0 @@
-sdRenameInFiles -v1rw                   \
-    -m ../rnglib/name-pairs-api         \
-    -m name-pairs-api                   \
-    -m name-pairs-util                  \
-    u_consolidate u_preen u_re_struc u_stats verify_content_keys    \
-    scripts/gen_node_id1 scripts/gen_node_id3        \
-    test*.py
