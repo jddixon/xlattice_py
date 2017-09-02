@@ -9,8 +9,6 @@ from xlattice.crypto import AES_BLOCK_SIZE,\
 __all__ = ['client_encrypt_hello', 'server_decrypt_hello',
            'server_encrypt_hello_reply', 'client_decrypt_hello_reply', ]
 
-AES_BLOCK_SIZE = 16
-
 
 def client_encrypt_hello(version, ck_):
     """

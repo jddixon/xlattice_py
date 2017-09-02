@@ -48,7 +48,7 @@ class Transport(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_connection(self, near, far, blocking):  # -> Connection, raises IOException
+    def get_connection(self, near, far, blocking):
         """
         Return a Connection between Addresses near and far; this may or may
         not blocking.

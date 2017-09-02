@@ -48,8 +48,8 @@ class TestPKCS7Padding(unittest.TestCase):
         if length % AES_BLOCK_BYTES == 0:
             expected_len = length + AES_BLOCK_BYTES
         else:
-            expected_len = ((length + AES_BLOCK_BYTES - 1) // AES_BLOCK_BYTES) * \
-                AES_BLOCK_BYTES
+            expected_len = ((length + AES_BLOCK_BYTES - 1) // AES_BLOCK_BYTES)\
+                * AES_BLOCK_BYTES
         delta = expected_len - length       # number of bytes of padding
         self.assertEqual(padded_data[-1], delta)
 

@@ -103,7 +103,8 @@ class TestCFTLogForPy(unittest.TestCase):
             log_msg(log_ndx, "now is the winter of our discontent\n")
             log_msg(log_ndx, "made glorious summer by this son of York\n")
             log_msg(log_ndx, "buffers are temporarily multiples of 64B\n")
-            log_msg(log_ndx, "... so these few message should overflow a page\n")
+            log_msg(log_ndx,
+                    "... so these few message should overflow a page\n")
             # print "ABOUT TO WRITE BLOCK 0";    sys.stdout.flush()
             for n__ in range(128):
                 #       ....x....1....x....2....x....3....x....4...

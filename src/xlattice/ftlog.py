@@ -103,14 +103,15 @@ class ActualLog(object):
         # we pass the full path name
         self.name_copy = self._log_file.strip()   # should copy the string
         # DEBUG
-        #print("trying to open log with path '%s'" % self.nameCopy)
+        # print("trying to open log with path '%s'" % self.nameCopy)
         # END
         lfd = open_cft_log(self.name_copy)
         if lfd < 0:
             raise RuntimeError("ERROR: init_cft_logger returns %d", lfd)
         else:
             # DEBUG
-            # print("opened %s successfully with lfd %d" % (self._log_file, lfd))
+            # print("opened %s successfully with lfd %d" % (
+            #   self._log_file, lfd))
             # END
             self._lfd = lfd
 
@@ -141,10 +142,10 @@ class ActualLog(object):
         hours = time.strftime('%H:%M:%S', now)
         text = '%s %s %s\n' % (date, hours, msg)
         # note that this is a tuple
-        status = log_msg(self._lfd, text)
+        # status =
+        log_msg(self._lfd, text)
 
         # XXX handle possible errors
-        _ = status
 
 #       # DEBUG Python3-style
 #       print ("message is: '%s'",  text)
@@ -170,10 +171,8 @@ class LogMgr(object):
 
         # THIS IS A PARTIAL FIX: the above assumes that all logs
         # share the same directory
-        status = init_cft_logger()
-
-        # DEBUG
-        _ = status
+        # status =
+        init_cft_logger()
 
     def open(self, base_name):
         """ Open the log, possibly creating it. """

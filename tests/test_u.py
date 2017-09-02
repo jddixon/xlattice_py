@@ -7,7 +7,7 @@ import hashlib
 import os
 import time
 import unittest
-from enum import IntEnum
+# from enum import IntEnum
 
 from xlattice import HashTypes
 from xlattice.u import (DirStruc, UDir,
@@ -283,7 +283,8 @@ class TestU(unittest.TestCase):
             file.write(data)
 
         (u_len, u_key) = u_dir.put(d_path, d_key)
-        u_path = u_dir.get_path_for_key(u_key)
+        # u_path =
+        u_dir.get_path_for_key(u_key)       # unused value
 
         # inFile is renamed
         self.assertFalse(os.path.exists(d_path))
@@ -328,7 +329,7 @@ class TestU(unittest.TestCase):
         (_, u_key) = u_dir.put_data(data, d_key)
         self.assertEqual(d_key, u_key)
         self.assertTrue(u_dir.exists(d_key))
-        u_path = u_dir.get_path_for_key(u_key)             # GEEP
+        # u_path = u_dir.get_path_for_key(u_key)
 
     def test_put_data(self):
         """ Verify len,hash correct on data puts for all combinations. """

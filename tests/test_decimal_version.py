@@ -23,17 +23,17 @@ class TestDecimalVErsion(unittest.TestCase):
         """ Verify that empty strings cannot be parsed. """
 
         try:
-            _ = parse_decimal_version(None)
+            parse_decimal_version(None)
             self.fail("parsed nil string")
         except RuntimeError:
             pass
         try:
-            _ = parse_decimal_version("")
+            parse_decimal_version("")
             self.fail("parsed empty string")
         except RuntimeError:
             pass
         try:
-            _ = parse_decimal_version(" \t ")
+            parse_decimal_version(" \t ")
             self.fail("parsed whitespace")
         except ValueError:
             pass

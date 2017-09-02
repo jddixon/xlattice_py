@@ -17,6 +17,7 @@ from rnglib import SimpleRNG
 if sys.version_info < (3, 6):
     # pylint: disable=unused-import
     import sha3     # must follow hashlib, which it monkey-patches
+    assert sha3     # suppress warning
 
 RNG = SimpleRNG(time.time)
 

@@ -1,6 +1,6 @@
 :?0.0.1?:
 project:xlattice_py
-package:xlattice
+package:src/xlattice.u
 mainlang:py
 version:1.7.13
 versionDate:2017-07-25
@@ -37,6 +37,9 @@ code:std:pylintrc
 code:std:.coveragerc
 code:std:check.summary
 code:std:MANIFEST.in
+code:std:tox.ini
+code:std:requirements.txt
+code:std:test_requirements.txt
 code:local:openssl2k.pem
 code:local:openssl4k.pem
 code:local:moreNodeIDs
@@ -54,6 +57,7 @@ bash:std:checkCoverage
 bash:std:auto8it
 bash:local:makeMoreNodeIDs
 bash:local:nodeIDs
+py:std:setup.cfg
 py:std:setup.py
 py:global:gen_node_id
 py:global:u_consolidate
