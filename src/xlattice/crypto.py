@@ -1,5 +1,4 @@
 # xlattice_py/xlattice/crypto.py
-import warnings
 
 """ Crypto functions for XLattice: currently relaced to AES block cipher. """
 
@@ -129,16 +128,16 @@ def collect_pem_rsa_public_key(first_line, lines):
     found_last = False
 
     # DEBUG
-    #ndx = 0
-    #print("%2d %s" % (ndx, first_line))
+    # ndx = 0
+    # print("%2d %s" % (ndx, first_line))
     # END
 
     ret = [first_line]      # of string
     while len(lines) > 0:
         line, lines = next_nb_line(lines)
         # DEBUG
-        #ndx += 1
-        #print("%2d %s" % (ndx, line))
+        # ndx += 1
+        # print("%2d %s" % (ndx, line))
         # END
         ret = ret + [line]
         if line == '-----END RSA PUBLIC KEY-----' or  \

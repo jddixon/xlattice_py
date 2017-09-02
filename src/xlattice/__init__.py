@@ -5,7 +5,6 @@
 import binascii
 import os
 import sys
-import warnings
 from enum import IntEnum
 
 __all__ = ['__version__', '__version_date__',
@@ -26,8 +25,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.7.13'
-__version_date__ = '2017-07-25'
+__version__ = '1.7.14'
+__version_date__ = '2017-09-01'
 
 
 # This is the SHA1 of an empty string (or file)

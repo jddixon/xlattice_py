@@ -11,6 +11,7 @@ from xlattice import SHA3_HEX_NONE, SHA3_BIN_NONE
 if sys.version_info < (3, 6):
     # pylint:disable=unused-import
     import sha3                     # pysha3
+    assert sha3                     # suppress warnings
 
 
 class TestSHA3_256(unittest.TestCase):
@@ -20,7 +21,8 @@ class TestSHA3_256(unittest.TestCase):
     DIGEST_SIZE = 32    # bytes
     BLOCK_SIZE = 136   # bytes (so 1088 bits, not 1600)
     U2H_VECTORS = [
-        ('', 'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'),
+        ('',
+         'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'),
         ('abc',
          '3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532'),
         # GET MORE FROM NIST DOCS

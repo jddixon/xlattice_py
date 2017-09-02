@@ -7,7 +7,6 @@ import fnmatch
 import os
 import re
 import time
-import warnings
 
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'timestamp',
@@ -185,7 +184,8 @@ class DecimalVersion(object):
 
     def __ge__(self, other):
         """
-        Return whether this decimal version is greater than or equal to another.
+        Return whether this decimal version is greater than or equal to
+        another.
         """
         self_a = self.get_a()
         other_a = other.get_a()

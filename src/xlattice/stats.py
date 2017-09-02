@@ -10,7 +10,7 @@ try:
 except ImportError:
     from scandir import scandir
 
-from xlattice import __version__, check_hashtype, HashTypes
+from xlattice import check_hashtype, HashTypes
 from xlattice.u import DirStruc, UDir
 
 HEX2_PAT = '^[0-9a-fA-F][0-9a-fA-F]$'
@@ -167,14 +167,14 @@ def scan_leaf_dir(path_to_dir, obj):
     """ Collect stats from leaf directory. """
 
     # DEBUG
-    # #print("    scanning leaf directory %s" % pathToDir)
+    # # print("    scanning leaf directory %s" % pathToDir)
     # END
     file_count = 0
     odd_count = 0
 
     for entry in scandir(path_to_dir):
         # DEBUG
-        #print("      leaf file: %s" % entry.name)
+        # print("      leaf file: %s" % entry.name)
         # END
         if entry.is_symlink():
             # DEBUG
@@ -185,7 +185,7 @@ def scan_leaf_dir(path_to_dir, obj):
         match = SHA1_RE.match(name)
         if match:
             # DEBUG
-            #print("      MATCH")
+            # print("      MATCH")
             # END
             file_count = file_count + 1
             size = entry.stat().st_size
@@ -217,7 +217,7 @@ def collect_stats(u_path, out_path, verbose):
     # XXX outPath IS NOT USED
     if out_path:
         os.makedirs(out_path, exist_ok=True)
-    _ = verbose
+    # _ = verbose
     # END NOT USED
 
     u_dir = UDir.discover(u_path)
@@ -253,13 +253,13 @@ def collect_stats(u_path, out_path, verbose):
                         path_to_subdir, mid_file)
                     scan_leaf_dir(path_to_sub_subdir, stats)
 
-                # -- other upper-level files --------------------------
+                # -- other upper-level files ------------------------
                 else:
                     path_to_oddity = os.path.join(path_to_subdir, mid_file)
                     print("unexpected: %s" % path_to_oddity)
                     stats.odd_count += 1
 
-        #-- other upper-level files -----------------------------------
+        # -- other upper-level files --------------------------------
 
         else:
             if top_file == 'L':

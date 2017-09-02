@@ -8,7 +8,6 @@ import shutil
 import sys
 import time
 import hashlib
-import warnings
 import os
 
 try:
@@ -21,6 +20,7 @@ from xlattice import HashTypes, check_hashtype
 
 if sys.version_info < (3, 6):
     import sha3         # monkey-patches hashlib
+    assert sha3         # suppress warning
 
 __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
            'SHA1_HEX_NONE', 'SHA2_HEX_NONE', 'SHA3_HEX_NONE',
@@ -525,7 +525,8 @@ class UDir(object):
                 lower_dir = sha[2:4]
             else:
                 raise XLUError("unknown dir_struc %d" % self.dir_struc)
-            target_dir = self.u_path + '/' + top_sub_dir + '/' + lower_dir + '/'
+            target_dir = \
+                self.u_path + '/' + top_sub_dir + '/' + lower_dir + '/'
             if not os.path.exists(target_dir):
                 os.makedirs(target_dir)
             fullish_path = target_dir + key
@@ -562,7 +563,8 @@ class UDir(object):
             else:
                 raise XLUError("undefined dir_struc %d" % self.dir_struc)
 
-            target_dir = self.u_path + '/' + top_sub_dir + '/' + lower_dir + '/'
+            target_dir = \
+                self.u_path + '/' + top_sub_dir + '/' + lower_dir + '/'
             if not os.path.exists(target_dir):
                 os.makedirs(target_dir)
             fullish_path = target_dir + key
@@ -646,9 +648,9 @@ class UDir(object):
     def _simple_restruc(self, old_struc, new_struc):
         """
         Scan the directory structure looking for files whose name=content hash
-        of the right length for the SHA used (so 40 bytes for SHA1, 64 for SHA2/3)
-        but in the wrong directory.  Out-of-place files are moved to the correct
-        directory.
+        of the right length for the SHA used (so 40 bytes for SHA1, 64 for
+        SHA2/3) but in the wrong directory.  Out-of-place files are moved to
+        the correct directory.
         """
 
         path_to_top = self.u_path
@@ -669,7 +671,7 @@ class UDir(object):
                     # DEBUG
                     # print("match: %s" % key)
                     # END
-                    path_to_file = os.path.join(path_to_top, key)
+                    # path_to_file = os.path.join(path_to_top, key)
                     self.put(entry.path, key)
 
         else:

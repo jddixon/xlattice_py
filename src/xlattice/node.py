@@ -12,11 +12,14 @@ import os
 import sys
 import hashlib
 
+from Crypto.PublicKey import RSA as rsa
+
 from xlattice import HashTypes, check_hashtype  # , UnrecognizedSHAError
 
 if sys.version_info < (3, 6):
     # pylint: disable=unused-import
     import sha3
+    assert sha3     # suppress warning:w
 
 
 class BaseNode(ABCMeta):

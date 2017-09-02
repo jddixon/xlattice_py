@@ -36,12 +36,12 @@ class TestUStats(unittest.TestCase):
 
         self.assertEqual(len(results.unexpected_at_top), 0)
 
-    def test_properties(self):
-        """ Verify that a UStats instance has expected properties. """
-        results = UStats()
+#   def test_properties(self):
+#       """ Verify that a UStats instance has expected properties. """
+#       results = UStats()
 
-        # XXX STUB XXX
-        _ = results
+#       # XXX STUB XXX
+#       # _ = results
 
 # subDirCount
 # subSubDirCount

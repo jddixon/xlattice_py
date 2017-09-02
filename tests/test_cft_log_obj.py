@@ -54,9 +54,11 @@ class TestCLogObj(unittest.TestCase):
             print(" THIS IS AN OLD VERSION OF THE LIBRARY")
 
     def test_ctor(self):
-        """ Verify that the constructor creates a logger with sensible props."""
+        """
+        Verify that the constructor creates a logger with sensible props.
+        """
 
-        _ = init_cft_logger()
+        init_cft_logger()
         log_file = self.unique_file_name()
         # pylint: disable=no-member
         obj = cFTLogForPy.LogForPy()
@@ -74,7 +76,7 @@ class TestCLogObj(unittest.TestCase):
                     "... and so forth and so on\n", ]
         log_file = self.unique_file_name()
         # this 3-line stanza needs to be shortened
-        _ = init_cft_logger()
+        init_cft_logger()
         obj = cFTLogForPy.LogForPy()  # pylint: disable=no-member
         obj.init(log_file)
         self.assertEqual(log_file, obj.log_file())       # must follow init()

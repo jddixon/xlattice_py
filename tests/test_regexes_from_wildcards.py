@@ -81,7 +81,7 @@ class TestRegexesFromWildcards(unittest.TestCase):
             match_re, ['foo', 'foolish', 'roobar', 'junky'])
         self.do_test_expected_match_failures(
             match_re, [' foo', 'roobarf', 'myjunk'])
-        #[ 'roobarf', 'myjunk'])
+        # [ 'roobarf', 'myjunk'])
 
         matches = ['*.tgz']
         match_re = make_match_re(matches)

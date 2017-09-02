@@ -35,7 +35,7 @@ class TestRSA(unittest.TestCase):
             if not os.path.exists(node_dir):
                 break
         # DEBUG
-        #print("nodeDir is %s" % nodeDir)
+        # print("nodeDir is %s" % nodeDir)
         # END
         os.mkdir(node_dir)
 
@@ -135,7 +135,7 @@ class TestRSA(unittest.TestCase):
 
         b64sig = base64.b64encode(signature).decode('utf-8')
         # DEBUG
-        #print("DIG SIG:\n%s" % b64sig)
+        # print("DIG SIG:\n%s" % b64sig)
         # END
         sig2 = base64.b64decode(b64sig)
         self.assertEqual(sig2, signature)

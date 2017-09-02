@@ -6,7 +6,7 @@
 import hashlib
 import os
 import unittest
-#from binascii import hexlify
+# from binascii import hexlify
 
 from rnglib import SimpleRNG
 from xlattice import HashTypes, check_hashtype
@@ -29,7 +29,7 @@ class TestReStruc(unittest.TestCase):
         check_hashtype(hashtype)
 
         # DEBUG
-        #print("make_values: m__ = %d, n__ = %d, l__ = %d)" % (m__, n__, l__))
+        # print("make_values: m__ = %d, n__ = %d, l__ = %d)" % (m__, n__, l__))
         # END
         if m__ <= 0:
             m__ = 1
@@ -44,7 +44,7 @@ class TestReStruc(unittest.TestCase):
         hex_hashes = []
 
         # DEBUG
-        #print("VALUES AND HASHES")
+        # print("VALUES AND HASHES")
         # END
         for _ in range(nnn):
             count = 1 + self.rng.next_int16(l__)   # so that count >= 1
@@ -61,7 +61,7 @@ class TestReStruc(unittest.TestCase):
             sha.update(v__)
             h__ = sha.hexdigest()
             # DEBUG
-            #print("  %02d %s %s" % (_, hexlify(v).decode('utf8'),h__))
+            # print("  %02d %s %s" % (_, hexlify(v).decode('utf8'),h__))
             # END
             hex_hashes.append(h__)
 
@@ -102,7 +102,7 @@ class TestReStruc(unittest.TestCase):
         # END
         for nnn in range(count):
             # DEBUG
-            #print("  %02d: %s" % (n, hex_hashes[nnn]))
+            # print("  %02d: %s" % (n, hex_hashes[nnn]))
             # END
             self.assertTrue(u_dir.exists(hex_hashes[nnn]))
 
@@ -117,8 +117,8 @@ class TestReStruc(unittest.TestCase):
             self.assertTrue(u_dir.exists(hex_hashes[nnn]))
 
         # XXX STUB: veriy any useless directories have been removed
-        #   for example: if going from DirStruc.DIR256x256 to DirStruc.DIR_FLAT,
-        #   directories like 00 and 00/00 should have been removed
+        # for example: if going from DirStruc.DIR256x256 to DirStruc.DIR_FLAT,
+        # directories like 00 and 00/00 should have been removed
 
     def test_re_struc(self):
         """ Test all combinations of dir structure and hash type. """

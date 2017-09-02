@@ -42,7 +42,8 @@ class AbstractNode(object):
                 sha.update(pem)
                 node_id = sha.finalize()    # a binary value
                 # DEBUG
-                #AbstractNode.dump_hex("SHA%d Abs Calc ID" % hash_types, node_id)
+                # AbstractNode.dump_hex(
+                #     "SHA%d Abs Calc ID" % hash_types, node_id)
                 # END
             else:
                 raise ValueError(

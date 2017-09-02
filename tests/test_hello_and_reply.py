@@ -88,7 +88,7 @@ class TestRSA_OAEP(unittest.TestCase):
         self.assertEqual(key2, key2s)
         self.assertEqual(salt2, salt2s)
         self.assertEqual(salt1x, salt1)
-        _ = version2                        # unused
+        #  _ = version2                        # unused
 
 
 if __name__ == '__main__':
