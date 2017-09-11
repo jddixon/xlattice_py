@@ -1,5 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.15
+    2017-09-05
+        * dropped mkdir_p()
+    2017-09-10
+        * corrected tox.ini, *requirements.txt                      SLOC 7196
 v1.7.14
     2017-09-01
         * pep8 fixes; add tox.ini, *requirements.txt; bug fixes     SLOC 7184
@@ -377,6 +382,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

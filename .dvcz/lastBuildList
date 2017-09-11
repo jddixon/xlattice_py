@@ -7,8 +7,8 @@ Giaje1YAJPNVBt3dlOA5lhBp4GpSYBskJ9UR2Zyt3lgAGK3dEwxYETLMh9VWEV8i
 k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
-xlattice_py v1.7.14
-2017-09-02 00:15:15
+xlattice_py v1.7.15
+2017-09-11 01:19:09
 # BEGIN CONTENT #
 xlattice_py
  .cache
@@ -16,16 +16,16 @@ xlattice_py
    cache
     lastfailed bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f
  .dvcz
-  builds 7a70035145e497b1d57a6f18cdb0dc501a53085b
+  builds 44a8d14fd82b0fae27fd5ff1619d32c3ce94558c
   copyright 1e260b42471827b63297135ea88f5f793cced7ab
-  lastBuildList 01355516f1f4468a9440b28307620576e0ca2135
+  lastBuildList 01e35753f84718e7f3e338867ea1b20839c3f825
   license 5977a55c75bb4612004451a56b0b4c22d9d3311d
   projCfg d01dd2078f83dd01f63802411beb910a599e8418
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  version 16f3f4a35b7a0c70328c795b2fc161c11a0e8b9b
+  version 692e422fd022be6125cfeaf5b9beb7233de27602
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 9b479963ba102f273d2a80e30e9d4f492426692f
+ CHANGES fe03169fec9c6e02f6aba6ea64049b1111af3f8f
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in ee87ecf6928c0c4c69376734eba9cf532ce748b1
  README.md ed039d87c8586698c6ac557fa69d406f6281ec82
@@ -54,7 +54,7 @@ xlattice_py
  moreNodeIDs f663ad65d8309e7c043dc5f029f7610c5adb593d
  nodeIDs d85f493d898e88f0c7898c055f2e2ecc3aa105de
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
- requirements.txt ac335e743fa42ee1d56b65ced93931206d202d43
+ requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
  scripts
  setup.py 7a5f897e835410b0445366bac3a9f6b91eceab0e
  sha-3bytetestvectors
@@ -110,7 +110,7 @@ xlattice_py
   u_stats 029de17788f927fe4f7757b022fe075ceea6ca19
   verify_content_keys f3001d05794895c64cdacc2f1264f7a200a20bc3
   xlattice
-   __init__.py d1494f88c83b48a8ed9e56777b8d4cad191157b0
+   __init__.py 7b1e4bde72122d7f923a08f8678d17ee634a9cd9
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
@@ -122,7 +122,7 @@ xlattice_py
    ftlog.py b6052ed9e1c8f2725c81ca81a23bee3344e57cd6
    hello_and_reply.py b857b0b74d33bc947693e5a469e53bc402c7ac14
    key.py e5ae0650aa85d6ef9190807758968c4001ea2997
-   lfs.py 6f6f2075e65ae2dba10aa4808b40c944b00158ac
+   lfs.py 2ed2b5219ef2f989e2da00b73a276bd369466d5c
    node.py 017a13c5d50b6f83c5519dc09b6f499beaaee632
    overlay.py d998b312957f6774fa9395fff49f91b3080f4d51
    proc_lock.py 73593e416dda95cb48e1eefca029fafd8e587f95
@@ -141,7 +141,7 @@ xlattice_py
    util.py f7c311d736483159bd33096028baf5d9d7a7d9de
  styleit 3c8f64578a4992cacfff59640292093e36aae0e7
  test.all 62135e88004bba380c836687c96d11a25d183b14
- test_requirements.txt 3d938671314a53a780ee6a15d1c4585e044f43a9
+ test_requirements.txt 1156805a51f92d0c7c53fdc7196418f942d59cfc
  tests
   openssl2k.pem d002cf0d15dde3bb0387f201d36ee0d9b8389035
   openssl4k.pem 6f8e9af343875a978df27cc25dcf1f637ec8626e
@@ -170,7 +170,7 @@ xlattice_py
   test_u_lock.py a683c036cf9556fb248a677284dbcb51913f53d1
   test_u_re_struc.py a00307f10ba3e19be8a9a33382030b468c582866
   test_u_stats.py ca25e8fac875c1ce3899ffcf3cf4c5dd6f83b7d5
- tox.ini ecb81b42ac9aae5f5aefc9d402bad9c93bfb2816
+ tox.ini bb7077e3fc71bee627f0dddb7b8bbf4754b5f078
 # END CONTENT #
 
-MgJBREjAOoPZGKKQ1CxqnTMe1DjTcqaZ3ETcraePbHpHsc2saEIvmazWOk2S1ZwPZtElXMDpCe0fjmu8iuEvnTMzvwYAkwlmDr8WvjpQEhf1WiPAnPSAqZaanOZiQZKP30sYgzCYzd8oMRNiZCQdn5b/D3jEbpztTqa6Tinc3zA2hOv3Qehmr4mkPDOaY/W/1BR+teSSdGDSQrZu/Rn3ZJG3D19CfWmSmveZuTxqPs9NAGtXEkNevkrqqi4YDWgZYHOSjikF8Ynxpf5QFOV50pxv+C3NCVa0TsAZBo/AGKYRIuqb42Fe732xOOhSMO0bTWj1kUXCkj6e7SgaF9ijoA==
+hZwmYwBtSB8Ef13DYQmN3llEGDfk9KwMaM+1T6wR+N1px7fOLIhftlDW8kiqsw8Ih0KauGxvwdH5QdrX/OQScDub64LjWUaNioVdFZ4IEZ+G4gqUiTQMJjy6j7XWuCl4EXJRsV1Y4LJyfajZ0BXqPe5qbQUHaS4Zp0Z57HQnJCSB+aNQtzZgIRQLV6LYCpXiojRjDHgshK9Iin1b/xGb+QwDu/wLvhOOYE1oR9f3XgKYoMNRFHx/wpT1UqWlgvecfdkcRxX4aOm/CiIbJ0oMRiGiy/ToJ14Bwjk70WSLJjgKQ18kag8GQ7VQH3CPOrYfrw97dJhvoGDykZQP+ilNig==
