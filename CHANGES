@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.16
+    2017-09-22
+        * add projConfig.toml                                       SLOC 7225
 v1.7.15
     2017-09-05
         * dropped mkdir_p()
@@ -382,6 +385,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
