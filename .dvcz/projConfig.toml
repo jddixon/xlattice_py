@@ -29,7 +29,7 @@
     ext_modules = []
 
     # sdReq output
-    distshre = ['options', 'rnglib']
+    distshare = ['options', 'rnglib']
     requirements=['cryptography', 'pycrypt', 'pysha3', 'scandir', 'setuptools']
     test_requirements=['pyev']
 

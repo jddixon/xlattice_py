@@ -7,21 +7,22 @@ Giaje1YAJPNVBt3dlOA5lhBp4GpSYBskJ9UR2Zyt3lgAGK3dEwxYETLMh9VWEV8i
 k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
-xlattice_py v1.7.16
-2017-09-22 23:34:30
+xlattice_py v1.7.17
+2017-09-24 00:34:23
 # BEGIN CONTENT #
 xlattice_py
  .dvcz
-  builds 83f6f17ccb6fa8e28a24ce9a995a9667b9103322
+  builds dbe04f1a530ddd6b8c588ffbc3097858fb302c5e
   copyright 1e260b42471827b63297135ea88f5f793cced7ab
-  lastBuildList a5a6a84836a0e7cc35e0bbbf8b2d239b056fa520
+  lastBuildList 54c09a80576aa41916a4fcbd881dc3e43319f6a1
   license 5977a55c75bb4612004451a56b0b4c22d9d3311d
   projCfg d01dd2078f83dd01f63802411beb910a599e8418
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  version f1e603dba5f3077b7d4746f3d1df5818ab26b572
+  projConfig.toml 937b9494d34f51dd387e2db94789ba91556f2568
+  version 78516297f679e6c125f3cd6bad19d4b1fba8221f
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 56846ea53ad81e5a2287e136040e75d273dae42b
+ CHANGES 885d18a91ba4348804d8beaf8a73b2150a9d3b33
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in ee87ecf6928c0c4c69376734eba9cf532ce748b1
  README.md ed039d87c8586698c6ac557fa69d406f6281ec82
@@ -49,11 +50,10 @@ xlattice_py
  makeMoreNodeIDs 73f085f649efe7018751883556ff8a491e040614
  moreNodeIDs f663ad65d8309e7c043dc5f029f7610c5adb593d
  nodeIDs d85f493d898e88f0c7898c055f2e2ecc3aa105de
- projConfig.toml 102511ec56868dbe8c0016d4b2dba1e0a1d31890
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
  requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
  scripts
- setup.py 7a5f897e835410b0445366bac3a9f6b91eceab0e
+ setup.py f10f60f22de4e03f149a58143b913264c2a10ef7
  sha-3bytetestvectors
   SHA3_224LongMsg.rsp 984954b6a45f247de5d1a771e3b09ae9086c2b25
   SHA3_224Monte.rsp 34d4abdc2efa0b0833cbb5aeb2d4be949667c17f
@@ -107,7 +107,7 @@ xlattice_py
   u_stats 029de17788f927fe4f7757b022fe075ceea6ca19
   verify_content_keys f3001d05794895c64cdacc2f1264f7a200a20bc3
   xlattice
-   __init__.py f1c38f3a6a6e062be4dfb8e841b61992a3438daf
+   __init__.py fb0bca593805fddf27ae777150cf95ca596313b8
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
@@ -170,4 +170,4 @@ xlattice_py
  tox.ini bf715f436a27f1b601d79d808e6bee34b5bdc925
 # END CONTENT #
 
-Pj4B48/tA9btU9LyBtcUeh+GmwIkn4ZmCRdtClq2rqDpJyK7A2XZIhIkNNx5+9UTx4jVm703bW/EVNMkH3OT+uhRw1mGaDuanX089fdLQTWwqYHp7WjwE+9RI/ykm/xL1c9zkwn7BtpoaROWqMaJySVmqoSfyDWYiRTNKLb5pvves4is2BwllQAQkSv37msZLp4zGutwl44Fth3BHyFdvg+tKmz7xS9/aXZfJojWpYzQpfQzIlr3o5XKAfx2jw9FEkw/QESF7JM/1eNc62QRAI6auj06J2Cak3KHbxNMgLUGAWLU0VSQzwq0iEKaTkqzIoYOLZKBuukn/WhZxVx4EA==
+jANlM1DngPV4LtetlTmJxYVNPpg2RZ3ZIeZirvf5IknXMOzulxmxnhxghJIC6mLW0f9aXv3ZzTsj4QDqybj/+6WA0kLTsUZgWu45cVuZFyByloIBnMBOtfLiiUYqhb+EvErvRDzpcaRbfESKV23+wfIc76VBtq7PCBhjfSC3F6n/+Z647X83s9iPvjJLdgA1+TcABFbLmf9SJC1d6V5pnhvdWTFtNUdHmFqDyd1U/CFPviZTFJaNaNkKy9mYoQJs1fSAlw04c7tr+7NPtCai5CureXnH0bV1olKoMoEtBIsOVWv4/k9rjnpe/EN6S7/93orUTRxGyrAwh5iB7Vti8w==
