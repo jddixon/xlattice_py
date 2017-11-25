@@ -128,7 +128,7 @@ class TestDecimalVErsion(unittest.TestCase):
         self.assertEqual(dv3.value, v__)
         self.assertEqual(dv3, dver)
 
-        # test DecimalValue assignment
+        # test DecimalVersioen assignment
         dv4 = DecimalVersion()
         dv4.value = dver
         self.assertEqual(dv4.value, v__)

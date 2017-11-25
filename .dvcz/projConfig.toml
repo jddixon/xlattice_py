@@ -1,38 +1,29 @@
-# projConfig.toml for xlattice_py
-
 [meta]
-    version= '0.1.0'
+version = "0.1.0"
 
 [project]
-    name = 'xlattice_py'             # external name = distribution name
-    package = 'xlattice_py'          # internal name
-    main_lang = 'py'
-    version = '1.7.15'
-    version_date = '2017-09-22'
-    author = 'Jim Dixon'
-    author_email = 'jdd@gmail.com'
-    copyright = '2016-2017'
-    description='xlattice building blocks for Python 2 and 3',
-    dev_status = 'planning'
-    license = 'mit'
-    relpath = 'py/xlattice_py'
-    state = 'shared'
-    url = 'https://jddixon.github.io/xlattice_py'
+name = "xlattice_py"
+package = "xlattice"
+main_lang = "py"
+version = "1.7.18"
+version_date = "2017-11-24"
+author = "Jim Dixon"
+author_email = "jdd@gmail.com"
+copyright = "2016-2017"
+description = "xlattice building blocks for Python 2 and 3'"
+dev_status = "planning"
+license = "mit"
+relpath = "py/xlattice_py"
+state = "shared"
+url = "https://jddixon.github.io/xlattice_py"
 
 [py]
-    packages = ['xlattice', 'xlattice.u']
-    package_dir = ['src']
-    test_dir = 'tests'
-    py_modules = []
-    scripts=['src/gen_node_id', 'src/u_consolidate', 'src/u_preen',
-             'src/u_re_struc', 'src/u_stats', 'src/verify_content_keys']
-    ext_modules = []
-
-    # sdReq output
-    distshare = ['options', 'rnglib']
-    requirements=['cryptography', 'pycrypt', 'pysha3', 'scandir', 'setuptools']
-    test_requirements=['pyev']
-
-    # trove stuff is TBD
-
-
+packages = [ "xlattice", "xlattice.u",]
+package_dir = [ "src",]
+test_dir = "tests"
+py_modules = []
+scripts = [ "src/gen_node_id", "src/u_consolidate", "src/u_preen", "src/u_re_struc", "src/u_stats", "src/verify_content_keys",]
+ext_modules = []
+distshare = [ "options", "rnglib",]
+requirements = [ "cryptography", "pycrypt", "pysha3", "scandir", "setuptools",]
+test_requirements = [ "pyev",]
