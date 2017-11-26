@@ -4,7 +4,22 @@
 """ Setuptools project configuration for xlattice_py. """
 
 from os.path import exists
-from setuptools import setup
+from setuptools import setup, Extension
+
+# see http://docs.python.org/distutils/setupscript.html
+
+MODULE1 = Extension('cFTLogForPy',
+                    include_dirs=['/usr/include/python3.4m',
+                                  '/usr/include', ],
+                    libraries=['ev', ],
+                    library_dirs=['/usr/local/lib', ],
+                    sources=[
+                        'src/extsrc/cFTLogForPy.c',
+                        'src/extsrc/evLoop.c',
+                        'src/extsrc/logBufs.c',
+                        'src/extsrc/modFunc.c',
+                        'src/extsrc/threading.c',
+                    ])
 
 long_desc = None
 if exists('README.md'):
@@ -12,7 +27,7 @@ if exists('README.md'):
         long_desc = file.read()
 
 setup(name='xlattice_py',
-      version='1.7.17',
+      version='1.7.18',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       long_description=long_desc,
@@ -23,6 +38,7 @@ setup(name='xlattice_py',
       zip_safe=False,
       scripts=['src/gen_node_id', 'src/u_consolidate', 'src/u_preen',
                'src/u_re_struc', 'src/u_stats', 'src/verify_content_keys'],
+      ext_modules=[MODULE1],
       description='xlattice building blocks for Python 2 and 3',
       url='https://jddixon.github.io/xlattice_py',
       classifiers=[

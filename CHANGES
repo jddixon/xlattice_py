@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/CHANGES
 
+v1.7.18
+    2017-11-24
+        * restore Module1 to setup.py                               SLOC 7234
 v1.7.17
     2017-09-23
         * fix setup.py, move projConfig.toml                        SLOC 7223
@@ -388,6 +391,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
