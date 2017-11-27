@@ -40,7 +40,6 @@ class TestNode(unittest.TestCase):
 
         pub = node.pub_key
         id_ = node.node_id
-        # pylint:disable=redefined-variable-type
         if hashtype == HashTypes.SHA1:
             self.assertEqual(20, len(id_))
             sha = hashlib.sha1()

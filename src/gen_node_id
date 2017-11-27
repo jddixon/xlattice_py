@@ -35,7 +35,6 @@ def get_node_id(options):
     """ Generate a nodeID based on the hash of a UDir subdirectory. """
     hashtype = options.hashtype
 
-    # pylint: disable=redefined-variable-type
     if hashtype == HashTypes.SHA1:
         sha = hashlib.sha1()
     elif hashtype == HashTypes.SHA2:

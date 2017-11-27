@@ -1,5 +1,11 @@
 ~/dev/py/xlattice_py/CHANGES
 
+
+v1.7.19
+    2017-11-26
+        * u_re_struc: fixed reference to non-existent UDir methods  SLOC 7240
+    2017-11-24
+        * pep8
 v1.7.18
     2017-11-24
         * restore Module1 to setup.py                               SLOC 7234
@@ -391,6 +397,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

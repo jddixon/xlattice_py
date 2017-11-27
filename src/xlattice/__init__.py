@@ -25,8 +25,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.7.18'
-__version_date__ = '2017-11-24'
+__version__ = '1.7.19'
+__version_date__ = '2017-11-26'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -122,7 +122,6 @@ def fix_hashtype(args):
     hashtype{1,2,3}; these are then removed from the set of options.
     """
     args.hashtype = None
-    # pylint:disable=redefined-variable-type
     if args.hashtype1:
         args.hashtype = HashTypes.SHA1
     elif args.hashtype2:
@@ -147,6 +146,8 @@ def check_u_path(parser, args, must_exist=False, mode=0o755):
     whereas it must; or exists but is not a directory.
     """
 
+    _ = parser                  # currently unused
+
     if not args.u_path:
         raise RuntimeError("u_path %s must be specified" % args.u_path)
 
@@ -167,11 +168,6 @@ def check_u_path(parser, args, must_exist=False, mode=0o755):
 
 
 # ABSTRACTIONS ======================================================
-
-"""
-The XLattice Context.
-
-"""
 
 
 class ContextError(RuntimeError):

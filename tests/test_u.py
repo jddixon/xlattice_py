@@ -187,7 +187,6 @@ class TestU(unittest.TestCase):
         (d_len, d_path) = self.rng.next_data_file(DATA_PATH, 16 * 1024, 1)
         with open(d_path, 'rb') as file:
             data = file.read()
-        # pylint: disable=redefined-variable-type
         if hashtype == HashTypes.SHA1:
             digest = hashlib.sha1()
         elif hashtype == HashTypes.SHA2:

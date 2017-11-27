@@ -134,12 +134,10 @@ def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
 
     iv2 = bytearray(AES_BLOCK_BYTES)
     rng.next_bytes(iv2)
-    # pylint: disable=redefined-variable-type
     iv2 = bytes(iv2)
 
     key2 = bytearray(2 * AES_BLOCK_BYTES)
     rng.next_bytes(key2)
-    # pylint: disable=redefined-variable-type
     key2 = bytes(key2)
 
     salt2 = bytearray(8)

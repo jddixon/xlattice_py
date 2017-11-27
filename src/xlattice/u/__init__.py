@@ -353,14 +353,12 @@ class UDir(object):
                 if os.path.exists(flat_sha2_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
-                    # pylint: disable=redefined-variable-type
                     hashtype = HashTypes.SHA2
             if not found:
                 flat_sha3_path = os.path.join(u_path, SHA3_HEX_NONE)
                 if os.path.exists(flat_sha3_path):
                     found = True
                     dir_struc = DirStruc.DIR_FLAT
-                    # pylint: disable=redefined-variable-type
                     hashtype = HashTypes.SHA3
 
             # check for 16x16 directory structure -------------------
@@ -540,7 +538,6 @@ class UDir(object):
         return (length, sha)
 
     def put_data(self, data, key):
-        # pylint:disable=redefined-variable-type
         if self._hashtype == HashTypes.SHA1:
             sha = hashlib.sha1()
         elif self._hashtype == HashTypes.SHA2:

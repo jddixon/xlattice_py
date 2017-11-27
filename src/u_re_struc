@@ -66,9 +66,9 @@ def main():
         sys.exit(1)
 
     args.u_dir = UDir.discover(args.u_path)
-    args.old_struc = args.u_dir.dir_struc     # an int
-    args.new_struc = UDir.name_to_dir_struc(args.new_struc_name)
-    args.old_struc_name = UDir.dir_struc_to_name(args.old_struc)
+    args.old_struc = args.u_dir.dir_struc     # a DirStruc member
+    args.new_struc = DirStruc[args.new_struc_name]
+    args.old_struc_name = args.old_struc.name
 
     if args.old_struc_name != args.new_struc_name:
         print("restructuring from %s to %s" % (

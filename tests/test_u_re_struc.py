@@ -50,7 +50,6 @@ class TestReStruc(unittest.TestCase):
             count = 1 + self.rng.next_int16(l__)   # so that count >= 1
             v__ = self.rng.some_bytes(count)       # that many random bytes
             values.append(v__)
-            # pylint: disable=redefined-variable-type
             if hashtype == HashTypes.SHA1:
                 sha = hashlib.sha1()
             elif hashtype == HashTypes.SHA2:

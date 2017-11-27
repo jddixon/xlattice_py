@@ -21,16 +21,16 @@ MODULE1 = Extension('cFTLogForPy',
                         'src/extsrc/threading.c',
                     ])
 
-long_desc = None
+LONG_DESC = None
 if exists('README.md'):
     with open('README.md', 'r') as file:
-        long_desc = file.read()
+        LONG_DESC = file.read()
 
 setup(name='xlattice_py',
-      version='1.7.18',
+      version='1.7.19',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
-      long_description=long_desc,
+      long_description=LONG_DESC,
       packages=['xlattice', 'xlattice.u'],
       package_dir={'': 'src'},
       py_modules=[],

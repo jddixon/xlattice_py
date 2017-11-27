@@ -8,8 +8,6 @@
 
 2017-02-18
     * locking for Context must be implemented
-    * comment out deprecated synonyms                                   * DONE
-    * actually delete these blocks of code                              * DONE
 
 2017-02-17
     * in test_context.py about L 65: chaining in ctx99 = ctx2.parent
@@ -22,36 +20,15 @@
     * DEFER: split this stuff off as xlnode_py
 
 2017-02-07
-    * deprecate xlattice.lfs.mkdir_p                                    * DONE
-    * need to search for all uses                                       * FIXED
-    * remove code using this call by v1.7                               * DONE
     * xlattice/*node.py: AbstractNode should inherit from abc
     * pycrypto version of {Abstract,}Node needs TWO RSA public keys            
     * cryptography version of {Abstract,}Node should be identical 
         except for parts relating to RSA
 
-2017-01-18 
-    * UDir.dir_struc is an int, should be a member of DirStruc          * FIXED
-        - this condition detected in dvcz; may be a bug there           * FIXED
-
 2017-01-17
     * UDir.DIR_FLAT etc should be deprecated
         - use xlattice.u.DirStruc.DIR_FLAT etc instead
         - phase out UDir.DIR_FLAT etc by xlattice 1.7
-
-2017-01-11
-    EDITED FROM -10:
-    * rename QQQ.USING_SHAx with an enumeration HashTypes (SHAx)        * DONE
-    EDITED from -01-09:
-    * replace xlattice.u.UDir.{DIR_FLAT,DIR16x16,DIR256x256} with       * DONE
-        an enumeration UDir.DirStruc (an IntEnum)                       * DONE
-        - widely used, so needs careful replacement plan
-    * UStats.dir_struc(self, value) needs checks on value               * DONE
-        - this could be dir_struc in [d.value for d in DirStruc]        * DONE
-
-    * verify_content_keys ignores -j                                    * FALSE
-    * all utilities need testing
-    * need to search for QQQ in xlattice_py                             * DONE
 
 2017-01-09
     * add deprecation warnings on all synonyms                          * DONE
@@ -90,18 +67,6 @@
         - xlattice/pkcs7.py
         - test_rsa.py
 
-2017-01-06, edited from -05
-    * extend test_pyca_cryptography.py to test RSA encrytion            * DONE
-        - create test_pyca_hello_and_reply,                             * DONE
-            xlattice/pyca_hello_and_reply.py                            * DONE
-
-2016-12-29
-    * rename all RuntimeErrors in xlattice/crypto.py XLCryptoError      * DONE
-
-2016-12-26
-    * DIR_FLAT etc should be an enumeration (IntEnum); then use         * DONE
-        .name to retrieve string form of names                          * DONE
-
 2016-12-19
     * get rid of debug messages in xlattice/u/__init__.py
         (search on DO NOT REMOVE THIS CASUALLY)
@@ -116,25 +81,13 @@
     * pylint it
 
 2016-11-10, edited from -09
-    * pyCrypto has not been supported since 2012.  cryptodome is        * DONE
-        drop-in replacement.  sudo pip3 install cryptodome.             * DONE
-        - THIS WAS A MISTAKE: it is *not* a drop-in replacement.        * YEP
-        - uninstall pycryptodome                                        * DONE
-        - install pycryptodomex, which does not overwrite pycrypto      * DONE
-        - re-install pycrypto                                           * DONE
-
-    * github/pyca/cryptography is candidate for replacement.
-        - install                                                       * DONE
+    * github/pyca/cryptography is candidate for replacing pyCrypto
         - write substantial tests of relevant bits of all three
             packages
 
 2016-10-04
-    * README.md needs to be corrected for utilities                     * DONE
     * README also needs better explantion of the function of those
         uitlities
-
-2016-10-24
-    * rewrite gen_node_id{1,3} as conventional scripts using argparse   * DONE
 
 2016-10-22
     * import of sha3 should be conditional: sys.version_info < (3, 6)
@@ -156,7 +109,6 @@
 2016-09-15, edited from -06-03, edited from -02
     * the class UDir
         - the constructor should create L,
-        - should also create tmp/ and in/ if these to not exist         * DONE
         - class need to run alongside the existing packages until
             class implementation is complete
     * then modify using projects to use UDir:
@@ -166,56 +118,27 @@
         - magicsack     # modified to use u16
         - upax
     * document all of this
-    * the separate packages uFlat, u16, and u256 should be dropped      * DONE
-        when UDir is stable and all users converted                     * DONE
 
 2016-09-09
     * verifyContentKeys does not handle SHA3
         - and otherwise not checked
 
-2016-07-24
-    * get rid of extra subdirs left by uReStruc                         * DONE
-2016-07-20
-    * DIR_FLAT etc should be a class attribute                          * DONE
-
 2016-07-19
     * part of testUStats.py is stubbed; implement it
-    * modify uStats to display discovered dirStruc and usingSHA1        * DONE
     * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
         as the signature for usingSHA1?
 
-2016-07-19, edit from -18
-    * write uReStruc, a tool to restructure a uDir directory to         * DONE
-        a different dirStruc                                            * DONE
-        - particular interest is in moving DIR_FLAT files into          * DONE
-            DIR256x256 subdirectories                                   * DONE
-        - pay attention to None files (used to discover whether         * DONE
-            usingSHA1)                                                  * DONE
-        - files that are in the right place should be left there        * DONE
-
 2016-07-17
-    * implement UDir.delete(key), where key is a hex value, returning   * DONE
-        False if not present, True otherwise                            * DONE
     * test uDir.delete()
-
     * elaborate testing of UStats, getting code for building random
         directory tree from ../nlhtree_py/testDropFromU.py
-
-2016-07-15
-    * add UStats object with fields                                     * DONE
-        - initially subDirCount, subSubDirCount, leafCount, oddCount,   * DONE
-            bool hasL, bool hasNodeID                                   * DONE
-        - then add minCount (init MAXINT, maxCount (init 0)             * DONE
 
 2016-06-14
     * testU contains many debug comments, needs to be cleaned up
 
 2016-06-03
-    * testSHA3_256.py gets an import error                              * FIXED
-
     * the class UDir
         - the constructor should create L,
-        - should also create tmp/ and in/ if these to not exist         * DONE
         - class need to run alongside the existing packages until
             class implementation is complete
     * then modify using projects to use UDir:
@@ -225,52 +148,24 @@
         - magicsack     # modified to use u16
         - upax
     * document all of this
-    * the separate packages uFlat, u16, and u256 should be dropped      * DONE
-        when UDir is stable and all users converted                     * DONE
 
 2016-09-09
     * verifyContentKeys does not handle SHA3
         - and otherwise not checked
 
-2016-07-24
-    * get rid of extra subdirs left by uReStruc                         * DONE
-2016-07-20
-    * DIR_FLAT etc should be a class attribute                          * DONE
-
 2016-07-19
     * part of testUStats.py is stubbed; implement it
-    * modify uStats to display discovered dirStruc and usingSHA1        * DONE
     * THINK ABOUT THIS: is there any problem with using SHAx_HEX_NONE
         as the signature for usingSHA1?
 
-2016-07-19, edit from -18
-    * write uReStruc, a tool to restructure a uDir directory to         * DONE
-        a different dirStruc                                            * DONE
-        - particular interest is in moving DIR_FLAT files into          * DONE
-            DIR256x256 subdirectories                                   * DONE
-        - pay attention to None files (used to discover whether         * DONE
-            usingSHA1)                                                  * DONE
-        - files that are in the right place should be left there        * DONE
-
 2016-07-17
-    * implement UDir.delete(key), where key is a hex value, returning   * DONE
-        False if not present, True otherwise                            * DONE
     * test uDir.delete()
 
     * elaborate testing of UStats, getting code for building random
         directory tree from ../nlhtree_py/testDropFromU.py
 
-2016-07-15
-    * add UStats object with fields                                     * DONE
-        - initially subDirCount, subSubDirCount, leafCount, oddCount,   * DONE
-            bool hasL, bool hasNodeID                                   * DONE
-        - then add minCount (init MAXINT, maxCount (init 0)             * DONE
-
 2016-06-14
     * testU contains many debug comments, needs to be cleaned up
-
-2016-06-03
-    * testSHA3_256.py gets an import error                              * FIXED
 
 2016-06-03, edited from -02, edited from -05-11
     * access to the RNG object in xlattice.u.UDir should be
@@ -313,30 +208,12 @@
     * eventually need 2-phase lock (lock A,B,C, unlock C,B,A)
         - and a lock daemon
 
-    * need tests for xlattice/u                                         * DONE
 2015-05-14
     * myData/ myU1/ myU2 need to be added to .gitignore,
         which requires a .gitignore-local functionality
-    * move SHA1* constants to xlattice package                          * DONE
     * need test for xlattice.ui (passwdStrength)
-2015-05-11
-    * gittifyProject.sh  xlattice_py >& junk.gittify                    * DONE
-    * ghpTheProject.sh   xlattice_py >& junk.ghp                        * DONE
-        - seems OK but index.html at jddixon.github.io/xlattice_py      * OK...
-            is 'dummy index' and LICENSE.html gets a 404                * OK...
-    * splitTheProject.sh xlattice_py                                    * OK...
-        - FAILED because sharedev subdir had not been deleted           * OK...
-        - manually fixed but still see 'dummy index' on github.io       * OK...
-        - touched *.html in sharedev and then git commit from           * OK...
-            sharedev; this worked                                       * OK...
 
 FROM ~/dev/py/u/TODO ================================================
-
-2015-03-19
-    * if eg myU2/tmp does not exist, the library must create it         * DONE
-
-2012-07-28
-    * FIX: testU256x256.py fails (because testU/tmp does not exist?)    * DONE
 
 2012-07-02
     * added u.getData(uPath, key); needs to be tested
