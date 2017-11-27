@@ -2,6 +2,8 @@
 
 # ~/dev/py/xlattice_py/uPreen
 
+"""regularize permissions in a U directory structure"""
+
 import sys
 from argparse import ArgumentParser
 import os
@@ -19,11 +21,15 @@ DIR_PERM = 0o755
 
 
 def do_preen(options):
+    """
+    Apply the selected options, regularizing permissions in the U
+    directory structure.
+    """
     b_dir = options.b_dir
-    group = options.group
-    just_show = options.just_show
-    user = options.user
-    verbose = options.verbose
+    # group = options.group
+    # just_show = options.just_show
+    # user = options.user
+    # verbose = options.verbose
 
     os.chdir(b_dir)
 
@@ -55,8 +61,7 @@ def do_preen(options):
 
 
 def main():
-
-    # program defaults ----------------------------------------------
+    """ Collect user options. """
 
     # parse the command line ----------------------------------------
     desc = 'regularize permissions in a U directory structure'

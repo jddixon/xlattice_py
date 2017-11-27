@@ -1,12 +1,12 @@
 # xlattice_py/xlattice/secret.py
 
-""" A symmetric cryptographic key. """
+""" A secret, a symmetric cryptographic key. """
 
 from abc import ABCMeta, abstractmethod
 
 
 class Secret(metaclass=ABCMeta):
-    """ A symmetric cryptographic key. """
+    """ A secret, a symmetric cryptographic key. """
 
     @property
     @abstractmethod

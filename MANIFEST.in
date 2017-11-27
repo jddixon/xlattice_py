@@ -9,7 +9,13 @@ recursive-include src *
 recursive-include tests *
 recursive-include ghpDoc *
 recursive-include .dvcz *
+#
+makeMoreNodeIDs
+moreNodeIDs
+#
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
+#
+recursive-exclude tmp *
 global-exclude junk* .*swp *.bak .cache .coveragerc
 prune   .svn

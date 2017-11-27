@@ -40,7 +40,6 @@ class PyCrNode(object):
                 # END
 
                 # we have called checkUsingSHA(): one of these cases must apply
-                # pylint:disable=redefined-variable-type
                 if hashtype == HashTypes.SHA1:
                     sha = hashlib.sha1()
                 elif hashtype == HashTypes.SHA2:
@@ -118,7 +117,6 @@ class Node(PyCrNode):
 #       # END
 
         # generate the nodeID from the public key
-        # pylint: disable=redefined-variable-type
         if hashtype == HashTypes.SHA1:
             sha = hashlib.sha1()
         elif hashtype == HashTypes.SHA2:

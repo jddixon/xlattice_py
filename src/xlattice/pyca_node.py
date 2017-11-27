@@ -152,7 +152,6 @@ class Node(AbstractNode):
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.PKCS1)
 
-        # pylint: disable=redefined-variable-type
         if hash_types == HashTypes.SHA1:
             sha_ = hashes.SHA1
         elif hash_types == HashTypes.SHA2:
