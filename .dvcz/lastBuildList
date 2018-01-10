@@ -8,18 +8,22 @@ k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
 xlattice_py
-2017-11-27 01:21:43
+2018-01-10 20:05:31
 # BEGIN CONTENT #
 xlattice_py
+ .cache
+  v
+   cache
+    lastfailed bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f
  .dvcz
-  builds 1881e149141d78e5d827b58e52a623490f689987
-  lastBuildList 8bdb02e7585f28e4fdbe473abf6a5489f70bcbd8
+  builds ba9fe6d21d7c1979f1c94ac907f6bda39a8e3c65
+  lastBuildList 01c526b2a0bb8db0f9143201449cc9d5fcacca3a
   projCfg d01dd2078f83dd01f63802411beb910a599e8418
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  projConfig.toml 71b89bc94db48a15f96ce347539653d36d06b5c7
+  projConfig.toml a29ddb742783616e8cdf36909ade996962635a39
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES dc212dc7470c83e34d7d793392e4f775e053d27c
+ CHANGES 54054fe90bb1997345bcf522a25585142145884c
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in 89b8c109e3a8af9ee0a9ebca14c986c66ff344de
  README.md ed039d87c8586698c6ac557fa69d406f6281ec82
@@ -50,7 +54,7 @@ xlattice_py
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
  requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
  scripts
- setup.py 650de50149f820e415b4ea485b4a6de09d1c54cf
+ setup.py ec1141c97acbcfa02f7778bf29d88a2ad77326c8
  sha-3bytetestvectors
   SHA3_224LongMsg.rsp 984954b6a45f247de5d1a771e3b09ae9086c2b25
   SHA3_224Monte.rsp 34d4abdc2efa0b0833cbb5aeb2d4be949667c17f
@@ -104,7 +108,7 @@ xlattice_py
   u_stats 029de17788f927fe4f7757b022fe075ceea6ca19
   verify_content_keys f3001d05794895c64cdacc2f1264f7a200a20bc3
   xlattice
-   __init__.py 4e2299e3ce74e39424abac69e68e10847065975c
+   __init__.py fc727ab1c37ccffe4930ae18f1d596a5a74fbafb
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
@@ -114,7 +118,7 @@ xlattice_py
    digsigner.py 83423c2576c7732c1df463f4b1e93e146a37d4ba
    endpoint.py 19ea0566d9d04fa99f051c4a0977d650ef3422fb
    ftlog.py b6052ed9e1c8f2725c81ca81a23bee3344e57cd6
-   hello_and_reply.py b7cba9fb7b0992513f4872a9c59962a9b8e7cef2
+   hello_and_reply.py f25535599ac00a7c1a27b29474104e9851a2eed5
    key.py e5ae0650aa85d6ef9190807758968c4001ea2997
    lfs.py b820c00a50480f9e7ba12257936cc2ec3a791f7a
    node.py 65a11284a7d28d3bf3d36113435ac5f21d01ff42
@@ -122,7 +126,7 @@ xlattice_py
    proc_lock.py 73593e416dda95cb48e1eefca029fafd8e587f95
    protocol.py 16f16078ea274a71cf4c470d63f6a1e96e79c75a
    public_key.py 2e7e9196f98a3a6f85472a65428cf893196c7d7d
-   pyca_hello_and_reply.py e2e49e72f36ce44c939651b03b494c863df1e4a2
+   pyca_hello_and_reply.py 5592a7d6eb7848f70feeeacd6b411e89da0bb8d1
    pyca_node.py b31a2429163c04476ecf8119650bc637a9848aa5
    pycr_node.py d2977dfe8fc924c2337a30b346b92e3e76617c24
    secret.py d6c9bc0528955f0ab4ec5398e2233aae4a76be7b
@@ -145,15 +149,15 @@ xlattice_py
   test_crypto.py 1603d6af33c59e285b6ce9e5069d026848f4a76d
   test_decimal_version.py 73cb375c8718eb75c9821f5f9a5f4e98db2e8fed
   test_get_exclusions.py 3155122a38b2181653830a67a788fd04db9cdd30
-  test_hello_and_reply.py bab2275695ac4ca5c390f47c41944a9200252974
+  test_hello_and_reply.py bcfb5bb29c4a01949e485258890ca6d883531aef
   test_lib_ev.py 0ed29c4fb063e7ce11849f6472bde67edbebec87
   test_log_mgr.py 165c578701ac7b04aa2c369825fa7c673c5bf103
   test_pkcs7.py e034c283a7725f734c0468bcce301672ca6c8ba2
   test_proc_lock.py acf3619639af016cb0714705db2e2fbc0fa02b3f
-  test_pyca_hello_and_reply.py 42308842a631fa4c9cc86fc816979765d6fae267
+  test_pyca_hello_and_reply.py dca8b91d3936267be0415f2e8824ec442c3ddfbd
   test_pyca_node.py 41e2121557ff33025341e704527d132a3b5f1934
   test_pyca_pkcs7.py e2d062233746b27c5a4f3851add21b457819a59d
-  test_pyca_rsa.py e3e84e02966fec9073a0fbb649315f6b7430276b
+  test_pyca_rsa.py 76a82e7f8f679bb5f03defe17d61e7a1b1a1cab2
   test_pycr_node.py 2606c912d25e54a36fcc102dcbc73933aa0db146
   test_regexes_from_wildcards.py 018e7f42e95c813107896f2d7af001547b27b284
   test_rsa.py cfbf6fd5513fdb1e786df86c8bba66363f0056f4
@@ -167,4 +171,4 @@ xlattice_py
  tox.ini bf715f436a27f1b601d79d808e6bee34b5bdc925
 # END CONTENT #
 
-FCmH9qyg8I2fFjt0lWM/6B8tAbOwR/egjyIgdSOvjtxcFurA0fzFAr8de7YOSb1Ew1/DlHjA1hspdzls5PXLd4UFvdyTZLvBPe8TnSinxWLg3OQxHMA7PWrf4eH7M5Nbt+iB0NU6e2WVTga+3Zo6+7dAnnQ2BkBuZlDrKkwTQU5dLmMRSYbyL0t2/a3eKPXoj/gTLSeqiUGI7G12G7NzSXLui03iW7/bv5JmBusb/TCxSq3TlqwNH+dKL8xxfLxbLrVOQ2/sNi3aPv688UuRvDsM7is0Gxp++UOVZGa+aBJ33rjh3Vvab2Y9XGTvZ4cQWo2vXonBR06mSSAa42ur5A==
+lgc8d+ex3G0k7L9pn/JhdZVjMGoP4GK4otapk02Ftz70h36BahZ7OOPtFUVCClzi/Z+ADrC7XmYzjMFTHtmwR6Wf/yJJlZuyp7ZmtBQWBfXfFhhERGUsfrnMl5YYiRDSDgI4oAxzGiQ2SFkXLBw3Z2j+l0HpO567T1U03FqlZXcXU+wKv4c9boXfwNTAQm5rlUsa7cmVLYR5oMK7kegv6wCoNvRBLQef80clEfCM8N1XxoK1oGHcSQ+gkM8Z6UiGNbh6ZdC4Hfk0FiRCthYs48ykL5kS4QZrmIHSwTaH2JfQR19kKXJcv8yCKu1ZJPiUp/5QoveskTouomS71YnY2g==

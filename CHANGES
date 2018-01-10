@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.7.20
+    2018-01-10
+        * prepare to move pyca-based RSA, hello-and-reply code      SLOC 7276
 v1.7.19
     2017-11-26
         * u_re_struc: fixed reference to non-existent UDir methods  SLOC 7240
@@ -397,6 +400,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 

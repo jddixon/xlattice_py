@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 # xlattice_py/testHelloAndReply.py
 
-""" Test handling of hello-and-reply sequence. """
+"""
+Test handling of hello-and-reply sequence.
+
+===============================================================
+THIS CODE IS BEING REPLACED BY PYCA-BASED CODE IN  xlcrypto_py.
+===============================================================
+
+"""
 
 import os
 import time
 import unittest
+import warnings
+
 from Crypto.PublicKey import RSA
 import rnglib
 
@@ -24,6 +33,7 @@ class TestRSA_OAEP(unittest.TestCase):
     """ Test handling of hello-and-reply sequence. """
 
     def setUp(self):
+        warnings.warn("being replaced by pyca-based code in xlcrypto_py")
         now = time.time()
         self.rng = rnglib.SimpleRNG(now)
         if not os.path.exists(TEST_DIR):

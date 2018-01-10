@@ -5,6 +5,11 @@ Implementation of the hello-and-reply protocol.
 
 This allows a client to establish a secure conntection to a server
 whose RSA public key the client knows.
+
+========================================
+THIS CODE IS BEING MOVED TO xlcrypto_py.
+========================================
+
 """
 
 from cryptography.hazmat.backends import default_backend
@@ -12,6 +17,7 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.asymmetric import padding as asym_padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.hashes import SHA1
+import warnings
 
 from rnglib import SystemRNG
 from xlattice.crypto import AES_BLOCK_BYTES, AES_BLOCK_BITS
@@ -47,6 +53,8 @@ def client_encrypt_hello(version, ck_):
     * key1,     the 32-byte AES key
     * salt1,    an 8-byte random value
     """
+
+    warnings.warn("being moved to xlcrypto_py")
 
     rng = SystemRNG()
 
@@ -94,6 +102,8 @@ def server_decrypt_hello(ciphertext, ck_priv):
     the client, discarding the OAEP padding.
     """
 
+    warnings.warn("being moved to xlcrypto_py")
+
     msg = ck_priv.decrypt(
         ciphertext,
         asym_padding.OAEP(
@@ -124,6 +134,8 @@ def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
     The method returns the server-selected AES iv2 and key2, salt2, and
     the AES-encrypted ciphertext.
     """
+
+    warnings.warn("being moved to xlcrypto_py")
 
     # The cast to bytes avoids an "argument 1 must be read-only pinned buffer"
     # error
@@ -176,6 +188,8 @@ def client_decrypt_hello_reply(ciphertext, iv1, key1):
     The pair iv2/key2 are to be used in future communications.
     Salt1 is returned to help confirm the integrity of the operation.
     """
+
+    warnings.warn("being moved to xlcrypto_py")
 
     iv1 = bytes(iv1)
     key1 = bytes(key1)

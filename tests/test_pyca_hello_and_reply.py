@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 # xlattice_py/test_pyca_hello_and_reply.py
 
-""" Test handling of hello-and-reply sequence. """
+"""
+Test handling of hello-and-reply sequence.
+
+========================================
+THIS CODE IS BEING MOVED TO xlcrypto_py.
+========================================
+
+"""
 
 import os
 import time
 import unittest
+import warnings
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
@@ -28,6 +36,7 @@ class TestRSA_OAEP(unittest.TestCase):
     """ Test handling of hello-and-reply sequence. """
 
     def setUp(self):
+        warnings.warn("moved to xlcrypto_py")
         now = time.time()
         self.rng = rnglib.SimpleRNG(now)
         if not os.path.exists(TEST_DIR):

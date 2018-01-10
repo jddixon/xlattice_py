@@ -2,12 +2,17 @@
 # xlattice_py/test_pyca_rsa.py
 
 """
-Test RSA crypto routines.
+Test pyca RSA crypto routines.
 
 This module specifically exercise github.com/pyca/cryptography.  The
 python XLattice packages currently use pycrypto.  Should testing
 confirm that this is appropriate, we will be replacing pycrypto with
 pyca cryptography throughout.
+
+========================================
+THIS CODE IS BEING MOVED TO xlcrypto_py.
+========================================
+
 """
 
 import base64
@@ -28,6 +33,7 @@ class TestRSA(unittest.TestCase):
     """ Test RSA crypto routines.  """
 
     def setUp(self):
+        warnings.warn("moved to xlcrypto_py")
         self.rng = SimpleRNG(time.time())
 
     def tearDown(self):

@@ -1,5 +1,7 @@
 # xlattice_py/xlattice/helloAndReply.py
 
+import warnings
+
 from Crypto.Cipher import PKCS1_OAEP, AES
 # from Crypto.PublicKey import RSA
 from rnglib import SystemRNG
@@ -38,6 +40,8 @@ def client_encrypt_hello(version, ck_):
     * salt1,    an 8-byte random value
     """
 
+    warnings.warn("being replaced by pyca-based code in xlcrypto_py")
+
     rng = SystemRNG()
 
     iv1 = bytearray(AES_BLOCK_SIZE)
@@ -73,6 +77,8 @@ def server_decrypt_hello(ciphertext, ck_priv):
     the client, discarding the OAEP padding.
     """
 
+    warnings.warn("being replaced by pyca-based code in xlcrypto_py")
+
     cipher = PKCS1_OAEP.new(ck_priv)
     msg = cipher.decrypt(ciphertext)
 
@@ -99,6 +105,8 @@ def server_encrypt_hello_reply(iv1, key1, salt1, version2s):
     The method returns the server-selected AES iv2 and key2, salt2, and
     the AES-encrypted ciphertext.
     """
+
+    warnings.warn("being replaced by pyca-based code in xlcrypto_py")
 
     # The cast to bytes avoids an "argument 1 must be read-only pinned buffer"
     # error
@@ -144,6 +152,8 @@ def client_decrypt_hello_reply(ciphertext, iv1, key1):
     The pair iv2/key2 are to be used in future communications.
     Salt1 is returned to help confirm the integrity of the operation.
     """
+
+    warnings.warn("being replaced by pyca-based code in xlcrypto_py")
 
     iv1 = bytes(iv1)
     key1 = bytes(key1)
