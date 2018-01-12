@@ -11,6 +11,7 @@ from abc import ABCMeta
 import os
 import sys
 import hashlib
+import warnings
 
 from Crypto.PublicKey import RSA as rsa
 
@@ -29,6 +30,8 @@ class BaseNode(ABCMeta):
 
     def __init__(self, hashtype=HashTypes.SHA2, sk_pub=None, ck_pub=None,
                  node_id=None):
+
+        warnings.warn("deprecated: use xlnode_py instead")
 
         check_hashtype(hashtype)
         self._hashtype = hashtype

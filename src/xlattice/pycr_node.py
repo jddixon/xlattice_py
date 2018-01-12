@@ -10,6 +10,7 @@ sorted out.
 import os
 import sys
 import hashlib
+import warnings
 
 from Crypto.PublicKey import RSA as rsa
 
@@ -29,6 +30,8 @@ class PyCrNode(object):
     """
 
     def __init__(self, hashtype=HashTypes.SHA2, pub_key=None, node_id=None):
+
+        warnings.warn("deprecated: use xlnode_py instead")
 
         check_hashtype(hashtype)
         self._hashtype = hashtype

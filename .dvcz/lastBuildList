@@ -8,22 +8,18 @@ k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
 xlattice_py
-2018-01-10 20:05:31
+2018-01-12 19:37:04
 # BEGIN CONTENT #
 xlattice_py
- .cache
-  v
-   cache
-    lastfailed bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f
  .dvcz
-  builds ba9fe6d21d7c1979f1c94ac907f6bda39a8e3c65
-  lastBuildList 01c526b2a0bb8db0f9143201449cc9d5fcacca3a
+  builds 7164cbc64b21a6ba3047436a9dcaed6a173e06bc
+  lastBuildList 5f720a3cfd06478c0ede69620bb2b008c2396f42
   projCfg d01dd2078f83dd01f63802411beb910a599e8418
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  projConfig.toml a29ddb742783616e8cdf36909ade996962635a39
+  projConfig.toml 7fb83990f2d30ab96de3a25d36c23b8ea03c428c
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 54054fe90bb1997345bcf522a25585142145884c
+ CHANGES 1c16fa0e40a7cd062e24b8966c26292941853d40
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in 89b8c109e3a8af9ee0a9ebca14c986c66ff344de
  README.md ed039d87c8586698c6ac557fa69d406f6281ec82
@@ -54,7 +50,7 @@ xlattice_py
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
  requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
  scripts
- setup.py ec1141c97acbcfa02f7778bf29d88a2ad77326c8
+ setup.py 8050c1d5eb0fd5473dd24108120fbb222787044e
  sha-3bytetestvectors
   SHA3_224LongMsg.rsp 984954b6a45f247de5d1a771e3b09ae9086c2b25
   SHA3_224Monte.rsp 34d4abdc2efa0b0833cbb5aeb2d4be949667c17f
@@ -108,7 +104,7 @@ xlattice_py
   u_stats 029de17788f927fe4f7757b022fe075ceea6ca19
   verify_content_keys f3001d05794895c64cdacc2f1264f7a200a20bc3
   xlattice
-   __init__.py fc727ab1c37ccffe4930ae18f1d596a5a74fbafb
+   __init__.py 5d12aa52d2a05e6169ff378238db5a0539249c83
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
@@ -121,14 +117,14 @@ xlattice_py
    hello_and_reply.py f25535599ac00a7c1a27b29474104e9851a2eed5
    key.py e5ae0650aa85d6ef9190807758968c4001ea2997
    lfs.py b820c00a50480f9e7ba12257936cc2ec3a791f7a
-   node.py 65a11284a7d28d3bf3d36113435ac5f21d01ff42
+   node.py c0c6916141efff8ac8e53744dec580b249922252
    overlay.py d998b312957f6774fa9395fff49f91b3080f4d51
    proc_lock.py 73593e416dda95cb48e1eefca029fafd8e587f95
    protocol.py 16f16078ea274a71cf4c470d63f6a1e96e79c75a
    public_key.py 2e7e9196f98a3a6f85472a65428cf893196c7d7d
    pyca_hello_and_reply.py 5592a7d6eb7848f70feeeacd6b411e89da0bb8d1
-   pyca_node.py b31a2429163c04476ecf8119650bc637a9848aa5
-   pycr_node.py d2977dfe8fc924c2337a30b346b92e3e76617c24
+   pyca_node.py acc662a2c547ed021f1ca62b5b6a5898cb266c35
+   pycr_node.py f16dd08648e0bbba07f04e0c0586bce27dfc19e9
    secret.py d6c9bc0528955f0ab4ec5398e2233aae4a76be7b
    sig_verifier.py 1dcac7535c0baca8516db1d0c8fffb03c11ae67c
    stats.py 25d84fb73a5ae3f7930bbfd526f3a4588bd66264
@@ -155,7 +151,7 @@ xlattice_py
   test_pkcs7.py e034c283a7725f734c0468bcce301672ca6c8ba2
   test_proc_lock.py acf3619639af016cb0714705db2e2fbc0fa02b3f
   test_pyca_hello_and_reply.py dca8b91d3936267be0415f2e8824ec442c3ddfbd
-  test_pyca_node.py 41e2121557ff33025341e704527d132a3b5f1934
+  test_pyca_node.py b4b1c694078e8c1f8df259d08574f014fcf532fd
   test_pyca_pkcs7.py e2d062233746b27c5a4f3851add21b457819a59d
   test_pyca_rsa.py 76a82e7f8f679bb5f03defe17d61e7a1b1a1cab2
   test_pycr_node.py 2606c912d25e54a36fcc102dcbc73933aa0db146
@@ -171,4 +167,4 @@ xlattice_py
  tox.ini bf715f436a27f1b601d79d808e6bee34b5bdc925
 # END CONTENT #
 
-lgc8d+ex3G0k7L9pn/JhdZVjMGoP4GK4otapk02Ftz70h36BahZ7OOPtFUVCClzi/Z+ADrC7XmYzjMFTHtmwR6Wf/yJJlZuyp7ZmtBQWBfXfFhhERGUsfrnMl5YYiRDSDgI4oAxzGiQ2SFkXLBw3Z2j+l0HpO567T1U03FqlZXcXU+wKv4c9boXfwNTAQm5rlUsa7cmVLYR5oMK7kegv6wCoNvRBLQef80clEfCM8N1XxoK1oGHcSQ+gkM8Z6UiGNbh6ZdC4Hfk0FiRCthYs48ykL5kS4QZrmIHSwTaH2JfQR19kKXJcv8yCKu1ZJPiUp/5QoveskTouomS71YnY2g==
+b7sa1T/Ra4UBaA5cCYnt/IadcD1DR6vkmc6XCQEhkcI4QeSJVtqqStLN757BGZFloQavxPwrQLbvQZPiXg3KPVzVSjkMzAjXQpUMUV/rxqloecDlbLUBO2/u9C9cuD93BeC8PtOapugp8x7H9Z8426Ox4059+MrA7txnCDWShrsDmsjMX3529q2NVUWdMX0tH0EFftr3nLKHzC3ZQuhhN+5Xdvt322g/6mo7sDcDUL/qMK98+xRnXu+dv0eOZx7pnF3aTe/k7UYFfzBZWIOT8sv885QZul1c71YuLdKIlqQv4GcEtdloa0XU6yXZiiSZ0jy/s9EQiZ90c7ibz2K7rw==

@@ -5,6 +5,7 @@
 
 import time
 import unittest
+import warnings
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.backends import default_backend
@@ -25,7 +26,7 @@ class TestNode(unittest.TestCase):
     """
 
     def setUp(self):
-        pass
+        warnings.warn("moved to xlnode_py")
 
     def tearDown(self):
         pass

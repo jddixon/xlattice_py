@@ -3,6 +3,7 @@
 """ Functions implementing the XLattice Node. """
 
 import base64
+import warnings
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
@@ -25,6 +26,8 @@ class AbstractNode(object):
 
     def __init__(self, hash_types=HashTypes.SHA2,
                  sk_=None, ck_=None, node_id=None):
+
+        warnings.warn("deprecated: use xlnode_py instead")
 
         check_hashtype(hash_types)
         self._hash_types = hash_types
