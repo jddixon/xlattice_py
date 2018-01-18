@@ -8,12 +8,17 @@ import sys
 from enum import IntEnum
 
 __all__ = ['__version__', '__version_date__',
-           'SHA1_BIN_NONE', 'SHA1_HEX_NONE',
+           'SHA1_BIN_NONE', 'SHA1_HEX_NONE', 'SHA1_B64_NONE',
+           'SHA1_BIN_LEN', 'SHA1_HEX_LEN',
+
            'SHA2_BIN_NONE', 'SHA2_HEX_NONE',
+           'SHA2_BIN_LEN', 'SHA2_HEX_LEN',
+
            'SHA3_BIN_NONE', 'SHA3_HEX_NONE',
-           'SHA1_B64_NONE',
-           'SHA1_BIN_LEN', 'SHA2_BIN_LEN', 'SHA3_BIN_LEN',
-           'SHA1_HEX_LEN', 'SHA2_HEX_LEN', 'SHA3_HEX_LEN',
+           'SHA3_BIN_LEN', 'SHA3_HEX_LEN',
+
+           'BLAKE2B_BIN_NONE', 'BLAKE2B_HEX_NONE',
+           'BLAKE2B_BIN_LEN', 'BLAKE2B_HEX_LEN'
 
            'HashTypes', 'UnrecognizedHashTypeError',
 
@@ -25,8 +30,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.9.0'
-__version_date__ = '2018-01-14'
+__version__ = '1.10.0'
+__version_date__ = '2018-01-18'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -46,6 +51,10 @@ SHA2_HEX_NONE =\
 SHA3_HEX_NONE =\
     'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'
 
+# blake2b of an empty string or file, 32-byte = 256 bit digest
+BLAKE2B_HEX_NONE = \
+    '0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8'
+
 # The lengths of SHA byte arrays or hex strings respectively
 SHA1_BIN_LEN = 20
 SHA1_HEX_LEN = 40
@@ -56,10 +65,14 @@ SHA2_HEX_LEN = 64
 SHA3_BIN_LEN = 32
 SHA3_HEX_LEN = 64
 
+BLAKE2B_BIN_LEN = 32
+BLAKE2B_HEX_LEN = 64
+
 # Binary values
 SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
+BLAKE2B_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
 
 
 class HashTypes(IntEnum):
@@ -67,6 +80,7 @@ class HashTypes(IntEnum):
     SHA1 = 1
     SHA2 = 2
     SHA3 = 3
+    BLAKE2B = 4     # digest_size=32
 
 
 class UnrecognizedHashTypeError(RuntimeError):
@@ -76,7 +90,7 @@ class UnrecognizedHashTypeError(RuntimeError):
 
 # -- argParse related -----------------------------------------------
 
-# handle -1, -2, -3, -u/--u_path,  -v/--verbose
+# handle -1, -2, -3, -4, -u/--u_path,  -v/--verbose
 
 
 def check_hashtype(hashtype=None):
@@ -107,6 +121,9 @@ def parse_hashtype_etc(parser):
     parser.add_argument('-3', '--hashtype3', action='store_true',
                         help='using the 256-bit SHA3 (Keccak-256) hash')
 
+    parser.add_argument('-4', '--hashtype4', action='store_true',
+                        help='using the 256-bit BLAKE2B hash')
+
     parser.add_argument('-u', '--u_path',
                         help='path to uDir')
 
@@ -128,9 +145,12 @@ def fix_hashtype(args):
         args.hashtype = HashTypes.SHA2
     elif args.hashtype3:
         args.hashtype = HashTypes.SHA3
+    elif args.hashtype4:
+        args.hashtype = HashTypes.BLAKE2B
     args.__delattr__('hashtype1')
     args.__delattr__('hashtype2')
     args.__delattr__('hashtype3')
+    args.__delattr__('hashtype4')
 
 
 def show_hashtype_etc(args):

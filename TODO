@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
+2018-01-17
+    * move class SP and pkcs7 stuff to xlcrypto_py
+    
 2018-01-12
     * drop code deprecated because moved to xlnode_py, xlcrypto_py  
         - then bump version to 1.9.0

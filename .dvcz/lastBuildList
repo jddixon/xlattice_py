@@ -8,26 +8,22 @@ k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
 xlattice_py
-2018-01-14 23:41:07
+2018-01-18 20:46:23
 # BEGIN CONTENT #
 xlattice_py
- .cache
-  v
-   cache
-    lastfailed e26cc70f67dc5f73855185d5cd0afc71b47561a2
  .dvcz
-  builds 22c1e69e9ec8cb1d38db2d7c76749db5641f6782
-  lastBuildList 9281478f3aeb95e711c2415510ce0ac021e7772d
+  builds 84ee68f26dabe1163f566d1a7ff55cf03b80b455
+  lastBuildList 054412aba40e53550c02f3756f80e9e0a1dc7ae4
   projCfg d01dd2078f83dd01f63802411beb910a599e8418
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  projConfig.toml 410104cee11ce9364d16d67c1d63538b27c7fab3
+  projConfig.toml a1fabb35e91f911a5650753a7961d228d7536867
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 43584e2975340776d61058c8bf23c380f6462e06
+ CHANGES 84258de4189cb8f77035db988bb294120360cca2
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in 89b8c109e3a8af9ee0a9ebca14c986c66ff344de
  README.md ed039d87c8586698c6ac557fa69d406f6281ec82
- TODO 4e1cf509c47cc7b9836073e7ed1ea778ab9d7d7c
+ TODO dec770d69f2961ebe6afaaf3f9658dd44e2bd7db
  bkp2U b0ce91974308a94f23de944ce91f629ff9d69ec5
  checkCoverage 208128545a3342689250a331031e3b112573d54d
  countem a7b7e3192b123c0a673742cb1f0e43516f301a07
@@ -54,7 +50,7 @@ xlattice_py
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
  requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
  scripts
- setup.py 5342cf2a44bc27d882438dd307b7caf89aaa5197
+ setup.py 6be555e895f28f6da0d73f50e35b1b92226f25a5
  sha-3bytetestvectors
   SHA3_224LongMsg.rsp 984954b6a45f247de5d1a771e3b09ae9086c2b25
   SHA3_224Monte.rsp 34d4abdc2efa0b0833cbb5aeb2d4be949667c17f
@@ -108,17 +104,16 @@ xlattice_py
   u_stats 029de17788f927fe4f7757b022fe075ceea6ca19
   verify_content_keys f3001d05794895c64cdacc2f1264f7a200a20bc3
   xlattice
-   __init__.py 08ffcea0cf838732c9fc2d04c4780ab38cbef12b
+   __init__.py 4b33baad1ecfd874ce269664a365ad4701e08561
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
    connector.py 05d81642f00c50f5360c857dc39a9cf81053a5c4
    context.py 927a4e6cf5735bc46c76ddf2571d08172d116ca9
-   crypto.py 78936298e74b376ba87280f9bc923985d9acdecf
+   crypto.py 163bda98bc471c58e3bcbd5952f91f34c201ea87
    digsigner.py 83423c2576c7732c1df463f4b1e93e146a37d4ba
    endpoint.py 19ea0566d9d04fa99f051c4a0977d650ef3422fb
    ftlog.py b6052ed9e1c8f2725c81ca81a23bee3344e57cd6
-   hello_and_reply.py f25535599ac00a7c1a27b29474104e9851a2eed5
    key.py e5ae0650aa85d6ef9190807758968c4001ea2997
    lfs.py b820c00a50480f9e7ba12257936cc2ec3a791f7a
    overlay.py d998b312957f6774fa9395fff49f91b3080f4d51
@@ -140,17 +135,14 @@ xlattice_py
   test_cft_log_for_py.py 17ba41ae00a9278d0ac5ec1546f482efb68e2025
   test_cft_log_obj.py e50e4503050262c97275a7ab8cbe5720a853951d
   test_context.py dcef72ada180d9a57d05630127cba3eae067ffb2
-  test_crypto.py 1603d6af33c59e285b6ce9e5069d026848f4a76d
   test_decimal_version.py 73cb375c8718eb75c9821f5f9a5f4e98db2e8fed
   test_get_exclusions.py 3155122a38b2181653830a67a788fd04db9cdd30
   test_lib_ev.py 0ed29c4fb063e7ce11849f6472bde67edbebec87
   test_log_mgr.py 165c578701ac7b04aa2c369825fa7c673c5bf103
-  test_pkcs7.py e034c283a7725f734c0468bcce301672ca6c8ba2
   test_proc_lock.py acf3619639af016cb0714705db2e2fbc0fa02b3f
-  test_pyca_pkcs7.py e2d062233746b27c5a4f3851add21b457819a59d
   test_regexes_from_wildcards.py 018e7f42e95c813107896f2d7af001547b27b284
-  test_rsa.py cfbf6fd5513fdb1e786df86c8bba66363f0056f4
-  test_sha3_256.py 70847293c5e4a3588c2acc54c01847b874df4876
+  test_rsa.py 4dd93e1e8ab8c40bd91dc97ded40b1f332b73d0f
+  test_sha3_256.py 49b6454d4eab33f1a514a5c563df9329ace95a28
   test_timestamp.py c34c13f4a3ded29c58f8c78b8c9a56482ddb5978
   test_two_logs.py f13632c0029685ed9f886c0102b4b5b00864e799
   test_u.py 436ed36babdfa93a91009dd672714d09b05ad880
@@ -160,4 +152,4 @@ xlattice_py
  tox.ini bf715f436a27f1b601d79d808e6bee34b5bdc925
 # END CONTENT #
 
-I0825jjgoUVHdrTYftVFGxEGcBe7PSSAlJjH+myoNnHIESKVkbqDz6bHVfnb4fKxwLXVWDYPHWF97kPhbUuHmK7o6D9k1kct9Y6coueUfs0pFvAgKt9ZG7degPY20Ck3V7AqJprdlyuVtydfSGEpklhz6Slcmivu+xhoB2ZUbqfQfnvR79GFJUt8FlD88bFEndspBg+aySPRVnpngxX49Qu5z+ajdxLVqqeV4ZaqyrPqu00NTx7onZYQiK/d+LrP8QIPoXgcp1dpP7Xa3Hq+KHGYpNycWxvKqtxCZcALBQU9vcgKfnnrZoZuLv0gzmweeHnY4BZHNyHIYaAplNgTkA==
+CNXWV8rDvoL8uAVp1xql5JlKSZSSReOEmMG5oKGT6D6Uk5yLLiNffuPgb1sNBSyQPT7uwSfhAD4cWOeKaHWZefWqDuYhIq5PzdOjL/C7Zu0Z6voGf0kdVKFfeTkmoFZMLgektbUiWuDTtsp33qEjB5XdWN6TBqmMhqeUYslt+8BzWufwjbKOzg+yXuDoY9ukJM7oyy4R9Kbpk4Q0Gw+McTmyLQHkMfFMmj/ZNN7SbwR1H+0R8mq+ZnZRYGHNtf9T/LmVAGmqjx1TcPPMwkqYUXi0FIUbRf6gX+Lv1Yu2CjqgoMGeA4/3KRKoK91tdRDYa+j0c7tk4HnfNqjNM4CQEw==

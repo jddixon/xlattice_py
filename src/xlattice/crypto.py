@@ -1,8 +1,10 @@
 # xlattice_py/xlattice/crypto.py
 
+import warnings
+
 """ Crypto functions for XLattice: currently relaced to AES block cipher. """
 
-__all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
+__all__ = ['AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
            'next_nb_line', 'collect_pem_rsa_public_key',
            # Classes
@@ -10,20 +12,18 @@ __all__ = ['AES_BLOCK_SIZE', 'AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
 
 # EXPORTED CONSTANTS
 
-# DROP ON REACHING v1.7 *********************************************
-AES_BLOCK_SIZE = 16         # consider me DEPRECATED
-
 AES_BLOCK_BITS = 128
 AES_BLOCK_BYTES = 16
 
 
 class XLCryptoError(RuntimeError):
-    pass
+    warnings.warn('deprecated', DeprecationWarning)
 
 # PKSC7 PADDING =====================================================
 
 
 def pkcs7_padding(data, block_size):
+    warnings.warn('deprecated', DeprecationWarning)
     block_size = int(block_size)
     if block_size < 1:
         raise XLCryptoError("impossible block size")
@@ -44,6 +44,7 @@ def pkcs7_padding(data, block_size):
 
 
 def add_pkcs7_padding(data, block_size):
+    warnings.warn('deprecated', DeprecationWarning)
     if block_size <= 1:
         raise XLCryptoError("impossible block size")
     else:
@@ -60,6 +61,7 @@ def add_pkcs7_padding(data, block_size):
 # is incorrect.
 
 def strip_pkcs7_padding(data, block_size):
+    warnings.warn('deprecated', DeprecationWarning)
     if block_size <= 1:
         raise XLCryptoError("impossible block size")
     elif not data:
@@ -82,6 +84,7 @@ def strip_pkcs7_padding(data, block_size):
 
 class SP(object):
 
+    warnings.warn('deprecated', DeprecationWarning)
     __SPACES__ = ['']
 
     @staticmethod
@@ -100,6 +103,7 @@ def next_nb_line(lines):
     which is not empty after trimming, AND a reference to the edited
     array of strings.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     if lines is not None:
         while len(lines) > 0:
             line = lines[0]
@@ -119,6 +123,7 @@ def collect_pem_rsa_public_key(first_line, lines):
     single string.
     """
 
+    warnings.warn('deprecated', DeprecationWarning)
     # XXX PROBLEM: PyCrypto omits "RSA ", pycryptodome doesn't.
     #   Including 'RSA ' appears to be correct.
     first_line = first_line.strip()

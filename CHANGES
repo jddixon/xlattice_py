@@ -1,6 +1,10 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.10.0
+    2018-01-18
+        * skeletal blake2b support
+        * move SP and pkcs7 padding to xlcrypto_py                  SLOC 6035
 v1.9.0
     2018-01-14
         * drop code moved to xlcrypto_py                            SLOC 6254
@@ -406,6 +410,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
