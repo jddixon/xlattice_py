@@ -30,8 +30,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.10.0'
-__version_date__ = '2018-01-18'
+__version__ = '1.10.1'
+__version_date__ = '2018-01-22'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -72,7 +72,7 @@ BLAKE2B_HEX_LEN = 64
 SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
-BLAKE2B_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
+BLAKE2B_BIN_NONE = binascii.a2b_hex(BLAKE2B_HEX_NONE)
 
 
 class HashTypes(IntEnum):

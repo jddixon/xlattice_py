@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.10.1
+    2018-01-22
+        *
 v1.10.0
     2018-01-18
         * skeletal blake2b support
@@ -410,6 +413,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
