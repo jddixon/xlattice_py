@@ -37,6 +37,10 @@ __all__ = ['SHA1_BIN_NONE', 'SHA2_BIN_NONE', 'SHA3_BIN_NONE',
 
 # CONSTANTS =========================================================
 
+#####################################################################
+# R E D U N D A N T - these are defined in xlattice_py/__init__.py
+#####################################################################
+
 # This is the SHA1 of an empty string (or file)
 #                ....x....1....x....2....x....3....x....4
 SHA1_HEX_NONE = 'da39a3ee5e6b4b0d3255bfef95601890afd80709'
@@ -66,6 +70,10 @@ SHA3_HEX_LEN = 64
 SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
+
+#####################################################################
+# END REDUNDANT
+#####################################################################
 
 # == HACKS ==========================================================
 

@@ -29,9 +29,8 @@ def do_run(options):
     stats = collect_stats(u_path, out_path, verbose)
 
     print("statistics for %s" % u_path)
-    print(
-        "  dirStruc:           %10s" % stats.dir_struc.name)
-    print("  usingSHA:          %10s" % stats.hashtype)
+    print("  dirStruc:           %10s" % stats.dir_struc.name)
+    print("  hashtype:           %10s" % stats.hashtype)
     print()
     print("  subDirectories:     %10d" % stats.subdir_count)
     print("  subSubDirectories:  %10d" % stats.sub_subdir_count)

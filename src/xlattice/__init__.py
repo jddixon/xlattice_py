@@ -30,8 +30,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.10.1'
-__version_date__ = '2018-01-22'
+__version__ = '1.10.2'
+__version_date__ = '2018-01-23'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -90,7 +90,7 @@ class UnrecognizedHashTypeError(RuntimeError):
 
 # -- argParse related -----------------------------------------------
 
-# handle -1, -2, -3, -4, -u/--u_path,  -v/--verbose
+# handle -1, -2, -3, -B, -u/--u_path,  -v/--verbose
 
 
 def check_hashtype(hashtype=None):
@@ -101,7 +101,7 @@ def check_hashtype(hashtype=None):
     """
 
     if hashtype is None:
-        print("you must select -1, -2, or -3 for the hash type")
+        print("you must select -1, -2, -3, or -B for the hash type")
         sys.exit(1)
 
     if not isinstance(hashtype, HashTypes):
@@ -112,16 +112,16 @@ def parse_hashtype_etc(parser):
     """
     Standard arguments selecting supported hash types plus -u and -v.
     """
-    parser.add_argument('-1', '--hashtype1', action='store_true',
+    parser.add_argument('-1', '--using_sha1', action='store_true',
                         help='using the 160-bit SHA1 hash')
 
-    parser.add_argument('-2', '--hashtype2', action='store_true',
+    parser.add_argument('-2', '--using_sha2', action='store_true',
                         help='using the 256-bit SHA2 (SHA256) hash')
 
-    parser.add_argument('-3', '--hashtype3', action='store_true',
+    parser.add_argument('-3', '--using_sha3', action='store_true',
                         help='using the 256-bit SHA3 (Keccak-256) hash')
 
-    parser.add_argument('-4', '--hashtype4', action='store_true',
+    parser.add_argument('-B', '--using_blake2b', action='store_true',
                         help='using the 256-bit BLAKE2B hash')
 
     parser.add_argument('-u', '--u_path',
@@ -139,18 +139,18 @@ def fix_hashtype(args):
     hashtype{1,2,3}; these are then removed from the set of options.
     """
     args.hashtype = None
-    if args.hashtype1:
+    if args.using_sha1:
         args.hashtype = HashTypes.SHA1
-    elif args.hashtype2:
+    elif args.using_sha2:
         args.hashtype = HashTypes.SHA2
-    elif args.hashtype3:
+    elif args.using_sha3:
         args.hashtype = HashTypes.SHA3
-    elif args.hashtype4:
+    elif args.using_blake2b:
         args.hashtype = HashTypes.BLAKE2B
-    args.__delattr__('hashtype1')
-    args.__delattr__('hashtype2')
-    args.__delattr__('hashtype3')
-    args.__delattr__('hashtype4')
+    args.__delattr__('using_sha1')
+    args.__delattr__('using_sha2')
+    args.__delattr__('using_sha3')
+    args.__delattr__('using_blake2b')
 
 
 def show_hashtype_etc(args):
