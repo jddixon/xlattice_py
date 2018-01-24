@@ -30,8 +30,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.10.2'
-__version_date__ = '2018-01-23'
+__version__ = '1.10.3'
+__version_date__ = '2018-01-24'
 
 
 # This is the SHA1 of an empty string (or file)

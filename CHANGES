@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.10.3
+    2018-01-24
+        * add file_blake2b_{hex,bin}                                SLOC 6114
 v1.10.2
     2018-01-23
         * regularize hash type names                                SLOC 6028
@@ -416,6 +419,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
