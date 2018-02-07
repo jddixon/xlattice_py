@@ -1,5 +1,16 @@
 ~/dev/py/xlattice_py/TODO
 
+2018-01-23
+    * xlattice_py/u should become separate project, xlu_py, to
+        avoid circular dependence on xlcrypto_py
+
+2018-01-17
+    * move class SP and pkcs7 stuff to xlcrypto_py                      * DONE
+    
+2018-01-12
+    * drop code deprecated because moved to xlnode_py, xlcrypto_py  
+        - then bump version to 1.9.0
+
 2017-05-26
     * u_re_struc about L 71: invalid attr dir_struc_to_name
 

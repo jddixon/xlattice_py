@@ -11,7 +11,8 @@ import unittest
 
 from xlattice import HashTypes
 from xlattice.u import (DirStruc, UDir,
-                        file_sha1hex, file_sha2hex, file_sha3hex)
+                        file_sha1hex, file_sha2hex, file_sha3hex,
+                        file_blake2b_hex)
 
 from rnglib import SimpleRNG
 
@@ -63,7 +64,8 @@ class TestU(unittest.TestCase):
         """ Verify that discovery of directory structure works. """
 
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_discovery_test(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -85,6 +87,8 @@ class TestU(unittest.TestCase):
                 d_key = file_sha2hex(d_path)
             elif hashtype == HashTypes.SHA3:
                 d_key = file_sha3hex(d_path)
+            elif hashtype == HashTypes.BLAKE2B:
+                d_key = file_blake2b_hex(d_path)
 
             # copy this file into U
             (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
@@ -102,12 +106,15 @@ class TestU(unittest.TestCase):
                 u_key_kex = file_sha2hex(u_path)
             elif hashtype == HashTypes.SHA3:
                 u_key_kex = file_sha3hex(u_path)
+            elif hashtype == HashTypes.BLAKE2B:
+                u_key_kex = file_blake2b_hex(u_path)
             self.assertEqual(u_key_kex, d_key)
 
     def test_copy_and_put(self):
         """ Check copying a directory structure into a content-keyed store."""
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_copy_and_put(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -127,6 +134,8 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             d_key = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            d_key = file_blake2b_hex(d_path)
         (_, u_key) = u_dir.copy_and_put(d_path, d_key)
         u_path = u_dir.get_path_for_key(u_key)
         self.assertTrue(os.path.exists(u_path))
@@ -138,7 +147,8 @@ class TestU(unittest.TestCase):
     def test_exists(self):
         """ Run existence tests over all combinations. """
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_exists(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -163,6 +173,8 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             d_key = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            d_key = file_blake2b_hex(d_path)
         (u_len, u_key) = u_dir.copy_and_put(d_path, d_key)
         # u_path = u_dir.get_path_for_key(u_key)              # XXX unused
         self.assertEqual(d_len, u_len)
@@ -171,7 +183,8 @@ class TestU(unittest.TestCase):
     def test_file_len(self):
         """ Test file_len() for all structures and hash types. """
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_file_len(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -194,6 +207,8 @@ class TestU(unittest.TestCase):
         elif hashtype == HashTypes.SHA3:
             # pylint: disable=no-member
             digest = hashlib.sha3_256()
+        elif hashtype == HashTypes.BLAKE2B:
+            digest = hashlib.blake2b(digest_size=32)
         digest.update(data)
         d_key = digest.hexdigest()
         if hashtype == HashTypes.SHA1:
@@ -202,12 +217,15 @@ class TestU(unittest.TestCase):
             fsha = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             fsha = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            fsha = file_blake2b_hex(d_path)
         self.assertEqual(d_key, fsha)
 
     def test_file_sha(self):
         """ Verify content keys match file names for combinations. """
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_file_sha(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -226,6 +244,8 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             d_key = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            d_key = file_blake2b_hex(d_path)
         (_, u_key) = u_dir.copy_and_put(d_path, d_key)
         self.assertEqual(u_key, d_key)
         u_path = u_dir.get_path_for_key(u_key)
@@ -255,7 +275,8 @@ class TestU(unittest.TestCase):
         """ Verify path correct for content for all combinations. """
 
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_get_path_for_key(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -275,6 +296,8 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             d_key = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            d_key = file_blake2b_hex(d_path)
         with open(d_path, 'rb') as file:
             data = file.read()
         dupe_path = os.path.join(DATA_PATH, d_key)
@@ -299,7 +322,8 @@ class TestU(unittest.TestCase):
         """ Verify len,hash correct on file puts for all combinations. """
 
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_put(dir_struc, using)
 
     # ---------------------------------------------------------------
@@ -322,6 +346,8 @@ class TestU(unittest.TestCase):
             d_key = file_sha2hex(d_path)
         elif hashtype == HashTypes.SHA3:
             d_key = file_sha3hex(d_path)
+        elif hashtype == HashTypes.BLAKE2B:
+            d_key = file_blake2b_hex(d_path)
         with open(d_path, 'rb') as file:
             data = file.read()
 
@@ -334,7 +360,8 @@ class TestU(unittest.TestCase):
         """ Verify len,hash correct on data puts for all combinations. """
 
         for dir_struc in DirStruc:
-            for using in [HashTypes.SHA1, HashTypes.SHA2, HashTypes.SHA3, ]:
+            for using in [HashTypes.SHA1, HashTypes.SHA2,
+                          HashTypes.SHA3, HashTypes.BLAKE2B]:
                 self.do_test_put_data(dir_struc, using)
 
 

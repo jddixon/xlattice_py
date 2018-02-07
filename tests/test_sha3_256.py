@@ -5,6 +5,7 @@
 import sys
 import unittest
 import hashlib
+import warnings
 
 from xlattice import SHA3_HEX_NONE, SHA3_BIN_NONE
 
@@ -28,6 +29,12 @@ class TestSHA3_256(unittest.TestCase):
         # GET MORE FROM NIST DOCS
 
     ]
+
+    # DEPRECATED - code has been copied to xlcrypto_py/tests ########
+    warnings.warn("deprecated", DeprecationWarning)
+    #################################################################
+
+    warnings.warn("deprecated", DeprecationWarning)
 
     def test_constructor(self):
         """ Verify that behavior of pysha3 is as expected """

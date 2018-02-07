@@ -7,6 +7,8 @@ import base64
 import os
 import time
 import unittest
+import warnings
+
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA    # presumably 1
 from Crypto.Signature import PKCS1_PSS
@@ -20,6 +22,11 @@ class TestRSA(unittest.TestCase):
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
+        #############################################################
+        # DEPRECATED.  Code has been modified to use pyca and moved
+        # to xlcrypto_py.
+        #############################################################
+        warnings.warn("deprecated", DeprecationWarning)
 
     def tearDown(self):
         pass
