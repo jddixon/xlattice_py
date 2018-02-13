@@ -1,8 +1,12 @@
 ~/dev/py/xlattice_py/TODO
 
+2018-02-08
+    * move utilities to xlu_py                                          * DONE
+    * move xlattice/stats.py to xlu/stats.py                            * DONE
+
 2018-01-23
-    * xlattice_py/u should become separate project, xlu_py, to
-        avoid circular dependence on xlcrypto_py
+    * xlattice_py/u should become separate project, xlu_py, to          * DONE
+        avoid circular dependence on xlcrypto_py                        * DONE
 
 2018-01-17
     * move class SP and pkcs7 stuff to xlcrypto_py                      * DONE

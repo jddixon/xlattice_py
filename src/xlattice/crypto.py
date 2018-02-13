@@ -2,7 +2,7 @@
 
 import warnings
 
-""" Crypto functions for XLattice: currently relaced to AES block cipher. """
+""" Crypto functions for XLattice: currently related to AES block cipher. """
 
 __all__ = ['AES_BLOCK_BITS', 'AES_BLOCK_BYTES',
            'pkcs7_padding', 'add_pkcs7_padding', 'strip_pkcs7_padding',
