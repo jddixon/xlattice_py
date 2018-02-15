@@ -7,6 +7,7 @@ import os
 import sys
 import time
 import unittest
+import warnings
 
 import xlattice
 from rnglib import SimpleRNG
@@ -15,13 +16,14 @@ from cFTLogForPy import (
     init_cft_logger, open_cft_log, log_msg, close_cft_logger)
 
 
-sys.path.insert(0, 'build/lib.linux-x86_64-2.7')  # for the .so
+sys.path.insert(0, 'build/lib.linux-x86_64-3.6')  # for the .so
 
 
 class TestCFTLogForPy(unittest.TestCase):
     """ Test the C fault-tolerant log for Python. """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         self.rng = SimpleRNG(time.time())
 
     def tearDown(self):

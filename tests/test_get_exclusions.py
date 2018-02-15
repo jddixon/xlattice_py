@@ -5,6 +5,7 @@
 
 import time
 import unittest
+import warnings
 
 from xlattice.util import get_exclusions, make_ex_re
 from rnglib import SimpleRNG
@@ -15,6 +16,7 @@ class TestGetExclusions(unittest.TestCase):
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())                 # XXX NOT USED
+        warnings.warn("deprecated", DeprecationWarning)
 
     def tearDown(self):
         pass

@@ -7,6 +7,7 @@ import fnmatch
 import os
 import re
 import time
+import warnings
 
 __all__ = ['TIMESTAMP_FORMAT',
            'DecimalVersion', 'timestamp',
@@ -24,6 +25,7 @@ class DecimalVersion(object):
     # __slots__ = ['_value',]
 
     def __init__(self, aIn=None, bIn=None, cIn=None, dIn=None):
+        warnings.warn('deprecated', DeprecationWarning)
         if aIn is None:
             aIn = 0
         a_val = int(aIn)
@@ -286,6 +288,7 @@ def parse_decimal_version(string):
     Expect the parameter s to be a string looking like a.b.c.d or a
     shorter version.  Returns a DecimalVersion object.
     """
+    warnings.warn('deprecated', DeprecationWarning)
 
     if string is None or string == "":
         raise RuntimeError("nil or empty version string")
@@ -321,6 +324,7 @@ def parse_timestamp(string):
     If there is a decimal part to the seconds field, will raise ValueError
     with the message 'unconverted data remains: .123456'.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     tstamp = time.strptime(string, TIMESTAMP_FORMAT)
     return calendar.timegm(tstamp)
 
@@ -330,6 +334,7 @@ def timestamp(nnn):       # sec from epoch
     Given n the number of seconds from the epoch, return a string in
     the shorter format.  This truncates microseconds from the time.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     tstamp = time.gmtime(nnn)
     return time.strftime(TIMESTAMP_FORMAT, tstamp)
 
@@ -339,6 +344,7 @@ def timestamp_now():
     Get the current time, truncate it by omiting microseconds, and
     return a string in the shorter format, `CCYY-MM-DD HH:MM:SS`.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     tstamp = time.gmtime()
     return time.strftime(TIMESTAMP_FORMAT, tstamp)
 
@@ -356,6 +362,7 @@ def get_exclusions(proj_dir, excl_file='.gitignore'):
     non-empty.
     """
 
+    warnings.warn('deprecated', DeprecationWarning)
     globs = []
     path_to_ignore = os.path.join(proj_dir, excl_file)
     if os.path.isfile(path_to_ignore):
@@ -377,6 +384,7 @@ def make_ex_re(globs):
     we convert the wildcards to regular expressions, OR them all
     together, and compile and return the result.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     regexes = regexes_from_wildcards(globs)
     return re.compile('|'.join(regexes))
 
@@ -388,6 +396,7 @@ def make_match_re(match_list):
     we convert the wildcards to regular expressions, OR them all
     together, and compile and return the result.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     return make_ex_re(match_list)
 
 
@@ -396,6 +405,7 @@ def regexes_from_wildcards(strings):
     Given a list of wildcards, return a list of parenthesized
     regular expressions.
     """
+    warnings.warn('deprecated', DeprecationWarning)
     regexes = []
     if strings:
         for glob in strings:

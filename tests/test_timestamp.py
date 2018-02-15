@@ -6,6 +6,7 @@
 import calendar
 import time
 import unittest
+import warnings
 
 from rnglib import SimpleRNG
 from xlattice.util import parse_timestamp, timestamp, timestamp_now
@@ -16,6 +17,7 @@ class TestTimestamp(unittest.TestCase):
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
+        warnings.warn("deprecated", DeprecationWarning)
 
     def tearDown(self):
         pass

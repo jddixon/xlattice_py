@@ -4,6 +4,7 @@
 """ Verify the XLattice Context functions as expected. """
 
 import unittest
+import warnings
 
 from xlattice import Context
 
@@ -12,6 +13,7 @@ class TestContext(unittest.TestCase):
     """ Verify the XLattice Context functions as expected. """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         self.ctx = Context()
 
     def tearDown(self):

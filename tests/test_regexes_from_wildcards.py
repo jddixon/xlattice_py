@@ -5,6 +5,8 @@
 
 import time
 import unittest
+import warnings
+
 from rnglib import SimpleRNG
 from xlattice.util import make_ex_re, make_match_re
 # , regexes_from_wildcards      # NOT TESTED
@@ -14,6 +16,7 @@ class TestRegexesFromWildcards(unittest.TestCase):
     """ test generation of regular expressions from wildcards (globs) """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         self.rng = SimpleRNG(time.time())
 
     def tearDown(self):
