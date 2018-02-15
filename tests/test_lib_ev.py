@@ -9,6 +9,7 @@ import sys
 import time
 import unittest
 
+import warnings
 import pyev
 from rnglib import SimpleRNG
 
@@ -49,6 +50,7 @@ class TestLibev(unittest.TestCase):
     """ Test libev functions used by this package. """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         self.fd_ = None
         self.log_name = None
         self.loop = None

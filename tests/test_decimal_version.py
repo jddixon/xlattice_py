@@ -6,6 +6,7 @@
 import time
 import unittest
 import rnglib
+import warnings
 
 from xlattice.util import DecimalVersion, parse_decimal_version
 
@@ -15,6 +16,7 @@ class TestDecimalVErsion(unittest.TestCase):
 
     def setUp(self):
         self.rng = rnglib.SimpleRNG(time.time())
+        warnings.warn("deprecated", DeprecationWarning)
 
     def tearDown(self):
         pass

@@ -7,6 +7,8 @@ import os
 import shutil
 import sys
 import unittest
+import warnings
+
 from xlattice.ftlog import LogMgr
 
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
@@ -16,6 +18,7 @@ class TestTwoLogs(unittest.TestCase):
     """ Test concurrent use of more than one log. """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         pass
 
     def tearDown(self):

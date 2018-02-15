@@ -13,6 +13,8 @@ Names added to the context must not be None.
 This implementation is intended to be thread-safe.
 """
 
+import warnings
+
 
 class ContextError(RuntimeError):
     """ Handles Context-related exceptions. """
@@ -25,6 +27,7 @@ class Context(object):
 
     def __init__(self, parent=None):
         """ Create a Context, optionally with a parent. """
+        warnings.warn('deprecated', DeprecationWarning)
         self._ctx = dict()
         self._parent = parent
 
@@ -34,6 +37,7 @@ class Context(object):
 
         This makes no sense as it is set out.
         """
+        warnings.warn('deprecated', DeprecationWarning)
 
     def bind(self, name, obj):        # -> Context
         """
@@ -48,6 +52,7 @@ class Context(object):
         @raises ContextError if either is None.
         """
 
+        warnings.warn('deprecated', DeprecationWarning)
         if name is None or obj is None:
             raise ContextError("name or object is None")
         self.synchronize()      # XXX needs to sync block
@@ -66,6 +71,7 @@ class Context(object):
         @return     the value the name is bound to at this or a higher level
                     or None if there is no such value
         """
+        warnings.warn('deprecated', DeprecationWarning)
         if name is None:
             raise ContextError("name cannot be None")
         obj = None
@@ -84,6 +90,7 @@ class Context(object):
 
         @param name Name to be unbound.
         """
+        warnings.warn('deprecated', DeprecationWarning)
         self.synchronize()
         # XXX Need to sync on block
         if name is None:
@@ -93,6 +100,7 @@ class Context(object):
 
     def size(self):                 # -> int
         """ Return the number of bindings at this level. """
+        warnings.warn('deprecated', DeprecationWarning)
         self.synchronize()          # XXX need to sync on block
         return len(self._ctx)
 

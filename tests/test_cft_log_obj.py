@@ -8,6 +8,8 @@ import sys
 import time
 import unittest
 
+import warnings
+
 import xlattice
 
 # pylint: disable=no-name-in-module
@@ -27,6 +29,7 @@ class TestCLogObj(unittest.TestCase):
 
     def setUp(self):
         self.rng = SimpleRNG(time.time())
+        warnings.warn("deprecated", DeprecationWarning)
 
     def tearDown(self):
         pass

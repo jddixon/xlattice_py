@@ -8,6 +8,7 @@ import shutil
 import time
 import unittest
 import sys
+import warnings
 from xlattice.ftlog import LogMgr
 sys.path.insert(0, 'build/lib.linux-x86_64-3.4')  # for the .so
 
@@ -16,6 +17,7 @@ class TestLogMgr(unittest.TestCase):
     """ Test log manager functioning. """
 
     def setUp(self):
+        warnings.warn("deprecated", DeprecationWarning)
         pass
 
     def tearDown(self):
