@@ -27,7 +27,7 @@ if exists('README.md'):
         LONG_DESC = file.read()
 
 setup(name='xlattice_py',
-      version='1.11.0',
+      version='1.11.2',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       long_description=LONG_DESC,

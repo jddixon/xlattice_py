@@ -1,9 +1,15 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.11.2
+    2018-02-18
+        * dropped crypto.py (moved to xlcrypto_py)
+        * dropped xlattice/u (moved to xlu_py)
+        * dropped util.py (moved to xlutil_py)
+        * dropped util-related tests (moved to xlutil_py)           SLOC 2810
 v1.11.1
     2018-02-15
-        * deprecate all xlattice.util functions                     SLDO 4805
+        * deprecate all xlattice.util functions                     SLOC 4805
 v1.11.0
     2018-02-13
         * drop code and tests moved to xlcrypto_py and xlu_py       SLOC 4819
@@ -425,5 +431,6 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 

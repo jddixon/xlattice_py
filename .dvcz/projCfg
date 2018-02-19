@@ -1,6 +1,6 @@
 :?0.0.1?:
 project:xlattice_py
-package:src/xlattice.u
+package:src/xlattice
 mainlang:py
 version:1.7.13
 versionDate:2017-07-25
