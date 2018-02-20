@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.11.3
+    2018-02-20
+        * BLAKE2B becomes BLAKE2B_256                               SLOC 2817
 v1.11.2
     2018-02-18
         * dropped crypto.py (moved to xlcrypto_py)
@@ -431,6 +434,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
