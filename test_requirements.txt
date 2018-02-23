@@ -1,3 +1,2 @@
 # xlattice_py/test_requirements.txt
-pyev
 

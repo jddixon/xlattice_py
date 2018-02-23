@@ -8,26 +8,13 @@ from setuptools import setup, Extension
 
 # see http://docs.python.org/distutils/setupscript.html
 
-MODULE1 = Extension('cFTLogForPy',
-                    include_dirs=['/usr/include/python3.4m',
-                                  '/usr/include', ],
-                    libraries=['ev', ],
-                    library_dirs=['/usr/local/lib', ],
-                    sources=[
-                        'src/extsrc/cFTLogForPy.c',
-                        'src/extsrc/evLoop.c',
-                        'src/extsrc/logBufs.c',
-                        'src/extsrc/modFunc.c',
-                        'src/extsrc/threading.c',
-                    ])
-
 LONG_DESC = None
 if exists('README.md'):
     with open('README.md', 'r') as file:
         LONG_DESC = file.read()
 
 setup(name='xlattice_py',
-      version='1.11.2',
+      version='1.11.4',
       author='Jim Dixon',
       author_email='jddixon@gmail.com',
       long_description=LONG_DESC,
@@ -37,7 +24,7 @@ setup(name='xlattice_py',
       include_package_data=False,
       zip_safe=False,
       scripts=[],
-      ext_modules=[MODULE1],
+      ext_modules=[],
       description='xlattice building blocks for Python 2 and 3',
       url='https://jddixon.github.io/xlattice_py',
       classifiers=[

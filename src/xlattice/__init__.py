@@ -35,8 +35,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.11.3'
-__version_date__ = '2018-02-20'
+__version__ = '1.11.4'
+__version_date__ = '2018-02-23'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -97,6 +97,7 @@ class HashTypes(IntEnum):
     # CRUDE HACK ######################
     BLAKE2B = 4     # digest_size=32
     # END CRUDE HACK ##################
+
 
 class UnrecognizedHashTypeError(RuntimeError):
     """ Raised if a hash type is not in HashTypes's standard list. """

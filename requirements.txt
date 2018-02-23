@@ -1,7 +1,2 @@
 # xlattice_py/requirements.txt
-cryptography
-pycrypto
-pyev
-pysha3
-scandir
 setuptools
