@@ -5,8 +5,8 @@ version = "0.1.0"
 name = "xlattice_py"
 package = "xlattice"
 main_lang = "py"
-version = "1.11.1"
-version_date = "2018-02-15"
+version = "1.11.4"
+version_date = "2018-02-23"
 author = "Jim Dixon"
 author_email = "jdd@gmail.com"
 copyright = "2016-2017"
@@ -18,7 +18,7 @@ state = "shared"
 url = "https://jddixon.github.io/xlattice_py"
 
 [py]
-packages = [ "xlattice", "xlattice.u",]
+packages = [ "xlattice",]
 package_dir = [ "src",]
 test_dir = "tests"
 py_modules = []

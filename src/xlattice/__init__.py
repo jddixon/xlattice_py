@@ -17,8 +17,13 @@ __all__ = ['__version__', '__version_date__',
            'SHA3_BIN_NONE', 'SHA3_HEX_NONE',
            'SHA3_BIN_LEN', 'SHA3_HEX_LEN',
 
+           # CONSIDER ME DEPRECATED #######################
            'BLAKE2B_BIN_NONE', 'BLAKE2B_HEX_NONE',
            'BLAKE2B_BIN_LEN', 'BLAKE2B_HEX_LEN'
+           ################################################
+
+           'BLAKE2B_256_BIN_NONE', 'BLAKE2B_256_HEX_NONE',
+           'BLAKE2B_256_BIN_LEN', 'BLAKE2B_256_HEX_LEN'
 
            'HashTypes', 'UnrecognizedHashTypeError',
 
@@ -30,8 +35,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.11.1'
-__version_date__ = '2018-02-15'
+__version__ = '1.11.4'
+__version_date__ = '2018-02-23'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -51,8 +56,8 @@ SHA2_HEX_NONE =\
 SHA3_HEX_NONE =\
     'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'
 
-# blake2b of an empty string or file, 32-byte = 256 bit digest
-BLAKE2B_HEX_NONE = \
+# blake2b_256 of an empty string or file, 32-byte = 256 bit digest
+BLAKE2B_256_HEX_NONE = \
     '0e5751c026e543b2e8ab2eb06099daa1d1e5df47778f7787faab45cdf12fe3a8'
 
 # The lengths of SHA byte arrays or hex strings respectively
@@ -65,14 +70,21 @@ SHA2_HEX_LEN = 64
 SHA3_BIN_LEN = 32
 SHA3_HEX_LEN = 64
 
-BLAKE2B_BIN_LEN = 32
-BLAKE2B_HEX_LEN = 64
+BLAKE2B_256_BIN_LEN = 32
+BLAKE2B_256_HEX_LEN = 64
 
 # Binary values
 SHA1_BIN_NONE = binascii.a2b_hex(SHA1_HEX_NONE)
 SHA2_BIN_NONE = binascii.a2b_hex(SHA2_HEX_NONE)
 SHA3_BIN_NONE = binascii.a2b_hex(SHA3_HEX_NONE)
-BLAKE2B_BIN_NONE = binascii.a2b_hex(BLAKE2B_HEX_NONE)
+BLAKE2B_256_BIN_NONE = binascii.a2b_hex(BLAKE2B_256_HEX_NONE)
+
+# TEMPORARY HACKS #####################
+BLAKE2B_BIN_NONE = BLAKE2B_256_BIN_NONE
+BLAKE2B_HEX_NONE = BLAKE2B_256_HEX_NONE
+BLAKE2B_BIN_LEN = BLAKE2B_256_BIN_LEN
+BLAKE2B_HEX_LEN = BLAKE2B_256_HEX_LEN
+# END TEMPORARY HACKS #################
 
 
 class HashTypes(IntEnum):
@@ -80,7 +92,11 @@ class HashTypes(IntEnum):
     SHA1 = 1
     SHA2 = 2
     SHA3 = 3
+    BLAKE2B_256 = 4     # digest_size=32
+
+    # CRUDE HACK ######################
     BLAKE2B = 4     # digest_size=32
+    # END CRUDE HACK ##################
 
 
 class UnrecognizedHashTypeError(RuntimeError):
@@ -121,7 +137,7 @@ def parse_hashtype_etc(parser):
     parser.add_argument('-3', '--using_sha3', action='store_true',
                         help='using the 256-bit SHA3 (Keccak-256) hash')
 
-    parser.add_argument('-B', '--using_blake2b', action='store_true',
+    parser.add_argument('-B', '--using_blake2b_256', action='store_true',
                         help='using the 256-bit BLAKE2B hash')
 
     parser.add_argument('-u', '--u_path',
@@ -145,12 +161,12 @@ def fix_hashtype(args):
         args.hashtype = HashTypes.SHA2
     elif args.using_sha3:
         args.hashtype = HashTypes.SHA3
-    elif args.using_blake2b:
-        args.hashtype = HashTypes.BLAKE2B
+    elif args.using_blake2b_256:
+        args.hashtype = HashTypes.BLAKE2B_256
     args.__delattr__('using_sha1')
     args.__delattr__('using_sha2')
     args.__delattr__('using_sha3')
-    args.__delattr__('using_blake2b')
+    args.__delattr__('using_blake2b_256')
 
 
 def show_hashtype_etc(args):

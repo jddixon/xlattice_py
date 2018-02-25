@@ -8,22 +8,18 @@ k2lyCIE/V/CDb9eVDYQgYSJYrnQ/JAPST7NbcY8aI+/0l7QVBhLBpmOCvmS6ofvz
 /QIDAQAB
 -----END PUBLIC KEY-----
 xlattice_py
-2018-02-15 21:25:42
+2018-02-23 17:25:45
 # BEGIN CONTENT #
 xlattice_py
- .cache
-  v
-   cache
-    lastfailed e85f7038083e01bb3a1085968387f60e4fc864fa
  .dvcz
-  builds 78e9800f75ce34aa59d23e6931f410e8c85e6813
-  lastBuildList aeb843415931d295848c5b75fe3b1efacd412b2a
-  projCfg d01dd2078f83dd01f63802411beb910a599e8418
+  builds f812482391d70e3a0ae17aed625036a3721f2d4b
+  lastBuildList 464e30bbc42af588960658b8ae84d6aec4787275
+  projCfg aa5fb159fdd1aaa77c848f7a253ff8cf023f13fd
   projCfg.local 46e94509b0c0e214b42805a8af3c8b5f1298d7ca
-  projConfig.toml 4e26962c119e1eee96503475e0951cb59e84d796
+  projConfig.toml fe0c51fbdd360f612923af9bcd62f0afac78131f
  .gitignore e0fc80aaeb227e174390303cb16b66d027ba2b60
  .gitignore.local e104df60264231f9f80f84bca21336441b04250e
- CHANGES 703b809eb513daa8ff71116c4062c90601542c5b
+ CHANGES 9ff187a417c606758143bd527f5f56d140053835
  LICENSE-MIT.md b36c6fcddc299aa108eaa19eab76680adc8a7698
  MANIFEST.in 89b8c109e3a8af9ee0a9ebca14c986c66ff344de
  README.md 18a73fc0f1c1522a17726e6ad16b7788d2755335
@@ -52,26 +48,17 @@ xlattice_py
  moreNodeIDs f663ad65d8309e7c043dc5f029f7610c5adb593d
  nodeIDs d85f493d898e88f0c7898c055f2e2ecc3aa105de
  pylintrc dd234fda24a547a9071f1e4608a3c1f3b7de9aa0
- requirements.txt e1721bc240d8dd17ac0c4f7964dc1dcd9dbad97a
+ requirements.txt d6994f09ab4a0d067027670f01b70c87efb6838a
  scripts
- setup.py b0293a8300996e76fc933fd0914a9696d6b6ad87
+ setup.py ff660db56c05134cac5e8e4529fbb2be9a847ca9
  src
-  extsrc
-   README c8403a804377a5daae614489ffb34894a2c3b9d8
-   cFTLogForPy.c 8b48da228b62b3b07c1676d1ee56cb948cac0f44
-   cFTLogForPy.h 41f407553a72b98cfd6758aefbf8b6f1028bc6f7
-   evLoop.c a87b2aaa651ede54ec476cd11677ab6890918fa0
-   logBufs.c 7d3c53c5f070daee820c543956defa7722f362a3
-   modFunc.c ee4551662fef9153b51fd0c4fc97a5026dfecc65
-   threading.c 24b0823869fed3b13e66381fde0602005b017f56
   xlattice
-   __init__.py 7ba3633ec7c7061c7ae1586bf575c11200c5a400
+   __init__.py aaac5e5ba457ddc5713c3a1857b56c09d8192843
    acceptor.py f196d572e35ee643880292502c5f25fbdd78bd25
    address.py cc5518b3cccddc51ab6173834d220e013bedc203
    connection.py a97dba70215602d50fabb8882ec28898a9a56e2f
    connector.py 05d81642f00c50f5360c857dc39a9cf81053a5c4
    context.py 39d7da9ef91952e62f3aaeae6c820d2c5f842aec
-   crypto.py 7dea560732103e03ece94285e3aae1ea77631fc7
    digsigner.py 83423c2576c7732c1df463f4b1e93e146a37d4ba
    endpoint.py 19ea0566d9d04fa99f051c4a0977d650ef3422fb
    ftlog.py b6052ed9e1c8f2725c81ca81a23bee3344e57cd6
@@ -84,26 +71,12 @@ xlattice_py
    secret.py d6c9bc0528955f0ab4ec5398e2233aae4a76be7b
    sig_verifier.py 1dcac7535c0baca8516db1d0c8fffb03c11ae67c
    transport.py fb432200cef9596e07e7bca8fd651d74ae6ee6bb
-   u
-    __init__.py 6e2ef7e70228121101997a4bec4a25de2883f542
    ui.py 7d1cc843c12c3b55634edae80d16100c90812299
-   util.py 3ef87cb1dbc48a1c51ad31e755db3416398d37f3
  styleit 3c8f64578a4992cacfff59640292093e36aae0e7
- test.all 62135e88004bba380c836687c96d11a25d183b14
- test_requirements.txt 1156805a51f92d0c7c53fdc7196418f942d59cfc
+ test.all c8689ce01089cbdcf6df5793e005d56cd606e759
+ test_requirements.txt 3d938671314a53a780ee6a15d1c4585e044f43a9
  tests
-  test_cft_log_for_py.py 7997d3eb5f1f0b5dbde43005789ea6a5796f2635
-  test_cft_log_obj.py e234d3da5cf0555dc68bbf17030d4d10a691dba3
-  test_context.py c5f53c763e184fe25517663b3d30f52749c19705
-  test_decimal_version.py 27b4f102eb4499a2b85d751e9c34e634551cc358
-  test_get_exclusions.py 2cb6e93cc8a6d84cc2303917edb9f0d1e81a70fc
-  test_lib_ev.py 6a6fb0228ec7d55d48f8dafbf1117d1d364146fb
-  test_log_mgr.py c6cadc5cb8900138e91a86d88840b88280c84974
-  test_proc_lock.py 9c54bd105427097b00dc10431303ddf00e67b57e
-  test_regexes_from_wildcards.py c01c75fda32111f7ff3b83773facb02511116691
-  test_timestamp.py ef15776f1846043f2f9b393ef660bba4ba207139
-  test_two_logs.py 925ac9b4dd16ea5c2687b0f89f303f1c16703c70
- tox.ini bf715f436a27f1b601d79d808e6bee34b5bdc925
+ tox.ini 7e95862967f5e5c9484ed41e14717df66d4fb7e9
 # END CONTENT #
 
-lojirB7ZVOtt28Dk9Y3V+me8r6fX7b9alC0ZW0Zmyu1MVFG1+kW6QfxpwipKnSJKZnawnVXMOCsMIL95tCchueWKzoWlPbypPVyaP5AQTHQW48XdOCUtrqYmm8DOyoqgM58QWyu6K5rSQI6qk2TqO3lCnBgLH9NUpnjifHPI3Py1vPCTFZKoWTZVmG+l+p9euqdk7lTpfX2/D6uMQ0g/ySbCKtmDSxb14CZglKnRWv1KAOboOPkVOrbE+i/vxJNeeDHIkvuqH12n9wXiZ/ccghoAYsuh0OJrVmIxuXBzyO1TTa2E2lcKgjRoCjIN72KJ2W6UKVaAckc1E9kd/kraRg==
+EVNm3XXW1qsobcME8xfurFnrmBc+aH2ZGyL5ehTqgIDxZv5EnB4Mx1L5vfVNhjpqHQyNK81hPbndZ7IbOJeHqxF9Xx6omN5MckU7qFVws0PDNZeo+ilXnT6ReZaGgIM59G0rX9fNYGxxO0Ox1ZRVOVewoV2AV5e1EuraJZKxlrSWCq+umk3HBSPwdODZT1D6p0+fZrCI7iKQmKYsK2IAs5WIYRRcRezjPqdZ0AhbSAlB2s07ENWcrTPbawg/UzcSqCvXY6bT7Roln1VIflAZDJPJjEldSk5lLW8AnLnWsQ+DAh4FQcQgjTclzR55ozdqc7gjQ03Voz5S5CU9hLFA7Q==
