@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.11.5
+    2018-02-26
+        * fix setup.py, tox config files                            SLOC 2115
 v1.11.4
     2018-02-23
         * remove ftlog.py and extension (to xlutil_py)              SLOC 2253
@@ -437,6 +440,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
