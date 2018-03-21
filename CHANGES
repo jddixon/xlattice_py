@@ -1,6 +1,12 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.11.6
+    2018-03-21
+        * fix corrupt .dvcz/builds                                  SLOC 2070
+v1.11.5
+    2018-02-26
+        * fix setup.py, tox config files                            SLOC 2115
 v1.11.4
     2018-02-23
         * remove ftlog.py and extension (to xlutil_py)              SLOC 2253
@@ -8,7 +14,7 @@ v1.11.3
     2018-02-20
         * BLAKE2B becomes BLAKE2B_256                               SLOC 2817
 v1.11.2
-    2018-02-18
+    2018-02-19:
         * dropped crypto.py (moved to xlcrypto_py)
         * dropped xlattice/u (moved to xlu_py)
         * dropped util.py (moved to xlutil_py)
@@ -42,12 +48,12 @@ v1.7.20
     2018-01-10
         * prepare to move pyca-based RSA, hello-and-reply code      SLOC 7276
 v1.7.19
-    2017-11-26
+    2017-11-27
         * u_re_struc: fixed reference to non-existent UDir methods  SLOC 7240
-    2017-11-24
+    2017-11-25
         * pep8
 v1.7.18
-    2017-11-24
+    2017-11-25
         * restore Module1 to setup.py                               SLOC 7234
 v1.7.17
     2017-09-23
@@ -437,6 +443,8 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
+
 
 
 
