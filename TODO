@@ -1,5 +1,8 @@
 ~/dev/py/xlattice_py/TODO
 
+2019-03-31
+    * need simple unit test(s)
+
 2018-02-08
     * move utilities to xlu_py                                          * DONE
     * move xlattice/stats.py to xlu/stats.py                            * DONE

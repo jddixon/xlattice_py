@@ -35,8 +35,8 @@ __all__ = ['__version__', '__version_date__',
            # XLATTICE ABSTRACTIONS
            'Context', 'ContextError', ]
 
-__version__ = '1.11.6'
-__version_date__ = '2018-03-21'
+__version__ = '1.12.0'
+__version_date__ = '2019-03-21'
 
 
 # This is the SHA1 of an empty string (or file)
@@ -91,10 +91,11 @@ class HashTypes(IntEnum):
     """ Hash types in use.  """
     SHA1 = 1
     SHA2 = 2
-    SHA3 = 3
+    SHA3_256 = 3
     BLAKE2B_256 = 4     # digest_size=32
 
     # CRUDE HACK ######################
+    SHA3 = 3
     BLAKE2B = 4     # digest_size=32
     # END CRUDE HACK ##################
 
@@ -105,6 +106,8 @@ class UnrecognizedHashTypeError(RuntimeError):
 
 
 # -- argParse related -----------------------------------------------
+
+# CONSIDER ME DEPRECATED ############################################
 
 # handle -1, -2, -3, -B, -u/--u_path,  -v/--verbose
 
@@ -174,6 +177,8 @@ def show_hashtype_etc(args):
     print('hashtype             = ' + str(args.hashtype))
     print('u_path               = ' + str(args.u_path))
     print('verbose              = ' + str(args.verbose))
+
+# END CONSIDER ME DEPRECATED ########################################
 
 
 def check_u_path(parser, args, must_exist=False, mode=0o755):

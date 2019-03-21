@@ -1,6 +1,9 @@
 ~/dev/py/xlattice_py/CHANGES
 
 
+v1.12.0
+    2019-03-21
+        * deprecated {check,parse,fix}_hashtype                     SLOC 2068
 v1.11.6
     2018-03-21
         * fix corrupt .dvcz/builds                                  SLOC 2070
@@ -443,6 +446,7 @@ v0.0.1
 v0.0.0
     2015-05-07
         * initial import                                            SLOC  759
+
 
 
 
